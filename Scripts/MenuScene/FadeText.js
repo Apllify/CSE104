@@ -2,15 +2,22 @@ class FadeText extends TextDisplay{
 
     fadeDuration;
     fadeSpeed;
-    opacity;
+    alpha = 0;    // the current alpha value. Set to 1 each time we initiate a fading animation. 
     constructor(drawLayer, textContent, position, textStyle, fadeDuration = 1){
         super(drawLayer, textContent, position, textStyle);
 
-        this.fadeDuration = fadeDuration;
-        this.fadeSpeed =  1/fadeDuration;
+        this.fadeDuration = fadeDuration;    
+        this.fadeSpeed =  1/fadeDuration;  
     }
 
-    update(delta,inputs){
-        
+    update(delta,inputs){    // delta is the amount of seconds since the last frame and the alpha value
+                            // for this frame is calculated based on the fadeSpeed. The animation 'ends'
+                            // when alpha reaches 0. 
+        this.alpha = Math.max(0, this.alpha - (delta * this.fadeSpeed))
+        this.textEntity.alpha = this.alpha; 
+    }
+
+    initiate(){         // start Animation.
+        this.alpha = 1;
     }
 }

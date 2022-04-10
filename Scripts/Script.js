@@ -110,7 +110,7 @@ const inputs = {
 const mainGame = new Game(drawLayers)   // instantiate a game. 
 
 app.ticker.add((delta) => {   // update the game continuously. 
-    let deltaTime = app.ticker.elapsedMS / 1000;
+    let deltaTime = app.ticker.elapsedMS / 1000;  // this is the number of seconds since the last frame.
     mainGame.update(deltaTime, inputs);
 });
 

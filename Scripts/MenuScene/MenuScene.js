@@ -15,7 +15,6 @@ class MenuScene{
     wasDownPressedLastFrame = false;
     wasUpPressedLastFrame = false;
     destroying = false;
-    exitJokeOpacity = '#00';
 
     constructor(drawLayers){
         //create a background graphics
@@ -51,22 +50,26 @@ class MenuScene{
             fontFamily : "Arial",
             fontSize : 36,
             fontWeight : "bold",
-            fill : "#ffffff",
-            stroke : "#ffffff",
+            fill : "#ff0000",
+            stroke : "#ff0000",
         });
 
         
 
         //instantiate the text boxes
+        this.exitJoke = new FadeText(drawLayers.foregroundLayer, "There Is No Exit!", {x:380, y:500}, this.exitFontStyle, 2);
+        this.exitJoke.centerHorizontallyAt(400);
+        this.exitJoke.centerVerticallyAt(500);
+
         this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "PLAY", {x:380, y:300}, this.startFontStyle));
         this.inputPrompts[0].centerHorizontallyAt(400);
         this.inputPrompts[0].centerVerticallyAt(300);
+        console.log(this.inputPrompts[0].textEntity)
 
 
         this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "EXIT", {x:380, y:400}, this.menuFontStyle));
         this.inputPrompts[1].centerHorizontallyAt(400);
         this.inputPrompts[1].centerVerticallyAt(400);
-
 
         //set up the two user cursors
         const startDimensions = this.inputPrompts[this.currentInputPrompt].getDimensions();
@@ -113,7 +116,7 @@ class MenuScene{
     }
 
     refreshPromptCrosshair(){
-        if (this.destroying){
+        if (this.destroying){   // if destroy has been called, don't try to refresh it. 
             return 
         }
         const currentPromptPosition = this.inputPrompts[this.currentInputPrompt].getCenterPosition(); 
@@ -129,8 +132,8 @@ class MenuScene{
     }
 
     update(delta, inputs){
-        //check for down and up inputs to select prompts
-    
+        //check for down and up inputs to select prompts and update the alpha value for fading texts.
+        this.exitJoke.update(delta, inputs);
         if (inputs.down.isDown){
             if (!this.wasDownPressedLastFrame){
 
@@ -162,7 +165,7 @@ class MenuScene{
                 mainGame.changeScene(new BossScene(drawLayers));
             }
             else{
-
+                this.exitJoke.initiate();
             }
         }
 
@@ -190,9 +193,11 @@ class MenuScene{
         drawLayers.backgroundLayer.removeChild(this.backgroundGraphics);
         drawLayers.foregroundLayer.removeChild(this.leftCursorGraphics);
         drawLayers.foregroundLayer.removeChild(this.rightCursorGraphics);
+        drawLayers.foregroundLayer.removeChild(this.exitJoke);
         for (let element of this.inputPrompts){
             element.destroy();
         }
+        this.exitJoke.destroy();
         delete this;
 
     }
