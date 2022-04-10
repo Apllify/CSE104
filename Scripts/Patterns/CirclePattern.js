@@ -3,8 +3,8 @@ class CirclePattern extends Pattern{
     projectiles = [];
 
     projectileCount = 1;
-    minSpeed = 2;
-    maxSpeed = 10;
+    minSpeed = 200;
+    maxSpeed = 500;
     ringRadius = 200;
 
     constructor(patternDrawLayer, player, projectileCount, minSpeed, maxSpeed, ringRadius){

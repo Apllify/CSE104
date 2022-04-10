@@ -1,5 +1,5 @@
 class Character{
-    speed = 7;
+    speed = 400;
     health = 100;
 
     xVelocity = 0;

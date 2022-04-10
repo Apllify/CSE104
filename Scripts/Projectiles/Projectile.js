@@ -13,7 +13,7 @@ class Projectile{
     displayGraphic = null;
 
     //the default projectile speed
-    speed = 10;
+    speed = 400;
 
     //the default direction
     direction = {x : 1, y:0};

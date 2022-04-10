@@ -108,6 +108,7 @@ const inputs = {
 const mainGame = new Game(drawLayers)   // instantiate a game. 
 
 app.ticker.add((delta) => {   // update the game continuously. 
-    mainGame.update(delta, inputs)
+    let deltaTime = app.ticker.elapsedMS / 1000;
+    mainGame.update(deltaTime, inputs);
 });
 
