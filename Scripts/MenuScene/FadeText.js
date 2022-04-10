@@ -3,7 +3,7 @@ class FadeText extends TextDisplay{
     fadeDuration;
     fadeSpeed;
 
-    constructor(drawLayer, textContent, position, testStyle, fadeDuration = 1){
+    constructor(drawLayer, textContent, position, textStyle, fadeDuration = 1){
         super(drawLayer, textContent, position, textStyle);
 
         this.fadeDuration = fadeDuration;
@@ -11,6 +11,8 @@ class FadeText extends TextDisplay{
     }
 
     update(delta,inputs){
-        if(textStyle)
+        if(textStyle){
+
+        }
     }
 }

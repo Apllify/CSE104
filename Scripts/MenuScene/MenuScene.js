@@ -150,7 +150,7 @@ class MenuScene{
                 mainGame.changeScene(new BossScene(drawLayers));
             }
             else{
-                close()
+                new FadeText(drawLayers.foregroundLayer, 'There is No Exit!', {x:380, y:500}, null, 2)
             }
         }
 
