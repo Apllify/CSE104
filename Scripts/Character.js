@@ -8,6 +8,12 @@ class Character{
     x = 0;
     y = 0;
 
+    spriteWidth = 32;
+    spriteHeight = 32;
+
+    collisionWidth = 32;
+    collisionHeight = 32;
+
     sprite = null;
 
     constructor(drawLayers){
@@ -15,8 +21,8 @@ class Character{
         const shieldTexture = PIXI.Texture.from("../Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
 
-        this.sprite.x = this.x;
-        this.sprite.y = this.y;
+        //display the sprite such that (x, y) represent its center
+        this.updateSpritePosition();
 
         this.sprite.scale.x = 2.0;
         this.sprite.scale.y = 2.0;
@@ -53,8 +59,12 @@ class Character{
         this.y += this.yVelocity * delta;
 
         //update the sprite's position on screen
-        this.sprite.x = this.x;
-        this.sprite.y = this.y;
+        this.updateSpritePosition();
+    }
+
+    updateSpritePosition(){
+        this.sprite.x = this.x - this.spriteWidth /2;
+        this.sprite.y = this.y - this.spriteHeight/2;
     }
 
     destroy(){
