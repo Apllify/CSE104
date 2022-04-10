@@ -43,6 +43,8 @@ class Projectile{
         drawLayer.addChild(this.displayGraphic);
 
         //rotate the graphics to match the direction
+        this.displayGraphic.pivot.x = this.x;
+        this.displayGraphic.pivot.y = this.y;
         this.displayGraphic.rotation = Math.acos(this.direction.x);
     }
 
@@ -67,6 +69,10 @@ class Projectile{
 
     }
 
+    isOutOfBounds(){
+        return (this.x < 0) || (this.x > 800) || (this.y < 0) || (this.y >600);
+    }
+
     update(delta){
         //move the projectile by the proper amount in both direction
         this.x += this.direction.x * this.speed * delta;
@@ -74,6 +80,8 @@ class Projectile{
 
         this.displayGraphic.x = this.x;
         this.displayGraphic.y = this.y;
+
+
 
 
         //update collision box's position to check for collision
@@ -88,7 +96,7 @@ class Projectile{
         const isCollision = this.checkBoxCollision(this.hitbox, playerHitbox);
 
         if (isCollision){
-            console.log("AAAAH COLLISION");
+            console.log("COLLISION");
         }
 
     }

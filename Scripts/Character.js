@@ -16,10 +16,16 @@ class Character{
 
     sprite = null;
 
-    constructor(drawLayers){
+    constructor(drawLayers, startingCoords = {x:0, y:0}){
         //instantiate the player sprite
         const shieldTexture = PIXI.Texture.from("../Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
+
+        //set the starting position
+        this.x = startingCoords.x;
+        this.y = startingCoords.y;
+
+        this.updateSpritePosition();
 
         //display the sprite such that (x, y) represent its center
         this.updateSpritePosition();

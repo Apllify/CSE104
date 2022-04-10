@@ -106,22 +106,22 @@ const inputs = {
 
   
 //creating the player entity
-const player = new Character(drawLayers);
+const player = new Character(drawLayers, {x:400, y:300});
 
 
 
-//creating a menu entity to test
-const menuScene = new MenuScene(drawLayers);
 
-
+//create a pattern to test
+const ringPattern = new CirclePattern(drawLayers.activeLayer, player, 10, 2, 6, 300);
+ringPattern.activate();
 
 
 
 //update method
 app.ticker.add((delta) => {
-    menuScene.update(delta, inputs);
     player.update(delta, inputs);
-    
+
+    ringPattern.update(delta, inputs);
 });
 
 
