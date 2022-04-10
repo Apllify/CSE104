@@ -15,9 +15,11 @@ class MenuScene{
     wasDownPressedLastFrame = false;
     wasUpPressedLastFrame = false;
     destroying = false;
+    exitJokeOpacity = '#00';
 
     constructor(drawLayers){
         //create a background graphics
+        app.backgroundColor = '#000000'
         this.backgroundGraphics= new PIXI.Graphics();
 
         this.backgroundGraphics.beginFill(0x000000);
@@ -45,6 +47,15 @@ class MenuScene{
             stroke : "#ffffff",
         });
 
+        this.exitFontStyle = new PIXI.TextStyle({
+            fontFamily : "Arial",
+            fontSize : 36,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        
 
         //instantiate the text boxes
         this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "PLAY", {x:380, y:300}, this.startFontStyle));
@@ -119,6 +130,7 @@ class MenuScene{
 
     update(delta, inputs){
         //check for down and up inputs to select prompts
+    
         if (inputs.down.isDown){
             if (!this.wasDownPressedLastFrame){
 
@@ -150,7 +162,7 @@ class MenuScene{
                 mainGame.changeScene(new BossScene(drawLayers));
             }
             else{
-                new FadeText(drawLayers.foregroundLayer, 'There is No Exit!', {x:380, y:500}, null, 2)
+
             }
         }
 

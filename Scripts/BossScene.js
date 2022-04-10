@@ -10,6 +10,7 @@ class BossScene{
     
     constructor(drawLayers){
         //create the player 
+        app.backgroundColor = '#000000'
         this.playerReference = new Character(drawLayers, {x:400,y:300});
 
 
