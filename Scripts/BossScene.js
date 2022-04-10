@@ -14,8 +14,8 @@ class BossScene{
 
 
         //create a circle pattern to start
-        this.currentPattern = new CirclePattern(drawLayers.activeLayer, this.playerReference, 
-            10, 200, 500, 300);
+        this.currentPattern = new SquarePattern(drawLayers.activeLayer, this.playerReference,
+            5, 100, 100, 100);
         this.currentPattern.activate();
     }
 
