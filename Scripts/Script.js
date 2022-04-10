@@ -99,29 +99,15 @@ const inputs = {
   right : keyboard("d"),
   down : keyboard("s"),
   space : keyboard(" "),
+  enter : keyboard("Enter")
 }
 
 
 
 
-  
-//creating the player entity
-const player = new Character(drawLayers);
+const mainGame = new Game(drawLayers)   // instantiate a game. 
 
-
-
-//creating a menu entity to test
-const menuScene = new MenuScene(drawLayers);
-
-
-
-
-
-//update method
-app.ticker.add((delta) => {
-    menuScene.update(delta, inputs);
-    player.update(delta, inputs);
-    
+app.ticker.add((delta) => {   // update the game continuously. 
+    mainGame.update(delta, inputs)
 });
-
 
