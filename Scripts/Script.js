@@ -95,7 +95,9 @@ const drawLayers = {
 //saving all of the important inputs
 const inputs = {
   left : keyboard("q"),
+  leftAlt : keyboard("a"),
   up : keyboard("z"),
+  upAlt : keyboard("w"),
   right : keyboard("d"),
   down : keyboard("s"),
   space : keyboard(" "),

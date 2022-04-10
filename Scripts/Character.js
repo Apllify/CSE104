@@ -44,7 +44,7 @@ class Character{
         this.yVelocity = 0;
         
 
-        if (inputs.left.isDown){
+        if (inputs.left.isDown || inputs.leftAlt.isDown){
             this.xVelocity -= this.speed;
         }
 
@@ -52,7 +52,7 @@ class Character{
             this.xVelocity += this.speed;
         }
     
-        if (inputs.up.isDown){
+        if (inputs.up.isDown ||inputs.upAlt.isDown){
             this.yVelocity -= this.speed;
         }
     
