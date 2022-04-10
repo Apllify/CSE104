@@ -7,7 +7,9 @@ class Character{
 
     x = 0;
     y = 0;
-
+    maxHealth; 
+    health;
+    name ;
     spriteWidth = 32;
     spriteHeight = 32;
 
@@ -15,8 +17,12 @@ class Character{
     collisionHeight = 32;
 
     sprite = null;
+    hit = true;
 
-    constructor(drawLayers, startingCoords = {x:0, y:0}){
+    constructor(drawLayers, startingCoords = {x:0, y:0}, maxHealth=100, name='Name'){
+        this.maxHealth = maxHealth;  // health and name parameters for player
+        this.health = maxHealth;
+        this.name = name;
         //instantiate the player sprite
         const shieldTexture = PIXI.Texture.from("../Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
@@ -35,6 +41,8 @@ class Character{
 
         //add the sprite to the scene
         drawLayers.activeLayer.addChild(this.sprite);
+
+        this.healthBar = new HealthBar(drawLayers.activeLayer, this)
     }
 
 
@@ -42,8 +50,8 @@ class Character{
         //update the player velocity
         this.xVelocity = 0;
         this.yVelocity = 0;
-        
-
+        // this.health = Math.max(0, this.health - 0.2) this to test the healthbar update. 
+        this.healthBar.update();
         if (inputs.left.isDown || inputs.leftAlt.isDown){
             this.xVelocity -= this.speed;
         }
@@ -52,7 +60,7 @@ class Character{
             this.xVelocity += this.speed;
         }
     
-        if (inputs.up.isDown ||inputs.upAlt.isDown){
+        if (inputs.up.isDown || inputs.upAlt.isDown){
             this.yVelocity -= this.speed;
         }
     

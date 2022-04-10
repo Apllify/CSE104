@@ -64,7 +64,6 @@ class MenuScene{
         this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "PLAY", {x:380, y:300}, this.startFontStyle));
         this.inputPrompts[0].centerHorizontallyAt(400);
         this.inputPrompts[0].centerVerticallyAt(300);
-        console.log(this.inputPrompts[0].textEntity)
 
 
         this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "EXIT", {x:380, y:400}, this.menuFontStyle));
