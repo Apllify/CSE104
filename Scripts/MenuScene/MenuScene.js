@@ -131,7 +131,7 @@ class MenuScene{
 
             this.wasDownPressedLastFrame = true;
         }
-        else if (inputs.up.isDown){
+        else if (inputs.up.isDown || inputs.upAlt.isDown){
             if (!this.wasUpPressedLastFrame){
 
                 this.currentInputPrompt -= 1;
