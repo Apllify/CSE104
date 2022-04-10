@@ -51,7 +51,7 @@ class Character{
         //update the player velocity
         this.xVelocity = 0;
         this.yVelocity = 0;
-        // this.health = Math.max(0, this.health - 0.2) this to test the healthbar update. 
+        // this.health = Math.max(0, this.health - 0.2);  line to test health bar at different health values.
         this.healthBar.update();
         if (inputs.left.isDown || inputs.leftAlt.isDown){
             this.xVelocity -= this.speed;
