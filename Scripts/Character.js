@@ -1,3 +1,4 @@
+"use strict";
 class Character{
     speed = 400;
     health = 100;

@@ -1,3 +1,4 @@
+"use strict";
 class Projectile{
 
     //the position of the center of the projectile

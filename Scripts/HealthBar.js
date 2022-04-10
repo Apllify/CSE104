@@ -1,3 +1,4 @@
+"use strict";
 class HealthBar{    // Health Bar class whose instance can be attached to a character. 
     initialWidth = 120;
     ratio = 1;

@@ -1,3 +1,4 @@
+"use strict";
 class FadeText extends TextDisplay{
 
     fadeDuration;

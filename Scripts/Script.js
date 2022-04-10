@@ -1,3 +1,4 @@
+"use strict";
 //super important helper function for detecting keyboard inputs
 function keyboard(value) {
     const key = {};

@@ -1,3 +1,4 @@
+"use strict";
 class SquarePattern extends Pattern{
 
     currentPhase = 0;

@@ -1,3 +1,4 @@
+"use strict";
 class Game{           // The Scene handling Class. changeScene is called by individual scenes when they
     // meet conditions for their destruction. 
     constructor(drawLayers){
