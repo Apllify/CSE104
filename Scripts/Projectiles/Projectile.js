@@ -22,14 +22,22 @@ class Projectile{
     playerReference = null;
 
 
-    constructor(drawLayer, player, coordinates, projectileSpeed, directionVector ){
+    constructor(drawLayer, player, coordinates, projectileSpeed, directionVector, dimensions = {x:16, y:16} ){
         //set the main projectile caracteristics
         this.playerReference = player;
 
         this.x = coordinates.x;
         this.y = coordinates.y;
 
+
         this.speed = projectileSpeed;
+
+
+        //set the dimensions if necessary 
+        this.width = dimensions.x;
+        this.height = dimensions.y;
+        this.hitbox = {x :-this.width / 2, y:-this.height/2, width : this.width, height:this.height};
+
 
         //automatically normalizes the direction vector just in case
         this.direction = this.normalizeVector(directionVector);
