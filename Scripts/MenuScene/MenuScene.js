@@ -14,7 +14,7 @@ class MenuScene{
 
     wasDownPressedLastFrame = false;
     wasUpPressedLastFrame = false;
-
+    destroying = false;
 
     constructor(drawLayers){
         //create a background graphics
@@ -102,6 +102,9 @@ class MenuScene{
     }
 
     refreshPromptCrosshair(){
+        if (this.destroying){
+            return 
+        }
         const currentPromptPosition = this.inputPrompts[this.currentInputPrompt].getCenterPosition(); 
         const currentPromptDimensions = this.inputPrompts[this.currentInputPrompt].getDimensions();
 
@@ -141,6 +144,16 @@ class MenuScene{
             this.wasUpPressedLastFrame = true;
         }
 
+        else if (inputs.enter.isDown){     // handles input prompt selections. If "PLAY", we create a
+            // boss scene; if "EXIT", we close the window. 
+            if (this.currentInputPrompt === 0){
+                mainGame.changeScene(new BossScene(drawLayers));
+            }
+            else{
+                close()
+            }
+        }
+
         else{
             this.wasDownPressedLastFrame = false;
             this.wasUpPressedLastFrame = false;
@@ -160,7 +173,15 @@ class MenuScene{
 
     
 
-    destroy(){
+    destroy(){          // destroy method for menuScene 
+        this.destroying = true;
+        drawLayers.backgroundLayer.removeChild(this.backgroundGraphics);
+        drawLayers.foregroundLayer.removeChild(this.leftCursorGraphics);
+        drawLayers.foregroundLayer.removeChild(this.rightCursorGraphics);
+        for (let element of this.inputPrompts){
+            element.destroy();
+        }
+        delete this;
 
     }
 

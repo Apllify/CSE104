@@ -99,29 +99,15 @@ const inputs = {
   right : keyboard("d"),
   down : keyboard("s"),
   space : keyboard(" "),
+  enter : keyboard("Enter")
 }
 
 
 
 
-  
-//creating the player entity
-const player = new Character(drawLayers, {x:400, y:300});
+const mainGame = new Game(drawLayers)   // instantiate a game. 
 
-
-
-
-//create a pattern to test
-const ringPattern = new CirclePattern(drawLayers.activeLayer, player, 10, 2, 6, 300);
-ringPattern.activate();
-
-
-
-//update method
-app.ticker.add((delta) => {
-    player.update(delta, inputs);
-
-    ringPattern.update(delta, inputs);
+app.ticker.add((delta) => {   // update the game continuously. 
+    mainGame.update(delta, inputs)
 });
-
 
