@@ -5,13 +5,23 @@ class HealthBar{    // Health Bar class whose instance can be attached to a char
     width = 120;
     hex = 0x00ff00;
     destroying = false;
-    constructor(drawLayer, player){    // we take the drawing layer and calling character as arguments.
+    constructor(drawLayer, player, right=false){    // we take the drawing layer and calling character as arguments.
+        this.right = right;
         this.drawLayer = drawLayer;
         this.playerReference = player;
-        this.nameTag = new TextDisplay(drawLayer, player.name, {x:10, y:10}); 
+        this.nameTag = new TextDisplay(drawLayer, player.name, {x:10, y:10});
         this.graphics = new PIXI.Graphics();
         this.graphics.beginFill(this.hex);
-        this.graphics.drawRect(12 + this.nameTag.textEntity.width, 10, this.width, 30);
+        if (this.right){      // if the healthbar is to be drawn on the right, we make some adjustments.
+            this.nameWidth = this.nameTag.getDimensions().width;
+            this.nameTag.centerHorizontallyAt(app.stage.width - 3 - this.nameWidth / 2);
+            console.log(app.stage.width);
+            this.graphicsx = app.stage.width - 5 - this.initialWidth - this.nameWidth;
+            this.graphics.drawRect(this.graphicsx, 10, this.initialWidth, 30);
+        }
+        else{
+            this.graphics.drawRect(12 + this.nameTag.getDimensions().width, 10, this.width, 30);
+        }
         drawLayer.addChild(this.graphics);
         
     }
@@ -30,7 +40,13 @@ class HealthBar{    // Health Bar class whose instance can be attached to a char
         // beginFill doesn't accept hex-strings for some reason
         this.hex = Number(`0x${this.hex.substring(1)}`);
         this.graphics.beginFill(this.hex);
-        this.graphics.drawRect(12 + this.nameTag.textEntity.width, 10, this.width, 30);
+        if (this.right){    // Since the healthbar is on the right it must appear to decrease to the right.
+            this.graphics.drawRect(this.graphicsx + this.initialWidth * (1 - this.ratio), 10, this.width, 30);
+        }
+        else{
+            this.graphics.drawRect(12 + this.nameTag.getDimensions().width, 10, this.width, 30);
+        }
+        
     }
 
     destroy(){

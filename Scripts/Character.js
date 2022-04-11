@@ -43,7 +43,7 @@ class Character{
         //add the sprite to the scene
         drawLayers.activeLayer.addChild(this.sprite);
 
-        this.healthBar = new HealthBar(drawLayers.activeLayer, this)
+        this.healthBar = new HealthBar(drawLayers.activeLayer, this);
     }
 
 
@@ -51,7 +51,7 @@ class Character{
         //update the player velocity
         this.xVelocity = 0;
         this.yVelocity = 0;
-        // this.health = Math.max(0, this.health - 0.2);  line to test health bar at different health values.
+        // this.health = Math.max(0, this.health - 0.2);  // line to test health bar at different health values.
         this.healthBar.update();
         if (inputs.left.isDown || inputs.leftAlt.isDown){
             this.xVelocity -= this.speed;
