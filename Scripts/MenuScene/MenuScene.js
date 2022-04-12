@@ -12,14 +12,17 @@ class MenuScene{
     startFontStyle = null;
     menuFontStyle = null;
 
-
+    // these variables allow us to make sure that a button press that spans multiple frames isn't
+    // considered as several different button presses in the manuScene.
     wasDownPressedLastFrame = false;
     wasUpPressedLastFrame = false;
+   
     destroying = false;
 
-    constructor(drawLayers){
+    constructor(drawLayers, game, wasEnterPressedLastFrame = false){
         //create a background graphics
-        app.backgroundColor = '#000000'
+        this.wasEnterPressedLastFrame = wasEnterPressedLastFrame;
+        this.game = game;
         this.backgroundGraphics= new PIXI.Graphics();
 
         this.backgroundGraphics.beginFill(0x000000);
@@ -116,7 +119,7 @@ class MenuScene{
     }
 
     refreshPromptCrosshair(){
-        if (this.destroying){   // if destroy has been called, don't try to refresh it. 
+        if (this.destroying){   // don't try to update if destroy is called.
             return 
         }
         const currentPromptPosition = this.inputPrompts[this.currentInputPrompt].getCenterPosition(); 
@@ -132,9 +135,14 @@ class MenuScene{
     }
 
     update(delta, inputs){
+        if (this.destroying){   // don't try to update if destroy is called.
+            return 
+        }
         //check for down and up inputs to select prompts and update the alpha value for fading texts.
         this.exitJoke.update(delta, inputs);
         if (inputs.down.isDown){
+            // make sure that a button press that lasts multiple frames isn't considered as several
+            // different button presses.
             if (!this.wasDownPressedLastFrame){
 
                 this.currentInputPrompt += 1;
@@ -146,7 +154,14 @@ class MenuScene{
 
             this.wasDownPressedLastFrame = true;
         }
-        else if (inputs.up.isDown || inputs.upAlt.isDown){
+
+        else{
+            this.wasDownPressedLastFrame = false;
+        }
+
+        if (inputs.up.isDown || inputs.upAlt.isDown){
+            // make sure that a button press that lasts multiple frames isn't considered as several
+            // different button presses.
             if (!this.wasUpPressedLastFrame){
 
                 this.currentInputPrompt -= 1;
@@ -159,20 +174,28 @@ class MenuScene{
             this.wasUpPressedLastFrame = true;
         }
 
-        else if (inputs.enter.isDown){     // handles input prompt selections. If "PLAY", we create a
-            // boss scene; if "EXIT", we close the window. 
-            if (this.currentInputPrompt === 0){
-                mainGame.changeScene(new BossScene(drawLayers));
-            }
-            else{
-                this.exitJoke.initiate();
-            }
-        }
-
         else{
-            this.wasDownPressedLastFrame = false;
             this.wasUpPressedLastFrame = false;
         }
+
+        if (inputs.enter.isDown){     // handles input prompt selections. If "PLAY", we create a
+            // boss scene; if "EXIT", we close the window.
+            if (!this.wasEnterPressedLastFrame){
+                if (this.currentInputPrompt === 0){
+                    mainGame.changeScene(new BossScene(drawLayers, this.game));
+                }
+                else{
+                    this.exitJoke.initiate();
+                }
+            }
+            this.wasEnterPressedLastFrame = true;
+            
+        }
+        else{
+            this.wasEnterPressedLastFrame = false;
+        }
+
+        
 
         this.refreshPromptCrosshair();
 

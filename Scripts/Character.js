@@ -19,6 +19,7 @@ class Character{
 
     sprite = null;
     hit = true;
+    destroying = false;
 
     constructor(drawLayers, startingCoords = {x:0, y:0}, maxHealth=100, name='Name'){
         this.maxHealth = maxHealth;  // health and name parameters for player
@@ -48,6 +49,9 @@ class Character{
 
 
     update(delta, inputs){
+        if (this.destroying){
+            return 
+        }
         //update the player velocity
         this.xVelocity = 0;
         this.yVelocity = 0;
@@ -84,6 +88,9 @@ class Character{
 
     destroy(){
         //remove all of the sprites associated with this entity
+        this.destroying = true;
         this.sprite.destroy();
+        this.healthBar.destroy();
+        delete this;
     }
 }

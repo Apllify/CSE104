@@ -7,6 +7,7 @@ class CirclePattern extends Pattern{
     minSpeed = 200;
     maxSpeed = 500;
     ringRadius = 200;
+    destroying = false;
 
     constructor(patternDrawLayer, player, projectileCount, minSpeed, maxSpeed, ringRadius){
         super(patternDrawLayer, player);
@@ -55,6 +56,9 @@ class CirclePattern extends Pattern{
 
 
     update(delta, inputs){
+        if (this.destroying){ // don't try to update if destroy has been called
+            return 
+        }
         if (this.active){
             //update every single projectile in the list
             for(let i = 0; i<this.projectiles.length;i++){
@@ -81,6 +85,11 @@ class CirclePattern extends Pattern{
 
 
     destroy(){
-
+        // destroy every projectile and the pattern itself.
+        this.destroying = true;
+        for (let projectile of this.projectiles){
+            projectile.destroy();
+        }
+        delete this;
     }
 }

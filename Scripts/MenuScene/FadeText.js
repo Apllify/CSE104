@@ -5,7 +5,8 @@ class FadeText extends TextDisplay{
     fadeSpeed;
     alpha = 0;    // the current alpha value. Set to 1 each time we initiate a fading animation. 
     constructor(drawLayer, textContent, position, textStyle, fadeDuration = 1){
-        super(drawLayer, textContent, position, textStyle);
+        super(drawLayer, textContent, position, textStyle, 0);
+        // initialize the textDisplay with an alpha value of 0.
 
         this.fadeDuration = fadeDuration;    
         this.fadeSpeed =  1/fadeDuration;  
@@ -18,7 +19,7 @@ class FadeText extends TextDisplay{
         this.textEntity.alpha = this.alpha; 
     }
 
-    initiate(){         // start Animation.
+    initiate(){         // start fadeText Animation.
         this.alpha = 1;
     }
 }

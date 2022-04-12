@@ -3,7 +3,7 @@ class Game{           // The Scene handling Class. changeScene is called by indi
     // meet conditions for their destruction. 
     constructor(drawLayers){
         this.drawLayers = drawLayers;
-        this.currentScene = new MenuScene(drawLayers)
+        this.currentScene = new MenuScene(drawLayers, this)
     }
     update(delta, inputs){
         this.currentScene.update(delta, inputs);
