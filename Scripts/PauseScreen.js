@@ -2,8 +2,15 @@
 
 class PauseScreen{
     // initialize a list of the promptTexts and their respective positions.
-    promptTexts = ['RESUME', 'RESTART', 'QUIT'];
-    positions = [200, 300, 400];
+    // promptTexts = ['RESUME', 'RESTART', 'QUIT'];
+    // positions = [200, 300, 400];
+
+    actionsDict = {
+        'resume': this.resume,
+        'restart': this.restart,
+        'quit': this.quit,
+        'nextPattern': this.nextPattern,
+    }
 
 
     // this will contain the prompt TextDisplay objects.
@@ -12,11 +19,11 @@ class PauseScreen{
 
 
     // this contains the function to be triggered for each inputprompt when we press enter on it.
-    actionDict = {
-        0: this.resume,
-        1: this.restart,
-        2: this.quit,
-    }
+    /**actionDict = {
+      0: this.resume,
+      1: this.restart,
+      2: this.quit,
+    }**/
     
     // this variable tells us which inputPrompt we are selecting by counting the relative number of
     // ups and downs pressed.
@@ -35,11 +42,30 @@ class PauseScreen{
     destroying = false;
 
 
-    constructor(drawLayer, scene){
+    constructor(drawLayer, scene, prompts, actionDict){
         // this is similar to what was done in MenuScene
         this.drawLayer = drawLayer;
         this.scene = scene;
+        this.promptTexts = prompts;
+        this.actionDict = actionDict;
+        
+        let n = prompts.length;
+        let x = Math.floor(n / 2);
+        let y = n % 2;
+        this.positions = [];
+        let start = null;
+        if (y === 0){
+            start = 250 - 100 * (x - 1);
+        }
+        else{
+            start = 300 - 100 * (x)
+        }
 
+        for (let i = 0; i < n; i++){
+            this.positions.push(start);
+            start += 100;
+        }
+        
         
         this.backgroundGraphics= new PIXI.Graphics();
 
@@ -155,7 +181,7 @@ class PauseScreen{
         }
         // when we press enter, execute the command corresponding to the currentInputPrompt.
         else if (inputs.enter.isDown){
-            this.actionDict[this.currentInputPrompt](this.scene);
+            this.actionsDict[this.actionDict[this.currentInputPrompt]](this.scene);
         }
 
         else{
@@ -182,6 +208,10 @@ class PauseScreen{
 
     }
 
+    nextPattern(scene){
+        scene.nextPattern();
+
+    }
     resume(scene){
         // handle the resume command
         scene.pauseHandle();

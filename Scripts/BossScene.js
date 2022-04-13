@@ -34,7 +34,7 @@ class BossScene{
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
             // the conditional is because one button press may span more than one frame.
             if (!this.wasEscapePressedLastFrame){
-                this.pauseHandle();
+                this.pauseHandle(['RESUME', 'RESTART', 'QUIT'], {0:'resume', 1:'restart', 2:'quit'});
             }
             this.wasEscapePressedLastFrame = true;  
         }
@@ -56,7 +56,7 @@ class BossScene{
 
             //if the pattern is over, switch to pause phase
             if (this.currentPattern.isDone()){
-                this.createPausePrompt();
+                this.pauseHandle(['CONTINUE', 'QUIT'], {0:'nextPattern', 1:'quit'});
                 this.isPatternRunning = false;
             }
         }
@@ -67,11 +67,12 @@ class BossScene{
 
     }
 
-    createPausePrompt(){
-        this.pauseDisplay;
+    nextPattern(){
+        this.currentPattern.destroy();
+        this.currentPattern = new SquarePattern(drawLayers.activeLayer, this.playerReference, 80);
     }
 
-    pauseHandle(){
+    pauseHandle(prompts, actionDict){
         // this function is called in two situations: when the game is paused and we choose to resume
         // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
@@ -80,7 +81,7 @@ class BossScene{
             this.paused = false;
         }
         else{
-            this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this);
+            this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, prompts, actionDict);
             this.paused = true;
         }
     }
