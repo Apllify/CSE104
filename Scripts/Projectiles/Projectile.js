@@ -67,13 +67,14 @@ class Projectile{
         //reduces the vector such that the total norm is 1
         const norm = Math.sqrt(v.x*v.x + v.y *v.y);
 
+        let newX = 0;
+        let newY = 0;
+
         if (norm != 0){
-            const newX = v.x / norm;
-            const newY = v.y / norm;
+             newX = v.x / norm;
+             newY = v.y / norm;
         }
-        else{
-            return {x:0, y:0};
-        }
+
 
 
         return {x : newX, y:newY};

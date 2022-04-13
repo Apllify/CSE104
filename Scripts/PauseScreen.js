@@ -189,7 +189,6 @@ class PauseScreen{
 
     restart(scene){
         // handle the restart command 
-        console.log(scene);
         scene.restart();
 
     }
