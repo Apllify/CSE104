@@ -93,6 +93,7 @@ class PauseScreen{
         });
 
         if (this.title != null){
+            console.log('here');
             this.title = new TextDisplay(drawLayers.foregroundLayer, this.title, {x:380, y:300}, this.titleFont);
             this.title.centerHorizontallyAt(400);
             this.title.centerVerticallyAt(100);

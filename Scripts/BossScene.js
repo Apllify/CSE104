@@ -25,8 +25,8 @@ class BossScene{
         this.drawLayers = drawLayers;
 
 
-        //create a pacman pattern to start
-        this.currentPattern = new PacmanPattern(this.drawLayers.activeLayer, this.playerReference, 10, 1, 600);
+        //create a square pattern to start
+        this.currentPattern = new SquarePattern(this.drawLayers.activeLayer, this.playerReference, 80);
         this.currentPattern.activate();
 
     }
@@ -37,10 +37,7 @@ class BossScene{
             return;
         }
 
-        if (this.playerReference.health === 0){
-            console.log('here');
-            this.pauseHandle(['RETRY', 'QUIT'], {0:'restart', 1:'quit'});
-        }
+        
         if (inputs.escape.isDown){
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
             // the conditional is because one button press may span more than one frame.
@@ -58,6 +55,10 @@ class BossScene{
             // they were. 
             this.pauseScreen.update(delta, inputs);
             return 
+        }
+
+        if (this.playerReference.health <= 0){
+            this.pauseHandle(['RETRY', 'QUIT'], {0:'restart', 1:'quit'}, 'GAME OVER!!');
         }
 
         if (this.isPatternRunning){
@@ -93,6 +94,7 @@ class BossScene{
         // this function is called in two situations: when the game is paused and we choose to resume
         // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
+        console.log(title);
         if (this.paused){
             this.pauseScreen.destroy();
             this.paused = false;
