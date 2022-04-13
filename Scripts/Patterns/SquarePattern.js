@@ -129,7 +129,7 @@ class SquarePattern extends Pattern{
                 this.phaseZeroEndTime = this.elapsedTime;
 
                 //generate target points for the next phase
-                this.targetPoints= this.generateTargetPoints(10);
+                this.targetPoints= this.generateTargetPoints(5);
             }
         }
 
@@ -141,8 +141,6 @@ class SquarePattern extends Pattern{
             this.projectileContainer.scale.x = currentScale;
             this.projectileContainer.scale.y = currentScale;
 
-            console.log(this.targetPoints[this.currentTargetIndex].x);
-            console.log(this.targetPoints[this.currentTargetIndex].y);
 
             //get the vector to the destination vector
             let currentTargetPoint = this.targetPoints[this.currentTargetIndex];
@@ -152,7 +150,7 @@ class SquarePattern extends Pattern{
             let norm = Math.sqrt(Math.pow(directionVector.x, 2) + Math.pow(directionVector.y, 2));
 
             if (norm <= this.movementEpsilon){
-                if (this.currentTargetIndex > this.targetPoints.length){
+                if (this.currentTargetIndex == this.targetPoints.length-1){
                     this.currentPhase = 2;
                 } 
                 else{

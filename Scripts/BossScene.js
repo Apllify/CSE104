@@ -1,10 +1,9 @@
 "use strict";
 class BossScene{       
 
+    //important boss scene attributes
     playerReference = null;
-
     currentPattern = null;
-    
     pauseDisplay = null;
 
     isPatternRunning = true;
@@ -12,17 +11,29 @@ class BossScene{
     destroying = false;
 
     wasEscapePressedLastFrame = false;
+
+    drawLayers = null;
     
     paused = false;
+
+    //DEBUG variables 
+    telegraph = null;
+
+
     constructor(drawLayers, game){
         //create the player 
         this.game = game;
         this.playerReference = new Character(drawLayers, {x:400,y:300});
 
+        this.drawLayers = drawLayers;
+
 
         //create a square pattern to start
-        this.currentPattern = new SquarePattern(drawLayers.activeLayer, this.playerReference, 80);
+        this.currentPattern = new CirclePattern(this.drawLayers.activeLayer, this.playerReference, 10, 200, 400, 300 );
         this.currentPattern.activate();
+
+        //create a fading text for testing
+        this.telegraph = new Telegraph(this.drawLayers.activeLayer, {x:200, y:200}, 10);
     }
 
 
@@ -85,6 +96,7 @@ class BossScene{
             this.paused = true;
         }
     }
+
     restart(){
         // restarts this scene.
         this.game.changeScene(new BossScene(drawLayers, this.game));
@@ -107,5 +119,7 @@ class BossScene{
         this.currentPattern.destroy();
         this.playerReference.destroy();
         delete this;
+
+
     }
 }

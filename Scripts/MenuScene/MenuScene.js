@@ -61,7 +61,7 @@ class MenuScene{
         
 
         //instantiate the text boxes
-        this.exitJoke = new FadeText(drawLayers.foregroundLayer, "There Is No Exit!", {x:380, y:500}, this.exitFontStyle, 2);
+        this.exitJoke = new FadeText(drawLayers.foregroundLayer, "There Is No Escape...", {x:380, y:500}, this.exitFontStyle, 2);
         this.exitJoke.centerHorizontallyAt(400);
         this.exitJoke.centerVerticallyAt(500);
 
@@ -138,8 +138,10 @@ class MenuScene{
         if (this.destroying){   // don't try to update if destroy is called.
             return 
         }
+        
         //check for down and up inputs to select prompts and update the alpha value for fading texts.
         this.exitJoke.update(delta, inputs);
+
         if (inputs.down.isDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
