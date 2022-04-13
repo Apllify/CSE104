@@ -41,13 +41,13 @@ class PauseScreen{
     
     destroying = false;
 
-
-    constructor(drawLayer, scene, prompts, actionDict){
+    constructor(drawLayer, scene, prompts, actionDict, title){
         // this is similar to what was done in MenuScene
         this.drawLayer = drawLayer;
         this.scene = scene;
         this.promptTexts = prompts;
         this.actionDict = actionDict;
+        this.title = title;
         
         let n = prompts.length;
         let x = Math.floor(n / 2);
@@ -84,7 +84,19 @@ class PauseScreen{
             stroke : "#ffffff",
         });
 
-        for (let i=0; i<3; i++){
+        this.titleFont = new PIXI.TextStyle({
+            fontFamily: "Arial",
+            fontSize: 100, 
+            fontWeight: "bold",
+            fill:"#ff0000",
+            stroke:"#ff0000",
+        });
+
+        if (this.title != null){
+            this.title = new TextDisplay(drawLayers.foregroundLayer, this.title, {x:380, y:300}, this.titleFont);
+        }
+
+        for (let i=0; i<this.positions.length; i++){
             // we create the inputPrompts and put them in the specified positions.
             this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, this.promptTexts[i], {x:380, y:300}, this.fontStyle));
             this.inputPrompts[i].centerHorizontallyAt(400);
@@ -197,6 +209,9 @@ class PauseScreen{
     destroy(){
         // destroy everything associated to the PauseScreen including itself.
         this.destroying = true;
+        if (this.title != null){
+            this.title.destroy();
+        }
         this.drawLayer.removeChild(this.backgroundGraphics);
         this.drawLayer.removeChild(this.leftCursorGraphics);
         this.drawLayer.removeChild(this.rightCursorGraphics);

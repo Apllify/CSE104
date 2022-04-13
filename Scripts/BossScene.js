@@ -39,7 +39,11 @@ class BossScene{
 
     update(delta, inputs){
         if (this.destroying){ // don't try to update if destroy is called.
-            return 
+            return;
+        }
+
+        if (this.playerReference.health === 0){
+            this.gameOver();
         }
         if (inputs.escape.isDown){
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
@@ -79,7 +83,7 @@ class BossScene{
     }
 
     nextPattern(){
-        console.log('here')
+        // Change Pattern 
         this.currentPattern.destroy();
         if (this.paused){
             this.pauseHandle();
@@ -89,18 +93,16 @@ class BossScene{
         this.isPatternRunning = true;
     }
 
-    pauseHandle(prompts=null, actionDict=null){
+    pauseHandle(prompts=null, actionDict=null, extraTexts=null){
         // this function is called in two situations: when the game is paused and we choose to resume
         // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
         if (this.paused){
-            console.log('paused');
             this.pauseScreen.destroy();
             this.paused = false;
         }
         else{
-            console.log('not');
-            this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, prompts, actionDict);
+            this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, prompts, actionDict, extraTexts);
             this.paused = true;
         }
     }
@@ -117,6 +119,11 @@ class BossScene{
         // return to the menuscene.
         this.game.changeScene(new MenuScene(drawLayers, this.game, wasEnterPressedLastFrame));
     }
+
+    gameOver(){
+        
+    }
+
 
     destroy(){
         // destroy everything created by this scene
