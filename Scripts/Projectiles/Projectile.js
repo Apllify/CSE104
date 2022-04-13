@@ -13,8 +13,9 @@ class Projectile{
     //the display graphics
     displayGraphic = null;
 
-    //the default projectile speed
+    //some projectile attributes
     speed = 400;
+    dps = 30; 
 
     //the default direction
     direction = {x : 1, y:0};
@@ -124,8 +125,9 @@ class Projectile{
 
         const isCollision = this.checkBoxCollision(boundsRectangle, playerHitbox);
 
+        //for now, lower the player health by a little bit when colliding
         if (isCollision){
-            console.log("COLLISION");
+            this.playerReference.health -= this.dps * delta;
         }
 
     }

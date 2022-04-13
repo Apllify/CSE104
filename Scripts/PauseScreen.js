@@ -1,11 +1,16 @@
 "use strict";
+
 class PauseScreen{
     // initialize a list of the promptTexts and their respective positions.
     promptTexts = ['RESUME', 'RESTART', 'QUIT'];
-    positions = [100, 300, 500];
+    positions = [200, 300, 400];
+
+
     // this will contain the prompt TextDisplay objects.
     inputPrompts = [];
     currentInputPrompt = 0;
+
+
     // this contains the function to be triggered for each inputprompt when we press enter on it.
     actionDict = {
         0: this.resume,
@@ -28,19 +33,23 @@ class PauseScreen{
     wasUpPressedLastFrame = false;
     
     destroying = false;
+
+
     constructor(drawLayer, scene){
         // this is similar to what was done in MenuScene
         this.drawLayer = drawLayer;
         this.scene = scene;
-        console.log(this.scene);
-    
+
+        
         this.backgroundGraphics= new PIXI.Graphics();
 
+        //generate a semi-transparent dark overlay
         this.backgroundGraphics.beginFill(0x000000);
         this.backgroundGraphics.drawRect(0, 0, 800, 600);
         this.backgroundGraphics.alpha = 0.5;
         drawLayer.addChild(this.backgroundGraphics);
 
+        //make white font style for black text background
         this.fontStyle = new PIXI.TextStyle({
             fontFamily : "Arial",
             fontSize : 36,
@@ -51,7 +60,7 @@ class PauseScreen{
 
         for (let i=0; i<3; i++){
             // we create the inputPrompts and put them in the specified positions.
-            this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, this.promptTexts[i], {x:380, y:300}, this.startFontStyle));
+            this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, this.promptTexts[i], {x:380, y:300}, this.fontStyle));
             this.inputPrompts[i].centerHorizontallyAt(400);
             this.inputPrompts[i].centerVerticallyAt(this.positions[i]);
         }

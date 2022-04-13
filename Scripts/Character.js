@@ -8,9 +8,11 @@ class Character{
 
     x = 0;
     y = 0;
-    maxHealth; 
-    health;
-    name ;
+
+    maxHealth = 100; 
+    health = 100;
+    name = "BX";
+
     spriteWidth = 32;
     spriteHeight = 32;
 
@@ -21,10 +23,7 @@ class Character{
     hit = true;
     destroying = false;
 
-    constructor(drawLayers, startingCoords = {x:0, y:0}, maxHealth=100, name='Name'){
-        this.maxHealth = maxHealth;  // health and name parameters for player
-        this.health = maxHealth;
-        this.name = name;
+    constructor(drawLayers, startingCoords = {x:0, y:0}, ){
         //instantiate the player sprite
         const shieldTexture = PIXI.Texture.from("../Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
