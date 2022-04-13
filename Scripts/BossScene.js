@@ -16,9 +16,6 @@ class BossScene{
     
     paused = false;
 
-    //DEBUG variables 
-    telegraph = null;
-
 
     constructor(drawLayers, game){
         //create the player 
@@ -29,11 +26,9 @@ class BossScene{
 
 
         //create a square pattern to start
-        this.currentPattern = new CirclePattern(this.drawLayers.activeLayer, this.playerReference, 10, 200, 400, 300 );
+        this.currentPattern = new PacmanPattern(this.drawLayers.activeLayer, this.playerReference, 40, 2);
         this.currentPattern.activate();
 
-        //create a fading text for testing
-        this.telegraph = new Telegraph(this.drawLayers.activeLayer, {x:200, y:200}, 10);
     }
 
 
@@ -65,11 +60,11 @@ class BossScene{
             this.playerReference.update(delta, inputs);
             this.currentPattern.update(delta, inputs);
 
-            //if the pattern is over, switch to pause phase
-            if (this.currentPattern.isDone()){
-                this.createPausePrompt();
-                this.isPatternRunning = false;
-            }
+            // //if the pattern is over, switch to pause phase
+            // if (this.currentPattern.isDone()){
+            //     this.createPausePrompt();
+            //     this.isPatternRunning = false;
+            // }
         }
         else{
 
