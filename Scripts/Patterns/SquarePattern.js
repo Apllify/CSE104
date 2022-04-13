@@ -175,8 +175,9 @@ class SquarePattern extends Pattern{
     }
 
     isDone(){
-        return false;
+        // return false;
         //return this.elapsedTime > this.duration;
+        return this.currentPhase === 2;
     }
 
     destroy(){
