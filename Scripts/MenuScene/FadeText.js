@@ -4,6 +4,8 @@ class FadeText extends TextDisplay{
     fadeDuration;
     fadeSpeed;
     alpha = 0;    // the current alpha value. Set to 1 each time we initiate a fading animation. 
+
+    
     constructor(drawLayer, textContent, position, textStyle, fadeDuration = 1){
         super(drawLayer, textContent, position, textStyle);
 

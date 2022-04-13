@@ -34,10 +34,12 @@ class Projectile{
         this.speed = projectileSpeed;
 
 
+
         //set the dimensions if necessary 
         this.width = dimensions.x;
         this.height = dimensions.y;
         this.hitbox = {x :-this.width / 2, y:-this.height/2, width : this.width, height:this.height};
+
 
 
         //automatically normalizes the direction vector just in case
@@ -46,8 +48,10 @@ class Projectile{
         //create and add display graphics 
         this.displayGraphic = new PIXI.Graphics();
         this.displayGraphic.beginFill(0xFFFFFF);
-        this.displayGraphic.drawRect(this.x - this.width/2, this.y -this.height/2, this.width, this.height);
+        this.displayGraphic.drawRect(this.x + this.hitbox.x, this.y + this.hitbox.y, this.hitbox.width, this.hitbox.height);
         this.displayGraphic.endFill();
+
+
 
         drawLayer.addChild(this.displayGraphic);
 
@@ -61,9 +65,14 @@ class Projectile{
         //reduces the vector such that the total norm is 1
         const norm = Math.sqrt(v.x*v.x + v.y *v.y);
 
-        
-        const newX = v.x / norm;
-        const newY = v.y / norm;
+        if (norm != 0){
+            const newX = v.x / norm;
+            const newY = v.y / norm;
+        }
+        else{
+            return {x:0, y:0};
+        }
+
 
         return {x : newX, y:newY};
     }
@@ -79,7 +88,13 @@ class Projectile{
     }
 
     isOutOfBounds(){
-        return (this.x < 0) || (this.x > 800) || (this.y < 0) || (this.y >600);
+        //use bounds rectangle to get absolute coordinates
+        const boundsRectangle = this.displayGraphic.getBounds();
+
+        //check whether hitbox collides with game extremities
+        return (boundsRectangle.x < 0) ||(boundsRectangle.y < 0) ||
+                (boundsRectangle.y + boundsRectangle.height > 600 ) || (boundsRectangle.x + boundsRectangle.width > 800);
+
     }
 
     update(delta){
@@ -93,16 +108,17 @@ class Projectile{
 
 
 
-        //update collision box's position to check for collision
-        this.hitbox.x = this.x - this.width / 2;
-        this.hitbox.y = this.y - this.height / 2;
 
+        //use bounds rectangle with absolute coordinates to check for collision
+        const boundsRectangle = this.displayGraphic.getBounds();
+        
+        //assumes the player is already in absolute coordinates
         const playerHitbox = {x:this.playerReference.x - this.playerReference.collisionWidth / 2,
                             y : this.playerReference.y - this.playerReference.collisionHeight / 2,
                             width : this.playerReference.collisionWidth,
                             height : this.playerReference.collisionHeight };
 
-        const isCollision = this.checkBoxCollision(this.hitbox, playerHitbox);
+        const isCollision = this.checkBoxCollision(boundsRectangle, playerHitbox);
 
         if (isCollision){
             console.log("COLLISION");

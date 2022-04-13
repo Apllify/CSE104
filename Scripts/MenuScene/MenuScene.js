@@ -177,13 +177,7 @@ class MenuScene{
         this.refreshPromptCrosshair();
 
 
-        //check for space inputs to confirm choice
-        if (inputs.space.isDown){
-            if (this.currentInputPrompt == 1){
-                console.log("hmmmmmmmmmmm");
-                close();
-            }
-        }
+
     }
 
     
