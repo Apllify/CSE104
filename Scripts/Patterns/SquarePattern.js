@@ -45,12 +45,12 @@ class SquarePattern extends Pattern{
     }
 
 
-    //generates n random position points all over the map
+    //generates n random position points all over the map except for a border of thickness 50
     generateTargetPoints(n){
         let points = [];
 
         for(let i = 0; i < n; i++){
-            points.push( {x: Math.random() * 800, y:Math.random() * 600} );
+            points.push( {x: Math.random() * 700 + 50, y:Math.random() * 500 + 50} );
         }
 
         return points;

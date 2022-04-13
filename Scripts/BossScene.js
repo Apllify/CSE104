@@ -16,6 +16,9 @@ class BossScene{
     
     paused = false;
 
+    //the list of all pattern instancers
+    patternsList = [];
+
 
     constructor(drawLayers, game){
         //create the player 
@@ -24,9 +27,14 @@ class BossScene{
 
         this.drawLayers = drawLayers;
 
+        //instantiate the list of patterns
+        this.patternsList.push(() => new SquareCirclePattern(this.drawLayers.activeLayer, this.playerReference));
+        this.patternsList.push(() => new RainPattern(this.drawLayers.activeLayer, this.playerReference));
 
-        //create a square pattern to start
-        this.currentPattern = new SquareCirclePattern(this.drawLayers.activeLayer, this.playerReference);
+
+        //start with a random pattern
+        const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
+        this.currentPattern = this.patternsList[randomPatternIndex](); 
         this.currentPattern.activate();
 
     }
@@ -82,11 +90,15 @@ class BossScene{
     nextPattern(){
         // Change Pattern 
         this.currentPattern.destroy();
+
         if (this.paused){
             this.pauseHandle();
         }
-        this.currentPattern = new SquarePattern(this.drawLayers.activeLayer, this.playerReference, 80);
+
+        const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
+        this.currentPattern = this.patternsList[randomPatternIndex](); 
         this.currentPattern.activate();
+        
         this.isPatternRunning = true;
     }
 
