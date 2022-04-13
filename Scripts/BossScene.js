@@ -38,7 +38,8 @@ class BossScene{
         }
 
         if (this.playerReference.health === 0){
-            this.gameOver();
+            console.log('here');
+            this.pauseHandle(['RETRY', 'QUIT'], {0:'restart', 1:'quit'});
         }
         if (inputs.escape.isDown){
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
@@ -88,7 +89,7 @@ class BossScene{
         this.isPatternRunning = true;
     }
 
-    pauseHandle(prompts=null, actionDict=null, extraTexts=null){
+    pauseHandle(prompts=null, actionDict=null, title=null){
         // this function is called in two situations: when the game is paused and we choose to resume
         // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
@@ -97,7 +98,7 @@ class BossScene{
             this.paused = false;
         }
         else{
-            this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, prompts, actionDict, extraTexts);
+            this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, prompts, actionDict, title);
             this.paused = true;
         }
     }
@@ -113,10 +114,6 @@ class BossScene{
                                             // span multiple frames.
         // return to the menuscene.
         this.game.changeScene(new MenuScene(drawLayers, this.game, wasEnterPressedLastFrame));
-    }
-
-    gameOver(){
-        
     }
 
 

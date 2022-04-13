@@ -94,6 +94,8 @@ class PauseScreen{
 
         if (this.title != null){
             this.title = new TextDisplay(drawLayers.foregroundLayer, this.title, {x:380, y:300}, this.titleFont);
+            this.title.centerHorizontallyAt(400);
+            this.title.centerVerticallyAt(100);
         }
 
         for (let i=0; i<this.positions.length; i++){
