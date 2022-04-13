@@ -19,6 +19,7 @@ class Character{
 
     sprite = null;
     hit = true;
+    destroying = false;
 
     constructor(drawLayers, startingCoords = {x:0, y:0}, maxHealth=100, name='Name'){
         this.maxHealth = maxHealth;  // health and name parameters for player
@@ -43,15 +44,18 @@ class Character{
         //add the sprite to the scene
         drawLayers.activeLayer.addChild(this.sprite);
 
-        this.healthBar = new HealthBar(drawLayers.activeLayer, this)
+        this.healthBar = new HealthBar(drawLayers.activeLayer, this);
     }
 
 
     update(delta, inputs){
+        if (this.destroying){
+            return 
+        }
         //update the player velocity
         this.xVelocity = 0;
         this.yVelocity = 0;
-        // this.health = Math.max(0, this.health - 0.2);  line to test health bar at different health values.
+        // this.health = Math.max(0, this.health - 0.2);  // line to test health bar at different health values.
         this.healthBar.update();
         if (inputs.left.isDown || inputs.leftAlt.isDown){
             this.xVelocity -= this.speed;
@@ -84,6 +88,9 @@ class Character{
 
     destroy(){
         //remove all of the sprites associated with this entity
+        this.destroying = true;
         this.sprite.destroy();
+        this.healthBar.destroy();
+        delete this;
     }
 }

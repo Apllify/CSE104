@@ -102,7 +102,8 @@ const inputs = {
   right : keyboard("d"),
   down : keyboard("s"),
   space : keyboard(" "),
-  enter : keyboard("Enter")
+  enter : keyboard("Enter"),
+  escape : keyboard("Escape")
 }
 
 

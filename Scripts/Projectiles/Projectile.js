@@ -21,6 +21,7 @@ class Projectile{
 
     //every projectile needs an explicit reference to the player 
     playerReference = null;
+    destroying = false;
 
 
     constructor(drawLayer, player, coordinates, projectileSpeed, directionVector, dimensions = {x:16, y:16} ){
@@ -80,7 +81,7 @@ class Projectile{
 
     //checks for a box collision between b1 and b2
     checkBoxCollision(b1, b2){
-        return ( b1.x < (b2.x +b2.width) ) &&
+        return ( b1.x < (b2.x + b2.width) ) &&
             ( (b1.x + b1.width) > b2.x ) &&
             ( b1.y < (b2.y + b2.height) ) &&
             ( (b1.y + b1.height) > b2.y  );
@@ -98,6 +99,9 @@ class Projectile{
     }
 
     update(delta){
+        if (this.destroying){   // don't try to update if destroy is called.
+            return 
+        }
         //move the projectile by the proper amount in both direction
         this.x += this.direction.x * this.speed * delta;
         this.y += this.direction.y * this.speed * delta;
@@ -127,7 +131,9 @@ class Projectile{
     }
 
     destroy(){
-
+        this.destroying = true;
+        this.displayGraphic.destroy();
+        delete this; 
     }
 
 

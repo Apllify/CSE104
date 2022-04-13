@@ -14,7 +14,7 @@ class SquarePattern extends Pattern{
 
     projectileContainer = null;
     projectiles = [];
-
+    destroying = false;
 
     constructor(patternDrawLayer, player, duration, movementSpeed, minSize, maxSize){
         super(patternDrawLayer, player);
@@ -57,8 +57,14 @@ class SquarePattern extends Pattern{
 
 
         //create right line of projectiles
+<<<<<<< HEAD
         for(let y = 50; y < 600; y+=50 + 60){
             this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x: 440, y:-300 + y}, 0, {x:0,y:0}, {x:60, y:60} ));
+=======
+        for(let j = 50; j < 600; j+=50){
+            currentProjectile = new Projectile(this.projectileContainer, this.playerReference, {x: 840, y:j}, 0, {x:0,y:0}, {x:60, y:60} );
+            this.projectiles.push(currentProjectile);
+>>>>>>> f8df133973cdded31ac56a9bc729b314939ca967
         }
 
 
@@ -67,6 +73,9 @@ class SquarePattern extends Pattern{
     }
 
     update(delta, inputs){
+        if (this.destroying){   // don't try to update if destroy is called.
+            return
+        }
         this.elapsedTime += delta;
 
 
@@ -89,7 +98,12 @@ class SquarePattern extends Pattern{
     }
 
     destroy(){
-
+        this.destroying = true;
+        for (let projectile of this.projectiles){
+            projectile.destroy();
+        }
+        this.projectileContainer.destroy();
+        delete this;
     }
 
 }
