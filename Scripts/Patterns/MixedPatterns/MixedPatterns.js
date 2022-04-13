@@ -1,10 +1,10 @@
 class SquareCirclePattern extends Pattern{
 
-    duration = 10;
+    duration = 30;
     elapsedTime = 0;
 
     circleCooldown = 2;
-    currentCircleCooldown = circleCooldown;
+    currentCircleCooldown = 2;
     
     squarePattern = null;
     circlePattern = null;
@@ -15,7 +15,7 @@ class SquareCirclePattern extends Pattern{
     }
 
     load(){
-        this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 80, 0.3, 0.5);
+        this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70, 0.4, 0.6);
         this.squarePattern.activate();
     }
 
@@ -32,8 +32,25 @@ class SquareCirclePattern extends Pattern{
         this.currentCircleCooldown -= delta;
         
         if (this.currentCircleCooldown <= 0){
-            
+            this.currentCircleCooldown = this.circleCooldown;
+
+            if (this.circlePattern != null){
+                this.circlePattern.destroy();
+            }
+            this.circlePattern = new CirclePattern(this.drawLayer, this.playerReference, 6, 100, 250, 200);
+            this.circlePattern.activate();
         }
+
+
+        //update both patterns
+        if (this.squarePattern != null){
+            this.squarePattern.update(delta, inputs);
+        }
+        if (this.circlePattern != null){
+            this.circlePattern.update(delta, inputs);
+        }
+
+
 
 
     }
@@ -43,4 +60,8 @@ class SquareCirclePattern extends Pattern{
     }
 
 
+}
+
+class Rain extends Pattern{
+    
 }
