@@ -79,19 +79,27 @@ class BossScene{
     }
 
     nextPattern(){
+        console.log('here')
         this.currentPattern.destroy();
-        this.currentPattern = new SquarePattern(drawLayers.activeLayer, this.playerReference, 80);
+        if (this.paused){
+            this.pauseHandle();
+        }
+        this.currentPattern = new SquarePattern(this.drawLayers.activeLayer, this.playerReference, 80);
+        this.currentPattern.activate();
+        this.isPatternRunning = true;
     }
 
-    pauseHandle(prompts, actionDict){
+    pauseHandle(prompts=null, actionDict=null){
         // this function is called in two situations: when the game is paused and we choose to resume
         // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
         if (this.paused){
+            console.log('paused');
             this.pauseScreen.destroy();
             this.paused = false;
         }
         else{
+            console.log('not');
             this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, prompts, actionDict);
             this.paused = true;
         }

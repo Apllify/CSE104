@@ -170,7 +170,7 @@ class PauseScreen{
             if (!this.wasUpPressedLastFrame){
                 // need to distinguish cases since (-1 % 3 === -1) in javaScript for some reason. 
                 if (this.shifts === 0){
-                    this.shifts = 2;
+                    this.shifts = this.positions.length - 1;
                 }
                 else{
                     this.shifts -= 1;
@@ -189,7 +189,7 @@ class PauseScreen{
             this.wasUpPressedLastFrame = false;
         }
         // calculate the currentInputPrompt based on shifts.
-        this.currentInputPrompt = this.shifts % 3;
+        this.currentInputPrompt = this.shifts % this.positions.length;
 
         this.refreshPromptCrosshair();
     }
