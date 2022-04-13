@@ -4,8 +4,10 @@ class PacmanPattern extends Pattern{
 
     duration = 10;
 
+    //pattern attributes
     attackCooldown = 5;
     currentAttackCooldown = 5;
+    shotSpeed = 400;
 
 
     //the attack telegraphs that happen before the attacks
@@ -14,7 +16,7 @@ class PacmanPattern extends Pattern{
     projectiles = [];
 
 
-    constructor(patternDrawLayer, player, patternDuration, attackCooldown){
+    constructor(patternDrawLayer, player, patternDuration, attackCooldown, shotSpeed){
         //calling superclass constructor
         super(patternDrawLayer, player);
 
@@ -22,6 +24,7 @@ class PacmanPattern extends Pattern{
         this.duration = patternDuration;
         this.attackCooldown = attackCooldown;
         this.currentAttackCooldown = attackCooldown;
+        this.shotSpeed = shotSpeed;
     }
 
     load(){
@@ -33,6 +36,11 @@ class PacmanPattern extends Pattern{
 
         this.currentAttackCooldown -= delta;
 
+        //only update if the pattern is still ongoing 
+        if (this.elapsedTime > this.duration){
+            return ;
+        }
+
         //spawn a telegraph every now and then
         if (this.currentAttackCooldown <= 0){
             this.currentAttackCooldown = this.attackCooldown;
@@ -41,8 +49,7 @@ class PacmanPattern extends Pattern{
             const xOffset = Math.random() * 200 - 100;
             const yOffset = Math.random() * 200 - 100;
 
-            this.telegraphs.push(new Telegraph(this.drawLayer, {x : this.playerReference.x + xOffset, y : this.playerReference.y + yOffset}, 2))
-            ;
+            this.telegraphs.push(new Telegraph(this.drawLayer, {x : this.playerReference.x + xOffset, y : this.playerReference.y + yOffset}, 2));
 
 
         }
@@ -70,7 +77,7 @@ class PacmanPattern extends Pattern{
                     const directionVector = {x : this.playerReference.x - telegraph.x, y:this.playerReference.y - telegraph.y};
                     const positionVector = {x : telegraph.x, y: telegraph.y};
     
-                    this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, positionVector, 200, directionVector));
+                    this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, positionVector, this.shotSpeed, directionVector, undefined, 100));
     
                     //destroy the telegraph entity
                     delete this.telegraphs[i];
@@ -86,7 +93,22 @@ class PacmanPattern extends Pattern{
     }
 
     isDone(){
-
+        return (this.elapsedTime > this.duration);
     }
 
+
+    //remove every instanced entity
+    destroy(){
+        for(let telegraph of this.telegraphs){
+            if (telegraph != null){
+                telegraph.destroy();
+            }
+        }
+
+        for (let projectile of this.projectiles){
+            if (projectile != null){
+                projectile.destroy();
+            }
+        }
+    }
 }

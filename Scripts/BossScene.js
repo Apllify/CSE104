@@ -25,8 +25,8 @@ class BossScene{
         this.drawLayers = drawLayers;
 
 
-        //create a square pattern to start
-        this.currentPattern = new PacmanPattern(this.drawLayers.activeLayer, this.playerReference, 40, 2);
+        //create a pacman pattern to start
+        this.currentPattern = new PacmanPattern(this.drawLayers.activeLayer, this.playerReference, 10, 1, 600);
         this.currentPattern.activate();
 
     }

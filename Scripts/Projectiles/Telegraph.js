@@ -82,7 +82,8 @@ class Telegraph {
     destroy(){
         //destroy the graphics device
         this.destroying = true;
-
+        this.graphicsDevice.destroy();
+        delete this;
 
     }
 

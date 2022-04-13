@@ -25,7 +25,7 @@ class Projectile{
     destroying = false;
 
 
-    constructor(drawLayer, player, coordinates, projectileSpeed, directionVector, dimensions = {x:16, y:16} ){
+    constructor(drawLayer, player, coordinates, projectileSpeed, directionVector, dimensions = {x:16, y:16}, dps=30){
         //set the main projectile caracteristics
         this.playerReference = player;
 
@@ -34,6 +34,7 @@ class Projectile{
 
 
         this.speed = projectileSpeed;
+        this.dps = dps;
 
 
 
