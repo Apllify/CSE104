@@ -9,6 +9,7 @@ class CirclePattern extends Pattern{
     ringRadius = 200;
     destroying = false;
 
+    //centered ring of projectiles around the player
     constructor(patternDrawLayer, player, projectileCount, minSpeed, maxSpeed, ringRadius){
         super(patternDrawLayer, player);
 
@@ -41,7 +42,7 @@ class CirclePattern extends Pattern{
             relativeY = this.ringRadius * Math.sin(currentAngle);
 
             relativeCoords = {x:-relativeX, y:-relativeY};
-            realCoords = {x : relativeX + 400, y:relativeY + 300};
+            realCoords = {x : relativeX + this.playerReference.x, y:relativeY + this.playerReference.y};
 
             //generate a random speed between the min and the max
             speed = Math.random() * (this.maxSpeed - this.minSpeed) + this.minSpeed;
