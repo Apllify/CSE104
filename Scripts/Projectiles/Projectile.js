@@ -102,7 +102,7 @@ class Projectile{
 
     update(delta){
         if (this.destroying){   // don't try to update if destroy is called.
-            return 
+            return ;
         }
         //move the projectile by the proper amount in both direction
         this.x += this.direction.x * this.speed * delta;

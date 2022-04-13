@@ -7,12 +7,16 @@ class Telegraph {
 
     size = 50;
 
-    hex = 0x3440EB;
+    hex = 0xeb4034;
+    outlineHex=  0x000000;
+    alpha = 1;
 
     fadeDuration = 0;
     fadeSpeed = 0;
 
     graphicsDevice = null;
+
+    destroying = false;
 
 
     constructor(drawLayer, coords, fadeDuration){
@@ -27,31 +31,40 @@ class Telegraph {
 
         //create the graphics device for displaying on screen
         this.graphicsDevice = new PIXI.Graphics();
-        this.graphicsDevice.lineStyle(4, 0xffd900, 1);
 
 
         this.graphicsDevice.beginFill(this.hex);
+        this.graphicsDevice.lineStyle(4, this.outlineHex, 1);
         this.graphicsDevice.moveTo(0, 0);
         this.graphicsDevice.lineTo(-this.size / 2, -this.size /4);
         this.graphicsDevice.lineTo(-this.size/4, -this.size / 2);
         this.graphicsDevice.lineTo(0, 0);
         this.graphicsDevice.closePath();
+        this.graphicsDevice.endFill();
 
+
+        this.graphicsDevice.beginFill(this.hex);
+        this.graphicsDevice.lineStyle(4, this.outlineHex, 1);
         this.graphicsDevice.lineTo(this.size / 4, -this.size /2);
         this.graphicsDevice.lineTo(this.size/2, -this.size / 4);
         this.graphicsDevice.lineTo(0, 0);
         this.graphicsDevice.closePath();
+        this.graphicsDevice.endFill();
 
+        this.graphicsDevice.beginFill(this.hex);
+        this.graphicsDevice.lineStyle(4, this.outlineHex, 1);
         this.graphicsDevice.lineTo(-this.size / 2, this.size /4);
         this.graphicsDevice.lineTo(-this.size/4, this.size / 2);
         this.graphicsDevice.lineTo(0, 0);
         this.graphicsDevice.closePath();
+        this.graphicsDevice.endFill();
 
+        this.graphicsDevice.beginFill(this.hex);
+        this.graphicsDevice.lineStyle(4, this.outlineHex, 1);
         this.graphicsDevice.lineTo(this.size / 4, this.size /2);
         this.graphicsDevice.lineTo(this.size/2, this.size / 4);
         this.graphicsDevice.lineTo(0, 0);
         this.graphicsDevice.closePath();
-
         this.graphicsDevice.endFill();
 
         //initialize the graphics at the right position
@@ -62,9 +75,26 @@ class Telegraph {
 
     }
 
+    isDone(){
+        return (this.alpha == 0)
+    }
+
+    destroy(){
+        //destroy the graphics device
+        this.destroying = true;
+
+
+    }
+
     update(delta){
+        //don't update if destroying
+        if (this.destroying){
+            return null;
+        }
+
         //reduce the opacity accordingly with the fade duration
-        this.graphicsDevice.alpha -= delta * this.fadeSpeed;
+        this.alpha = Math.max(0, this.alpha - this.fadeSpeed * delta);
+        this.graphicsDevice.alpha = this.alpha;
 
     }
 
