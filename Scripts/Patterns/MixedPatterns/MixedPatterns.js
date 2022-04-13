@@ -1,3 +1,4 @@
+"use strict";
 class SquareCirclePattern extends Pattern{
 
     duration = 30;
@@ -64,4 +65,35 @@ class SquareCirclePattern extends Pattern{
 
 class Rain extends Pattern{
     
+}
+
+class PacmanSquare extends Pattern{
+    duration = 30;
+    elapsedTime = 0;
+
+
+    squarePattern = null;
+    pacmanPattern = null;
+
+    constructor(drawLayer, player){
+        super(drawLayer, player);
+    }
+
+    load(){
+        this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70);
+        this.squarePattern.activate();
+    }
+
+    update(delta, inputs){
+        this.elapsedTime += delta;
+        if (this.isDone()){
+            return;
+        }
+
+        if (this.elapsedTime >= 5 && !this.pacmanActive){
+            pacmanActive = true;
+            this.pacmanPattern = new PacmanPattern(this.drawLayer, this.playerReference, )
+        }
+
+    }
 }
