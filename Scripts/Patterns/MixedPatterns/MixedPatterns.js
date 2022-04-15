@@ -1,4 +1,5 @@
 class SquareCirclePattern extends Pattern{
+    destroying = false;
 
   duration = 10;
   elapsedTime = 0;
@@ -23,9 +24,13 @@ class SquareCirclePattern extends Pattern{
       //increment the internal timer
       this.elapsedTime += delta;
 
-      if (this.isDone()){
-          return;
-      }
+        if (this.destroying){
+            return;
+        }
+
+        if (this.isDone()){
+            return;
+        }
 
 
       //if the circle cooldown ran out then make a circle pattern
@@ -55,11 +60,14 @@ class SquareCirclePattern extends Pattern{
 
   }
 
-  destroy(){
-      this.squarePattern.destroy();
-      if (this.circlePattern != null){
-          this.circlePattern.destroy();
-      }
+    destroy(){
+
+        this.destroying = true;
+
+        this.squarePattern.destroy();
+        if (this.circlePattern != null){
+            this.circlePattern.destroy();
+        }
 
   }
 
@@ -71,8 +79,11 @@ class SquareCirclePattern extends Pattern{
 }
 
 class RainPattern extends Pattern{
-  duration = 20;
-  elapsedTime = 0;
+
+    destroying = false;
+
+    duration = 10;
+    elapsedTime = 0;
 
   cooldown = 2;
   currentCooldown = 2;
@@ -93,9 +104,13 @@ class RainPattern extends Pattern{
   update(delta, inputs){
       this.elapsedTime += delta;
 
-      if (this.isDone()){
-          return;
-      }
+        if (this.destroying){
+            return;
+        }
+
+        if (this.isDone()){
+            return;
+        }
 
       //update both patterns if possible
       for (let pattern of this.circlePatterns){
@@ -130,11 +145,17 @@ class RainPattern extends Pattern{
       return (this.elapsedTime >= this.duration)
   }
 
-  destroy(){
-      this.circlePatterns[0].destroy();
-      delete this.circlePatterns[0];
-      this.circlePatterns[1].destroy();
-      delete this.circlePatterns[1];
+    destroy(){
+        this.destroying = true;
+
+        this.circlePatterns[0].destroy();
+        delete this.circlePatterns[0];
+
+        if (this.circlePatterns[1] != null){
+            this.circlePatterns[1].destroy();
+            delete this.circlePatterns[1];
+        }
+
     }
 }
 
