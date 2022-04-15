@@ -138,3 +138,4 @@ class RainPattern extends Pattern{
         delete this.circlePatterns[1];
     }
 }
+

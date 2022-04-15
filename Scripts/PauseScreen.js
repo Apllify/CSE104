@@ -18,12 +18,6 @@ class PauseScreen{
     currentInputPrompt = 0;
 
 
-    // this contains the function to be triggered for each inputprompt when we press enter on it.
-    /**actionDict = {
-      0: this.resume,
-      1: this.restart,
-      2: this.quit,
-    }**/
     
     // this variable tells us which inputPrompt we are selecting by counting the relative number of
     // ups and downs pressed.
@@ -36,8 +30,6 @@ class PauseScreen{
     fontStyle = null;
 
 
-    wasDownPressedLastFrame = false;
-    wasUpPressedLastFrame = false;
     
     destroying = false;
 
@@ -166,32 +158,29 @@ class PauseScreen{
     }
     
     update(delta, inputs){
+
+
         if (this.destroying){
             // don't refresh if we are destroying the PauseScreen
             return
         }
-        if (inputs.down.isDown){
+        if (inputs.down.isJustDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
-            if (!this.wasDownPressedLastFrame){
-                this.shifts += 1;
-            }
-            this.wasDownPressedLastFrame = true;
+            this.shifts += 1;
         }
 
-        else if (inputs.up.isDown || inputs.upAlt.isDown){
+        else if (inputs.up.isJustDown || inputs.upAlt.isJustDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
-            // different button presses.
-            if (!this.wasUpPressedLastFrame){
-                // need to distinguish cases since (-1 % 3 === -1) in javaScript for some reason. 
-                if (this.shifts === 0){
-                    this.shifts = this.positions.length - 1;
-                }
-                else{
-                    this.shifts -= 1;
-                }
+            // different button presses
+            
+            // need to distinguish cases since (-1 % 3 === -1) in javaScript for some reason. 
+            if (this.shifts === 0){
+                this.shifts = this.positions.length - 1;
             }
-            this.wasUpPressedLastFrame = true;
+            else{
+                this.shifts -= 1;
+            }
             
         }
         // when we press enter, execute the command corresponding to the currentInputPrompt.
@@ -199,10 +188,7 @@ class PauseScreen{
             this.actionsDict[this.actionDict[this.currentInputPrompt]](this.scene);
         }
 
-        else{
-            this.wasDownPressedLastFrame = false;
-            this.wasUpPressedLastFrame = false;
-        }
+
         // calculate the currentInputPrompt based on shifts.
         this.currentInputPrompt = this.shifts % this.positions.length;
 
