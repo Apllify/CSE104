@@ -8,9 +8,10 @@ class CirclePattern extends Pattern{
     maxSpeed = 500;
     ringRadius = 200;
     destroying = false;
+    dps = 30;
 
     //centered ring of projectiles around the player
-    constructor(patternDrawLayer, player, projectileCount, minSpeed, maxSpeed, ringRadius){
+    constructor(patternDrawLayer, player, projectileCount, minSpeed, maxSpeed, ringRadius, dps = 30){
         super(patternDrawLayer, player);
 
         this.projectileCount= projectileCount;
@@ -18,6 +19,7 @@ class CirclePattern extends Pattern{
         this.maxSpeed = maxSpeed;
 
         this.ringRadius = ringRadius;
+        this.dps = dps;
     }
 
     //called right before the first update method
@@ -50,7 +52,7 @@ class CirclePattern extends Pattern{
 
 
             //create the projectile at that position
-            this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, realCoords, speed, relativeCoords));
+            this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, realCoords, speed, relativeCoords, undefined, this.dps));
 
         }
     }

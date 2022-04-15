@@ -25,7 +25,7 @@ class Character{
 
     constructor(drawLayers, startingCoords = {x:0, y:0}, ){
         //instantiate the player sprite
-        const shieldTexture = PIXI.Texture.from("../Sprites/Shield.png");
+        const shieldTexture = PIXI.Texture.from("Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
 
         //set the starting position
