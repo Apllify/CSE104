@@ -198,7 +198,7 @@ class MenuScene{
         for (let element of this.inputPrompts){
             element.destroy();
         }
-        this.exitJoke.destroy();S
+        this.exitJoke.destroy();
         delete this;
 
     }
