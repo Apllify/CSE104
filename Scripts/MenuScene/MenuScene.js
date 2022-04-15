@@ -14,14 +14,12 @@ class MenuScene{
 
     // these variables allow us to make sure that a button press that spans multiple frames isn't
     // considered as several different button presses in the manuScene.
-    wasDownPressedLastFrame = false;
-    wasUpPressedLastFrame = false;
-   
+
+    
     destroying = false;
 
-    constructor(drawLayers, game, wasEnterPressedLastFrame = false){
+    constructor(drawLayers, game){
         //create a background graphics
-        this.wasEnterPressedLastFrame = wasEnterPressedLastFrame;
         this.game = game;
         this.backgroundGraphics= new PIXI.Graphics();
 
@@ -142,59 +140,42 @@ class MenuScene{
         //check for down and up inputs to select prompts and update the alpha value for fading texts.
         this.exitJoke.update(delta, inputs);
 
-        if (inputs.down.isDown){
+        if (inputs.down.isJustDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
-            if (!this.wasDownPressedLastFrame){
 
-                this.currentInputPrompt += 1;
+            this.currentInputPrompt += 1;
 
-                if (this.currentInputPrompt > this.inputPrompts.length-  1){
-                    this.currentInputPrompt = 0;
-                }
+            if (this.currentInputPrompt > this.inputPrompts.length-  1){
+                this.currentInputPrompt = 0;
             }
 
-            this.wasDownPressedLastFrame = true;
         }
 
-        else{
-            this.wasDownPressedLastFrame = false;
-        }
 
-        if (inputs.up.isDown || inputs.upAlt.isDown){
+        if (inputs.up.isJustDown || inputs.upAlt.isJustDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
-            if (!this.wasUpPressedLastFrame){
 
-                this.currentInputPrompt -= 1;
+            this.currentInputPrompt -= 1;
 
-                if (this.currentInputPrompt < 0){
-                    this.currentInputPrompt = this.inputPrompts.length - 1;
-                }
+            if (this.currentInputPrompt < 0){
+                this.currentInputPrompt = this.inputPrompts.length - 1;
             }
 
-            this.wasUpPressedLastFrame = true;
         }
 
-        else{
-            this.wasUpPressedLastFrame = false;
-        }
 
-        if (inputs.enter.isDown){     // handles input prompt selections. If "PLAY", we create a
+
+        if (inputs.enter.isJustDown){     // handles input prompt selections. If "PLAY", we create a
             // boss scene; if "EXIT", we close the window.
-            if (!this.wasEnterPressedLastFrame){
-                if (this.currentInputPrompt === 0){
-                    mainGame.changeScene(new BossScene(drawLayers, this.game));
-                }
-                else{
-                    this.exitJoke.initiate();
-                }
+            if (this.currentInputPrompt === 0){
+                mainGame.changeScene(new BossScene(drawLayers, this.game));
             }
-            this.wasEnterPressedLastFrame = true;
+            else{
+                this.exitJoke.initiate();
+            }
             
-        }
-        else{
-            this.wasEnterPressedLastFrame = false;
         }
 
         
@@ -207,7 +188,8 @@ class MenuScene{
 
     
 
-    destroy(){          // destroy method for menuScene 
+    destroy(){          
+        // destroy method for menuScene 
         this.destroying = true;
         drawLayers.backgroundLayer.removeChild(this.backgroundGraphics);
         drawLayers.foregroundLayer.removeChild(this.leftCursorGraphics);
@@ -216,7 +198,7 @@ class MenuScene{
         for (let element of this.inputPrompts){
             element.destroy();
         }
-        this.exitJoke.destroy();
+        this.exitJoke.destroy();S
         delete this;
 
     }

@@ -10,7 +10,6 @@ class BossScene{
 
     destroying = false;
 
-    wasEscapePressedLastFrame = false;
 
     drawLayers = null;
     
@@ -46,18 +45,13 @@ class BossScene{
         }
 
         
-        if (inputs.escape.isDown){
+        if (inputs.escape.isJustDown){
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
             // the conditional is because one button press may span more than one frame.
-            if (!this.wasEscapePressedLastFrame){
-                this.pauseHandle(['RESUME', 'RESTART', 'QUIT'], {0:'resume', 1:'restart', 2:'quit'});
-            }
-            this.wasEscapePressedLastFrame = true;  
+            this.pauseHandle(['RESUME', 'RESTART', 'QUIT'], {0:'resume', 1:'restart', 2:'quit'});
         }
-        else{
-            // if escape wasn't pressed in this frame... 
-            this.wasEscapePressedLastFrame = false;
-        }
+
+
         if (this.paused){
             // if the game is paused we only update the pausescreen and leave all other elements the way
             // they were. 
@@ -106,7 +100,6 @@ class BossScene{
         // this function is called in two situations: when the game is paused and we choose to resume
         // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
-        console.log(title);
         if (this.paused){
             this.pauseScreen.destroy();
             this.paused = false;
@@ -122,12 +115,12 @@ class BossScene{
         this.game.changeScene(new BossScene(drawLayers, this.game));
     }
 
-    quit(wasEnterPressedLastFrame = false){  // if enter was pressed when quitting the game, we need
+    quit(){  // if enter was pressed when quitting the game, we need
                                             // to make sure that a newgame isn't started as soon as the
                                             // MenuScene is initialized since the button press may 
                                             // span multiple frames.
         // return to the menuscene.
-        this.game.changeScene(new MenuScene(drawLayers, this.game, wasEnterPressedLastFrame));
+        this.game.changeScene(new MenuScene(drawLayers, this.game));
     }
 
 

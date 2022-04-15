@@ -133,8 +133,8 @@ class RainPattern extends Pattern{
   destroy(){
       this.circlePatterns[0].destroy();
       delete this.circlePatterns[0];
-
       this.circlePatterns[1].destroy();
       delete this.circlePatterns[1];
-  }
+    }
 }
+
