@@ -1,4 +1,5 @@
 class SquareCirclePattern extends Pattern{
+    destroying = false;
 
     duration = 10;
     elapsedTime = 0;
@@ -22,6 +23,10 @@ class SquareCirclePattern extends Pattern{
     update(delta, inputs){
         //increment the internal timer
         this.elapsedTime += delta;
+
+        if (this.destroying){
+            return;
+        }
 
         if (this.isDone()){
             return;
@@ -56,6 +61,9 @@ class SquareCirclePattern extends Pattern{
     }
 
     destroy(){
+
+        this.destroying = true;
+
         this.squarePattern.destroy();
         if (this.circlePattern != null){
             this.circlePattern.destroy();
@@ -71,7 +79,10 @@ class SquareCirclePattern extends Pattern{
 }
 
 class RainPattern extends Pattern{
-    duration = 20;
+
+    destroying = false;
+
+    duration = 10;
     elapsedTime = 0;
 
     cooldown = 2;
@@ -92,6 +103,10 @@ class RainPattern extends Pattern{
 
     update(delta, inputs){
         this.elapsedTime += delta;
+
+        if (this.destroying){
+            return;
+        }
 
         if (this.isDone()){
             return;
@@ -131,11 +146,16 @@ class RainPattern extends Pattern{
     }
 
     destroy(){
+        this.destroying = true;
+
         this.circlePatterns[0].destroy();
         delete this.circlePatterns[0];
 
-        this.circlePatterns[1].destroy();
-        delete this.circlePatterns[1];
+        if (this.circlePatterns[1] != null){
+            this.circlePatterns[1].destroy();
+            delete this.circlePatterns[1];
+        }
+
     }
 }
 
