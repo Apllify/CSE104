@@ -1,3 +1,4 @@
+"use strict";
 class WavePattern extends Pattern{
     // keep track of the total time elapsed and the time spent on current phase
     // A phase is simply whether we are going in the positive normal direction or the negative one.

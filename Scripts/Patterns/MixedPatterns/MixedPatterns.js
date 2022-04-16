@@ -1,3 +1,4 @@
+"use strict";
 class SquareCirclePattern extends Pattern{
     destroying = false;
 

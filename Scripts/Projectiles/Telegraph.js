@@ -1,3 +1,4 @@
+"use strict";
 class Telegraph {
 
     drawLayer = null;
