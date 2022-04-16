@@ -160,49 +160,77 @@ class RainPattern extends Pattern{
 }
 
 class WaveSource extends Pattern{
+
     destroying = false;
+    // time between successive wave releases.
     cooldown = 5;
+    // list of active patterns 
     patterns = [];
+
     wavesReleased = 0;
     constructor(drawLayer, player, startPoint, endPoint, waveSpeed, waveCount){
+        // initialize necessary variables
         super(drawLayer, player);
+
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+
         this.waveCount = waveCount;
         this.waveSpeed = waveSpeed;
     }
 
     load(){
+        // initialize the first wave
         this.createNewWave();
         
     }
 
     getWavePhaseDuration(startToPlayerVect, waveLineVect){
+        // get the  wave phase duration according to the relative positions of the startPoint, endPoint
+        // and the player. We try to get a phase duration so that the player's current position is the
+        // center of the normal oscillation of the wave. Note that the player can nullify the wave by
+        // getting close to its place of generation (the wave will not move much in the normal direction).
+
+        // shorter names
         let v1 = startToPlayerVect;
         let v2 = waveLineVect;
-        console.log(v1, v2)
+        
+        // get the norms
         let a = Math.sqrt(v1.x ** 2 + v1.y ** 2);
         let b = Math.sqrt(v2.x ** 2 + v2.y ** 2);
+        // project the first vector onto the second one.
         let projection = (v1.x * v2.x + v1.y * v2.y) / b;
-        console.log(projection);
-        console.log(a);
+        
+        // determine the normal distance between the player and the wave
         let distance = Math.sqrt(a ** 2 - projection ** 2);
-        console.log(2 * distance / this.waveSpeed)
+        
+        // set the phase duration so that the wave oscillates normally about the player's current position.
+
         return 2 * distance / this.waveSpeed;
 
     }
 
     createNewWave(){
+        // get these vectors to calculate the initial phase and phaseDuration
         let v1 = {x: this.playerReference.x - this.startPoint.x, y: this.playerReference.y - this.startPoint.y};
         let v2 = {x: this.endPoint.x - this.startPoint.x, y: this.endPoint.y - this.startPoint.x};
+
+        // we want the wave to start moving towards the player as soon as it is created
         let initialPhase = -1 * Math.sign(v1.x * v2.y - v1.y * v2.x); 
+
+        // phase has to be plus or minus one.
         if (initialPhase === 0){
             initialPhase = 1;
         }
+
+        // get the phase duration based on the player's position
         let phaseDuration = this.getWavePhaseDuration(v1, v2);
+
+        // create the wave and activate it.
         let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 2, initialPhase, phaseDuration);    
         this.patterns.push(newWave);
         newWave.activate();
+
         this.wavesReleased += 1;
     }
 
@@ -210,6 +238,7 @@ class WaveSource extends Pattern{
         if (this.destroying){
             return 
         }
+        
         this.cooldown -= delta;
 
         if (this.cooldown <= 0 && this.waveCount > this.wavesReleased){
@@ -218,6 +247,8 @@ class WaveSource extends Pattern{
         }
 
         for (let i = 0; i < this.patterns.length; i++){
+
+            // remove finished wavepatterns and upadate the ongoing ones.
             if (this.patterns[i].isDone()){
                 this.patterns[i].destroy();
                 this.patterns.splice(i, 1);
@@ -234,14 +265,18 @@ class WaveSource extends Pattern{
 
 
     isDone(){
+        // The pattern is done when all waves are done. 
         return this.patterns.length === 0;
     }
 
     destroy(){
         this.destroying = true;
+
+        // if there are active patterns (if we are destroying before the end of the pattern)
         for (let element of this.patterns){
             element.destroy();
         }
+        
         delete this;
     }
 
