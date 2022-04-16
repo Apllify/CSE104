@@ -27,8 +27,8 @@ class BossScene{
         this.drawLayers = drawLayers;
 
         //instantiate the list of patterns
-        this.patternsList.push(() => new FourCornerWaves(this.drawLayers.activeLayer, this.playerReference));
-        this.patternsList.push(() => new FourCornerWaves(this.drawLayers.activeLayer, this.playerReference));
+        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference));
+        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference));
 
 
         //start with a random pattern

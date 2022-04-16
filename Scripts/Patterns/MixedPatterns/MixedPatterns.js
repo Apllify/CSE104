@@ -168,7 +168,7 @@ class WaveSource extends Pattern{
     patterns = [];
 
     wavesReleased = 0;
-    constructor(drawLayer, player, startPoint, endPoint, waveSpeed, waveCount){
+    constructor(drawLayer, player, startPoint, endPoint, waveSpeed, waveCount, phaseDuration = null){
         // initialize necessary variables
         super(drawLayer, player);
 
@@ -177,6 +177,7 @@ class WaveSource extends Pattern{
 
         this.waveCount = waveCount;
         this.waveSpeed = waveSpeed;
+        this.phaseDuration = phaseDuration;
     }
 
     load(){
@@ -223,11 +224,19 @@ class WaveSource extends Pattern{
             initialPhase = 1;
         }
 
-        // get the phase duration based on the player's position
-        let phaseDuration = this.getWavePhaseDuration(v1, v2);
+        // get the phase duration based on the provided value. If there is no provided value,
+        // get it based on the player's position
+        let phaseDuration = null;
+        if (this.phaseDuration === null){
+            phaseDuration = this.getWavePhaseDuration(v1, v2);
+        }
+        else{
+            phaseDuration = this.phaseDuration;
+        }
+        
 
         // create the wave and activate it.
-        let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 2, initialPhase, phaseDuration);    
+        let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 1, initialPhase, phaseDuration);    
         this.patterns.push(newWave);
         newWave.activate();
 
@@ -366,4 +375,85 @@ class FourCornerWaves extends Pattern{
         delete this;
     }
 
+}
+
+class SquareWithWave extends Pattern{
+
+    destroying = false;
+    // time between initializing new WaveSources
+    waveCoolDown = 1;
+
+    // The patterns that will be displayed
+    square = null;
+    waveSources = [];
+
+    // Waves to be created along the lines joining midpoints of adjacent sides
+    sourceCoords = [{x: 0, y: 300}, {x:400, y:0}, {x:800, y:300}, {x:400, y:600}];
+
+    // index of the startPoint of the next WaveSource
+    index = 0;
+
+    constructor(drawLayer, player){
+        super(drawLayer, player);
+    }
+
+    load(){
+        // initialize the SquarePattern and activeate it 
+        this.square = new SquarePattern(this.drawLayer, this.playerReference, 70, 0.4, 0.6);
+        this.square.activate();
+    }
+
+    update(delta, inputs){
+
+        if (this.destroying){
+            return 
+        }
+
+        this.waveCoolDown -= delta;
+
+        if (this.waveCoolDown <= 0 && this.index < 4){
+            this.createNewWaveSource();
+            this.waveCoolDown = 1;
+        }
+
+        for (let i = 0; i < this.waveSources.length; i++){
+            // remove finished waveSources and update ongoing ones
+            if (this.waveSources[i].isDone()){
+                this.waveSources[i].destroy();
+                this.waveSources.splice(i, 1);
+                i -= 1;
+            }
+
+            else{
+                this.waveSources[i].update(delta, inputs);
+            }
+        }
+
+        this.square.update(delta, inputs);
+    }
+
+    createNewWaveSource(){
+        // create a new WaveSource at the positions encoded by the current index
+        let newWaveSource = new WaveSource(this.drawLayer, this.playerReference, this.sourceCoords[this.index],
+            this.sourceCoords[(this.index + 1) % 4], 150, 2, 1);
+        
+        this.waveSources.push(newWaveSource);
+        newWaveSource.activate();
+
+        this.index += 1;
+    }
+
+    isDone(){
+        // the pattern is done when all patterns are done 
+        return this.square.isDone() && this.waveSources.length === 0;
+    }
+
+    destroy(){
+        this.destroying = true;
+        this.square.destroy();
+        for (let element of this.waveSources){
+            element.destroy();
+        }
+        delete this 
+    }
 }
