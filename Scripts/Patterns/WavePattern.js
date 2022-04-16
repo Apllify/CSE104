@@ -2,7 +2,9 @@ class WavePattern extends Pattern{
     // keep track of the total time elapsed and the time spent on current phase
     // A phase is simply whether we are going in the positive normal direction or the negative one.
     elapsedTime = 0;
-    phaseDuration = 0;
+    phaseDuration = null;
+    // Time Spent on current Phase 
+    currentPhaseTimer = 0;
 
     // List of the generated points.
     pointCoords = [];
@@ -23,17 +25,20 @@ class WavePattern extends Pattern{
     // The current phase. It takes values 1 or -1.
     phase = 1;
 
-    constructor(drawLayer, player, duration, waveSpeed, amplitude, startPoint, endPoint, fixedPts, initialPhase=1){
+    constructor(drawLayer, player, duration, waveSpeed, amplitude, startPoint, endPoint, fixedPts, initialPhase=1, phaseDuration=4, phaseOffset=0){
+
         // initialize properties
         super(drawLayer, player);
-        
         this.phase = initialPhase;
+        this.phaseDuration = phaseDuration;
+       
         this.amplitude = amplitude;
         this.n = fixedPts + 1;
+       
         this.duration = duration;
+        this.currentPhaseTimer = phaseOffset;
         
         this.playerCoords = {x: this.playerReference.x, y: this.playerReference.y};
-        
         this.waveSpeed = waveSpeed;
         
 
@@ -43,6 +48,7 @@ class WavePattern extends Pattern{
         
         this.k = Math.PI * this.n / this.lineLen;
         this.w = this.waveSpeed * this.k;
+
 
         // shiftVect allows us the generate the next point given the current one.
         this.shiftVect = this.rescaleVect(this.mainVect, 1 / (4 * this.n));
@@ -57,7 +63,7 @@ class WavePattern extends Pattern{
         this.pointCoords.push(endPoint);
 
         // A normal unit vector to mainVect
-        this.generalDirection = this.normalizeVector({x: -1 * this.mainVect.y, y: this.mainVect.x});
+        this.generalDirection = this.rescaleVect(this.normalizeVector({x: -1 * this.mainVect.y, y: this.mainVect.x}), this.phase);
         
     }
 
@@ -69,7 +75,7 @@ class WavePattern extends Pattern{
             this.projectileAmplitudes.push(2 * this.amplitude * Math.sin(this.k * i * this.shiftLen));
             
             this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, this.pointCoords[i]
-                , 0, this.generalDirection, {x:10, y:10}));
+                , 0, this.generalDirection, {x:5, y:5}, 50));
         }
     }
 
@@ -114,13 +120,13 @@ class WavePattern extends Pattern{
         }
         // increment total and phase duration
         this.elapsedTime += delta;
-        this.phaseDuration += delta;
+        this.currentPhaseTimer += delta;
 
-        if (this.phaseDuration >= 5){
+        if (this.currentPhaseTimer >= this.phaseDuration){
             // flip the normal direction and the phase 
             this.generalDirection = this.rescaleVect(this.generalDirection, -1);
             this.phase *= -1;
-            this.phaseDuration = 0;
+            this.currentPhaseTimer = 0;
         }
 
         for (let i = 0; i < this.projectiles.length; i++){

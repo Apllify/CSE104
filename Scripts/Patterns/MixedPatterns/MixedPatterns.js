@@ -159,3 +159,91 @@ class RainPattern extends Pattern{
     }
 }
 
+class WaveSource extends Pattern{
+    destroying = false;
+    cooldown = 5;
+    patterns = [];
+    wavesReleased = 0;
+    constructor(drawLayer, player, startPoint, endPoint, waveSpeed, waveCount){
+        super(drawLayer, player);
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+        this.waveCount = waveCount;
+        this.waveSpeed = waveSpeed;
+    }
+
+    load(){
+        this.createNewWave();
+        
+    }
+
+    getWavePhaseDuration(startToPlayerVect, waveLineVect){
+        let v1 = startToPlayerVect;
+        let v2 = waveLineVect;
+        console.log(v1, v2)
+        let a = Math.sqrt(v1.x ** 2 + v1.y ** 2);
+        let b = Math.sqrt(v2.x ** 2 + v2.y ** 2);
+        let projection = (v1.x * v2.x + v1.y * v2.y) / b;
+        console.log(projection);
+        console.log(a);
+        let distance = Math.sqrt(a ** 2 - projection ** 2);
+        console.log(2 * distance / this.waveSpeed)
+        return 2 * distance / this.waveSpeed;
+
+    }
+
+    createNewWave(){
+        let v1 = {x: this.playerReference.x - this.startPoint.x, y: this.playerReference.y - this.startPoint.y};
+        let v2 = {x: this.endPoint.x - this.startPoint.x, y: this.endPoint.y - this.startPoint.x};
+        let initialPhase = -1 * Math.sign(v1.x * v2.y - v1.y * v2.x); 
+        if (initialPhase === 0){
+            initialPhase = 1;
+        }
+        let phaseDuration = this.getWavePhaseDuration(v1, v2);
+        let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 2, initialPhase, phaseDuration);    
+        this.patterns.push(newWave);
+        newWave.activate();
+        this.wavesReleased += 1;
+    }
+
+    update(delta, inputs){
+        if (this.destroying){
+            return 
+        }
+        this.cooldown -= delta;
+
+        if (this.cooldown <= 0 && this.waveCount > this.wavesReleased){
+            this.createNewWave()
+            this.cooldown = 5;
+        }
+
+        for (let i = 0; i < this.patterns.length; i++){
+            if (this.patterns[i].isDone()){
+                this.patterns[i].destroy();
+                this.patterns.splice(i, 1);
+                i -= 1
+            }
+
+            else{
+                this.patterns[i].update(delta, inputs);
+            }
+        }
+
+
+    }
+
+
+    isDone(){
+        return this.patterns.length === 0;
+    }
+
+    destroy(){
+        this.destroying = true;
+        for (let element of this.patterns){
+            element.destroy();
+        }
+        delete this;
+    }
+
+
+}
