@@ -276,9 +276,94 @@ class WaveSource extends Pattern{
         for (let element of this.patterns){
             element.destroy();
         }
-        
+
         delete this;
     }
 
+
+}
+
+
+class FourCornerWaves extends Pattern{
+    // places WaveSources centered on each of the four corners of the screen
+
+    destroying = false;
+    // the wavesources are created 1 second after the previous one
+    offset = 1;
+
+    // List to store the active WaveSources.
+    cornerWaveSources = [];
+
+    // Start and End Points of the wavesources
+    cornerPoints = [{x: -400, y: 300}, {x: 400, y: -300}, {x: 1200, y:300}, {x: 400, y:-300}];
+
+    // encodes the corner corresponding to the next waveSource; starts at the topleft cornerand proceeds
+    // counterclockwise.
+    currentStartPoint = 0;
+
+
+    constructor (drawLayer, player){
+        super(drawLayer, player)
+    }
+
+    createNewWaveSource(){
+        // create a new waveSource at the corner indicated by currentStartPoint and activate it.
+        let newWaveSource = new WaveSource(this.drawLayer, this.playerReference, 
+            this.cornerPoints[this.currentStartPoint], 
+            this.cornerPoints[(this.currentStartPoint + 1) % 4], 
+            150, 4);
+        
+        this.cornerWaveSources.push(newWaveSource);
+        newWaveSource.activate();
+
+        this.currentStartPoint += 1;
+    }
+
+    load(){
+        // initialize the topleft WaveSource
+        this.createNewWaveSource();
+    }
+
+    update(delta, inputs){
+
+        this.offset -= delta;
+        if (this.destroying){
+            return
+        }
+
+        if (this.offset <= 0 && this.currentStartPoint < 4){
+            this.createNewWaveSource();
+            this.offset = 1;
+        }
+
+        for (let i = 0; i < this.cornerWaveSources.length; i ++ ){
+            // remove the completed WaveSources and update the ongoing ones 
+            if (this.cornerWaveSources[i].isDone()){
+                this.cornerWaveSources[i].destroy();
+                this.cornerWaveSources.splice(i, 1);
+                i -= 1;
+            }
+
+            else{
+                this.cornerWaveSources[i].update(delta, inputs);
+            }
+        }
+
+
+
+    }
+
+    isDone(){
+        // the pattern ends when all WaveSources are finished
+        return this.cornerWaveSources.length === 0;
+    }
+    destroy(){
+        this.destroying = true;
+        // make sure we don't have ongoing patterns in case destroy is called prematurely.
+        for (let element of this.cornerWaveSources){
+            element.destroy();
+        }
+        delete this;
+    }
 
 }
