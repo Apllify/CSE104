@@ -101,6 +101,14 @@ class Projectile{
 
     }
 
+    changeDirection(newDirection){
+        this.direction = newDirection;
+    }
+
+    changeSpeed(newSpeed){
+        this.speed = newSpeed;
+    }
+
     update(delta){
         if (this.destroying){   // don't try to update if destroy is called.
             return ;
