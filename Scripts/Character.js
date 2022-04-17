@@ -57,24 +57,25 @@ class Character{
         // this.health = Math.max(0, this.health - 0.2);  // line to test health bar at different health values.
         this.healthBar.update();
         if (inputs.left.isDown || inputs.leftAlt.isDown){
-            this.xVelocity -= this.speed;
+            this.xVelocity -= 1;
         }
 
         if (inputs.right.isDown){
-            this.xVelocity += this.speed;
+            this.xVelocity += 1;
         }
     
         if (inputs.up.isDown || inputs.upAlt.isDown){
-            this.yVelocity -= this.speed;
+            this.yVelocity -= 1;
         }
     
         if (inputs.down.isDown){
-            this.yVelocity += this.speed;
+            this.yVelocity += 1;
         }
+        let velocityVect = new Vector(this.xVelocity, this.yVelocity);
+        velocityVect = velocityVect.normalize().rescale(this.speed);
 
-
-        this.x += this.xVelocity * delta;
-        this.y += this.yVelocity * delta;
+        this.x += velocityVect.x * delta;
+        this.y += velocityVect.y * delta;
 
         //update the sprite's position on screen
         this.updateSpritePosition();

@@ -196,7 +196,7 @@ class WaveSource extends Pattern{
         // shorter names
         let v1 = startToPlayerVect;
         let v2 = waveLineVect;
-        
+        console.log(v1, v2)
         // get the norms
         let a = Math.sqrt(v1.x ** 2 + v1.y ** 2);
         let b = Math.sqrt(v2.x ** 2 + v2.y ** 2);
@@ -207,7 +207,7 @@ class WaveSource extends Pattern{
         let distance = Math.sqrt(a ** 2 - projection ** 2);
         
         // set the phase duration so that the wave oscillates normally about the player's current position.
-
+        console.log(distance);
         return 2 * distance / this.waveSpeed;
 
     }
@@ -215,7 +215,7 @@ class WaveSource extends Pattern{
     createNewWave(){
         // get these vectors to calculate the initial phase and phaseDuration
         let v1 = {x: this.playerReference.x - this.startPoint.x, y: this.playerReference.y - this.startPoint.y};
-        let v2 = {x: this.endPoint.x - this.startPoint.x, y: this.endPoint.y - this.startPoint.x};
+        let v2 = {x: this.endPoint.x - this.startPoint.x, y: this.endPoint.y - this.startPoint.y};
 
         // we want the wave to start moving towards the player as soon as it is created
         let initialPhase = -1 * Math.sign(v1.x * v2.y - v1.y * v2.x); 

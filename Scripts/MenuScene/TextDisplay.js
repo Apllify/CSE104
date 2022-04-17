@@ -45,7 +45,8 @@ class TextDisplay{
     getCenterPosition(){
         const dimensions = this.getDimensions();
 
-        return {x : this.textEntity.x + dimensions.width / 2, y : this.textEntity.y + dimensions.height/2};
+        //return {x : this.textEntity.x + dimensions.width / 2, y : this.textEntity.y + dimensions.height/2};
+        return new Vector(this.textEntity.x + dimensions.width / 2, this.textEntity.y + dimensions.height/2);
     }
 
     getDimensions(){
