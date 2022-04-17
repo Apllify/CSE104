@@ -193,32 +193,28 @@ class WaveSource extends Pattern{
         // center of the normal oscillation of the wave. Note that the player can nullify the wave by
         // getting close to its place of generation (the wave will not move much in the normal direction).
 
-        // shorter names
-        let v1 = startToPlayerVect;
-        let v2 = waveLineVect;
-        console.log(v1, v2)
+
         // get the norms
-        let a = Math.sqrt(v1.x ** 2 + v1.y ** 2);
-        let b = Math.sqrt(v2.x ** 2 + v2.y ** 2);
+        let a = startToPlayerVect.getNorm();
+        let b = waveLineVect.getNorm();
         // project the first vector onto the second one.
-        let projection = (v1.x * v2.x + v1.y * v2.y) / b;
+        let projection = startToPlayerVect.dotProduct(waveLineVect) / b;
         
         // determine the normal distance between the player and the wave
         let distance = Math.sqrt(a ** 2 - projection ** 2);
         
         // set the phase duration so that the wave oscillates normally about the player's current position.
-        console.log(distance);
         return 2 * distance / this.waveSpeed;
 
     }
 
     createNewWave(){
         // get these vectors to calculate the initial phase and phaseDuration
-        let v1 = {x: this.playerReference.x - this.startPoint.x, y: this.playerReference.y - this.startPoint.y};
-        let v2 = {x: this.endPoint.x - this.startPoint.x, y: this.endPoint.y - this.startPoint.y};
+        let v1 = new Vector(this.playerReference.x - this.startPoint.x, this.playerReference.y - this.startPoint.y);
+        let v2 = new Vector(this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
 
         // we want the wave to start moving towards the player as soon as it is created
-        let initialPhase = -1 * Math.sign(v1.x * v2.y - v1.y * v2.x); 
+        let initialPhase = -1 * Math.sign(v1.crossProdScalar(v2)); 
 
         // phase has to be plus or minus one.
         if (initialPhase === 0){
@@ -305,7 +301,7 @@ class FourCornerWaves extends Pattern{
     cornerWaveSources = [];
 
     // Start and End Points of the wavesources
-    cornerPoints = [{x: -400, y: 300}, {x: 400, y: -300}, {x: 1200, y:300}, {x: 400, y:-300}];
+    cornerPoints = [new Vector(-400, 300), new Vector(400, -300), new Vector(1200, 300), new Vector(400, -300)];
 
     // encodes the corner corresponding to the next waveSource; starts at the topleft cornerand proceeds
     // counterclockwise.
@@ -389,7 +385,7 @@ class SquareWithWave extends Pattern{
     waveSources = [];
 
     // Waves to be created along the lines joining midpoints of adjacent sides
-    sourceCoords = [{x: 0, y: 300}, {x:400, y:0}, {x:800, y:300}, {x:400, y:600}];
+    sourceCoords = [new Vector(0, 300), new Vector(400, 0), new Vector(800, 300), new Vector(400, 600)];
 
     // index of the startPoint of the next WaveSource
     index = 0;
@@ -402,8 +398,8 @@ class SquareWithWave extends Pattern{
         // initialize the SquarePattern and a WaveSource and activeate them
         this.square = new SquarePattern(this.drawLayer, this.playerReference, 70, 0.4, 0.6);
         this.square.activate();
-        this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, {x:0, y:600},
-            {x:800, y:600}, 100, 2));
+        this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, new Vector(0, 600),
+            new Vector(800, 600), 100, 2));
         this.waveSources[0].activate()
     }
 

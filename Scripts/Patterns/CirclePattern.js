@@ -30,8 +30,8 @@ class CirclePattern extends Pattern{
         let relativeX = 0;
         let relativeY = 0;
 
-        let relativeCoords ={x:0, y:0}
-        let realCoords = {x:0, y:0};
+        let relativeCoords = new Vector(0, 0);
+        let realCoords = new Vector(0, 0);
 
         let speed = this.minSpeed;
 
@@ -43,8 +43,10 @@ class CirclePattern extends Pattern{
             relativeX =  this.ringRadius * Math.cos(currentAngle);
             relativeY = this.ringRadius * Math.sin(currentAngle);
 
-            relativeCoords = {x:-relativeX, y:-relativeY};
-            realCoords = {x : relativeX + this.playerReference.x, y:relativeY + this.playerReference.y};
+            relativeCoords.x = -relativeX;
+            relativeCoords.y = -relativeY;
+
+            realCoords = relativeCoords.add(new Vector(this.playerReference.x, this.playerReference.y));
 
             //generate a random speed between the min and the max
             speed = Math.random() * (this.maxSpeed - this.minSpeed) + this.minSpeed;

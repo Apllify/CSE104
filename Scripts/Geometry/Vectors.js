@@ -33,6 +33,8 @@ class Vector{
         return this.rescale(1/norm);
     }
 
-    
+    getNormalVect(){
+        return new Vector(-1 * this.y, this.x);
+    }
     
 }
