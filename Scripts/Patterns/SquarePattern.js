@@ -80,7 +80,7 @@ class SquarePattern extends Pattern{
 
         //create left line of projectiles
         for(let y = 300 / 6 + 30; y < 600; y+=300 / 6 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -300), 0, new Vector(0, 0), {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -300 + y), 0, new Vector(0, 0), {x:60, y:60} ));
 
         }
 
