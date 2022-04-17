@@ -91,7 +91,7 @@ class Telegraph {
     update(delta){
         //don't update if destroying
         if (this.destroying){
-            return null;
+            return;
         }
 
         //reduce the opacity accordingly with the fade duration
