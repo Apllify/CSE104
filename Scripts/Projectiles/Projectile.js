@@ -82,15 +82,6 @@ class Projectile{
     }
 
 
-    //checks for a box collision between b1 and b2
-    checkBoxCollision(b1, b2){
-        return ( b1.x < (b2.x + b2.width) ) &&
-            ( (b1.x + b1.width) > b2.x ) &&
-            ( b1.y < (b2.y + b2.height) ) &&
-            ( (b1.y + b1.height) > b2.y  );
-
-    }
-
     isOutOfBounds(){
         //use bounds rectangle to get absolute coordinates
         const boundsRectangle = this.displayGraphic.getBounds();
@@ -113,6 +104,7 @@ class Projectile{
         if (this.destroying){   // don't try to update if destroy is called.
             return ;
         }
+
         //move the projectile by the proper amount in both direction
         this.x += this.direction.x * this.speed * delta;
         this.y += this.direction.y * this.speed * delta;
@@ -124,19 +116,19 @@ class Projectile{
 
 
 
-        //use bounds rectangle with absolute coordinates to check for collision
+        //use bounds rectangle with absolute coordinates to generate a rectangle hitbox
         const boundsRectangle = this.displayGraphic.getBounds();
+        const projectileHitbox = new Rectangle(boundsRectangle.x, boundsRectangle.y, boundsRectangle.width, boundsRectangle.height);
         
         //assumes the player is already in absolute coordinates
-        const playerHitbox = {x:this.playerReference.x - this.playerReference.collisionWidth / 2,
-                            y : this.playerReference.y - this.playerReference.collisionHeight / 2,
-                            width : this.playerReference.collisionWidth,
-                            height : this.playerReference.collisionHeight };
+        const playerHitbox = new Rectangle(this.playerReference.x, this.playerReference.y, this.playerReference.collisionWidth, this.playerReference.collisionHeight); 
 
-        const isCollision = this.checkBoxCollision(boundsRectangle, playerHitbox);
+        const isCollision = projectileHitbox.isColliding(playerHitbox);
+
 
         //for now, lower the player health by a little bit when colliding
         if (isCollision){
+            console.log("colliding");
             this.playerReference.health -= this.dps * delta;
         }
 

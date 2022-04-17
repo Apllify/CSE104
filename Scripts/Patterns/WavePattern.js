@@ -157,16 +157,4 @@ class WavePattern extends Pattern{
         }
         delete this;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
