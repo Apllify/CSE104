@@ -1,9 +1,36 @@
 "use strict";
 class SquareCirclePattern extends Pattern{
-    destroying = false;
 
-  duration = 10;
-  elapsedTime = 0;
+  difficulty = {
+      'easy': {
+          projectileSpeed: {min:70, max:100},
+          minScale: 0.5,
+          maxScale: 0.8,
+          projectileCount: 4,
+          projectileDamage: 20,
+          targetPoints:8
+      },
+
+      'medium':{
+          projectileSpeed: {min:100, max:250},
+          minScale: 0.4,
+          maxScale: 0.6,
+          projectileCount: 5,
+          projectileDamage: 30,
+          targetPoints:10
+      },
+
+      'hard':{
+          projectileSpeed: {min:200, max:300},
+          minScale: 0.3,
+          maxScale: 0.5,
+          projectileCount: 5,
+          projectileDamage: 40,
+          targetPoints:12
+
+      }
+  }
+  destroying = false;
 
   circleCooldown = 1;
   currentCircleCooldown = 1;
@@ -12,18 +39,21 @@ class SquareCirclePattern extends Pattern{
   circlePattern = null;
 
 
-  constructor(drawLayer, player){
+  constructor(drawLayer, player, difficulty='medium'){
       super(drawLayer, player);
+      this.chosenDifficulty = difficulty;
   }
 
   load(){
-      this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70, 0.4, 0.6);
+      this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70, 
+        this.difficulty[this.chosenDifficulty].minScale, 
+        this.difficulty[this.chosenDifficulty].maxScale,
+        this.difficulty[this.chosenDifficulty].targetPoints);
       this.squarePattern.activate();
   }
 
   update(delta, inputs){
       //increment the internal timer
-      this.elapsedTime += delta;
 
         if (this.destroying){
             return;
@@ -43,7 +73,11 @@ class SquareCirclePattern extends Pattern{
           if (this.circlePattern != null){
               this.circlePattern.destroy();
           }
-          this.circlePattern = new CirclePattern(this.drawLayer, this.playerReference, 6, 100, 250, 200);
+          this.circlePattern = new CirclePattern(this.drawLayer, this.playerReference, 
+            this.difficulty[this.chosenDifficulty].projectileCount, 
+            this.difficulty[this.chosenDifficulty].projectileSpeed.min, 
+            this.difficulty[this.chosenDifficulty].projectileSpeed.max, 200,
+            this.difficulty[this.chosenDifficulty].projectileDamage);
           this.circlePattern.activate();
       }
 
@@ -73,7 +107,7 @@ class SquareCirclePattern extends Pattern{
   }
 
   isDone(){
-      return (this.elapsedTime >= this.duration);
+      return this.squarePattern.isDone();
   }
 
 
@@ -81,26 +115,57 @@ class SquareCirclePattern extends Pattern{
 
 class RainPattern extends Pattern{
 
+    difficulty = {
+        'easy':{
+            projectileCount: 5,
+            projectileSpeed: {min:70, max:200},
+            coolDown: 4,    
+            duration: 10,
+            damage: 70,
+        },
+        'medium':{
+            projectileCount: 6,
+            projectileSpeed: {min:100, max:400},
+            coolDown: 2.5,
+            duration: 15,
+            damage: 150,
+        },
+        'hard':{
+            projectileCount: 6,
+            projectileSpeed: {min:200, max:500},
+            coolDown:2,
+            duration: 20,
+            damage: 250,
+        }
+    }
+
     destroying = false;
-
-    duration = 10;
     elapsedTime = 0;
-
-  cooldown = 2;
-  currentCooldown = 2;
 
   //first one is most recent one, last one is the one that's replace everytime 
   circlePatterns = [];
 
-  constructor(drawLayer, player){
+  constructor(drawLayer, player, difficulty='medium'){
       super(drawLayer, player);
+      this.chosenDifficulty = difficulty;
+      
+      this.coolDown = this.difficulty[difficulty].coolDown;
+      
+      this.currentCoolDown = this.coolDown;
+      
+      this.duration = this.difficulty[difficulty].duration;
+      console.log(this.coolDown, this.currentCoolDown)
   }
 
   load(){
-      this.circlePatterns[0] = new CirclePattern(this.drawLayer, this.playerReference, 8, 100, 400, 300, 200);
+      this.circlePatterns[0] = new CirclePattern(this.drawLayer, this.playerReference, 
+        this.difficulty[this.chosenDifficulty].projectileCount, 
+        this.difficulty[this.chosenDifficulty].projectileSpeed.min, 
+        this.difficulty[this.chosenDifficulty].projectileSpeed.max, 
+        300, 
+        this.difficulty[this.chosenDifficulty].damage);
       this.circlePatterns[0].activate();
   }
-
 
   update(delta, inputs){
       this.elapsedTime += delta;
@@ -121,10 +186,11 @@ class RainPattern extends Pattern{
       }
 
       //replace the circle pattern with a fresh one once the cooldown runs out 
-      this.currentCooldown -= delta;
+      this.currentCoolDown -= delta;
 
-      if (this.currentCooldown <= 0){
-          this.currentCooldown = this.cooldown;
+      if (this.currentCoolDown <= 0){
+          console.log('here')
+          this.currentCoolDown = this.coolDown;
 
           //destroy the second pattern if needed
           if (this.circlePatterns[1] != null){
@@ -135,7 +201,12 @@ class RainPattern extends Pattern{
           this.circlePatterns[1] = this.circlePatterns[0];
 
           //replace the first pattern
-          this.circlePatterns[0] = new CirclePattern(this.drawLayer, this.playerReference, 8, 100, 400, 300, 200);
+          this.circlePatterns[0] = new CirclePattern(this.drawLayer, this.playerReference, 
+            this.difficulty[this.chosenDifficulty].projectileCount, 
+            this.difficulty[this.chosenDifficulty].projectileSpeed.min, 
+            this.difficulty[this.chosenDifficulty].projectileSpeed.max, 
+            300, 
+            this.difficulty[this.chosenDifficulty].damage);
           this.circlePatterns[0].activate();
       }
 

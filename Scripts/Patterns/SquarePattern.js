@@ -29,10 +29,11 @@ class SquarePattern extends Pattern{
     projectiles = [];
     destroying = false;
 
-    constructor(patternDrawLayer, player, movementSpeed, minScale =0.3, maxScale = 0.5){
+    constructor(patternDrawLayer, player, movementSpeed, minScale =0.3, maxScale = 0.5, targetPoints=5){
         super(patternDrawLayer, player);
 
         //assign the parameters
+        this.targetPoints = targetPoints;
         this.movementSpeed = movementSpeed;
         this.minScale = minScale;
         this.maxScale = maxScale;
@@ -129,7 +130,7 @@ class SquarePattern extends Pattern{
                 this.phaseZeroEndTime = this.elapsedTime;
 
                 //generate target points for the next phase
-                this.targetPoints= this.generateTargetPoints(5);
+                this.targetPoints= this.generateTargetPoints(this.targetPoints);
             }
         }
 

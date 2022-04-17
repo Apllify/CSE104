@@ -34,8 +34,7 @@ class BossScene{
 
         //start with a random pattern
         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
-        this.currentPattern = new SquarePattern(this.drawLayers.activeLayer, this.playerReference, 21,
-            0.3, 1);
+        this.currentPattern = new RainPattern(this.drawLayers.activeLayer, this.playerReference, 'hard');
         this.currentPattern.activate();
 
 

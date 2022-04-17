@@ -54,7 +54,8 @@ class CirclePattern extends Pattern{
 
 
             //create the projectile at that position
-            this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, realCoords, speed, relativeCoords, undefined, this.dps));
+            this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, realCoords, 
+                speed, relativeCoords.rescale(-1), undefined, this.dps));
 
         }
     }
