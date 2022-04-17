@@ -49,28 +49,38 @@ class OutsideParam{
         this.container.x = 400 - this.playerReference.x;
         this.container.y = 300 - this.playerReference.y;
 
-        //DO NOT allow the camera to go outside of the borders
-        this.currentRoomPosition.x = this.startingRoomPosition.x - Math.floor(this.playerReference.x / 800);
-        this.currentRoomPosition.y = this.startingRoomPosition.y - Math.floor(this.playerReference.y / 600);
 
-        const canGoLeft = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x - 1] === undefined);
+
+        //DO NOT allow the camera to go outside of the borders
+        this.currentRoomPosition.x = this.startingRoomPosition.x + Math.floor(this.playerReference.x / 800);
+        this.currentRoomPosition.y = this.startingRoomPosition.y + Math.floor(this.playerReference.y / 600);
+
+        console.log("X : " + this.currentRoomPosition.x + "Y : " + this.currentRoomPosition.y);
+
+        let canGoLeft = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x - 1] === undefined);
         if (canGoLeft){
             canGoLeft = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x - 1] === 0);
         } 
 
-        
-        const canGoRight = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x + 1] === undefined)
-        || !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x + 1] === 0);
+
+        let canGoRight = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x + 1] === undefined);
+        if (canGoRight){
+            canGoRight = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x + 1] === 0);
+        }
 
 
-        const canGoUp =  !(this.mapMatrix[this.currentRoomPosition.y - 1] === undefined)
-        || !(this.mapMatrix[this.currentRoomPosition.y - 1][this.currentRoomPosition.x] === 0);
+        let canGoUp =  !(this.mapMatrix[this.currentRoomPosition.y - 1] === undefined);
+        if (canGoUp){
+            canGoUp =  !(this.mapMatrix[this.currentRoomPosition.y - 1][this.currentRoomPosition.x] === 0);
+        }
 
-        const canGoDown = !(this.mapMatrix[this.currentRoomPosition.y + 1] === undefined)
-        || !(this.mapMatrix[this.currentRoomPosition.y + 1][this.currentRoomPosition.x] === 0);
+        let canGoDown = !(this.mapMatrix[this.currentRoomPosition.y + 1] === undefined);
+        if (canGoDown){
+            canGoDown = !(this.mapMatrix[this.currentRoomPosition.y + 1][this.currentRoomPosition.x] === 0);
+        }   
 
  
-        console.log("LEFT : " + canGoLeft + " / RIGHT : " + canGoRight + "/ UP : " + canGoUp + "/ DOWN : " + canGoDown);
+        //console.log("LEFT : " + canGoLeft + " / RIGHT : " + canGoRight + "/ UP : " + canGoUp + "/ DOWN : " + canGoDown);
     }
 
     setMapMatrix(matrix){
