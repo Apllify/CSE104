@@ -237,7 +237,7 @@ class WaveSource extends Pattern{
         
 
         // create the wave and activate it.
-        let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 1, initialPhase, phaseDuration);    
+        let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 2, initialPhase, phaseDuration);    
         this.patterns.push(newWave);
         newWave.activate();
 
@@ -399,9 +399,12 @@ class SquareWithWave extends Pattern{
     }
 
     load(){
-        // initialize the SquarePattern and activeate it 
+        // initialize the SquarePattern and a WaveSource and activeate them
         this.square = new SquarePattern(this.drawLayer, this.playerReference, 70, 0.4, 0.6);
         this.square.activate();
+        this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, {x:0, y:600},
+            {x:800, y:600}, 100, 2));
+        this.waveSources[0].activate()
     }
 
     update(delta, inputs){
@@ -429,8 +432,8 @@ class SquareWithWave extends Pattern{
                 this.waveSources[i].update(delta, inputs);
             }
         }
-
         this.square.update(delta, inputs);
+        
     }
 
     createNewWaveSource(){
@@ -446,12 +449,13 @@ class SquareWithWave extends Pattern{
 
     isDone(){
         // the pattern is done when all patterns are done 
-        return this.square.isDone() && this.waveSources.length === 0;
+        return this.square.isDone() || this.waveSources.length === 0;
     }
 
     destroy(){
         this.destroying = true;
         this.square.destroy();
+        
         for (let element of this.waveSources){
             element.destroy();
         }
