@@ -26,26 +26,55 @@ class Rectangle{
     }
 
     //pixel perfect collision
-    simulateCollision(otherRec, xDirection, yDirection){
-        //otherRec is the current position of the other box
-        //otherRecX is the future position of the other box on the x axis
-        //otherRecY is the future position of the other box on the y axis
+    simulateCollision(oldRec, newRec){
+        //otherRec is the old position of the other box
+        //newRec is the current position of the other box (should collide with us)
+
+        //only proceed if there is a collision with the new rectangle
+        if (!this.isColliding(newRec)){
+            return newRec;
+        }
+
+        const xDirection = Math.sign(newRec.x - oldRec.x);
+        const yDirection = Math.sign(newRec.y - oldRec.y);
+
+        const xBound = Math.floor(Math.abs(newRec.x - oldRec.x));
+        const yBound = Math.floor(Math.abs(newRec.y - oldRec.y));
+
         let canAddX = xDirection != 0;
         let canAddY = yDirection != 0;
 
+        let xIncrement = 0;
+        let yIncrement = 0;
+
+
         while(true){
+            
+            if (xIncrement >= xBound){
+                canAddX = false;
+            } 
+            if (yIncrement >= yBound){
+                canAddY = false;
+            }
+
             if (canAddX){
-                otherRec.x += xDirection;
-                if (this.isColliding(otherRec)){
-                    otherRec.x -= xDirection;
+
+                xIncrement += 1;
+                oldRec.x += xDirection;
+
+                if (this.isColliding(oldRec)){
+                    oldRec.x -= xDirection;
                     canAddX = false;
                 }
             } 
 
             if (canAddY){
-                otherRec.y += yDirection;
-                if(this.isColliding(otherRec)){
-                    otherRec.y -= yDirection;
+
+                yIncrement += 1;
+                oldRec.y += yDirection;
+
+                if(this.isColliding(oldRec)){
+                    oldRec.y -= yDirection;
                     canAddY = false;
                 }
             }
@@ -56,7 +85,7 @@ class Rectangle{
 
         }
 
-        return otherRec;
+        return oldRec;
 
 
 

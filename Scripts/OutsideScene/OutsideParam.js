@@ -29,11 +29,18 @@ class OutsideParam{
         this.playerReference.update(delta, inputs);
 
         //check if the player went into a collision this frame to readjust him
-        const playerHitbox = this.playerReference.getHitboxRectangle();
+        let playerHitbox = this.playerReference.getHitboxRectangle();
 
         for(let rectangle of this.borderRectangles){
-            
+            if (playerHitbox.isColliding(rectangle)){
+                const oldPlayerHitbox = this.playerReference.getOldHitboxRectangle();
+                const newPlayerPosition = rectangle.simulateCollision(oldPlayerHitbox, playerHitbox);
+
+                playerHitbox = newPlayerPosition;
+            }
         }
+
+        this.playerReference.setHitboxRectangle(playerHitbox);
     }
 
     setMapMatrix(matrix){

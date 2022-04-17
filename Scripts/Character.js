@@ -49,10 +49,20 @@ class Character{
         this.healthBar = new HealthBar(drawLayers.foregroundLayer, this);
     }
 
+    getOldHitboxRectangle(){
+        return new Rectangle(this.previousX - this.collisionWidth / 2, this.previousY - this.collisionHeight / 2,
+            this.collisionWidth, this.collisionHeight);
+    }
 
     getHitboxRectangle(){
         return new Rectangle(this.x - this.collisionWidth / 2, this.y - this.collisionHeight / 2,
             this.collisionWidth, this.collisionHeight);
+    }
+
+    setHitboxRectangle(rec){
+        this.x = rec.x + this.collisionWidth / 2;
+        this.y = rec.y + this.collisionHeight / 2;
+        this.updateSpritePosition();
     }
 
     update(delta, inputs){
