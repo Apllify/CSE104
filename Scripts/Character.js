@@ -6,6 +6,9 @@ class Character{
     xVelocity = 0;
     yVelocity = 0;
 
+    previousX = 0;
+    previousY = 0;
+
     x = 0;
     y = 0;
 
@@ -43,17 +46,28 @@ class Character{
         //add the sprite to the scene
         drawLayers.activeLayer.addChild(this.sprite);
 
-        this.healthBar = new HealthBar(drawLayers.activeLayer, this);
+        this.healthBar = new HealthBar(drawLayers.foregroundLayer, this);
     }
 
 
+    getHitboxRectangle(){
+        return new Rectangle(this.x - this.collisionWidth / 2, this.y - this.collisionHeight / 2,
+            this.collisionWidth, this.collisionHeight);
+    }
+
     update(delta, inputs){
         if (this.destroying){
-            return 
+            return;
         }
+
+        //keep track of the old player position
+        this.previousX = this.x;
+        this.previousY = this.y;
+
         //update the player velocity
         this.xVelocity = 0;
         this.yVelocity = 0;
+
         // this.health = Math.max(0, this.health - 0.2);  // line to test health bar at different health values.
         this.healthBar.update();
         if (inputs.left.isDown || inputs.leftAlt.isDown){

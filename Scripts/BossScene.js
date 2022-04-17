@@ -19,6 +19,7 @@ class BossScene{
     patternsList = [];
 
 
+
     constructor(drawLayers, game){
         //create the player 
         this.game = game;
@@ -36,6 +37,7 @@ class BossScene{
         this.currentPattern = new WaveSource(this.drawLayers.activeLayer, this.playerReference, {x:400, y:0},
             {x:0, y:300}, 100, 1);
         this.currentPattern.activate();
+
 
     }
 
