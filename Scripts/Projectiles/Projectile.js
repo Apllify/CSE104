@@ -121,14 +121,13 @@ class Projectile{
         const projectileHitbox = new Rectangle(boundsRectangle.x, boundsRectangle.y, boundsRectangle.width, boundsRectangle.height);
         
         //assumes the player is already in absolute coordinates
-        const playerHitbox = new Rectangle(this.playerReference.x, this.playerReference.y, this.playerReference.collisionWidth, this.playerReference.collisionHeight); 
+        const playerHitbox = this.playerReference.getHitboxRectangle();
 
         const isCollision = projectileHitbox.isColliding(playerHitbox);
 
 
         //for now, lower the player health by a little bit when colliding
         if (isCollision){
-            console.log("colliding");
             this.playerReference.health -= this.dps * delta;
         }
 

@@ -19,6 +19,7 @@ class BossScene{
     patternsList = [];
 
 
+
     constructor(drawLayers, game){
         //create the player 
         this.game = game;
@@ -35,6 +36,7 @@ class BossScene{
         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
         this.currentPattern = new FourCornerWaves(this.drawLayers.activeLayer, this.playerReference);
         this.currentPattern.activate();
+
 
     }
 

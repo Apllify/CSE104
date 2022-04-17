@@ -25,6 +25,44 @@ class Rectangle{
 
     }
 
+    //pixel perfect collision
+    simulateCollision(otherRec, xDirection, yDirection){
+        //otherRec is the current position of the other box
+        //otherRecX is the future position of the other box on the x axis
+        //otherRecY is the future position of the other box on the y axis
+        let canAddX = xDirection != 0;
+        let canAddY = yDirection != 0;
+
+        while(true){
+            if (canAddX){
+                otherRec.x += xDirection;
+                if (this.isColliding(otherRec)){
+                    otherRec.x -= xDirection;
+                    canAddX = false;
+                }
+            } 
+
+            if (canAddY){
+                otherRec.y += yDirection;
+                if(this.isColliding(otherRec)){
+                    otherRec.y -= yDirection;
+                    canAddY = false;
+                }
+            }
+
+            if (!canAddX && !canAddY){
+                break;
+            }
+
+        }
+
+        return otherRec;
+
+
+
+
+    }
+
     //generate a graphics object for displaying this shape
     getGraphics(hue){
         const graphics = new PIXI.Graphics();
