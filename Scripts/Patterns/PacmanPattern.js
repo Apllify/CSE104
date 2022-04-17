@@ -75,8 +75,8 @@ class PacmanPattern extends Pattern{
             if (telegraph != null){
                 if (telegraph.isDone()){
                     //get direction vector to the player
-                    const directionVector = {x : this.playerReference.x - telegraph.x, y:this.playerReference.y - telegraph.y};
-                    const positionVector = {x : telegraph.x, y: telegraph.y};
+                    const directionVector = new Vector(this.playerReference.x - telegraph.x, this.playerReference.y - telegraph.y);
+                    const positionVector = new Vector(telegraph.x, telegraph.y);
     
                     this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, positionVector, this.shotSpeed, directionVector, undefined, 100));
     

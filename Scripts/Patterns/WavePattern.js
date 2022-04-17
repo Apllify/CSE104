@@ -39,12 +39,12 @@ class WavePattern extends Pattern{
         this.duration = duration;
         this.currentPhaseTimer = phaseOffset;
         
-        this.playerCoords = {x: this.playerReference.x, y: this.playerReference.y};
+        this.playerCoords = new Vector(this.playerReference.x, this.playerReference.y);
         this.waveSpeed = waveSpeed;
         
 
-        this.mainVect = {x: endPoint.x - startPoint.x, y: endPoint.y - startPoint.y};
-        this.lineLen = this.getDist(startPoint, endPoint);
+        this.mainVect = new Vector(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+        this.lineLen = this.mainVect.getNorm();
         
         
         this.k = Math.PI * this.n / this.lineLen;
@@ -52,19 +52,18 @@ class WavePattern extends Pattern{
 
 
         // shiftVect allows us the generate the next point given the current one.
-        this.shiftVect = this.rescaleVect(this.mainVect, 1 / (4 * this.n));
-        let v = this.shiftVect;
-        this.shiftLen = Math.sqrt(v.x*v.x + v.y *v.y);
+        this.shiftVect = this.mainVect.rescale(1 / (4 * this.n));
+        this.shiftLen = this.shiftVect.getNorm();
 
         // fill pointCoords list using shiftVect
         this.pointCoords.push(startPoint);
         for (let i=1; i < 4 * this.n; i++){
-            this.pointCoords.push(this.addVects(this.pointCoords[i - 1], this.shiftVect));
+            this.pointCoords.push(this.pointCoords[i - 1].add(this.shiftVect));
         }
         this.pointCoords.push(endPoint);
 
         // A normal unit vector to mainVect
-        this.generalDirection = this.rescaleVect(this.normalizeVector({x: -1 * this.mainVect.y, y: this.mainVect.x}), this.phase);
+        this.generalDirection = this.mainVect.getNormalVect().normalize().rescale(this.phase);
         
     }
 
@@ -80,39 +79,6 @@ class WavePattern extends Pattern{
         }
     }
 
-    // A few methods to help handle vector algebra
-    getDist(v1, v2){
-        // computes the distance between two points.
-        return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2));
-    }
-
-    addVects(v1, v2){
-        // computes the sum of two vectors
-        return {x:v1.x + v2.x, y:v1.y + v2.y}
-    }   
-
-    rescaleVect(v, s){
-        // performs scalar multiplication on a vector 
-        return {x: s * v.x, y: s * v.y};
-    }
-
-    normalizeVector(v){
-        //reduces the vector such that the total norm is 1
-        const norm = Math.sqrt(v.x*v.x + v.y *v.y);
-
-        let newX = 0;
-        let newY = 0;
-
-        if (norm != 0){
-             newX = v.x / norm;
-             newY = v.y / norm;
-        }
-
-
-
-        return {x : newX, y:newY};
-    }
-
     update(delta, inputs){
         
         if (this.destroying){
@@ -125,7 +91,7 @@ class WavePattern extends Pattern{
 
         if (this.currentPhaseTimer >= this.phaseDuration){
             // flip the normal direction and the phase 
-            this.generalDirection = this.rescaleVect(this.generalDirection, -1);
+            this.generalDirection = this.generalDirection.rescale(-1);
             this.phase *= -1;
             this.currentPhaseTimer = 0;
         }

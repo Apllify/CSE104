@@ -59,35 +59,35 @@ class SquarePattern extends Pattern{
 
     load(){
         //create the corner projectiles
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x:-440, y:-340}, 0, {x:0, y:0}, {x:80,y:80}));
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x:440, y:-340}, 0, {x:0, y:0}, {x:80,y:80}));
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x:-440, y:340}, 0, {x:0, y:0}, {x:80,y:80}));
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x:440, y:340}, 0, {x:0, y:0}, {x:80,y:80}));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -340), 0, new Vector(0, 0), {x:80,y:80}));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, -340), 0, new Vector(0, 0), {x:80,y:80}));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, 340), 0, new Vector(0, 0), {x:80,y:80}));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, 340), 0, new Vector(0, 0), {x:80,y:80}));
 
         let currentProjectile = null;
 
         //create top line of projectiles
         for(let x = 320 / 9 + 30; x< 800; x+= 320/9 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x:-400 + x, y:-340}, 0, {x:0,y:0}, {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-400 + x, -340), 0, new Vector(0, 0), {x:60, y:60} ));
 
         } 
 
         //create bottom line of projectiles
         for(let x = 320 / 9 + 30; x< 800; x+= 320/9 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x:-400+ x, y:340}, 0, {x:0,y:0}, {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-400+ x, 340), 0, new Vector(0, 0), {x:60, y:60} ));
 
         }
 
         //create left line of projectiles
         for(let y = 300 / 6 + 30; y < 600; y+=300 / 6 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x: -440, y:-300+y}, 0, {x:0,y:0}, {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -300), 0, new Vector(0, 0), {x:60, y:60} ));
 
         }
 
 
         //create right line of projectiles
         for(let y = 300 / 6 + 30 ; y < 600; y+=300 / 6 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, {x: 440, y:-300 + y}, 0, {x:0,y:0}, {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, -300 + y), 0, new Vector(0, 0), {x:60, y:60} ));
         }
 
 
@@ -144,10 +144,10 @@ class SquarePattern extends Pattern{
 
             //get the vector to the destination vector
             let currentTargetPoint = this.targetPoints[this.currentTargetIndex];
-            let directionVector = {x : currentTargetPoint.x - this.projectileContainer.x, y : currentTargetPoint.y - this.projectileContainer.y};
+            let directionVector = new Vector(currentTargetPoint.x - this.projectileContainer.x, currentTargetPoint.y - this.projectileContainer.y);
             
             //if vector is big, normalize, if vector is small, move to next target point
-            let norm = Math.sqrt(Math.pow(directionVector.x, 2) + Math.pow(directionVector.y, 2));
+            let norm = directionVector.getNorm();
 
             if (norm <= this.movementEpsilon){
                 if (this.currentTargetIndex == this.targetPoints.length-1){
@@ -158,8 +158,7 @@ class SquarePattern extends Pattern{
                 }
             }
             else if (norm != 0){
-                directionVector.x = directionVector.x / norm;
-                directionVector.y = directionVector.y / norm;
+                directionVector = directionVector.normalize();
             }
 
             //make a movement in that direction
