@@ -8,7 +8,8 @@ class SquareCirclePattern extends Pattern{
           maxScale: 0.8,
           projectileCount: 4,
           projectileDamage: 20,
-          targetPoints:8
+          targetPoints:8,
+          projectileDimensions: {x:10, y:10}
       },
 
       'medium':{
@@ -17,7 +18,8 @@ class SquareCirclePattern extends Pattern{
           maxScale: 0.6,
           projectileCount: 5,
           projectileDamage: 30,
-          targetPoints:10
+          targetPoints:10,
+          projectileDimensions: {x:13, y:13}
       },
 
       'hard':{
@@ -26,7 +28,8 @@ class SquareCirclePattern extends Pattern{
           maxScale: 0.5,
           projectileCount: 5,
           projectileDamage: 40,
-          targetPoints:12
+          targetPoints:12,
+          projectileDimensions: {x:16, y:16},
 
       }
   }
@@ -77,7 +80,8 @@ class SquareCirclePattern extends Pattern{
             this.difficulty[this.chosenDifficulty].projectileCount, 
             this.difficulty[this.chosenDifficulty].projectileSpeed.min, 
             this.difficulty[this.chosenDifficulty].projectileSpeed.max, 200,
-            this.difficulty[this.chosenDifficulty].projectileDamage);
+            this.difficulty[this.chosenDifficulty].projectileDamage,
+            this.difficulty[this.chosenDifficulty].projectileDimensions);
           this.circlePattern.activate();
       }
 
@@ -122,6 +126,7 @@ class RainPattern extends Pattern{
             coolDown: 4,    
             duration: 10,
             damage: 70,
+            projectileDimensions: {x:10, y:10}
         },
         'medium':{
             projectileCount: 6,
@@ -129,13 +134,15 @@ class RainPattern extends Pattern{
             coolDown: 2.5,
             duration: 15,
             damage: 150,
+            projectileDimensions: {x:12, y:12}
         },
         'hard':{
-            projectileCount: 6,
+            projectileCount: 7,
             projectileSpeed: {min:200, max:500},
-            coolDown:2,
+            coolDown:1.5,
             duration: 20,
             damage: 250,
+            projectileDimensions: {x:14, y:14}
         }
     }
 
@@ -163,7 +170,8 @@ class RainPattern extends Pattern{
         this.difficulty[this.chosenDifficulty].projectileSpeed.min, 
         this.difficulty[this.chosenDifficulty].projectileSpeed.max, 
         300, 
-        this.difficulty[this.chosenDifficulty].damage);
+        this.difficulty[this.chosenDifficulty].damage,
+        this.difficulty[this.chosenDifficulty].projectileDimensions);
       this.circlePatterns[0].activate();
   }
 
@@ -206,7 +214,8 @@ class RainPattern extends Pattern{
             this.difficulty[this.chosenDifficulty].projectileSpeed.min, 
             this.difficulty[this.chosenDifficulty].projectileSpeed.max, 
             300, 
-            this.difficulty[this.chosenDifficulty].damage);
+            this.difficulty[this.chosenDifficulty].damage,
+            this.difficulty[this.chosenDifficulty].projectileDimensions);
           this.circlePatterns[0].activate();
       }
 
@@ -231,137 +240,42 @@ class RainPattern extends Pattern{
     }
 }
 
-class WaveSource extends Pattern{
-
-    destroying = false;
-    // time between successive wave releases.
-    cooldown = 5;
-    // list of active patterns 
-    patterns = [];
-
-    wavesReleased = 0;
-    constructor(drawLayer, player, startPoint, endPoint, waveSpeed, waveCount, phaseDuration = null){
-        // initialize necessary variables
-        super(drawLayer, player);
-
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
-
-        this.waveCount = waveCount;
-        this.waveSpeed = waveSpeed;
-        this.phaseDuration = phaseDuration;
-    }
-
-    load(){
-        // initialize the first wave
-        this.createNewWave();
-        
-    }
-
-    getWavePhaseDuration(startToPlayerVect, waveLineVect){
-        // get the  wave phase duration according to the relative positions of the startPoint, endPoint
-        // and the player. We try to get a phase duration so that the player's current position is the
-        // center of the normal oscillation of the wave. Note that the player can nullify the wave by
-        // getting close to its place of generation (the wave will not move much in the normal direction).
-
-
-        // get the norms
-        let a = startToPlayerVect.getNorm();
-        let b = waveLineVect.getNorm();
-        // project the first vector onto the second one.
-        let projection = startToPlayerVect.dotProduct(waveLineVect) / b;
-        
-        // determine the normal distance between the player and the wave
-        let distance = Math.sqrt(a ** 2 - projection ** 2);
-        
-        // set the phase duration so that the wave oscillates normally about the player's current position.
-        return 2 * distance / this.waveSpeed;
-
-    }
-
-    createNewWave(){
-        // get these vectors to calculate the initial phase and phaseDuration
-        let v1 = new Vector(this.playerReference.x - this.startPoint.x, this.playerReference.y - this.startPoint.y);
-        let v2 = new Vector(this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);
-
-        // we want the wave to start moving towards the player as soon as it is created
-        let initialPhase = -1 * Math.sign(v1.crossProdScalar(v2)); 
-
-        // phase has to be plus or minus one.
-        if (initialPhase === 0){
-            initialPhase = 1;
-        }
-
-        // get the phase duration based on the provided value. If there is no provided value,
-        // get it based on the player's position
-        let phaseDuration = null;
-        if (this.phaseDuration === null){
-            phaseDuration = this.getWavePhaseDuration(v1, v2);
-        }
-        else{
-            phaseDuration = this.phaseDuration;
-        }
-        
-
-        // create the wave and activate it.
-        let newWave = new WavePattern(this.drawLayer, this.playerReference, 40, this.waveSpeed, 50, this.startPoint, this.endPoint, 2, initialPhase, phaseDuration);    
-        this.patterns.push(newWave);
-        newWave.activate();
-
-        this.wavesReleased += 1;
-    }
-
-    update(delta, inputs){
-        if (this.destroying){
-            return 
-        }
-        
-        this.cooldown -= delta;
-
-        if (this.cooldown <= 0 && this.waveCount > this.wavesReleased){
-            this.createNewWave()
-            this.cooldown = 5;
-        }
-
-        for (let i = 0; i < this.patterns.length; i++){
-
-            // remove finished wavepatterns and upadate the ongoing ones.
-            if (this.patterns[i].isDone()){
-                this.patterns[i].destroy();
-                this.patterns.splice(i, 1);
-                i -= 1
-            }
-
-            else{
-                this.patterns[i].update(delta, inputs);
-            }
-        }
-
-
-    }
-
-
-    isDone(){
-        // The pattern is done when all waves are done. 
-        return this.patterns.length === 0;
-    }
-
-    destroy(){
-        this.destroying = true;
-
-        // if there are active patterns (if we are destroying before the end of the pattern)
-        for (let element of this.patterns){
-            element.destroy();
-        }
-
-        delete this;
-    }
-
-
-}
 
 
 class FourCornerWaves extends Pattern{
+
+
+    difficulty = {
+        'easy':{
+            waveSpeed: 200, 
+            waveDuration: 30,
+            projectileDamage: 60, 
+            waveCount:[2, 2, 2, 2],
+            fixedPts:1,
+            nonFixedPts:1,
+            projectileDimensions:{x:10, y:10},
+        },
+
+        'medium':{
+            waveSpeed: 250,
+            waveDuration: 30,
+            projectileDamage: 70,
+            waveCount: [1, 2, 1, 2],
+            fixedPts: 1,
+            nonFixedPts: 2,
+            projectileDimensions: {x:7, y:7}
+        },
+
+        'hard':{
+            waveSpeed:310,
+            waveDuration:35,
+            projectileDamage:80,
+            waveCount:[1, 2, 1, 2],
+            fixedPts:1,
+            nonFixedPts:2,
+            projectileDimensions: {x:8, y:8}
+        }
+    }
     // places WaveSources centered on each of the four corners of the screen
     destroying = false;
     // the wavesources are created 1 second after the previous one
@@ -379,8 +293,9 @@ class FourCornerWaves extends Pattern{
     currentStartPoint = 0;
 
 
-    constructor (drawLayer, player){
-        super(drawLayer, player)
+    constructor (drawLayer, player, difficulty){
+        super(drawLayer, player);
+        this.chosenDifficulty = difficulty;
     }
 
     createNewWaveSource(){
@@ -388,7 +303,13 @@ class FourCornerWaves extends Pattern{
         let newWaveSource = new WaveSource(this.drawLayer, this.playerReference, 
             this.cornerPoints[this.currentStartPoint], 
             this.cornerPoints[(this.currentStartPoint + 1) % 4], 
-            600, 4);
+            50, this.difficulty[this.chosenDifficulty].waveSpeed, 
+            this.difficulty[this.chosenDifficulty].waveCount[(this.currentStartPoint + 1) % 4], 
+            this.difficulty[this.chosenDifficulty].waveDuration, 
+            this.difficulty[this.chosenDifficulty].fixedPts, 
+            this.difficulty[this.chosenDifficulty].nonFixedPts, 
+            this.difficulty[this.chosenDifficulty].projectileDimensions, 
+            this.difficulty[this.chosenDifficulty].projectileDamage);
         
         this.cornerWaveSources.push(newWaveSource);
         newWaveSource.activate();
