@@ -32,5 +32,7 @@ class Vector{
         }
         return this.rescale(1/norm);
     }
+
+    
     
 }

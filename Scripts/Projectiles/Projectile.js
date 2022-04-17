@@ -18,7 +18,7 @@ class Projectile{
     dps = 30; 
 
     //the default direction
-    direction = {x : 1, y:0};
+    direction = new Vector(1, 0);
 
     //every projectile needs an explicit reference to the player 
     playerReference = null;
@@ -46,7 +46,7 @@ class Projectile{
 
 
         //automatically normalizes the direction vector just in case
-        this.direction = this.normalizeVector(directionVector);
+        this.direction = directionVector.normalize();
 
         //create and add display graphics 
         this.displayGraphic = new PIXI.Graphics();
@@ -62,23 +62,6 @@ class Projectile{
         this.displayGraphic.pivot.x = this.x;
         this.displayGraphic.pivot.y = this.y;
         this.displayGraphic.rotation = Math.acos(this.direction.x);
-    }
-
-    normalizeVector(v){
-        //reduces the vector such that the total norm is 1
-        const norm = Math.sqrt(v.x*v.x + v.y *v.y);
-
-        let newX = 0;
-        let newY = 0;
-
-        if (norm != 0){
-             newX = v.x / norm;
-             newY = v.y / norm;
-        }
-
-
-
-        return {x : newX, y:newY};
     }
 
 
