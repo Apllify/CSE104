@@ -26,7 +26,10 @@ class Character{
     hit = true;
     destroying = false;
 
-    constructor(drawLayers, startingCoords = {x:0, y:0}, ){
+    drawLayer = null;
+    drawLayers = null;
+
+    constructor(drawLayers, startingCoords = {x:0, y:0}, drawLayer = null ){
         //instantiate the player sprite
         const shieldTexture = PIXI.Texture.from("Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
@@ -43,8 +46,17 @@ class Character{
         this.sprite.scale.x = 2.0;
         this.sprite.scale.y = 2.0;
 
+        //save the draw layers
+        this.drawLayer = drawLayer;
+        this.drawLayers= drawLayers;
+
         //add the sprite to the scene
-        drawLayers.activeLayer.addChild(this.sprite);
+        if (this.drawLayer == null){
+            this.drawLayers.activeLayer.addChild(this.sprite);
+        }
+        else{
+            this.drawLayer.addChild(this.sprite);
+        }
 
         this.healthBar = new HealthBar(drawLayers.foregroundLayer, this);
     }

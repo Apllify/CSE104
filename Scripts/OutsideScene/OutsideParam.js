@@ -4,6 +4,7 @@ class OutsideParam{
     //every room is 800x600 px to take up the entire screen
     mapMatrix = null;
     startingRoomPosition = {x:0, y:0};
+    currentRoomPosition = {x:0, y:0};
     borderRectangles = [];
 
     //container for camera behavior
@@ -19,9 +20,10 @@ class OutsideParam{
 
         this.drawLayers = drawLayers;
         this.container = new PIXI.Container();
+        this.drawLayers.activeLayer.addChild(this.container);
 
         //start the player off at the middle of the room
-        this.playerReference = new Character(this.drawLayers, {x:400, y:300});
+        this.playerReference = new Character(this.drawLayers, {x:400, y:300}, this.container);
     }
 
     update(delta, inputs){
@@ -41,6 +43,34 @@ class OutsideParam{
         }
 
         this.playerReference.setHitboxRectangle(playerHitbox);
+
+
+        //update the camera with the correct position to account for player movements
+        this.container.x = 400 - this.playerReference.x;
+        this.container.y = 300 - this.playerReference.y;
+
+        //DO NOT allow the camera to go outside of the borders
+        this.currentRoomPosition.x = this.startingRoomPosition.x - Math.floor(this.playerReference.x / 800);
+        this.currentRoomPosition.y = this.startingRoomPosition.y - Math.floor(this.playerReference.y / 600);
+
+        const canGoLeft = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x - 1] === undefined);
+        if (canGoLeft){
+            canGoLeft = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x - 1] === 0);
+        } 
+
+        
+        const canGoRight = !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x + 1] === undefined)
+        || !(this.mapMatrix[this.currentRoomPosition.y][this.currentRoomPosition.x + 1] === 0);
+
+
+        const canGoUp =  !(this.mapMatrix[this.currentRoomPosition.y - 1] === undefined)
+        || !(this.mapMatrix[this.currentRoomPosition.y - 1][this.currentRoomPosition.x] === 0);
+
+        const canGoDown = !(this.mapMatrix[this.currentRoomPosition.y + 1] === undefined)
+        || !(this.mapMatrix[this.currentRoomPosition.y + 1][this.currentRoomPosition.x] === 0);
+
+ 
+        console.log("LEFT : " + canGoLeft + " / RIGHT : " + canGoRight + "/ UP : " + canGoUp + "/ DOWN : " + canGoDown);
     }
 
     setMapMatrix(matrix){
@@ -113,7 +143,7 @@ class OutsideParam{
 
         //display the bounding rectangles for debug purposes
         for(let rectangle of this.borderRectangles){
-            this.drawLayers.activeLayer.addChild(rectangle.getGraphics(0xFF0000));
+            this.container.addChild(rectangle.getGraphics(0xFF0000));
         }
 
 
