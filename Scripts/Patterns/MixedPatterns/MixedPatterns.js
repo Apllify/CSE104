@@ -296,10 +296,10 @@ class WaveSource extends Pattern{
 
 class FourCornerWaves extends Pattern{
     // places WaveSources centered on each of the four corners of the screen
-
     destroying = false;
     // the wavesources are created 1 second after the previous one
     offset = 1;
+
 
     // List to store the active WaveSources.
     cornerWaveSources = [];
@@ -321,7 +321,7 @@ class FourCornerWaves extends Pattern{
         let newWaveSource = new WaveSource(this.drawLayer, this.playerReference, 
             this.cornerPoints[this.currentStartPoint], 
             this.cornerPoints[(this.currentStartPoint + 1) % 4], 
-            150, 4);
+            600, 4);
         
         this.cornerWaveSources.push(newWaveSource);
         newWaveSource.activate();

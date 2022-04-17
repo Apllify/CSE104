@@ -33,8 +33,7 @@ class BossScene{
 
         //start with a random pattern
         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
-        this.currentPattern = new WaveSource(this.drawLayers.activeLayer, this.playerReference, {x:-400, y:300},
-            {x:400, y:-300}, 150, 3);
+        this.currentPattern = new FourCornerWaves(this.drawLayers.activeLayer, this.playerReference);
         this.currentPattern.activate();
 
     }
