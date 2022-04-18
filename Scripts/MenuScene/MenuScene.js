@@ -12,6 +12,10 @@ class MenuScene{
     startFontStyle = null;
     menuFontStyle = null;
 
+
+
+    
+
     // these variables allow us to make sure that a button press that spans multiple frames isn't
     // considered as several different button presses in the manuScene.
 
@@ -27,6 +31,9 @@ class MenuScene{
         this.backgroundGraphics.drawRect(0, 0, 800, 600);
 
         drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
+        PIXI.sound.add('flip', '././Sound/flip_menu.wav');
+        PIXI.sound.add('exit', '././Sound/exit_joke.wav');
+        PIXI.sound.add('play', '././Sound/hit_play.wav');
 
         //setup the menu font style
         this.startFontStyle = new PIXI.TextStyle({
@@ -143,7 +150,7 @@ class MenuScene{
         if (inputs.down.isJustDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
-
+            PIXI.sound.play('flip')
             this.currentInputPrompt += 1;
 
             if (this.currentInputPrompt > this.inputPrompts.length-  1){
@@ -156,7 +163,7 @@ class MenuScene{
         if (inputs.up.isJustDown || inputs.upAlt.isJustDown){
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
-
+            PIXI.sound.play('flip');
             this.currentInputPrompt -= 1;
 
             if (this.currentInputPrompt < 0){
@@ -170,9 +177,11 @@ class MenuScene{
         if (inputs.enter.isJustDown){     // handles input prompt selections. If "PLAY", we create a
             // boss scene; if "EXIT", we close the window.
             if (this.currentInputPrompt === 0){
+                PIXI.sound.play('play')
                 mainGame.changeScene(new BossScene(drawLayers, this.game));
             }
             else{
+                PIXI.sound.play('exit');
                 this.exitJoke.initiate();
             }
             

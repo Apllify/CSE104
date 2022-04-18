@@ -31,6 +31,16 @@ class SquareCirclePattern extends Pattern{
           targetPoints:12,
           projectileDimensions: {x:16, y:16},
 
+      },
+
+      'ultraHard':{
+          projectileSpeed: {min:250, max: 400},
+          minScale: 0.3,
+          maxScale: 0.4,
+          projectileCount: 5,
+          projectileDamage: 55,
+          targetPoints: 15,
+          projectileDimensions: {x: 12, y: 12}
       }
   }
   destroying = false;
@@ -143,6 +153,15 @@ class RainPattern extends Pattern{
             duration: 20,
             damage: 250,
             projectileDimensions: {x:14, y:14}
+        },
+
+        'ultraHard':{
+            projectileCount:7,
+            projectileSpeed: {min:250, max:550},
+            coolDown: 1.2,
+            duration: 30,
+            damage: 250,
+            projectileDimensions: {x:15, y:15}
         }
 
     }
@@ -275,6 +294,16 @@ class FourCornerWaves extends Pattern{
             fixedPts:1,
             nonFixedPts:2,
             projectileDimensions: {x:8, y:8}
+        },
+
+        'ultraHard':{
+            waveSpeed: 325,
+            waveDuration: 40,
+            projectileDamage: 85,
+            waveCount:[2,1,2,1],
+            fixedPts: 2,
+            nonFixedPts: 2,
+            projectileDimensions: {x:4.5, y:4.5}
         }
     }
     // places WaveSources centered on each of the four corners of the screen
@@ -403,13 +432,27 @@ class SquareWithWave extends Pattern{
             minScale: 0.4,
             maxScale: 0.5,
             waveDuration: 40,
-            targetPoints: 8,
+            targetPoints: 10,
             projectileDamage: 80,
             projectileDimensions: {x:8, y:8},
             fixedPts: 1,
             nonFixedPts: 1,
             waveCount: [0, 1, 1, 0],
             bottomWave: true,
+        },
+        
+        'ultraHard':{
+            waveSpeed: 250,
+            minScale: 0.3,
+            maxScale: 0.4,
+            waveDuration: 40,
+            targetPoints: 11,
+            projectileDamage: 80,
+            projectilDimensions: {x:8, y:8},
+            fixedPts: 1,
+            nonFixedPts: 1,
+            waveCount: [1,1,1,1],
+            bottomWave:true
         }
     }
 

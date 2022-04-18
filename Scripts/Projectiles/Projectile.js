@@ -62,6 +62,8 @@ class Projectile{
         this.displayGraphic.pivot.x = this.x;
         this.displayGraphic.pivot.y = this.y;
         this.displayGraphic.rotation = Math.acos(this.direction.x);
+
+        PIXI.sound.add('hit','././Sound/projectile_hit.wav');
     }
 
 
@@ -112,6 +114,7 @@ class Projectile{
         //for now, lower the player health by a little bit when colliding
         if (isCollision){
             this.playerReference.health -= this.dps * delta;
+            PIXI.sound.play('hit');
         }
 
     }
