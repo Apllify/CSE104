@@ -19,7 +19,8 @@ class PacmanPattern extends Pattern{
     destroying = false;
 
 
-    constructor(patternDrawLayer, player, patternDuration, attackCooldown, shotSpeed){
+    constructor(patternDrawLayer, player, patternDuration, attackCooldown, shotSpeed, 
+        projectileDimensions = {x:16, y:16}, projectileDamage = 100){
         //calling superclass constructor
         super(patternDrawLayer, player);
 
@@ -28,6 +29,8 @@ class PacmanPattern extends Pattern{
         this.attackCooldown = attackCooldown;
         this.currentAttackCooldown = attackCooldown;
         this.shotSpeed = shotSpeed;
+        this.projectileDimensions = projectileDimensions;
+        this.projectileDamage = projectileDamage;
     }
 
     update(delta, inputs){
