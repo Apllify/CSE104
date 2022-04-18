@@ -28,6 +28,7 @@ class CirclePattern extends Pattern{
     load(){
         PIXI.sound.add('circle', '././Sound/circle_init.wav');
         PIXI.sound.play('circle');
+        
         let currentAngle = 0;
 
         let relativeX = 0;

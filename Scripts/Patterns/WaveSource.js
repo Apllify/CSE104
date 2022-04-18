@@ -4,6 +4,7 @@ class WaveSource extends Pattern{
     destroying = false;
     // time between successive wave releases.
     cooldown = 5;
+    cooldownTimer = 0;
     // list of active patterns 
     patterns = [];
 
@@ -13,7 +14,7 @@ class WaveSource extends Pattern{
 
     wavesReleased = 0;
     constructor(drawLayer, player, startPoint, endPoint, waveAmplitude, waveSpeed, waveCount, 
-        waveDuration, fixedPts, nonFixedPts, projectileDimensions, projectileDamage, phaseDuration = null){
+        waveDuration, fixedPts, nonFixedPts, projectileDimensions, projectileDamage, cooldown = 5, phaseDuration = null){
        
         // initialize necessary variables
         super(drawLayer, player);
@@ -23,6 +24,7 @@ class WaveSource extends Pattern{
 
         this.waveCount = waveCount;
         this.waveSpeed = waveSpeed;
+        this.cooldown = cooldown;
         
         this.phaseDuration = phaseDuration;
         this.waveDuration = waveDuration;
@@ -119,12 +121,12 @@ class WaveSource extends Pattern{
             return 
         }
         
-        this.cooldown -= delta;
+        this.cooldownTimer += delta;
 
-        if (this.cooldown <= 0 && this.waveCount > this.wavesReleased){
+        if (this.cooldownTimer >= this.cooldown && this.waveCount > this.wavesReleased){
             this.createNewWave();
 
-            this.cooldown = 5;
+            this.cooldownTimer = 0;
         }
 
         for (let i = 0; i < this.patterns.length; i++){

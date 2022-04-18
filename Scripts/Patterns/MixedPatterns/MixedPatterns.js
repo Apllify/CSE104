@@ -574,3 +574,142 @@ class SquareWithWave extends Pattern{
         delete this 
     }
 }
+
+
+class PacmanWithWave extends Pattern{
+
+     // parameters based on difficulty chosen
+    difficulty = {
+        'easy':{
+            duration: 40,
+            pacmanCooldown: 2,
+            shotSpeed: 100,
+            waveSpeed: 150,
+            fixedPts: 1,
+            nonFixedPts: 1,
+            projectileDimensions: {x: 12, y: 12},
+            projectileDamage: 50,
+            waveCoolDown: 5
+
+        },
+
+        'medium':{
+            duration: 40,
+            pacmanCooldown: 2,
+            shotSpeed: 150,
+            waveSpeed: 200,
+            fixedPts: 1,
+            nonFixedPts: 1,
+            projectileDimensions: {x: 14, y: 14},
+            projectileDamage: 50,
+            waveCoolDown: 5
+        },
+
+        'hard':{
+            duration: 50,
+            pacmanCooldown: 1.5,
+            shotSpeed: 250,
+            waveSpeed: 290,
+            fixedPts: 1,
+            nonFixedPts: 1,
+            projectileDimensions: {x: 8, y: 8},
+            projectileDamage: 80,
+            waveCoolDown: 3
+        },
+
+        'ultraHard':{
+            duration: 50,
+            pacmanCooldown: 1,
+            shotSpeed: 250,
+            waveSpeed: 300,
+            fixedPts: 1,
+            nonFixedPts: 1,
+            projectileDimensions: {x: 10, y: 10},
+            projectileDamage: 80,
+            waveCoolDown: 3
+        }
+    }
+
+    // time between wavesource creation
+    cooldown = 2;
+
+    destroying = false;
+
+    pacmanPattern = null;
+
+    waveSources = [];
+    // sources placed at the bottom 
+    sourceCoords = [new Vector(0, 600), new Vector(400, 600), new Vector(800, 600)];
+    currentStartIndex = 0;
+
+    constructor(drawLayer, player, difficulty){
+        super(drawLayer, player);
+        this.chosenDifficulty = difficulty;
+    }
+
+    load(){
+        this.pacmanPattern = new PacmanPattern(this.drawLayer, this.playerReference, 
+            this.difficulty[this.chosenDifficulty].duration,
+            this.difficulty[this.chosenDifficulty].pacmanCooldown,
+            this.difficulty[this.chosenDifficulty].shotSpeed, {x: 16, y:16}, 
+            this.difficulty[this.chosenDifficulty].projectileDamage * 2);
+    }
+
+    createNewWaveSource(){
+        let newWaveSource = new WaveSource(this.drawLayer, this.playerReference,
+            this.sourceCoords[this.currentStartIndex], this.sourceCoords[this.currentStartIndex + 1], 50,
+            this.difficulty[this.chosenDifficulty].waveSpeed, 
+            1, 5, 
+            this.difficulty[this.chosenDifficulty].fixedPts, 
+            this.difficulty[this.chosenDifficulty].nonFixedPts, 
+            this.difficulty[this.chosenDifficulty].projectileDimensions,
+            this.difficulty[this.chosenDifficulty].projectileDamage,
+            this.difficulty[this.chosenDifficulty].waveCoolDown);
+        
+        this.waveSources.push(newWaveSource);
+        newWaveSource.activate();
+        
+        this.currentStartIndex = 1 - this.currentStartIndex;
+        
+    }
+
+    update(delta, inputs){
+        this.cooldown -= delta;
+        if (this.destroying){
+            return;
+        }
+
+        if (this.cooldown <= 0){
+            this.createNewWaveSource();
+            this.cooldown = 2;
+        }
+        
+        this.pacmanPattern.update(delta, inputs);
+
+        for (let i = 0; i < this.waveSources.length; i++){
+            if (this.waveSources[i].isDone()){
+                
+                this.waveSources[i].destroy();
+                this.waveSources.splice(i, 1);
+            }
+
+            else{
+                this.waveSources[i].update(delta, inputs);
+            }
+        }
+    }
+
+    isDone(){
+        return this.pacmanPattern.isDone();
+    }
+
+    destroy(){
+        this.destroying = true;
+        this.pacmanPattern.destroy();
+        
+        for (let element of this.waveSources){
+            element.destroy();
+        }
+        delete this;
+    }
+}
