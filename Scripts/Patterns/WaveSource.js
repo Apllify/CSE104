@@ -108,7 +108,10 @@ class WaveSource extends Pattern{
             this.fixedPts, initialPhase, phaseDuration,
             this.projectileDamage, this.projectileDimensions,
             this.nonFixedPts);    
-        this.currentShiftRescaleIndex = (this.currentShiftRescaleIndex + 1) % 3;
+        
+        
+        this.currentShiftRescaleIndex += 1;
+        
 
         this.patterns.push(newWave);
         newWave.activate();
