@@ -37,7 +37,7 @@ class MenuScene{
 
         //setup the menu font style
         this.startFontStyle = new PIXI.TextStyle({
-            fontFamily : "Arial",
+            fontFamily : "BrokenConsole",
             fontSize : 100,
             fontWeight : "bold",
             fill : "#ffffff",
@@ -48,7 +48,7 @@ class MenuScene{
         );
 
         this.menuFontStyle = new PIXI.TextStyle({
-            fontFamily : "Arial",
+            fontFamily : "BrokenConsole",
             fontSize : 36,
             fontWeight : "bold",
             fill : "#ffffff",
@@ -56,7 +56,7 @@ class MenuScene{
         });
 
         this.exitFontStyle = new PIXI.TextStyle({
-            fontFamily : "Arial",
+            fontFamily : "BrokenConsole",
             fontSize : 36,
             fontWeight : "bold",
             fill : "#ff0000",

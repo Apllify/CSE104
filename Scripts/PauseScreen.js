@@ -69,7 +69,7 @@ class PauseScreen{
 
         //make white font style for black text background
         this.fontStyle = new PIXI.TextStyle({
-            fontFamily : "Arial",
+            fontFamily : "BrokenConsole",
             fontSize : 36,
             fontWeight : "bold",
             fill : "#ffffff",
@@ -77,7 +77,7 @@ class PauseScreen{
         });
 
         this.titleFont = new PIXI.TextStyle({
-            fontFamily: "Arial",
+            fontFamily: "BrokenConsole",
             fontSize: 100, 
             fontWeight: "bold",
             fill:"#ff0000",
@@ -85,7 +85,6 @@ class PauseScreen{
         });
 
         if (this.title != null){
-            console.log('here');
             this.title = new TextDisplay(drawLayers.foregroundLayer, this.title, {x:380, y:300}, this.titleFont);
             this.title.centerHorizontallyAt(400);
             this.title.centerVerticallyAt(100);

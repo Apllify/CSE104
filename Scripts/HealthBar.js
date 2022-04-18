@@ -10,23 +10,36 @@ class HealthBar{    // Health Bar class whose instance can be attached to a char
     hex = 0x00ff00;
     destroying = false;
 
+    healthBarTextStyle = null;
+
 
 
     constructor(drawLayer, player, right=false){    // we take the drawing layer and calling character as arguments.
 
+        //set up the text style for the player name
+        this.healthBarTextStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 36,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
 
+
+        //set the instance variables
         this.right = right;
         this.drawLayer = drawLayer;
         this.playerReference = player;
-        this.nameTag = new TextDisplay(drawLayer, player.name, {x:10, y:10});
+        this.nameTag = new TextDisplay(drawLayer, player.name, {x:10, y:10}, this.healthBarTextStyle);
         this.graphics = new PIXI.Graphics();
         this.graphics.beginFill(this.hex);
+
+
 
 
         if (this.right){      // if the healthbar is to be drawn on the right, we make some adjustments.
             this.nameWidth = this.nameTag.getDimensions().width;
             this.nameTag.centerHorizontallyAt(app.stage.width - 3 - this.nameWidth / 2);
-            console.log(app.stage.width);
             this.graphicsx = app.stage.width - 5 - this.initialWidth - this.nameWidth;
             this.graphics.drawRect(this.graphicsx, 10, this.initialWidth, 30);
         }
