@@ -1,6 +1,7 @@
 "use strict";
 class SquareCirclePattern extends Pattern{
 
+  // parameters based on difficulty chosen  
   difficulty = {
       'easy': {
           projectileSpeed: {min:70, max:100},
@@ -9,7 +10,8 @@ class SquareCirclePattern extends Pattern{
           projectileCount: 4,
           projectileDamage: 20,
           targetPoints:8,
-          projectileDimensions: {x:10, y:10}
+          projectileDimensions: {x:10, y:10},
+          borderDamage: 50
       },
 
       'medium':{
@@ -19,7 +21,8 @@ class SquareCirclePattern extends Pattern{
           projectileCount: 5,
           projectileDamage: 30,
           targetPoints:10,
-          projectileDimensions: {x:13, y:13}
+          projectileDimensions: {x:13, y:13},
+          borderDamage: 70
       },
 
       'hard':{
@@ -30,7 +33,7 @@ class SquareCirclePattern extends Pattern{
           projectileDamage: 40,
           targetPoints:12,
           projectileDimensions: {x:16, y:16},
-
+          borderDamage: 80  
       },
 
       'ultraHard':{
@@ -40,7 +43,8 @@ class SquareCirclePattern extends Pattern{
           projectileCount: 5,
           projectileDamage: 55,
           targetPoints: 15,
-          projectileDimensions: {x: 12, y: 12}
+          projectileDimensions: {x: 12, y: 12},
+          borderDamage: 85
       }
   }
   destroying = false;
@@ -61,7 +65,8 @@ class SquareCirclePattern extends Pattern{
       this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70, 
         this.difficulty[this.chosenDifficulty].minScale, 
         this.difficulty[this.chosenDifficulty].maxScale,
-        this.difficulty[this.chosenDifficulty].targetPoints);
+        this.difficulty[this.chosenDifficulty].targetPoints,
+        this.difficulty[this.chosenDifficulty].borderDamage);
       this.squarePattern.activate();
   }
 
@@ -129,6 +134,7 @@ class SquareCirclePattern extends Pattern{
 
 class RainPattern extends Pattern{
 
+    // parameters based on difficulty chosen
     difficulty = {
         'easy':{
             projectileCount: 5,
@@ -264,7 +270,7 @@ class RainPattern extends Pattern{
 
 class FourCornerWaves extends Pattern{
 
-
+    // parameters based on difficulty chosen
     difficulty = {
         'easy':{
             waveSpeed: 200, 
@@ -398,6 +404,7 @@ class FourCornerWaves extends Pattern{
 
 class SquareWithWave extends Pattern{
 
+    // parameters based on difficulty chosen
     difficulty = {
         'easy':{
             waveSpeed: 150,
@@ -411,6 +418,7 @@ class SquareWithWave extends Pattern{
             nonFixedPts: 1,
             waveCount: [2, 1, 1, 2],
             bottomWave: false,
+            borderDamage: 70
         },
 
         'medium':{
@@ -425,6 +433,7 @@ class SquareWithWave extends Pattern{
             nonFixedPts: 1,
             waveCount: [1, 1, 0, 1],
             bottomWave: false,
+            borderDamage: 85
         },
 
         'hard':{
@@ -439,6 +448,7 @@ class SquareWithWave extends Pattern{
             nonFixedPts: 1,
             waveCount: [0, 1, 1, 0],
             bottomWave: true,
+            borderDamage: 100
         },
         
         'ultraHard':{
@@ -452,7 +462,8 @@ class SquareWithWave extends Pattern{
             fixedPts: 1,
             nonFixedPts: 1,
             waveCount: [1,1,1,1],
-            bottomWave:true
+            bottomWave:true,
+            borderDamage: 100
         }
     }
 
@@ -474,7 +485,6 @@ class SquareWithWave extends Pattern{
 
         super(drawLayer, player);
         this.chosenDifficulty = difficulty;
-        console.log(this.chosenDifficulty)
     }
 
     load(){
@@ -482,7 +492,8 @@ class SquareWithWave extends Pattern{
         this.square = new SquarePattern(this.drawLayer, this.playerReference,
             70, this.difficulty[this.chosenDifficulty].minScale,
             this.difficulty[this.chosenDifficulty].maxScale, 
-            this.difficulty[this.chosenDifficulty].targetPoints);
+            this.difficulty[this.chosenDifficulty].targetPoints,
+            this.difficulty[this.chosenDifficulty].borderDamage);
         this.square.activate();
         
         if (this.difficulty[this.chosenDifficulty].bottomWave){

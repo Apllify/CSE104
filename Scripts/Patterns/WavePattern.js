@@ -76,7 +76,8 @@ class WavePattern extends Pattern{
     }
 
     load(){
-
+        PIXI.sound.add('wave', '././Sound/wave_init.wav');
+        PIXI.sound.play('wave');
         // create the projectiles 
         for (let i=0; i < this.pointCoords.length; i++){
             // calculate individual amplitudes 

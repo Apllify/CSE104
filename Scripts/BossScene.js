@@ -37,6 +37,8 @@ class BossScene{
         this.currentPattern = new SquareCirclePattern(this.drawLayers.activeLayer, this.playerReference, 'ultraHard')
         this.currentPattern.activate();
 
+        PIXI.sound.add('pause', '././Sound/pause_button.wav');
+
 
     }
 
@@ -49,7 +51,7 @@ class BossScene{
         
         if (inputs.escape.isJustDown){
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
-            // the conditional is because one button press may span more than one frame.
+            PIXI.sound.play('pause');
             this.pauseHandle(['RESUME', 'RESTART', 'QUIT'], {0:'resume', 1:'restart', 2:'quit'});
         }
 
