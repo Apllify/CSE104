@@ -3,20 +3,19 @@ class TextDisplay{
 
     textEntity = null;
 
-    constructor( drawLayer, textContent, position, textStyle = null, alpha=1){
+    constructor( drawLayer, textContent, position, textStyle = undefined, alpha=1){
         // alpha value is 1 by default.
         //use the given textstyle if possible
-        if (textStyle != null){
-            this.textEntity = new PIXI.Text(textContent, textStyle);
-        }
-        else{
-            this.textEntity = new PIXI.Text(textContent);
-        }
+        this.textEntity = new PIXI.Text(textContent, textStyle);
 
 
         this.textEntity.x = position.x;
         this.textEntity.y = position.y;
         this.textEntity.alpha = alpha;
+
+        this.textEntity.updateText();
+        this.textEntity.texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+
 
         drawLayer.addChild(this.textEntity);
 

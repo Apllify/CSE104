@@ -20,11 +20,8 @@
 
 
         <link rel="stylesheet" href="style.css">
+        <link rel="preload" href="Fonts/Broken Console Bold.ttf" as="font" crossorigin="anonymous">
 
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
 
 
@@ -32,7 +29,9 @@
     <body>
             
         <!-- Importing a cool custom pixel art font (free for commercial use) -->
-
+        <div class="font_preload" style="opacity: 0">
+            <span style="font-family: VT323"></span>       
+        </div>
 
         <script src="Scripts/HealthBar.js"></script>
         <script src="Scripts/Character.js"></script>

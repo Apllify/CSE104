@@ -1,4 +1,12 @@
 body{
     margin : 0px;
     padding : 0px;
+
+    background-color:black;
+}
+
+@font-face{
+    font-family: BrokenConsole;
+    src: url(Fonts/Broken\ Console\ Bold.ttf);
+
 }
