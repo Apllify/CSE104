@@ -29,7 +29,8 @@ class SquarePattern extends Pattern{
     projectiles = [];
     destroying = false;
 
-    constructor(patternDrawLayer, player, movementSpeed, minScale =0.3, maxScale = 0.5, targetPoints=5){
+    constructor(patternDrawLayer, player, movementSpeed, minScale =0.3, maxScale = 0.5, targetPoints=5, 
+        borderDamage = 100){
         super(patternDrawLayer, player);
 
         //assign the parameters
@@ -37,6 +38,7 @@ class SquarePattern extends Pattern{
         this.movementSpeed = movementSpeed;
         this.minScale = minScale;
         this.maxScale = maxScale;
+        this.borderDamage = borderDamage;
 
         //create the container for all of the projectiles
         this.projectileContainer = new PIXI.Container();
@@ -60,35 +62,35 @@ class SquarePattern extends Pattern{
 
     load(){
         //create the corner projectiles
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -340), 0, new Vector(0, 0), {x:80,y:80}));
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, -340), 0, new Vector(0, 0), {x:80,y:80}));
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, 340), 0, new Vector(0, 0), {x:80,y:80}));
-        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, 340), 0, new Vector(0, 0), {x:80,y:80}));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -340), 0, new Vector(0, 0), {x:80,y:80}, this.borderDamage));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, -340), 0, new Vector(0, 0), {x:80,y:80}, this.borderDamage));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, 340), 0, new Vector(0, 0), {x:80,y:80}, this.borderDamage));
+        this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, 340), 0, new Vector(0, 0), {x:80,y:80}, this.borderDamage));
 
         let currentProjectile = null;
 
         //create top line of projectiles
         for(let x = 320 / 9 + 30; x< 800; x+= 320/9 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-400 + x, -340), 0, new Vector(0, 0), {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-400 + x, -340), 0, new Vector(0, 0), {x:60, y:60}, this.borderDamage));
 
         } 
 
         //create bottom line of projectiles
         for(let x = 320 / 9 + 30; x< 800; x+= 320/9 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-400+ x, 340), 0, new Vector(0, 0), {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-400+ x, 340), 0, new Vector(0, 0), {x:60, y:60}, this.borderDamage ));
 
         }
 
         //create left line of projectiles
         for(let y = 300 / 6 + 30; y < 600; y+=300 / 6 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -300 + y), 0, new Vector(0, 0), {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, -300 + y), 0, new Vector(0, 0), {x:60, y:60}, this.borderDamage ));
 
         }
 
 
         //create right line of projectiles
         for(let y = 300 / 6 + 30 ; y < 600; y+=300 / 6 + 60){
-            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, -300 + y), 0, new Vector(0, 0), {x:60, y:60} ));
+            this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, -300 + y), 0, new Vector(0, 0), {x:60, y:60}, this.borderDamage ));
         }
 
 
