@@ -30,14 +30,14 @@ class OutsideScene{
 
         //DEBUG
         const dialogueFontStyle = new PIXI.TextStyle({
-            fontFamily : "Arial",
+            fontFamily : "VT323",
             fontSize : 36,
             fontWeight : "bold",
             fill : "#ffffff",
             stroke : "#ffffff",
         });
 
-        this.monologue = new Monologue(this.drawLayers.foregroundLayer, ["a", "b", "c"], dialogueFontStyle);
+        this.monologue = new Monologue(this.drawLayers.foregroundLayer, ["Heh, this is a test dialogue", "Looks like it works somehow ????", "hehehhehe\ndhdhdhdhdh"], dialogueFontStyle);
     }
 
     getPossibleDirections(matrixCoords){
