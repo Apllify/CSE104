@@ -44,8 +44,8 @@ class Monologue{
         this.drawLayer.addChild(this.rightBorder);
 
         //create and center the text
-        this.textDisplay = new TextDisplay(this.drawLayer, this.textContent[this.currentLineIndex], {x:50, y:510}, this.textStyle);
-        this.textDisplay.setText(this.textContent[this.currentLineIndex]);
+        this.textDisplay = new TextDisplay(this.drawLayer, this.textContent[this.currentLineIndex], {x:50, y:520}, this.textStyle);
+
 
         this.cursor = new Rectangle(760, 540, 20, 20).getGraphics(0xFFFFFF);
         this.drawLayer.addChild(this.cursor);
@@ -75,6 +75,9 @@ class Monologue{
 
         }
 
+        //update the alpha of the cursor using a cosine function
+        this.cursor.alpha = Math.abs(Math.cos(2 * this.timeElapsed));
+
 
     }
 
@@ -83,9 +86,17 @@ class Monologue{
     }
 
     destroy(){
+        //remove the main components of the text box
         this.textDisplay.destroy();
         this.backgroundBox.destroy();
         this.cursor.destroy();
+
+        //remove the borders of the text box
+        this.topBorder.destroy();
+        this.leftBorder.destroy();
+        this.rightBorder.destroy();
+        this.bottomBorder.destroy();
+
         this.destroyed = true;
     }
 
