@@ -228,7 +228,7 @@ class MenuScene{
 
             if (this.inputPrompts[1].isDone() && !this.helpJokeEnded){
                 //slowly ease the exit button upwards
-                const newYPosition = 350 + Math.cos( (this.elapsedTime - this.helpJokeStartTime) / 2) * 100;
+                const newYPosition = 350 + Math.cos( (this.elapsedTime - this.helpJokeStartTime) /2  )  * 100;
                 this.inputPrompts[2].centerVerticallyAt(newYPosition);
 
                 if (newYPosition <= 350){

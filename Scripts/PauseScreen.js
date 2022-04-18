@@ -53,6 +53,10 @@ class PauseScreen{
             start = 300 - 100 * (x)
         }
 
+        if(this.title !== null){
+            start += 70;
+        }
+
         for (let i = 0; i < n; i++){
             this.positions.push(start);
             start += 100;
@@ -85,9 +89,9 @@ class PauseScreen{
         });
 
         if (this.title != null){
-            this.title = new TextDisplay(drawLayers.foregroundLayer, this.title, {x:380, y:300}, this.titleFont);
+            this.title = new TextDisplay(drawLayers.foregroundLayer, this.title, {x:0, y:0}, this.titleFont);
             this.title.centerHorizontallyAt(400);
-            this.title.centerVerticallyAt(100);
+            this.title.centerVerticallyAt(150);
         }
 
         for (let i=0; i<this.positions.length; i++){
