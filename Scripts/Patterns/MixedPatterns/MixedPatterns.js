@@ -131,12 +131,13 @@ class RainPattern extends Pattern{
             damage: 150,
         },
         'hard':{
-            projectileCount: 6,
+            projectileCount: 7,
             projectileSpeed: {min:200, max:500},
-            coolDown:2,
+            coolDown:1.5,
             duration: 20,
             damage: 250,
         }
+
     }
 
     destroying = false;
