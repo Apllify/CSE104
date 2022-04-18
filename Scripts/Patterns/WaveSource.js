@@ -72,7 +72,6 @@ class WaveSource extends Pattern{
     }
 
     createNewWave(){
-        console.log('here')
         // get these vectors to calculate the initial phase and phaseDuration
         let v1 = new Vector(this.playerReference.x - this.startPoint.x, this.playerReference.y - this.startPoint.y);
         let v2 = new Vector(this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y);

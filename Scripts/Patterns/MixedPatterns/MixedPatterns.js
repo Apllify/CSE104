@@ -368,6 +368,50 @@ class FourCornerWaves extends Pattern{
 
 class SquareWithWave extends Pattern{
 
+    difficulty = {
+        'easy':{
+            waveSpeed: 150,
+            minScale: 0.5,
+            maxScale: 0.8,
+            waveDuration: 30,
+            targetPoints: 12,
+            projectileDamage: 50,
+            projectileDimensions: {x: 10, y:10},
+            fixedPts: 1,
+            nonFixedPts: 1,
+            waveCount: [2, 1, 1, 2],
+            bottomWave: false,
+        },
+
+        'medium':{
+            waveSpeed: 200, 
+            minScale: 0.5,
+            maxScale: 0.8,
+            waveDuration: 35,
+            targetPoints: 15,
+            projectileDamage: 70,
+            projectileDimensions: {x:6, y:6},
+            fixedPts: 1,
+            nonFixedPts: 1,
+            waveCount: [1, 0, 0, 1],
+            bottomWave: true,
+        },
+
+        'hard':{
+            waveSpeed: 300,
+            minScale: 0.4,
+            maxScale: 0.5,
+            waveDuration: 40,
+            targetPoints: 20,
+            projectileDamage: 80,
+            projectileDimensions: {x:8, y:8},
+            fixedPts: 2,
+            nonFixedPts: 1,
+            waveCount: [2, 1, 1, 2],
+            bottomWave: true,
+        }
+    }
+
     destroying = false;
     // time between initializing new WaveSources
     waveCoolDown = 1;
@@ -382,17 +426,34 @@ class SquareWithWave extends Pattern{
     // index of the startPoint of the next WaveSource
     index = 0;
 
-    constructor(drawLayer, player){
+    constructor(drawLayer, player, difficulty='medium'){
+
         super(drawLayer, player);
+        this.chosenDifficulty = difficulty;
+        console.log(this.chosenDifficulty)
     }
 
     load(){
         // initialize the SquarePattern and a WaveSource and activeate them
-        this.square = new SquarePattern(this.drawLayer, this.playerReference, 70, 0.4, 0.6);
+        this.square = new SquarePattern(this.drawLayer, this.playerReference,
+            70, this.difficulty[this.chosenDifficulty].minScale,
+            this.difficulty[this.chosenDifficulty].maxScale, 
+            this.difficulty[this.chosenDifficulty].targetPoints);
         this.square.activate();
-        this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, new Vector(0, 600),
-            new Vector(800, 600), 100, 2));
-        this.waveSources[0].activate()
+        
+        if (this.difficulty[this.chosenDifficulty].bottomWave){
+            console.log('here', this.chosenDifficulty)
+            this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, new Vector(0, 600),
+            new Vector(800, 600), 50, 
+            this.difficulty[this.chosenDifficulty].waveSpeed, 2,
+            30, 2, 1, {x: 8, y: 8}, 
+            this.difficulty[this.chosenDifficulty].projectileDamage
+            ));
+
+            this.waveSources[0].activate();
+        }
+        
+        
     }
 
     update(delta, inputs){
@@ -427,7 +488,15 @@ class SquareWithWave extends Pattern{
     createNewWaveSource(){
         // create a new WaveSource at the positions encoded by the current index
         let newWaveSource = new WaveSource(this.drawLayer, this.playerReference, this.sourceCoords[this.index],
-            this.sourceCoords[(this.index + 1) % 4], 150, 2, 1);
+            this.sourceCoords[(this.index + 1) % 4], 50, 
+            this.difficulty[this.chosenDifficulty].waveSpeed,
+            this.difficulty[this.chosenDifficulty].waveCount,
+            this.difficulty[this.chosenDifficulty].waveDuration,
+            this.difficulty[this.chosenDifficulty].fixedPts,
+            this.difficulty[this.chosenDifficulty].nonFixedPts,
+            this.difficulty[this.chosenDifficulty].projectileDimensions,
+            this.difficulty[this.chosenDifficulty].projectileDamage,
+            );
         
         this.waveSources.push(newWaveSource);
         newWaveSource.activate();
@@ -437,7 +506,7 @@ class SquareWithWave extends Pattern{
 
     isDone(){
         // the pattern is done when all patterns are done 
-        return this.square.isDone() || this.waveSources.length === 0;
+        return this.square.isDone();
     }
 
     destroy(){
