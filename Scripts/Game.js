@@ -8,7 +8,8 @@ class Game{
         this.drawLayers = drawLayers;
         // this.currentScene = new OutsideParam(drawLayers);
         // this.currentScene.setMapMatrix([[2, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]);
-        this.currentScene = new MenuScene(drawLayers, this)
+        this.currentScene = new OutsideScene(this.drawLayers);
+        this.currentScene.setMapMatrix([[0,0,0,0], [0, 0, 2, 1], [0, 0,0, 0], [0, 0, 0, 0]]);
     }
 
     update(delta, inputs){

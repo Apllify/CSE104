@@ -15,6 +15,9 @@ class OutsideScene{
     //the player
     playerReference = null;
 
+    //DEBUG
+    monologue = null;
+
     //takes no arguments and is instead configured with methods
     constructor(drawLayers){
 
@@ -24,6 +27,17 @@ class OutsideScene{
 
         //start the player off at the middle of the room
         this.playerReference = new Character(this.drawLayers, {x:400, y:300}, this.container);
+
+        //DEBUG
+        const dialogueFontStyle = new PIXI.TextStyle({
+            fontFamily : "Arial",
+            fontSize : 36,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        this.monologue = new Monologue(this.drawLayers.foregroundLayer, ["a", "b", "c"], dialogueFontStyle);
     }
 
     getPossibleDirections(matrixCoords){
@@ -85,6 +99,10 @@ class OutsideScene{
     }
 
     update(delta, inputs){
+
+        //DEBUG
+        this.monologue.update(delta, inputs);
+
         //update the player's position
         this.playerReference.update(delta, inputs);
 

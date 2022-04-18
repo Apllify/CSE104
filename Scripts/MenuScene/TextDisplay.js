@@ -22,6 +22,11 @@ class TextDisplay{
 
     }
 
+    //change the text content of this display
+    setText(newText){
+        this.textEntity.text = newText;
+    }
+
     //centers the text horizontally around a given x position
     centerHorizontallyAt(xPosition){
         //get the dimension rect 
