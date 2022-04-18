@@ -81,6 +81,7 @@ app.view.style.top =  ((window.innerHeight - 600)*0.5) + "px";
 
 //setting the scale mode to accomodate for pixel art
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+PIXI.settings.RENDER_OPTIONS.antialias = false;
 
 
 

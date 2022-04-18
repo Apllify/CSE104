@@ -30,8 +30,8 @@ class OutsideScene{
 
         //DEBUG
         const dialogueFontStyle = new PIXI.TextStyle({
-            fontFamily : "VT323",
-            fontSize : 36,
+            fontFamily : "BrokenConsole",
+            fontSize : 28,
             fontWeight : "bold",
             fill : "#ffffff",
             stroke : "#ffffff",

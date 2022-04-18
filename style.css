@@ -3,11 +3,10 @@ body{
     padding : 0px;
 
     background-color:black;
-    filter: url(#crispify);
 }
 
 @font-face{
-    font-family: VT323;
-    src: url(Fonts/VT323-Regular.ttf);
+    font-family: BrokenConsole;
+    src: url(Fonts/Broken\ Console\ Bold.ttf);
 
 }

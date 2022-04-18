@@ -43,7 +43,7 @@ class Monologue{
         this.rightBorder = new Rectangle(790, 500, 10, 100).getGraphics(0xFFFFFF);
         this.drawLayer.addChild(this.rightBorder);
 
-        //create and center the text
+        //create and add the text
         this.textDisplay = new TextDisplay(this.drawLayer, this.textContent[this.currentLineIndex], {x:50, y:520}, this.textStyle);
 
 
