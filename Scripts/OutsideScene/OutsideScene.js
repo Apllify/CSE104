@@ -37,7 +37,7 @@ class OutsideScene{
             stroke : "#ffffff",
         });
 
-        this.monologue = new Monologue(this.drawLayers.foregroundLayer, ["Heh, this is a test dialogue", "Looks like it works somehow ????", "hehehhehe\ndhdhdhdhdh"], dialogueFontStyle);
+        this.monologue = new Monologue(this.drawLayers.foregroundLayer, ["Heh, this is a test dialogue", "Looks like it works somehow ????", "hehehhehe\ndhdhdhdhdh"], dialogueFontStyle, "Albert", 0);
     }
 
     getPossibleDirections(matrixCoords){
