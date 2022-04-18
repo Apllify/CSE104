@@ -28,13 +28,13 @@ class BossScene{
         this.drawLayers = drawLayers;
 
         //instantiate the list of patterns
-        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference));
-        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference));
+        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
+        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
 
 
         //start with a random pattern
         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
-        this.currentPattern = new RainPattern(this.drawLayers.activeLayer, this.playerReference, 'hard');
+        this.currentPattern = new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'medium')
         this.currentPattern.activate();
 
 

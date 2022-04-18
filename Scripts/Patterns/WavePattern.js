@@ -26,7 +26,9 @@ class WavePattern extends Pattern{
     // The current phase. It takes values 1 or -1.
     phase = 1;
 
-    constructor(drawLayer, player, duration, waveSpeed, amplitude, startPoint, endPoint, fixedPts, initialPhase=1, phaseDuration=4, phaseOffset=0){
+    constructor(drawLayer, player, duration, waveSpeed, amplitude, startPoint, endPoint, 
+        fixedPts, initialPhase=1, phaseDuration=4, projectileDamage=50, projectileDimensions={x:5, y:5},
+        nonFixedPts = 1){
 
         // initialize properties
         super(drawLayer, player);
@@ -35,12 +37,14 @@ class WavePattern extends Pattern{
        
         this.amplitude = amplitude;
         this.n = fixedPts + 1;
+        this.nonFixedPts = nonFixedPts;
        
         this.duration = duration;
-        this.currentPhaseTimer = phaseOffset;
         
         this.playerCoords = new Vector(this.playerReference.x, this.playerReference.y);
         this.waveSpeed = waveSpeed;
+        this.projectileDamage = projectileDamage;
+        this.projectileDimensions = projectileDimensions;
         
 
         this.mainVect = new Vector(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
@@ -52,12 +56,12 @@ class WavePattern extends Pattern{
 
 
         // shiftVect allows us the generate the next point given the current one.
-        this.shiftVect = this.mainVect.rescale(1 / (4 * this.n));
+        this.shiftVect = this.mainVect.rescale(1 / ((this.nonFixedPts + 1) * this.n));
         this.shiftLen = this.shiftVect.getNorm();
 
         // fill pointCoords list using shiftVect
         this.pointCoords.push(startPoint);
-        for (let i=1; i < 4 * this.n; i++){
+        for (let i=1; i < (this.nonFixedPts + 1) * this.n; i++){
             this.pointCoords.push(this.pointCoords[i - 1].add(this.shiftVect));
         }
         this.pointCoords.push(endPoint);
@@ -75,7 +79,7 @@ class WavePattern extends Pattern{
             this.projectileAmplitudes.push(2 * this.amplitude * Math.sin(this.k * i * this.shiftLen));
             
             this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, this.pointCoords[i]
-                , 0, this.generalDirection, {x:5, y:5}, 50));
+                , 0, this.generalDirection, this.projectileDimensions, this.projectileDamage));
         }
     }
 
