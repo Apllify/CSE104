@@ -15,8 +15,8 @@ class OutsideScene{
     //the player
     playerReference = null;
 
-    //DEBUG
-    monologue = null;
+    door = null;
+
 
     //takes no arguments and is instead configured with methods
     constructor(drawLayers){
@@ -37,7 +37,8 @@ class OutsideScene{
             stroke : "#ffffff",
         });
 
-        this.monologue = new Monologue(this.drawLayers.foregroundLayer, ["Heh, this is a test dialogue", "Looks like it works somehow ????", "hehehhehe\ndhdhdhdhdh"], dialogueFontStyle, "Albert", 0);
+        this.door = new BrokenDoor(this.container, this.drawLayers.foregroundLayer, this.playerReference, {x:0, y:300});
+
     }
 
     getPossibleDirections(matrixCoords){
@@ -99,12 +100,12 @@ class OutsideScene{
     }
 
     update(delta, inputs){
-
-        //DEBUG
-        this.monologue.update(delta, inputs);
-
         //update the player's position
         this.playerReference.update(delta, inputs);
+
+
+        //update the broken door 
+        this.door.update(delta, inputs);
 
         //check if the player went into a collision this frame to readjust him
         let playerHitbox = this.playerReference.getHitboxRectangle();

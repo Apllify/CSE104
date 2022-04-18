@@ -12,7 +12,13 @@ class MenuScene{
     startFontStyle = null;
     menuFontStyle = null;
 
+    //to keep track of the help joke
+    helpJokeStarted = false;
+    helpJokeStartTime = 0;
+    helpJokeEnded = false
 
+    //the overall internal timer
+    elapsedTime = 0;
 
     
 
@@ -68,16 +74,19 @@ class MenuScene{
         //instantiate the text boxes
         this.exitJoke = new FadeText(drawLayers.foregroundLayer, "There Is No Escape...", {x:380, y:500}, this.exitFontStyle, 2);
         this.exitJoke.centerHorizontallyAt(400);
-        this.exitJoke.centerVerticallyAt(500);
+        this.exitJoke.centerVerticallyAt(550);
 
-        this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "PLAY", {x:380, y:300}, this.startFontStyle));
+        this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "PLAY", {x:0, y:0}, this.startFontStyle));
         this.inputPrompts[0].centerHorizontallyAt(400);
-        this.inputPrompts[0].centerVerticallyAt(300);
+        this.inputPrompts[0].centerVerticallyAt(200);
 
-
-        this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "EXIT", {x:380, y:400}, this.menuFontStyle));
+        this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "HOW TO PLAY", {x:0, y:0}, this.menuFontStyle));
         this.inputPrompts[1].centerHorizontallyAt(400);
-        this.inputPrompts[1].centerVerticallyAt(400);
+        this.inputPrompts[1].centerVerticallyAt(350);
+
+        this.inputPrompts.push(new TextDisplay(drawLayers.foregroundLayer, "EXIT", {x:0, y:0}, this.menuFontStyle));
+        this.inputPrompts[2].centerHorizontallyAt(400);
+        this.inputPrompts[2].centerVerticallyAt(450);
 
         //set up the two user cursors
         const startDimensions = this.inputPrompts[this.currentInputPrompt].getDimensions();
@@ -143,6 +152,9 @@ class MenuScene{
         if (this.destroying){   // don't try to update if destroy is called.
             return 
         }
+
+        //keep track of the internal timer 
+        this.elapsedTime += delta;
         
         //check for down and up inputs to select prompts and update the alpha value for fading texts.
         this.exitJoke.update(delta, inputs);
@@ -153,8 +165,13 @@ class MenuScene{
             PIXI.sound.play('flip')
             this.currentInputPrompt += 1;
 
+
             if (this.currentInputPrompt > this.inputPrompts.length-  1){
                 this.currentInputPrompt = 0;
+            }
+
+            if (this.helpJokeEnded && this.currentInputPrompt == 1){
+                this.currentInputPrompt = 2;
             }
 
         }
@@ -170,6 +187,10 @@ class MenuScene{
                 this.currentInputPrompt = this.inputPrompts.length - 1;
             }
 
+            if (this.helpJokeEnded && this.currentInputPrompt == 1){
+                this.currentInputPrompt = 0;
+            }
+
         }
 
 
@@ -180,11 +201,45 @@ class MenuScene{
                 PIXI.sound.play('play')
                 mainGame.changeScene(new BossScene(drawLayers, this.game));
             }
-            else{
+            else if (this.currentInputPrompt === 1){
+                //only allow the player to click the button once 
+                if (!this.helpJokeStarted){
+                    this.inputPrompts[1].destroy();
+                    this.inputPrompts[1] = new FadeText(drawLayers.foregroundLayer, "HOW TO PLAY", {x:0, y:0}, this.menuFontStyle, 1);
+                    this.inputPrompts[1].centerHorizontallyAt(400);
+                    this.inputPrompts[1].centerVerticallyAt(350);
+                    this.inputPrompts[1].initiate();
+
+                    this.helpJokeStarted = true;
+                    this.helpJokeStartTime = this.elapsedTime;
+                }
+
+            }
+            else if (this.currentInputPrompt === 2){
                 PIXI.sound.play('exit');
                 this.exitJoke.initiate();
             }
             
+        }
+
+        //update the second prompt in case it's actually a fade text 
+        if (this.helpJokeStarted){
+            this.inputPrompts[1].update(delta);
+
+            if (this.inputPrompts[1].isDone() && !this.helpJokeEnded){
+                //slowly ease the exit button upwards
+                const newYPosition = 350 + Math.cos( (this.elapsedTime - this.helpJokeStartTime) / 2) * 100;
+                this.inputPrompts[2].centerVerticallyAt(newYPosition);
+
+                if (newYPosition <= 350){
+                    this.helpJokeEnded = true;
+
+                    //set the cursor to an actually valid position since help doesn't exist anymore
+                    if (this.currentInputPrompt == 1){
+                        this.currentInputPrompt = 2;
+                    }
+                }
+            }
         }
 
         

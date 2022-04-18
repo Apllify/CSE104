@@ -125,6 +125,10 @@ class Monologue{
         this.textDisplay.setText(this.textContent[this.currentLineIndex]);
     }
 
+    isDone(){
+        return this.destroyed;
+    }
+
     destroy(){
         //remove the main components of the text box
         this.textDisplay.destroy();

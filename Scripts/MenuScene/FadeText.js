@@ -24,4 +24,8 @@ class FadeText extends TextDisplay{
     initiate(){         // start fadeText Animation.
         this.alpha = 1;
     }
+
+    isDone(){
+        return (this.alpha === 0);
+    }
 }

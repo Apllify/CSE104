@@ -37,12 +37,12 @@ class SquareCirclePattern extends Pattern{
       },
 
       'ultraHard':{
-          projectileSpeed: {min:250, max: 400},
-          minScale: 0.3,
-          maxScale: 0.4,
+          projectileSpeed: {min:300, max: 450},
+          minScale: 0.4,
+          maxScale: 0.45,
           projectileCount: 5,
           projectileDamage: 55,
-          targetPoints: 15,
+          targetPoints: 12,
           projectileDimensions: {x: 12, y: 12},
           borderDamage: 85
       }
