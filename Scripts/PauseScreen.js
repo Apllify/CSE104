@@ -136,7 +136,8 @@ class PauseScreen{
         drawLayer.addChild(this.rightCursorGraphics);
 
 
-
+        PIXI.sound.add('flip', '././Sound/flip_menu.wav');
+        PIXI.sound.add('action', 'hit_play.wav');
     }
 
     refreshPromptCrosshair(){
@@ -167,6 +168,7 @@ class PauseScreen{
             // make sure that a button press that lasts multiple frames isn't considered as several
             // different button presses.
             this.shifts += 1;
+            PIXI.sound.play('flip');
         }
 
         else if (inputs.up.isJustDown || inputs.upAlt.isJustDown){
@@ -174,6 +176,7 @@ class PauseScreen{
             // different button presses
             
             // need to distinguish cases since (-1 % 3 === -1) in javaScript for some reason. 
+            PIXI.sound.play('flip');
             if (this.shifts === 0){
                 this.shifts = this.positions.length - 1;
             }
@@ -184,6 +187,7 @@ class PauseScreen{
         }
         // when we press enter, execute the command corresponding to the currentInputPrompt.
         else if (inputs.enter.isDown){
+            PIXI.sound.play('action');
             this.actionsDict[this.actionDict[this.currentInputPrompt]](this.scene);
         }
 
