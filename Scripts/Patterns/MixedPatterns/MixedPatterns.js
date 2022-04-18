@@ -144,6 +144,7 @@ class RainPattern extends Pattern{
             damage: 250,
             projectileDimensions: {x:14, y:14}
         }
+
     }
 
     destroying = false;
