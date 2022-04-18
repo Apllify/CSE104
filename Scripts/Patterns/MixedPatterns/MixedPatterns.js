@@ -589,23 +589,12 @@ class PacmanWithWave extends Pattern{
             nonFixedPts: 1,
             projectileDimensions: {x: 12, y: 12},
             projectileDamage: 50,
-            waveCoolDown: 5
+            waveCoolDown: 5,
+            waveCount: 1,
 
         },
 
         'medium':{
-            duration: 40,
-            pacmanCooldown: 2,
-            shotSpeed: 150,
-            waveSpeed: 200,
-            fixedPts: 1,
-            nonFixedPts: 1,
-            projectileDimensions: {x: 14, y: 14},
-            projectileDamage: 50,
-            waveCoolDown: 5
-        },
-
-        'hard':{
             duration: 50,
             pacmanCooldown: 1.5,
             shotSpeed: 250,
@@ -614,19 +603,34 @@ class PacmanWithWave extends Pattern{
             nonFixedPts: 1,
             projectileDimensions: {x: 8, y: 8},
             projectileDamage: 80,
-            waveCoolDown: 3
+            waveCoolDown: 3,
+            waveCount: 1
+        },
+
+        'hard':{
+            duration: 50,
+            pacmanCooldown: 1.5,
+            shotSpeed: 250,
+            waveSpeed: 275,
+            fixedPts: 1,
+            nonFixedPts: 1,
+            projectileDimensions: {x: 8, y: 8},
+            projectileDamage: 90,
+            waveCoolDown: 3.5,
+            waveCount: 2
         },
 
         'ultraHard':{
-            duration: 50,
-            pacmanCooldown: 1,
-            shotSpeed: 250,
-            waveSpeed: 300,
+            duration: 55,
+            pacmanCooldown: 1.5,
+            shotSpeed: 275,
+            waveSpeed: 290,
             fixedPts: 1,
             nonFixedPts: 1,
-            projectileDimensions: {x: 10, y: 10},
-            projectileDamage: 80,
-            waveCoolDown: 3
+            projectileDimensions: {x: 8.5, y: 8.5},
+            projectileDamage: 95,
+            waveCoolDown: 3,
+            waveCount: 2
         }
     }
 
@@ -638,9 +642,11 @@ class PacmanWithWave extends Pattern{
     pacmanPattern = null;
 
     waveSources = [];
-    // sources placed at the bottom 
+    // source placed at the bottom 
     sourceCoords = [new Vector(0, 600), new Vector(400, 600), new Vector(800, 600)];
     currentStartIndex = 0;
+    shifts = [-2, 0, 2];
+    shiftIndex = 0;
 
     constructor(drawLayer, player, difficulty){
         super(drawLayer, player);
@@ -657,9 +663,10 @@ class PacmanWithWave extends Pattern{
 
     createNewWaveSource(){
         let newWaveSource = new WaveSource(this.drawLayer, this.playerReference,
-            this.sourceCoords[this.currentStartIndex], this.sourceCoords[this.currentStartIndex + 1], 50,
-            this.difficulty[this.chosenDifficulty].waveSpeed, 
-            1, 5, 
+            this.shift(this.sourceCoords[this.currentStartIndex]), 
+            this.shift(this.sourceCoords[this.currentStartIndex + 1]), 50,
+            this.difficulty[this.chosenDifficulty].waveSpeed,
+            this.difficulty[this.chosenDifficulty].waveCount, 5, 
             this.difficulty[this.chosenDifficulty].fixedPts, 
             this.difficulty[this.chosenDifficulty].nonFixedPts, 
             this.difficulty[this.chosenDifficulty].projectileDimensions,
@@ -670,8 +677,21 @@ class PacmanWithWave extends Pattern{
         newWaveSource.activate();
         
         this.currentStartIndex = 1 - this.currentStartIndex;
+        this.shiftIndex = (this.shiftIndex + 1) % 3;
         
     }
+
+    shift(v){
+        // shift the waveSource
+        console.log(v)
+        const lineVect = new Vector(400, 0);
+        const fixed = this.difficulty[this.chosenDifficulty].fixedPts;
+        const nonFixed = this.difficulty[this.chosenDifficulty].nonFixedPts;
+        let x = this.shifts[this.shiftIndex];
+        
+        return v.add(lineVect.rescale(1 / (x * ((fixed + 1) * (nonFixed + 1)))));
+    }
+
 
     update(delta, inputs){
         this.cooldown -= delta;
@@ -680,6 +700,7 @@ class PacmanWithWave extends Pattern{
         }
 
         if (this.cooldown <= 0){
+            console.log('here');
             this.createNewWaveSource();
             this.cooldown = 2;
         }
