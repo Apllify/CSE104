@@ -39,7 +39,10 @@ class WaveSource extends Pattern{
 
     load(){
         // initialize the first wave
-        this.createNewWave();
+        if (this.waveCount > 0){
+            this.createNewWave();
+        }  
+        
         
     }
 
