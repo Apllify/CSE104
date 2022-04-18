@@ -375,7 +375,7 @@ class SquareWithWave extends Pattern{
             minScale: 0.5,
             maxScale: 0.8,
             waveDuration: 30,
-            targetPoints: 12,
+            targetPoints: 8,
             projectileDamage: 50,
             projectileDimensions: {x: 10, y:10},
             fixedPts: 1,
@@ -385,11 +385,11 @@ class SquareWithWave extends Pattern{
         },
 
         'medium':{
-            waveSpeed: 200, 
-            minScale: 0.5,
-            maxScale: 0.8,
+            waveSpeed: 190, 
+            minScale: 0.6,
+            maxScale: 0.7,
             waveDuration: 35,
-            targetPoints: 12,
+            targetPoints: 8,
             projectileDamage: 70,
             projectileDimensions: {x:6, y:6},
             fixedPts: 1,
@@ -399,16 +399,16 @@ class SquareWithWave extends Pattern{
         },
 
         'hard':{
-            waveSpeed: 300,
+            waveSpeed: 210,
             minScale: 0.4,
             maxScale: 0.5,
             waveDuration: 40,
-            targetPoints: 20,
+            targetPoints: 8,
             projectileDamage: 80,
             projectileDimensions: {x:8, y:8},
-            fixedPts: 2,
+            fixedPts: 1,
             nonFixedPts: 1,
-            waveCount: [2, 1, 1, 2],
+            waveCount: [0, 1, 1, 0],
             bottomWave: true,
         }
     }
@@ -447,7 +447,7 @@ class SquareWithWave extends Pattern{
             this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, new Vector(0, 600),
             new Vector(800, 600), 50, 
             this.difficulty[this.chosenDifficulty].waveSpeed, 2,
-            30, 2, 1, {x: 8, y: 8}, 
+            30, 1, 1, {x: 8, y: 8}, 
             this.difficulty[this.chosenDifficulty].projectileDamage
             ));
 
