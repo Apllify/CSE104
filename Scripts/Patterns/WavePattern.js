@@ -10,9 +10,10 @@ class WavePattern extends Pattern{
     // List of the generated points.
     pointCoords = [];
 
-    // Lists of projectiles and their respective oscillating amplitudes. Amplitude is determined
+    // Lists of projectiles, their respective oscillating amplitudes, and initial phases. Amplitude is determined
     // by the position of the projectile in the line joining all projectiles.
     projectileAmplitudes = [];
+    projectilePhases = [];
     projectiles = [];
 
     // Quantities that determine the wave.
@@ -61,9 +62,12 @@ class WavePattern extends Pattern{
 
         // fill pointCoords list using shiftVect
         this.pointCoords.push(startPoint);
+        // this.projectilePhases.push(0);
         for (let i=1; i < (this.nonFixedPts + 1) * this.n; i++){
             this.pointCoords.push(this.pointCoords[i - 1].add(this.shiftVect));
+            // this.projectilePhases.push(Math.random() * Math.PI * 2);
         }
+        // this.projectilePhases.push(0);
         this.pointCoords.push(endPoint);
 
         // A normal unit vector to mainVect
@@ -108,8 +112,8 @@ class WavePattern extends Pattern{
             let projectileAmplitude = this.phase * this.projectileAmplitudes[i];
             projectile.changeDirection(this.generalDirection);
             
-            projectile.changeSpeed((projectileAmplitude * this.w * Math.cos(this.w * this.elapsedTime))
-                                    + this.waveSpeed);
+            projectile.changeSpeed((projectileAmplitude * this.w * Math.cos(this.w * this.elapsedTime)) + 
+            this.waveSpeed);
             projectile.update(delta);
         }
     }
