@@ -72,7 +72,9 @@ class Telegraph {
         this.drawLayer.addChild(this.graphicsDevice);
         this.graphicsDevice.x = this.x;
         this.graphicsDevice.y = this.y;
+
         PIXI.sound.add('telegraph', '././Sound/telegraph_spawn.wav');
+        PIXI.sound.volume("telegraph" ,0.03);
         PIXI.sound.play('telegraph');
 
     }

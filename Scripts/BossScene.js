@@ -38,6 +38,8 @@ class BossScene{
         this.currentPattern.activate();
 
         PIXI.sound.add('pause', '././Sound/pause_button.wav');
+        PIXI.sound.volume("pause" ,0.03);
+
 
 
     }

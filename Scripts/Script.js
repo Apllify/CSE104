@@ -65,8 +65,8 @@ function keyboard(value) {
 
 
 
-//instantiating the game window
 
+//instantiating the game window
 const app = new PIXI.Application({
     width : 800, height : 600, backgroundColor: 0x1099bb
 });
@@ -77,6 +77,7 @@ app.view.style.position = "absolute";
 app.view.style.display = "inline-block";
 app.view.style.left =  ((window.innerWidth - 800)*0.5)  + "px";
 app.view.style.top =  ((window.innerHeight - 600)*0.5) + "px";
+
 
 
 //setting the scale mode to accomodate for pixel art

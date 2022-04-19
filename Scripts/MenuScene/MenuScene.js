@@ -37,9 +37,15 @@ class MenuScene{
         this.backgroundGraphics.drawRect(0, 0, 800, 600);
 
         drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
+        
         PIXI.sound.add('flip', '././Sound/flip_menu.wav');
         PIXI.sound.add('exit', '././Sound/exit_joke.wav');
         PIXI.sound.add('play', '././Sound/hit_play.wav');
+
+        PIXI.sound.volume("flip" ,0.03);
+        PIXI.sound.volume("exit" ,0.03);
+        PIXI.sound.volume("play" ,0.03);
+
 
         //setup the menu font style
         this.startFontStyle = new PIXI.TextStyle({

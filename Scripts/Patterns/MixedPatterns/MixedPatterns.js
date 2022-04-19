@@ -187,7 +187,6 @@ class RainPattern extends Pattern{
       this.currentCoolDown = this.coolDown;
       
       this.duration = this.difficulty[difficulty].duration;
-      console.log(this.coolDown, this.currentCoolDown)
   }
 
   load(){
@@ -223,7 +222,6 @@ class RainPattern extends Pattern{
       this.currentCoolDown -= delta;
 
       if (this.currentCoolDown <= 0){
-          console.log('here')
           this.currentCoolDown = this.coolDown;
 
           //destroy the second pattern if needed
@@ -497,7 +495,6 @@ class SquareWithWave extends Pattern{
         this.square.activate();
         
         if (this.difficulty[this.chosenDifficulty].bottomWave){
-            console.log('here', this.chosenDifficulty)
             this.waveSources.push(new WaveSource(this.drawLayer, this.playerReference, new Vector(0, 600),
             new Vector(800, 600), 50, 
             this.difficulty[this.chosenDifficulty].waveSpeed, 2,
@@ -683,7 +680,6 @@ class PacmanWithWave extends Pattern{
 
     shift(v){
         // shift the waveSource
-        console.log(v)
         const lineVect = new Vector(400, 0);
         const fixed = this.difficulty[this.chosenDifficulty].fixedPts;
         const nonFixed = this.difficulty[this.chosenDifficulty].nonFixedPts;
@@ -700,7 +696,6 @@ class PacmanWithWave extends Pattern{
         }
 
         if (this.cooldown <= 0){
-            console.log('here');
             this.createNewWaveSource();
             this.cooldown = 2;
         }

@@ -28,15 +28,8 @@ class OutsideScene{
         //start the player off at the middle of the room
         this.playerReference = new Character(this.drawLayers, {x:400, y:300}, this.container);
 
-        //DEBUG
-        const dialogueFontStyle = new PIXI.TextStyle({
-            fontFamily : "BrokenConsole",
-            fontSize : 28,
-            fontWeight : "bold",
-            fill : "#ffffff",
-            stroke : "#ffffff",
-        });
 
+        //create a door npc
         this.door = new BrokenDoor(this.container, this.drawLayers.foregroundLayer, this.playerReference, {x:0, y:300});
 
     }

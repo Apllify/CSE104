@@ -64,6 +64,8 @@ class Projectile{
         this.displayGraphic.rotation = Math.acos(this.direction.x);
 
         PIXI.sound.add('hit','././Sound/projectile_hit.wav');
+        PIXI.sound.volume("hit" ,0.01);
+
     }
 
 

@@ -142,6 +142,9 @@ class PauseScreen{
 
         PIXI.sound.add('flip', '././Sound/flip_menu.wav');
         PIXI.sound.add('action', '././Sound/hit_play.wav');
+        PIXI.sound.volume("flip" ,0.03);
+        PIXI.sound.volume("action" ,0.03);
+
     }
 
     refreshPromptCrosshair(){

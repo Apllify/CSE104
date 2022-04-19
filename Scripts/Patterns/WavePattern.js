@@ -77,6 +77,7 @@ class WavePattern extends Pattern{
 
     load(){
         PIXI.sound.add('wave', '././Sound/wave_init.wav');
+        PIXI.sound.volume("wave" ,0.03);
         PIXI.sound.play('wave');
         // create the projectiles 
         for (let i=0; i < this.pointCoords.length; i++){
