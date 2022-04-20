@@ -77,7 +77,7 @@ class PacmanPattern extends Pattern{
                 const directionVector = new Vector(this.playerReference.x - this.telegraphs[i].x, this.playerReference.y - this.telegraphs[i].y);
                 const positionVector = new Vector(this.telegraphs[i].x, this.telegraphs[i].y);
     
-                this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, positionVector, this.shotSpeed, directionVector, undefined, 100));
+                this.projectiles.push(new Projectile(this.drawLayer, this.playerReference, positionVector, this.shotSpeed, directionVector, undefined, this.projectileDamage));
     
                 //destroy the telegraph entity and remove it from the list
                 this.telegraphs[i].destroy();

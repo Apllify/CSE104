@@ -204,7 +204,7 @@ class MenuScene{
 
 
         if (inputs.enter.isJustDown){     // handles input prompt selections. If "PLAY", we create a
-            // boss scene; if "EXIT", we close the window.
+            // boss scene, for example.
             if (this.currentInputPrompt === 0){
                 PIXI.sound.play('play')
                 mainGame.changeScene(new NameInputScene(this.drawLayers));
@@ -212,13 +212,12 @@ class MenuScene{
             else if (this.currentInputPrompt === 1){
                 //only allow the player to click the button once 
                 if (!this.helpJokeStarted){
+                    this.helpJokeStarted = true;
                     this.inputPrompts[1].destroy();
                     this.inputPrompts[1] = new FadeText(drawLayers.foregroundLayer, "HOW TO PLAY", {x:0, y:0}, this.menuFontStyle, 1);
                     this.inputPrompts[1].centerHorizontallyAt(400);
                     this.inputPrompts[1].centerVerticallyAt(350);
                     this.inputPrompts[1].initiate();
-
-                    this.helpJokeStarted = true;
                     this.helpJokeStartTime = this.elapsedTime;
                 }
 
@@ -236,6 +235,9 @@ class MenuScene{
 
             if (this.inputPrompts[1].isDone() && !this.helpJokeEnded){
                 //slowly ease the exit button upwards
+                if (this.destroying){
+                    return 
+                }
                 const newYPosition = 350 + Math.cos( (this.elapsedTime - this.helpJokeStartTime) /2  )  * 100;
                 this.inputPrompts[2].centerVerticallyAt(newYPosition);
 
