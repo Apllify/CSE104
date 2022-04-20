@@ -1,6 +1,8 @@
 "use strict";
 class MenuScene{
 
+    drawLayers= null;
+
     inputPrompts = [];  
     currentInputPrompt = 0;
 
@@ -28,9 +30,9 @@ class MenuScene{
     
     destroying = false;
 
-    constructor(drawLayers, game){
+    constructor(drawLayers){
         //create a background graphics
-        this.game = game;
+        this.drawLayers = drawLayers;
         this.backgroundGraphics= new PIXI.Graphics();
 
         this.backgroundGraphics.beginFill(0x000000);
@@ -205,7 +207,7 @@ class MenuScene{
             // boss scene; if "EXIT", we close the window.
             if (this.currentInputPrompt === 0){
                 PIXI.sound.play('play')
-                mainGame.changeScene(new BossScene(drawLayers, this.game));
+                mainGame.changeScene(new NameInputScene(this.drawLayers));
             }
             else if (this.currentInputPrompt === 1){
                 //only allow the player to click the button once 

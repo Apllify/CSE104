@@ -11,7 +11,7 @@ class Game{
         // this.currentScene = new OutsideScene(this.drawLayers);
         // this.currentScene.setMapMatrix([[0,0,0,0], [0, 0, 2, 1], [0, 0,0, 0], [0, 0, 0, 0]]);
 
-        this.currentScene = new MenuScene(this.drawLayers, this);
+        this.currentScene = new MenuScene(this.drawLayers);
     }
 
 

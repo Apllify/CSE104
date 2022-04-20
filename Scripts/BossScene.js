@@ -20,9 +20,8 @@ class BossScene{
 
 
 
-    constructor(drawLayers, game){
+    constructor(drawLayers){
         //create the player 
-        this.game = game;
         this.playerReference = new Character(drawLayers, {x:400,y:300});
 
         this.drawLayers = drawLayers;
