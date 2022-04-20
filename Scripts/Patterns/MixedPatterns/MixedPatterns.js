@@ -729,3 +729,163 @@ class PacmanWithWave extends Pattern{
         delete this;
     }
 }
+
+
+class PacmanSquare extends Pattern{
+
+    // set up the difficulty parameters
+    difficulty = {
+        'easy':{
+            minScale: 0.6,
+            maxScale: 0.8,
+            targetPoints: 12,
+            borderDamage: 80,
+            initialCoolDown: 5,
+            coolDownDeceleration:0.02,
+            minimumCoolDown: 2,
+            pacmanDuration: 10,
+            pacmanCoolDown: 2,
+            shotSpeed: 150,
+            projectileDimensions: {x:12, y:12},
+            projectileDamage: 40,
+        },
+
+        'medium':{
+            minScale: 0.5,
+            maxScale: 0.6,
+            targetPoints: 15,
+            borderDamage: 100,
+            initialCoolDown: 8,
+            coolDownDeceleration:0.04,
+            minimumCoolDown: 2,
+            pacmanDuration: 15,
+            pacmanCoolDown: 1.5,
+            shotSpeed: 175,
+            projectileDimensions: {x:13, y:13},
+            projectileDamage: 70,
+
+        },
+
+        'hard':{
+            minScale: 0.45,
+            maxScale: 0.55,
+            targetPoints: 15,
+            borderDamage: 120,
+            initialCoolDown: 8,
+            coolDownDeceleration:0.04,
+            minimumCoolDown: 2.5,
+            pacmanDuration: 15,
+            pacmanCoolDown: 1.2,
+            shotSpeed: 190,
+            projectileDimensions: {x:13, y:13},
+            projectileDamage: 80,
+
+        },
+
+        'ultraHard':{
+            minScale: 0.4,
+            maxScale: 0.5,
+            targetPoints: 15,
+            borderDamage: 120,
+            initialCoolDown: 7.5,
+            coolDownDeceleration:0.04,
+            minimumCoolDown: 2.5,
+            pacmanDuration: 15,
+            pacmanCoolDown: 1.2,
+            shotSpeed: 200,
+            projectileDimensions: {x:13, y:13},
+            projectileDamage: 80,
+
+        }
+    }
+    
+    destroying = false;
+    
+    squarePattern = null;
+    pacmanPatterns = [];
+
+    constructor(drawLayer, player, difficulty='medium'){
+        super(drawLayer, player);
+        this.chosenDifficulty = difficulty;
+       
+        // coolDown is the actual time we have left before the next pacmanPattern is Generated;
+        // currentCoolDown is the the value the coolDown will be assigned once it reaches zero. It will
+        // decrease as the pattern proceeds
+        
+        this.coolDown = this.difficulty[this.chosenDifficulty].initialCoolDown;
+        this.currentCoolDown = this.coolDown;
+        this.coolDownDeceleration = this.difficulty[this.chosenDifficulty].coolDownDeceleration;
+        this.minimumCoolDown = this.difficulty[this.chosenDifficulty].minimumCoolDown
+    }
+
+
+    update(delta, inputs){
+        if (this.destroying){
+            return;
+        }
+
+        // decrement the coolDown and currentCoolDown parameters 
+        this.coolDown -= delta;
+        this.currentCoolDown -= (this.coolDownDeceleration * delta);
+        this.currentCoolDown = Math.max(this.currentCoolDown, this.minimumCoolDown);
+        console.log(this.currentCoolDown);
+
+        if (this.coolDown <= 0){
+            this.generatePacman();
+            this.coolDown = this.currentCoolDown;
+        }
+
+        for(let i = 0; i < this.pacmanPatterns.length; i++){
+            if (this.pacmanPatterns[i].isDone()){
+                this.pacmanPatterns[i].destroy();
+                this.pacmanPatterns.splice(i, 1);
+                i -= 1;
+            }
+
+            else{
+                this.pacmanPatterns[i].update(delta, inputs);
+            }
+        }
+
+        this.squarePattern.update(delta, inputs);
+    }
+
+
+    load(){
+        // we begin with a SquarePattern and a PacmanPattern
+        this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70,
+            this.difficulty[this.chosenDifficulty].minScale,
+            this.difficulty[this.chosenDifficulty].maxScale,
+            this.difficulty[this.chosenDifficulty].targetPoints,
+            this.difficulty[this.chosenDifficulty].borderDamage);
+        
+        this.squarePattern.activate();    
+        this.generatePacman();
+    }
+
+
+    isDone(){
+        return this.squarePattern.isDone();
+    }
+
+
+    generatePacman(){
+        // create a PacmanPattern based on the parameters corresponding to the difficulty chosen
+        this.pacmanPatterns.push(new PacmanPattern(this.drawLayer, this.playerReference, 
+            this.difficulty[this.chosenDifficulty].pacmanDuration, 
+            this.difficulty[this.chosenDifficulty].pacmanCoolDown,
+            this.difficulty[this.chosenDifficulty].shotSpeed,
+            this.difficulty[this.chosenDifficulty].projectilDimensions,
+            this.difficulty[this.chosenDifficulty].projectileDamage));
+    }
+
+    destroy(){
+        
+        this.destroying = true;
+        this.squarePattern.destroy();
+        for(let pattern of this.pacmanPatterns){
+            pattern.destroy();
+        }
+        delete this;
+    }
+}
