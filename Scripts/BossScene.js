@@ -18,6 +18,7 @@ class BossScene{
     //the list of all pattern instancers
     patternsList = [];
 
+    gameOver = false;
 
 
     constructor(drawLayers, game){
@@ -51,12 +52,12 @@ class BossScene{
         }
 
         
-        if (inputs.escape.isJustDown){
+
+        if (inputs.escape.isJustDown && !this.gameOver){
             // whenever we press escape, we call pauseHandle to either pause or unpause the game.
             PIXI.sound.play('pause');
             this.pauseHandle(['RESUME', 'RESTART', 'QUIT'], {0:'resume', 1:'restart', 2:'quit'});
         }
-
 
         if (this.paused){
             // if the game is paused we only update the pausescreen and leave all other elements the way
@@ -65,7 +66,10 @@ class BossScene{
             return 
         }
 
+        
+
         if (this.playerReference.health <= 0){
+            this.gameOver = true;
             this.pauseHandle(['RETRY', 'QUIT'], {0:'restart', 1:'quit'}, 'GAME OVER!!');
         }
 
