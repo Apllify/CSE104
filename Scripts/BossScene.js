@@ -121,7 +121,7 @@ class BossScene{
 
     restart(){
         // restarts this scene.
-        this.game.changeScene(new BossScene(drawLayers, this.game));
+        mainGame.changeScene(new BossScene(drawLayers));
     }
 
     quit(){  // if enter was pressed when quitting the game, we need
@@ -129,7 +129,7 @@ class BossScene{
                                             // MenuScene is initialized since the button press may 
                                             // span multiple frames.
         // return to the menuscene.
-        this.game.changeScene(new MenuScene(drawLayers, this.game));
+        mainGame.changeScene(new MenuScene(drawLayers));
     }
 
 

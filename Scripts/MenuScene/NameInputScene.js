@@ -84,20 +84,10 @@ class NameInputScene{
         this.nameTextBox.centerHorizontallyAt(400);
         this.nameTextBox.centerVerticallyAt(100);
 
-        //create all of the text boxes for the keyboard
-        for(let i = 0; i< this.letters.length; i++){
+        //setup the keyboard 
+        this.setupKeyboard();
 
-            let currentRow = Math.floor(i / this.lineSize); 
-            let currentColumn = i%10;
-            const position = this.getLetterPosition(currentRow, currentColumn);
 
-            this.letterTextBoxes.push(new TextDisplay(this.drawLayers.activeLayer, this.letters[i], 
-                {x: 0, y : 0}, this.lettersFont ) );
-
-            
-            this.letterTextBoxes[i].centerHorizontallyAt(position.x);
-            this.letterTextBoxes[i].centerVerticallyAt(position.y);
-        }
 
         //create a text box for the qwerty layout button
         this.qwertyButton = new TextDisplay(this.drawLayers.activeLayer, "QWERTY", {x:0,y:0}, this.specialKeyFont);
@@ -118,6 +108,33 @@ class NameInputScene{
         this.updateCursorPosition();
 
 
+    }
+    
+    setupKeyboard(){
+
+        //clear the keyboard if necessary first
+        for (let i =0; i<this.letterTextBoxes.length; i++){
+            this.letterTextBoxes[i].destroy();
+
+        }
+
+        this.letterTextBoxes = [];
+
+
+        //create all of the text boxes for the keyboard
+        for(let i = 0; i< this.letters.length; i++){
+
+            let currentRow = Math.floor(i / this.lineSize); 
+            let currentColumn = i%10;
+            const position = this.getLetterPosition(currentRow, currentColumn);
+
+            this.letterTextBoxes.push(new TextDisplay(this.drawLayers.activeLayer, this.letters[i], 
+                {x: 0, y : 0}, this.lettersFont ) );
+
+            
+            this.letterTextBoxes[i].centerHorizontallyAt(position.x);
+            this.letterTextBoxes[i].centerVerticallyAt(position.y);
+        }
     }
 
     //returns the center position of a letter based on its row and column index
@@ -174,7 +191,6 @@ class NameInputScene{
                 newMaxColumn = (this.letters.length - this.currentCursorRow * this.lineSize > this.lineSize) ? this.lineSize : (this.letters.length - this.currentCursorRow * this.lineSize);
             }
             else{
-                console.log("GOING DOWN");
                 newMaxColumn = (this.currentCursorRow - Math.ceil(this.letters.length / this.lineSize) === 0) ? 2 : 1;
             }
 
@@ -209,13 +225,41 @@ class NameInputScene{
             this.updateCursorPosition();
         }
 
-        //DEBUG 
-        console.log("ROW : " + this.currentCursorRow + " COLUMN : " + this.currentCursorColumn + " MAX COLUMN : " + this.currentMaxColumn);
 
 
-        //check if one of the letters is actually selected
+        //check if the user tries to input something 
         if (inputs.enter.isJustDown){
-            this.currentName += this.letters[this.currentCursorRow * this.lineSize + this.currentCursorColumn];
+
+            //if it is a letter
+            if (this.currentCursorRow * this.lineSize + this.currentCursorColumn < this.letters.length){
+                this.currentName += this.letters[this.currentCursorRow * this.lineSize + this.currentCursorColumn];
+            }
+            //if it is a special key
+            else{
+                const id=  2 * (this.currentCursorRow - 3) + this.currentCursorColumn;
+
+                if (id === 0){//qwerty button
+                    //completely shuffle the keyboard
+                    let lettersList = this.letters.split("");
+                    let shuffledLettersList = lettersList
+                                        .map(value => ({ value, sort: Math.random() }))
+                                        .sort((a, b) => a.sort - b.sort)
+                                        .map(({ value }) => value);
+
+                    this.letters = shuffledLettersList.join("");
+
+                    this.setupKeyboard();
+
+                }
+                else if (id === 1){ // undo button
+                    this.currentName = this.currentName.slice(0, -1);
+                }
+                else if (id == 2){
+                    //TODO : save the player name somewhere permanent HERE
+
+                    mainGame.changeScene(new BossScene(this.drawLayers));
+                }
+            }
         }
 
 
@@ -268,7 +312,21 @@ class NameInputScene{
    }
 
     destroy(){
-        
+        //destroy every single letter in the keyboard first
+        for (let i = 0; i< this.letterTextBoxes.length; i++){
+            this.letterTextBoxes[i].destroy();
+        }
+
+        //destroy the background graphics
+        this.backgroundGraphics.destroy();
+
+        //destroy the cursor graphics
+        this.cursor.destroy();
+
+        //destroy the special keys
+        this.qwertyButton.destroy();
+        this.undoButton.destroy();
+        this.enterButton.destroy();
     }
 
 
