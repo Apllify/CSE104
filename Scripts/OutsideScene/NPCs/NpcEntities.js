@@ -1,9 +1,5 @@
 class BrokenDoor extends Npc{
 
-
-
-
-
     constructor(drawLayer, foregroundLayer, playerReference, position){
         const monologuesList = [
             ["This door doesn't seem to open...",
@@ -12,7 +8,7 @@ class BrokenDoor extends Npc{
 
         const textStyle = new PIXI.TextStyle({
                 fontFamily : "BrokenConsole",
-                fontSize : 28,
+                fontSize : 24,
                 fontWeight : "bold",
                 fill : "#ffffff",
                 stroke : "#ffffff",

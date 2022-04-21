@@ -4,6 +4,7 @@ class NameInputScene{
     game = null;
 
     elapsedTime = 0;
+    destroying = false;
 
     backgroundGraphics = null;
 
@@ -42,6 +43,15 @@ class NameInputScene{
         this.backgroundGraphics.drawRect(0, 0, 800, 600);
 
         this.drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
+
+        //add a few sound effects for this scene
+        PIXI.sound.add('flipKeyboard', '././Sound/flip_keyboard.wav');
+        PIXI.sound.add("startGame", "././Sound/start_game.wav");
+
+        PIXI.sound.volume("flipKeyboard" ,0.03);
+        PIXI.sound.volume("startGame", 0.5);
+
+
 
 
         //instantiate the cursor 
@@ -151,11 +161,17 @@ class NameInputScene{
     }
 
     update(delta, inputs){
+        if (this.destroying){
+            return;
+        }
+
         //keep track of time internally
         this.elapsedTime += delta;
 
         //update the current column based on left/right inputs
         if (inputs.left.isJustDown || inputs.leftAlt.isJustDown){
+            PIXI.sound.play('flip')
+
             this.currentCursorColumn -= 1;
             
             if (this.currentCursorColumn === -1){
@@ -165,6 +181,8 @@ class NameInputScene{
             this.updateCursorPosition();
         }
         else if (inputs.right.isJustDown){
+            PIXI.sound.play('flip')
+
             this.currentCursorColumn += 1;
 
             if (this.currentCursorColumn === this.currentMaxColumn){
@@ -177,6 +195,8 @@ class NameInputScene{
 
         //update the current row and max colmun based on up/down inputs
         if (inputs.down.isJustDown){
+            PIXI.sound.play('flip')
+
             this.currentCursorRow += 1;
 
 
@@ -202,6 +222,8 @@ class NameInputScene{
             this.updateCursorPosition();
         }
         else if (inputs.up.isJustDown || inputs.upAlt.isJustDown){
+            PIXI.sound.play('flip')
+
             this.currentCursorRow -= 1;
 
             if (this.currentCursorRow === -1){
@@ -257,15 +279,31 @@ class NameInputScene{
                 else if (id == 2){
                     //TODO : save the player name somewhere permanent HERE
 
-                    mainGame.changeScene(new BossScene(this.drawLayers));
+
+                    //play the start game sound effect
+                    PIXI.sound.play("startGame");
+
+                    //create the first scene of the game 
+                    const firstScene = new OutsideScene(this.drawLayers);
+                    firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+                    mainGame.changeScene(firstScene);
                 }
             }
         }
 
+        if (inputs.escape.isJustDown){
+            //reload the menu scene without saving any changes
+            mainGame.changeScene(new MenuScene(this.drawLayers));
+        }
+
 
         //update the name text box 
-        this.nameTextBox.setText(this.currentName);
-        this.nameTextBox.centerHorizontallyAt(400);
+        if (!this.destroying ){
+            this.nameTextBox.setText(this.currentName);
+            this.nameTextBox.centerHorizontallyAt(400);
+        }
+
+
 
         //make cursor fade in and out with max opacity of 0.7
         this.cursor.alpha = Math.min(Math.abs(Math.cos(4 * this.elapsedTime)), 0.7);
@@ -312,10 +350,16 @@ class NameInputScene{
    }
 
     destroy(){
+        //set a flag 
+        this.destroying = true;
+
         //destroy every single letter in the keyboard first
         for (let i = 0; i< this.letterTextBoxes.length; i++){
             this.letterTextBoxes[i].destroy();
         }
+
+        //destroy the player name container 
+        this.nameTextBox.destroy();
 
         //destroy the background graphics
         this.backgroundGraphics.destroy();

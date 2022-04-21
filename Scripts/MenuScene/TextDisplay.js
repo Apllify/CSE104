@@ -2,6 +2,7 @@
 class TextDisplay{
 
     textEntity = null;
+    destroying = false;
 
     constructor( drawLayer, textContent, position, textStyle = undefined, alpha=1){
         // alpha value is 1 by default.
@@ -32,6 +33,8 @@ class TextDisplay{
 
     //centers the text horizontally around a given x position
     centerHorizontallyAt(xPosition){
+
+        
         //get the dimension rect 
         const dimensionRect = this.textEntity.getLocalBounds();
     
@@ -42,6 +45,7 @@ class TextDisplay{
 
     //centers the text vertically around a given position
     centerVerticallyAt(yPosition){
+
         //get the dimension rect
         const dimensionRect = this.textEntity.getLocalBounds();
 
