@@ -1,6 +1,6 @@
 class BrokenDoor extends Npc{
 
-    constructor(drawLayer, foregroundLayer, playerReference, position){
+    constructor(container, drawLayers, playerReference, position){
         const monologuesList = [
             ["This door doesn't seem to open...",
         "Perhaps you should come back later..."]
@@ -15,6 +15,28 @@ class BrokenDoor extends Npc{
             });
         
 
-        super(drawLayer, foregroundLayer, playerReference, position, "Broken Door", "", textStyle, monologuesList );
+        super(container, drawLayers.foregroundLayer, playerReference, position, "Broken Door", "", textStyle, monologuesList );
+    }
+}
+
+//has no dialogue, just starts the boss scene
+class BossWarp extends Npc{
+
+    drawLayers = null;
+
+    constructor(container, drawLayers, playerReference, position){
+        const monologuesList= [
+            ""
+        ]
+
+
+        super (container, drawLayers.foregroundLayer, playerReference, position, "Boss Warp", "", undefined,monologuesList);
+
+        this.drawLayers=  drawLayers;
+
+    }
+
+    isInteracted(){
+        mainGame.changeScene(new BossScene(this.drawLayers));
     }
 }

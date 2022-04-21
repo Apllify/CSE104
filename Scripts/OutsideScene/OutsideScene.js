@@ -12,10 +12,13 @@ class OutsideScene{
     drawLayers = null;
     container = null;
 
+    //destroy flag
+    destroying = false;
+
     //the player
     playerReference = null;
 
-    door = null;
+    npcList = [];
 
 
     //takes no arguments and is instead configured with methods
@@ -30,7 +33,9 @@ class OutsideScene{
 
 
         //create a door npc
-        this.door = new BrokenDoor(this.container, this.drawLayers.foregroundLayer, this.playerReference, {x:0, y:300});
+        this.npcList.push( new BrokenDoor(this.container, this.drawLayers, this.playerReference, {x:0, y:300}));
+        this.npcList.push(new BossWarp(this.container, this.drawLayers, this.playerReference, {x:600, y:300}));
+
 
     }
 
@@ -98,7 +103,14 @@ class OutsideScene{
 
 
         //update the broken door 
-        this.door.update(delta, inputs);
+        for (let npc of this.npcList){
+            npc.update(delta, inputs);
+        }
+
+        
+        if (this.destroying){
+            return;
+        }
 
         //check if the player went into a collision this frame to readjust him
         let playerHitbox = this.playerReference.getHitboxRectangle();
@@ -114,6 +126,9 @@ class OutsideScene{
 
         this.playerReference.setHitboxRectangle(playerHitbox);
 
+        if (this.destroying){
+            return;
+        }
 
         //update the camera with the correct position to account for player movements
         this.container.x = 400 - this.playerReference.x;
@@ -299,6 +314,21 @@ class OutsideScene{
 
 
 
+    }
+
+    destroy(){
+        //destroy everything contained in the container
+        this.destroying = true;
+
+        this.playerReference.destroy();
+
+
+        while (this.container.children[0]){
+            this.container.removeChild(this.container.children[0]);
+        }
+
+
+        this.container.destroy();
     }
 
 }

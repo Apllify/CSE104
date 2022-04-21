@@ -124,7 +124,6 @@ class Projectile{
     destroy(){
         this.destroying = true;
         this.displayGraphic.destroy();
-        delete this; 
     }
 
 

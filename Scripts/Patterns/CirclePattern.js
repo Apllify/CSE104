@@ -68,7 +68,7 @@ class CirclePattern extends Pattern{
 
     update(delta, inputs){
         if (this.destroying){ // don't try to update if destroy has been called
-            return 
+            return ;
         }
         if (this.active){
             //update every single projectile in the list

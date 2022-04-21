@@ -46,6 +46,9 @@ class Character{
         this.sprite.scale.x = 2.0;
         this.sprite.scale.y = 2.0;
 
+        //load the player name from window memory if possible 
+        this.name = window.localStorage.getItem("username");
+
         //save the draw layers
         this.drawLayer = drawLayer;
         this.drawLayers= drawLayers;

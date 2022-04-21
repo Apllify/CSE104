@@ -44,9 +44,9 @@ class MenuScene{
         PIXI.sound.add('exit', '././Sound/exit_joke.wav');
         PIXI.sound.add('play', '././Sound/hit_play.wav');
 
-        PIXI.sound.volume("flip" ,0.03);
-        PIXI.sound.volume("exit" ,0.03);
-        PIXI.sound.volume("play" ,0.03);
+        PIXI.sound.volume("flip", 0.03);
+        PIXI.sound.volume("exit", 0.03);
+        PIXI.sound.volume("play", 0.03);
 
 
         //setup the menu font style
@@ -207,7 +207,14 @@ class MenuScene{
             // boss scene, for example.
             if (this.currentInputPrompt === 0){
                 PIXI.sound.play('play')
-                mainGame.changeScene(new NameInputScene(this.drawLayers));
+
+                //either load the game or the name input scene depending on whether the player has already chosen
+                if (window.localStorage.getItem("username") === null){
+                    mainGame.changeScene(new NameInputScene(this.drawLayers));
+                }
+                else{
+                    mainGame.loadFirstGameScene();
+                }
             }
             else if (this.currentInputPrompt === 1){
                 //only allow the player to click the button once 

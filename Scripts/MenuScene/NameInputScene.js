@@ -277,16 +277,21 @@ class NameInputScene{
                     this.currentName = this.currentName.slice(0, -1);
                 }
                 else if (id == 2){
-                    //TODO : save the player name somewhere permanent HERE
+                    //backup the player name while the website is running 
+                    if (this.currentName !== ""){
+                        window.localStorage.setItem("username", this.currentName);
 
+                    }
+                    else{
+                        window.localStorage.setItem("username", "1AMDUM13");
+                    }
+                    
 
                     //play the start game sound effect
                     PIXI.sound.play("startGame");
 
-                    //create the first scene of the game 
-                    const firstScene = new OutsideScene(this.drawLayers);
-                    firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
-                    mainGame.changeScene(firstScene);
+                    //load the first scene of the game  
+                    mainGame.loadFirstGameScene();
                 }
             }
         }

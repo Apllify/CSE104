@@ -23,4 +23,11 @@ class Game{
         this.currentScene.destroy();
         this.currentScene = newScene;
     }
+
+
+    loadFirstGameScene(){
+        const firstScene = new OutsideScene(this.drawLayers);
+        firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+        this.changeScene(firstScene);
+    }
 }

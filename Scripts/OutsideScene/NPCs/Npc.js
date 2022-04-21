@@ -69,7 +69,7 @@ class Npc{
     
                 if (totalDistance < this.interactionRadius ){
                     //start the next monologue
-                    this.nextMonologue();
+                    this.isInteracted();
                 }
             }
 
@@ -81,6 +81,11 @@ class Npc{
                 this.isMonologuing = false;
             }
         }  
+    }
+
+    //called whenever the player interacts with the npc, made to be overriden
+    isInteracted(){
+        this.nextMonologue();
     }
 
     nextMonologue(){

@@ -34,7 +34,11 @@ class BossScene{
 
         //start with a random pattern
         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
-        this.currentPattern = new PacmanSquare(this.drawLayers.activeLayer, this.playerReference, 'hard')
+
+        const pattern = new ProjectileBombPattern(this.drawLayers.activeLayer, this.playerReference, {x:400, y:300}, 10, 
+            300, 10, 30);
+
+        this.currentPattern = pattern;
         this.currentPattern.activate();
 
         PIXI.sound.add('pause', '././Sound/pause_button.wav');
