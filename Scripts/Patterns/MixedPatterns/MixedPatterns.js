@@ -887,5 +887,6 @@ class PacmanSquare extends Pattern{
             pattern.destroy();
         }
         delete this;
+        
     }
 }

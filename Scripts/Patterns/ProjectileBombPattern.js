@@ -63,7 +63,10 @@ class ProjectileBombPattern extends Pattern{
         this.destroying = true;
 
         for (let projectile of this.projectilesList){
-            projectile.destroy();
+            if (projectile != null){
+                projectile.destroy();
+            }
+            
         }
     }
 }

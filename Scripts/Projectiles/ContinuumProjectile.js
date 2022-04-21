@@ -11,6 +11,9 @@ class ContinuumProjectile extends Projectile{
     }
 
     update(delta){
+        if (this.destroying){
+            return
+        }
         super.update(delta);
 
         //add a screen wrap functionnality if the border is reached
@@ -31,9 +34,9 @@ class ContinuumProjectile extends Projectile{
         //also keep track of the elapsed time for the lifespan
         this.elapsedTime += delta;
 
-        if (this.elapsedTime > this.lifespan){
-            this.destroy();
-        } 
+        //if (this.elapsedTime > this.lifespan){
+            //this.destroy();
+      //  } 
     }
 
 
