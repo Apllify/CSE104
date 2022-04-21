@@ -100,5 +100,6 @@ class Npc{
     destroy(){
         this.rectangle.destroy();
         this.destroyed = true;
+        delete this;
     }
 }

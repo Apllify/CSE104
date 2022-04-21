@@ -40,3 +40,27 @@ class BossWarp extends Npc{
         mainGame.changeScene(new BossScene(this.drawLayers));
     }
 }
+
+
+
+class BossEntry extends Npc{
+
+
+    constructor(drawLayer, foregroundLayer, playerReference, gameReference, position, name, spritePath,
+        scene){
+        super(drawLayer, foregroundLayer, playerReference, position, name, spritePath, null)
+        this.gameReference = gameReference;
+        this.bossScene = bossScene;
+    }
+
+    isInteracted(){
+        this.gameReference.changeScene(this.bossScene);
+    }
+
+    nextMonologue(){
+        // just in case it is called 
+        return;
+    }
+
+
+}

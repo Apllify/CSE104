@@ -23,28 +23,35 @@ class BossScene{
 
     constructor(drawLayers){
         //create the player 
-        this.playerReference = new Character(drawLayers, {x:400,y:300});
-
+        
         this.drawLayers = drawLayers;
 
-        //instantiate the list of patterns
-        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
-        this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
-
-
-        //start with a random pattern
-        const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
-
-        const pattern = new ProjectileBombPattern(this.drawLayers.activeLayer, this.playerReference, {x:400, y:300}, 10, 
-            300, 10, 30);
-
-        this.currentPattern = pattern;
-        this.currentPattern.activate();
+       
 
         PIXI.sound.add('pause', '././Sound/pause_button.wav');
         PIXI.sound.volume("pause" ,0.03);
 
 
+
+    }
+
+
+    startScene(){
+        this.playerReference = new Character(drawLayers, {x:400,y:300});
+
+         //instantiate the list of patterns
+         this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
+         this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
+ 
+ 
+         //start with a random pattern
+         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
+ 
+         const pattern = new ProjectileBombPattern(this.drawLayers.activeLayer, this.playerReference, {x:400, y:300}, 10, 
+             300, 10, 30);
+ 
+         this.currentPattern = pattern;
+         this.currentPattern.activate();
 
     }
 

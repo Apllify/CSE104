@@ -22,6 +22,11 @@ class Game{
     changeScene(newScene){
         this.currentScene.destroy();
         this.currentScene = newScene;
+        // some scenes have a startScene method to avoid starting them as soon as they are created
+        if (this.currentScene.startScene != undefined){
+            this.currentScene.startScene();
+        }
+        
     }
 
 
