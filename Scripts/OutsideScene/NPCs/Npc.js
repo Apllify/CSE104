@@ -1,107 +1,107 @@
+
+
+
+
 class Npc{
 
+    //position
     x = 0;
     y = 0;
 
-    drawLayer = null;
-    foregroundLayer =null;
-    playerReference = null;
+    //from how far away the player can interact with us 
+    detectionRadius = 100;
 
-    name = "";
-    spritePath = "";
+    //state machine
+    currentState = 0;
 
-    textStyle = undefined;
-
-    monologuesList = [
-        ["This is my first time talking to you",
-    "Pretty cool right ?"],
-        ["This is my second time talking to you !",
-    "There is no more dialogue after this "],
-        ["Uhmmm, nothing to see here..."]
-    ]
-    currentMonologueIndex = -1;
     currentMonologue = null;
-    isMonologuing = false;
-    interactionRadius = 70;
 
-    //temporary display rectangle 
-    rectangle = null;
+    //whether we use a 20x20 rectangle to display this entity
+    debugGraphics = null;
 
-    //state variable
-    destroyed = false;
+    //universal properties
+    playerReference = null;
+    drawLayer = null;
 
-    constructor(drawLayer, foregroundLayer, playerReference,  position, name, spritePath, textStyle, monologuesList ){
-        this.drawLayer  =drawLayer;
-        this.foregroundLayer = foregroundLayer;
 
+    constructor(drawLayer, playerReference){
         this.playerReference=  playerReference;
+        this.drawLayer = drawLayer;
 
-        this.name = name;
+    }
 
-        this.x = position.x;
-        this.y = position.y;
-
-        this.spritePath = spritePath;
-        this.textStyle = textStyle;
-
-        this.monologuesList = monologuesList;
-
-        //create a temporary display rectangle
-        this.rectangle = new Rectangle(this.x - 20, this.y - 20, 40, 40).getGraphics(0x00FF00);
-        this.drawLayer.addChild(this.rectangle);
+    setupDebugGraphics(){
+        this.debugGraphics = new Rectangle(this.x - 20, this.y - 20, 40, 40).getGraphics(0x00FF00);
+        this.drawLayer.addChild(this.debugGraphics);
     }
 
 
+    //keep track of the state and call the sub-methods accordingly
     update(delta, inputs){
-        //don't update if the entity is destroyed
-        if (this.destroyed){
-            return;
-        }
+        //update depending on the state 
+        if (this.currentState === 0){
+            this.idleUpdate(delta, inputs);
 
-
-        //check the distance with the player to check if the next monologue sequence can be engaged
-        if (!this.isMonologuing){
+            //check for player inputs
             if (inputs.enter.isJustDown){
-                const xDistance=  this.playerReference.x - this.x;
+                const xDistance = this.playerReference.x - this.x;
                 const yDistance = this.playerReference.y - this.y;
-                const totalDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance , 2));
-    
-    
-                if (totalDistance < this.interactionRadius ){
-                    //start the next monologue
-                    this.isInteracted();
+
+                const totalDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+
+                if (totalDistance <= this.detectionRadius){
+                    //change the state
+                    this.currentState = 1;
+                    this.currentMonologue = this.isInteracted();
                 }
             }
-
         }
-        else{
-            this.currentMonologue.update(delta, inputs)
+        else if (this.currentState === 1){
+            this.interactingUpdate(delta, inputs);
 
-            if (this.currentMonologue.isDone()){
-                this.isMonologuing = false;
-                this.playerReference.unpause();
+            //update the current monologue
+            if (this.currentMonologue !== null){
+                this.currentMonologue.update(delta, inputs);
             }
-        }  
+
+            
+            //check whether the monologue is over or nonexistent to go back to idle
+            if (this.currentMonologue === null || this.currentMonologue.isDone()){
+                this.currentState = 0;
+                this.isInteractingJustDone();
+            }
+        }
+
+
     }
 
-    //called whenever the player interacts with the npc, made to be overriden
-    isInteracted(){
-        this.playerReference.pause();
-        this.nextMonologue();
-    }
 
-    nextMonologue(){
-        this.currentMonologueIndex = Math.min(this.currentMonologueIndex + 1, this.monologuesList.length -1);
-        this.isMonologuing = true;
-
-        const verticalOffset = (this.playerReference.y < 450) ? 1 : 0;
-        this.currentMonologue = new Monologue(this.foregroundLayer,this.monologuesList[this.currentMonologueIndex],
-            this.textStyle, this.name, verticalOffset);    
-    }
-    
     destroy(){
-        this.rectangle.destroy();
-        this.destroyed = true;
-        delete this;
+        if (debugDisplay){
+            this.debugGraphics.destroy();
+        }
     }
+
+
+
+    //TO BE OVERRIDEN by subclasses
+    idleUpdate(delta, inputs){
+        return;
+    }
+
+    interactingUpdate(delta, inputs){
+        return;
+    }
+
+    isInteracted(){ //must return a monologue type object (or null)
+        return null;
+    }
+
+    isInteractingJustDone(){
+        return;
+    }
+
+
+
+
 }

@@ -1,71 +1,62 @@
 class BrokenDoor extends Npc{
 
+    monologuesList = [
+        ["This door doesn't seem to open...",
+    "Perhaps you should come back later..."]
+    ];
+
+    currentMonologueIndex =0;
+
+    textStyle = new PIXI.TextStyle({
+        fontFamily : "BrokenConsole",
+        fontSize : 24,
+        fontWeight : "bold",
+        fill : "#ffffff",
+        stroke : "#ffffff",
+    });
+
     constructor(container, playerReference, position){
-        const monologuesList = [
-            ["This door doesn't seem to open...",
-        "Perhaps you should come back later..."]
-        ];
+        super(container, playerReference );
 
-        const textStyle = new PIXI.TextStyle({
-                fontFamily : "BrokenConsole",
-                fontSize : 24,
-                fontWeight : "bold",
-                fill : "#ffffff",
-                stroke : "#ffffff",
-            });
+        this.x = position.x;
+        this.y = position.y;
+
+        this.setupDebugGraphics();
+    }
+
+
+    isInteracted(){
+        //advance the dialogue tree
+        this.currentMonologueIndex = Math.min(this.currentMonologueIndex + 1, this.monologuesList.length - 1);
+
+        //determin whether the player is in the lower half or upper half of the screen
+        const verticalOffset= (this.playerReference.y > 300) ? 1 : 0
+
+        return new Monologue(drawLayers.foregroundLayer, this.monologuesList[this.currentMonologueIndex], this.textStyle,
+            "Broken Door", verticalOffset);
         
-
-        super(container, drawLayers.foregroundLayer, playerReference, position, "Broken Door", "", textStyle, monologuesList );
     }
 }
 
-//has no dialogue, just starts the boss scene
 class BossWarp extends Npc{
 
 
     constructor(container,  playerReference, position){
-        const monologuesList= [
-            ""
-        ]
+        super(container, playerReference);
 
+        this.x = position.x;
+        this.y = position.y;
 
-        super (container, drawLayers.foregroundLayer, playerReference, position, "Boss Warp", "", undefined,monologuesList);
-
-
+        this.setupDebugGraphics();
     }
 
     isInteracted(){
-        const patternsList = [
-            (drawLayer, player, difficulty) => new FourCornerWaves(drawLayer, player, difficulty),
-            (drawLayer, player, difficulty) => new PacmanWithWave(drawLayer, player, difficulty),
-            (drawLayer, player, difficulty) => new PacmanSquare(drawLayer, player, difficulty)
+        console.log("BOSS !");
+        return null;
 
-        ];
-
-
-        mainGame.changeScene(new BossScene(patternsList ));
+        //mainGame.changeScene(new BossScene(patternsList ));
     }
 }
 
 
 
-class BossEntry extends Npc{
-
-
-    constructor(drawLayer, foregroundLayer, playerReference,  position, name, spritePath,
-        scene){
-        super(drawLayer, foregroundLayer, playerReference, position, name, spritePath, null)
-        this.bossScene = bossScene;
-    }
-
-    isInteracted(){
-        mainGame.changeScene(this.bossScene);
-    }
-
-    nextMonologue(){
-        // just in case it is called 
-        return;
-    }
-
-
-}
