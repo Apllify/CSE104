@@ -9,7 +9,6 @@ class OutsideScene{
 
     //container for camera behavior
     //initially center at the middle of the starting room "2"
-    drawLayers = null;
     container = null;
 
     //destroy flag
@@ -22,20 +21,19 @@ class OutsideScene{
 
 
     //takes no arguments and is instead configured with methods
-    constructor(drawLayers){
+    constructor(){
 
-        this.drawLayers = drawLayers;
         this.container = new PIXI.Container();
-        this.drawLayers.activeLayer.addChild(this.container);
+        drawLayers.activeLayer.addChild(this.container);
 
         //start the player off at the middle of the room
-        this.playerReference = new Character(this.drawLayers, {x:400, y:300}, this.container);
+        this.playerReference = new Character({x:400, y:300}, this.container);
 
 
         //create a door npc
-        this.npcList.push( new BrokenDoor(this.container, this.drawLayers, this.playerReference, {x:0, y:300}));
-        this.npcList.push(new BossWarp(this.container, this.drawLayers, this.playerReference, {x:600, y:300}));
-
+        this.npcList.push( new BrokenDoor(this.container,  this.playerReference, {x:0, y:300}));
+        this.npcList.push(new BossWarp(this.container,  this.playerReference, {x:600, y:300}));
+        
 
     }
 

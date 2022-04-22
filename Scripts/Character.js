@@ -27,9 +27,11 @@ class Character{
     destroying = false;
 
     drawLayer = null;
-    drawLayers = null;
 
-    constructor(drawLayers, startingCoords = {x:0, y:0}, drawLayer = null ){
+
+    isPaused=  false;
+
+    constructor(startingCoords = {x:0, y:0}, drawLayer = null ){
         //instantiate the player sprite
         const shieldTexture = PIXI.Texture.from("Sprites/Shield.png");
         this.sprite = new PIXI.Sprite(shieldTexture);
@@ -51,17 +53,24 @@ class Character{
 
         //save the draw layers
         this.drawLayer = drawLayer;
-        this.drawLayers= drawLayers;
 
         //add the sprite to the scene
         if (this.drawLayer == null){
-            this.drawLayers.activeLayer.addChild(this.sprite);
+            drawLayers.activeLayer.addChild(this.sprite);
         }
         else{
             this.drawLayer.addChild(this.sprite);
         }
 
         this.healthBar = new HealthBar(drawLayers.foregroundLayer, this);
+    }
+
+    pause(){
+        this.isPaused = true;
+    }
+
+    unpause(){
+        this.isPaused = false;
     }
 
     getOldHitboxRectangle(){
@@ -95,21 +104,27 @@ class Character{
 
         // this.health = Math.max(0, this.health - 0.2);  // line to test health bar at different health values.
         this.healthBar.update();
-        if (inputs.left.isDown || inputs.leftAlt.isDown){
-            this.xVelocity -= 1;
+        
+        //don't take inputs if the player is paused
+        if (!this.isPaused){
+            if (inputs.left.isDown || inputs.leftAlt.isDown){
+                this.xVelocity -= 1;
+            }
+    
+            if (inputs.right.isDown){
+                this.xVelocity += 1;
+            }
+        
+            if (inputs.up.isDown || inputs.upAlt.isDown){
+                this.yVelocity -= 1;
+            }
+        
+            if (inputs.down.isDown){
+                this.yVelocity += 1;
+            }
         }
 
-        if (inputs.right.isDown){
-            this.xVelocity += 1;
-        }
-    
-        if (inputs.up.isDown || inputs.upAlt.isDown){
-            this.yVelocity -= 1;
-        }
-    
-        if (inputs.down.isDown){
-            this.yVelocity += 1;
-        }
+
         let velocityVect = new Vector(this.xVelocity, this.yVelocity);
         velocityVect = velocityVect.normalize().rescale(this.speed);
 

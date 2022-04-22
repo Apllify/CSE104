@@ -79,12 +79,14 @@ class Npc{
 
             if (this.currentMonologue.isDone()){
                 this.isMonologuing = false;
+                this.playerReference.unpause();
             }
         }  
     }
 
     //called whenever the player interacts with the npc, made to be overriden
     isInteracted(){
+        this.playerReference.pause();
         this.nextMonologue();
     }
 

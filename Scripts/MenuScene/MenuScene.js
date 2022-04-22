@@ -1,7 +1,6 @@
 "use strict";
 class MenuScene{
 
-    drawLayers= null;
 
     inputPrompts = [];  
     currentInputPrompt = 0;
@@ -30,9 +29,8 @@ class MenuScene{
     
     destroying = false;
 
-    constructor(drawLayers){
+    constructor(){
         //create a background graphics
-        this.drawLayers = drawLayers;
         this.backgroundGraphics= new PIXI.Graphics();
 
         this.backgroundGraphics.beginFill(0x000000);
@@ -210,7 +208,7 @@ class MenuScene{
 
                 //either load the game or the name input scene depending on whether the player has already chosen
                 if (window.localStorage.getItem("username") === null){
-                    mainGame.changeScene(new NameInputScene(this.drawLayers));
+                    mainGame.changeScene(new NameInputScene());
                 }
                 else{
                     mainGame.loadFirstGameScene();

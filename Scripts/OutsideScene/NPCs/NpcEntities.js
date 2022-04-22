@@ -1,6 +1,6 @@
 class BrokenDoor extends Npc{
 
-    constructor(container, drawLayers, playerReference, position){
+    constructor(container, playerReference, position){
         const monologuesList = [
             ["This door doesn't seem to open...",
         "Perhaps you should come back later..."]
@@ -22,9 +22,8 @@ class BrokenDoor extends Npc{
 //has no dialogue, just starts the boss scene
 class BossWarp extends Npc{
 
-    drawLayers = null;
 
-    constructor(container, drawLayers, playerReference, position){
+    constructor(container,  playerReference, position){
         const monologuesList= [
             ""
         ]
@@ -32,12 +31,19 @@ class BossWarp extends Npc{
 
         super (container, drawLayers.foregroundLayer, playerReference, position, "Boss Warp", "", undefined,monologuesList);
 
-        this.drawLayers=  drawLayers;
 
     }
 
     isInteracted(){
-        mainGame.changeScene(new BossScene(this.drawLayers));
+        const patternsList = [
+            (drawLayer, player, difficulty) => new FourCornerWaves(drawLayer, player, difficulty),
+            (drawLayer, player, difficulty) => new PacmanWithWave(drawLayer, player, difficulty),
+            (drawLayer, player, difficulty) => new PacmanSquare(drawLayer, player, difficulty)
+
+        ];
+
+
+        mainGame.changeScene(new BossScene(patternsList ));
     }
 }
 
@@ -46,15 +52,14 @@ class BossWarp extends Npc{
 class BossEntry extends Npc{
 
 
-    constructor(drawLayer, foregroundLayer, playerReference, gameReference, position, name, spritePath,
+    constructor(drawLayer, foregroundLayer, playerReference,  position, name, spritePath,
         scene){
         super(drawLayer, foregroundLayer, playerReference, position, name, spritePath, null)
-        this.gameReference = gameReference;
         this.bossScene = bossScene;
     }
 
     isInteracted(){
-        this.gameReference.changeScene(this.bossScene);
+        mainGame.changeScene(this.bossScene);
     }
 
     nextMonologue(){

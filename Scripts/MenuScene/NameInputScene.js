@@ -1,6 +1,5 @@
 class NameInputScene{
 
-    drawLayers= null;
     game = null;
 
     elapsedTime = 0;
@@ -32,9 +31,7 @@ class NameInputScene{
 
     currentName = "";
 
-    constructor(drawLayers){
-        //assign instance members
-        this.drawLayers = drawLayers;
+    constructor(){
 
         //create a background graphics
         this.backgroundGraphics= new PIXI.Graphics();
@@ -42,7 +39,7 @@ class NameInputScene{
         this.backgroundGraphics.beginFill(0x000000);
         this.backgroundGraphics.drawRect(0, 0, 800, 600);
 
-        this.drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
+        drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
 
         //add a few sound effects for this scene
         PIXI.sound.add('flipKeyboard', '././Sound/flip_keyboard.wav');
@@ -57,7 +54,7 @@ class NameInputScene{
         //instantiate the cursor 
         this.cursor = new PIXI.Graphics();
 
-        this.drawLayers.foregroundLayer.addChild(this.cursor);
+        drawLayers.foregroundLayer.addChild(this.cursor);
 
 
 
@@ -90,7 +87,7 @@ class NameInputScene{
 
 
         //create a text box to display the currently chosen name 
-        this.nameTextBox = new TextDisplay(this.drawLayers.activeLayer, this.currentName, {x:0,y:0}, this.nameFont);
+        this.nameTextBox = new TextDisplay(drawLayers.activeLayer, this.currentName, {x:0,y:0}, this.nameFont);
         this.nameTextBox.centerHorizontallyAt(400);
         this.nameTextBox.centerVerticallyAt(100);
 
@@ -100,17 +97,17 @@ class NameInputScene{
 
 
         //create a text box for the qwerty layout button
-        this.qwertyButton = new TextDisplay(this.drawLayers.activeLayer, "QWERTY", {x:0,y:0}, this.specialKeyFont);
+        this.qwertyButton = new TextDisplay(drawLayers.activeLayer, "QWERTY", {x:0,y:0}, this.specialKeyFont);
         this.qwertyButton.centerHorizontallyAt(200);
         this.qwertyButton.centerVerticallyAt(480);
 
         //create a text box for the undo button
-        this.undoButton = new TextDisplay(this.drawLayers.activeLayer, "UNDO", {x:0,y:0}, this.specialKeyFont);
+        this.undoButton = new TextDisplay(drawLayers.activeLayer, "UNDO", {x:0,y:0}, this.specialKeyFont);
         this.undoButton.centerHorizontallyAt(600);
         this.undoButton.centerVerticallyAt(480);
 
         //create a text box for the enter button at the very bottom of the screen
-        this.enterButton = new TextDisplay(this.drawLayers.activeLayer, "ENTER", {x:0,y:0}, this.specialKeyFont);
+        this.enterButton = new TextDisplay(drawLayers.activeLayer, "ENTER", {x:0,y:0}, this.specialKeyFont);
         this.enterButton.centerHorizontallyAt(400);
         this.enterButton.centerVerticallyAt(540);
 
@@ -138,7 +135,7 @@ class NameInputScene{
             let currentColumn = i%10;
             const position = this.getLetterPosition(currentRow, currentColumn);
 
-            this.letterTextBoxes.push(new TextDisplay(this.drawLayers.activeLayer, this.letters[i], 
+            this.letterTextBoxes.push(new TextDisplay(drawLayers.activeLayer, this.letters[i], 
                 {x: 0, y : 0}, this.lettersFont ) );
 
             
@@ -298,7 +295,7 @@ class NameInputScene{
 
         if (inputs.escape.isJustDown){
             //reload the menu scene without saving any changes
-            mainGame.changeScene(new MenuScene(this.drawLayers));
+            mainGame.changeScene(new MenuScene());
         }
 
 

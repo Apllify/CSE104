@@ -11,21 +11,26 @@ class BossScene{
     destroying = false;
 
 
-    drawLayers = null;
     
     paused = false;
+
+    //the boss attributes
+    maxHealth = 1000;
+    currentHealth = 1000;
 
     //the list of all pattern instancers
     patternsList = [];
 
+    allDifficulties = ["easy", "medium", "hard", "ultraHard"];
+    currentDifficulty = "easy";
+
     gameOver = false;
 
 
-    constructor(drawLayers){
-        //create the player 
-        
-        this.drawLayers = drawLayers;
+    constructor(patternsList){
 
+        //create the player 
+        this.patternsList = patternsList; 
        
 
         PIXI.sound.add('pause', '././Sound/pause_button.wav');
@@ -37,18 +42,14 @@ class BossScene{
 
 
     startScene(){
-        this.playerReference = new Character(drawLayers, {x:400,y:300});
-
-         //instantiate the list of patterns
-         this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
-         this.patternsList.push(() => new SquareWithWave(this.drawLayers.activeLayer, this.playerReference, 'easy'));
- 
- 
+        this.playerReference = new Character({x:400,y:300});     
+        
+         
          //start with a random pattern
          const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
  
-         const pattern = new ProjectileBombPattern(this.drawLayers.activeLayer, this.playerReference, {x:400, y:300}, 10, 
-             300, 10, 30);
+         const pattern = this.patternsList[randomPatternIndex](drawLayers.activeLayer, this.playerReference, 
+            this.currentDifficulty);
  
          this.currentPattern = pattern;
          this.currentPattern.activate();
@@ -94,9 +95,7 @@ class BossScene{
                 this.isPatternRunning = false;
             }
         }
-        else{
 
-        }
 
 
     }
@@ -110,7 +109,13 @@ class BossScene{
         }
 
         const randomPatternIndex = Math.floor(Math.random() * this.patternsList.length);
-        this.currentPattern = this.patternsList[randomPatternIndex](); 
+
+
+
+        this.currentPattern = this.patternsList[randomPatternIndex](drawLayers.activeLayer, this.playerReference, 
+            this.currentDifficulty);
+        
+
         this.currentPattern.activate();
         
         this.isPatternRunning = true;
@@ -118,7 +123,7 @@ class BossScene{
 
     pauseHandle(prompts=null, actionDict=null, title=null){
         // this function is called in two situations: when the game is paused and we choose to resume
-        // or whenever we press 'Escape'. If the game was paused, we destroy the pausescreen; otherwise
+        // or whenever we press 'Escape'. If txhe game was paused, we destroy the pausescreen; otherwise
         // we create a new one.
         if (this.paused){
             this.pauseScreen.destroy();
@@ -132,7 +137,7 @@ class BossScene{
 
     restart(){
         // restarts this scene.
-        mainGame.changeScene(new BossScene(drawLayers));
+        mainGame.changeScene(new BossScene());
     }
 
     quit(){  // if enter was pressed when quitting the game, we need
@@ -140,7 +145,7 @@ class BossScene{
                                             // MenuScene is initialized since the button press may 
                                             // span multiple frames.
         // return to the menuscene.
-        mainGame.changeScene(new MenuScene(drawLayers));
+        mainGame.changeScene(new MenuScene());
     }
 
 
