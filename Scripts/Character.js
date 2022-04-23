@@ -30,6 +30,7 @@ class Character{
 
 
     isPaused=  false;
+    
 
     constructor(startingCoords = {x:0, y:0}, drawLayer = null ){
         //instantiate the player sprite

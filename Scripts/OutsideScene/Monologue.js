@@ -68,21 +68,39 @@ class Monologue{
 
         //create the name tag box and the name tag text
         if (this.isVerticalOffset === 1){
-            this.nameTagBox = new Rectangle(600, 450, 200, 50).getGraphics(0xFFFFFF);
+            this.nameTagText = new TextDisplay(this.drawLayer, this.speakerName, {x:0, y:0}, this.speakerNameTextStyle);
+
+            const nameTagBoxWidth = this.nameTagText.getDimensions().width + 20;
+            const nameTagBoxHeight = this.nameTagText.getDimensions().height + 20;
+
+            this.nameTagBox = new Rectangle(800 - nameTagBoxWidth, 500 - nameTagBoxHeight, nameTagBoxWidth, nameTagBoxHeight).getGraphics(0xFFFFFF);
             this.drawLayer.addChild(this.nameTagBox);
 
-            this.nameTagText = new TextDisplay(this.drawLayer, this.speakerName, {x:600, y:450}, this.speakerNameTextStyle);
-            this.nameTagText.centerHorizontallyAt(700);
-            this.nameTagText.centerVerticallyAt(475);
+            //recreate the name tag text in order to have correct z axis
+            this.nameTagText.destroy();
+            this.nameTagText = new TextDisplay(this.drawLayer, this.speakerName, {x:0, y:0}, this.speakerNameTextStyle);
+
+
+            this.nameTagText.centerHorizontallyAt(800 - nameTagBoxWidth /2);
+            this.nameTagText.centerVerticallyAt(500 - nameTagBoxHeight / 2);
 
         }
         else if (this.isVerticalOffset === 0){
-            this.nameTagBox = new Rectangle(600, 100, 200, 50).getGraphics(0xFFFFFF);
+            this.nameTagText = new TextDisplay(this.drawLayer, this.speakerName, {x:0, y:0}, this.speakerNameTextStyle);
+
+            const nameTagBoxWidth = this.nameTagText.getDimensions().width + 20;
+            const nameTagBoxHeight = this.nameTagText.getDimensions().height + 20;
+
+            this.nameTagBox = new Rectangle(800 - nameTagBoxWidth, 100, nameTagBoxWidth, nameTagBoxHeight).getGraphics(0xFFFFFF);
             this.drawLayer.addChild(this.nameTagBox);
 
-            this.nameTagText = new TextDisplay(this.drawLayer, this.speakerName, {x:600, y:100}, this.speakerNameTextStyle);
-            this.nameTagText.centerHorizontallyAt(700);
-            this.nameTagText.centerVerticallyAt(125);
+            //recreate the name tag text in order to have correct z axis
+            this.nameTagText.destroy();
+            this.nameTagText = new TextDisplay(this.drawLayer, this.speakerName, {x:0, y:0}, this.speakerNameTextStyle);
+
+
+            this.nameTagText.centerHorizontallyAt(800 - nameTagBoxWidth /2);
+            this.nameTagText.centerVerticallyAt(100 + nameTagBoxHeight / 2);
         }
         //new TextDisplay(this.drawLayer, this.speakerName, {})
 

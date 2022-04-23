@@ -30,15 +30,25 @@ class TextNpc extends Npc{
 
     //returns an element of type monologue
     isInteracted(){
+        //prevent the player from moving 
+        this.playerReference.pause();
+
+
         //advance the monologue by one if possible
         this.currentMonologueIndex = Math.min(this.currentMonologueIndex + 1, this.monologuesList.length - 1);
 
         //determin the vertical offset based on the player position
-        const verticalOffset= (this.playerReference.y > 300) ? 1 : 0;
+        const verticalOffset= (this.playerReference.y > 300) ? 0 : 1;
 
 
         return new Monologue(drawLayers.foregroundLayer, this.monologuesList[this.currentMonologueIndex], this.textStyle,
             this.name, verticalOffset);
+    }
+
+
+    isInteractingJustDone(){
+        //unpause the player movement
+        this.playerReference.unpause();
     }
 
 
@@ -67,6 +77,22 @@ class BrokenDoor extends TextNpc{
 
         super(drawLayer, playerReference, position, textStyle, monologuesList, "Broken Door",  "Sprites/Shield.png");
 
+    }
+}
+
+class Rock extends TextNpc{
+    constructor(drawLayer, playerReference, position, monologuesList){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "Rock",  "Sprites/Shield.png");
+ 
     }
 }
 

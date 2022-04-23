@@ -33,6 +33,62 @@ class OutsideScene{
         //create a door npc
         this.npcList.push( new BrokenDoor(this.container,  this.playerReference, {x:0, y:300}));
         this.npcList.push(new BossWarp(this.container,  this.playerReference, {x:600, y:300}));
+
+
+        //create a few rock npcs for decoration
+        const dialogueOne = [
+            ["This is just a rock.",
+        "What did you expect ?"]
+        ];
+
+        const dialogueTwo = [
+            ["This is just a rock.",
+            "Unless ",
+            "...",
+            "....",
+            ".....",
+            "......",
+            "Nah just kidding."]
+        ];
+
+        const dialogueThree = [
+            ["Is this a rock ?"]
+        ];
+
+        const dialogueFour = [
+            ["rock"]
+        ];
+
+        const dialogueFive = [
+            ["Tag three friends that looooove rocks ! "]
+        ];
+
+        const dialogueSix = [
+            ["Upvote, share, and retweet for a chance to win : ",
+            "Rock."]
+        ];
+        
+        const dialogueSeven = [
+            ["Hihi"]
+        ];
+
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:200, y:250}, dialogueOne));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:100, y:50}, dialogueOne));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:230, y:220}, dialogueOne));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:50, y:80}, dialogueOne));
+
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:600, y:250}, dialogueTwo));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:1000, y:250}, dialogueThree));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:1400, y:250}, dialogueFour));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:1800, y:250}, dialogueFive));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:2200, y:250}, dialogueSix));
+        this.npcList.push(new Rock(this.container, this.playerReference, {x:2600, y:250}, dialogueSeven));
+
+
+
+
+
+
         
 
     }

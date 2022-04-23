@@ -5,7 +5,7 @@ class Npc{
     y = 0;
 
     //from how far away the player can interact with us 
-    detectionRadius = 100;
+    detectionRadius = 70;
 
     //state machine
     currentState = 0;

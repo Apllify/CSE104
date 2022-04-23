@@ -68,7 +68,7 @@ function keyboard(value) {
 
 //instantiating the game window
 const app = new PIXI.Application({
-    width : 800, height : 600, backgroundColor: 0x1099bb
+    width : 800, height : 600, backgroundColor: 0x8b8c8b
 });
 
 document.body.appendChild(app.view);
