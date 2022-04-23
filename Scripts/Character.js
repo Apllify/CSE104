@@ -45,8 +45,6 @@ class Character{
         //display the sprite such that (x, y) represent its center
         this.updateSpritePosition();
 
-        this.sprite.scale.x = 2.0;
-        this.sprite.scale.y = 2.0;
 
         //load the player name from window memory if possible 
         this.name = window.localStorage.getItem("username");

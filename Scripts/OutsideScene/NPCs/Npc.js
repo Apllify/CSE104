@@ -1,7 +1,3 @@
-
-
-
-
 class Npc{
 
     //position
@@ -16,28 +12,38 @@ class Npc{
 
     currentMonologue = null;
 
-    //whether we use a 20x20 rectangle to display this entity
+    //in the case we use a 20x20 debug rectangle to display this entity
     debugGraphics = null;
+
 
     //universal properties
     playerReference = null;
     drawLayer = null;
 
+    //flag 
+    isFirstUpdate = true;
 
-    constructor(drawLayer, playerReference){
+
+    constructor(drawLayer, playerReference, position){
         this.playerReference=  playerReference;
         this.drawLayer = drawLayer;
 
+        this.x = position.x;
+        this.y = position.y;
+
     }
 
-    setupDebugGraphics(){
-        this.debugGraphics = new Rectangle(this.x - 20, this.y - 20, 40, 40).getGraphics(0x00FF00);
-        this.drawLayer.addChild(this.debugGraphics);
-    }
 
 
     //keep track of the state and call the sub-methods accordingly
     update(delta, inputs){
+
+        //setup the graphics if this is the first call to the update method
+        if (this.isFirstUpdate){
+            this.isFirstUpdate = false;
+            this.setupGraphics();
+        }
+
         //update depending on the state 
         if (this.currentState === 0){
             this.idleUpdate(delta, inputs);
@@ -77,14 +83,23 @@ class Npc{
 
 
     destroy(){
-        if (debugDisplay){
-            this.debugGraphics.destroy();
-        }
+        this.destroyGraphics();
     }
 
 
 
     //TO BE OVERRIDEN by subclasses
+    //this is how we create individuality in subclasses of this program
+
+    setupGraphics(){ //creates the display (be it sprite or rectangle) of this entity
+        this.debugGraphics = new Rectangle(this.x - 20, this.y - 20, 40, 40).getGraphics(0x00FF00);
+        this.drawLayer.addChild(this.debugGraphics);
+    }
+
+    destroyGraphics(){ //called when the entity is destroyed
+        this.debugGraphics.destroy();
+    }
+
     idleUpdate(delta, inputs){
         return;
     }
