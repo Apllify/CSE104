@@ -109,7 +109,7 @@ class WaveSource extends Pattern{
             this.startPoint.add(this.shiftVect.rescale(this.shiftRescale[this.currentShiftRescaleIndex])), 
             this.endPoint.add(this.shiftVect.rescale(this.shiftRescale[this.currentShiftRescaleIndex])), 
             this.fixedPts, initialPhase, phaseDuration,
-            this.projectileDamage, this.projectileDimensions,
+            this.projectileDamage * (this.multiplier ** 2), this.projectileDimensions,
             this.nonFixedPts);    
         
         if (!this.safeSpot){
