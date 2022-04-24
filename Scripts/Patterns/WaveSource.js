@@ -8,13 +8,14 @@ class WaveSource extends Pattern{
     // list of active patterns 
     patterns = [];
 
-    // We don't generate all waves at the same place; we also shift a bit to either direction
+    // In the case that we don't generate all waves at the same place, we shift a bit to either direction
     shiftRescale = [0, 0.5, -0.5];
     currentShiftRescaleIndex = 0;
 
     wavesReleased = 0;
     constructor(drawLayer, player, startPoint, endPoint, waveAmplitude, waveSpeed, waveCount, 
-        waveDuration, fixedPts, nonFixedPts, projectileDimensions, projectileDamage, cooldown = 5, phaseDuration = null){
+        waveDuration, fixedPts, nonFixedPts, projectileDimensions, projectileDamage, safeSpot=false, cooldown = 5, 
+        phaseDuration = null){
        
         // initialize necessary variables
         super(drawLayer, player);
@@ -35,7 +36,9 @@ class WaveSource extends Pattern{
 
         this.projectileDamage = projectileDamage;
         this.projectileDimensions = projectileDimensions;
+        this.safeSpot = safeSpot;
 
+        this.multiplier = this.safeSpot?2:1;
         this.shiftVect = this.determineShiftVect();
     }
 
@@ -102,15 +105,16 @@ class WaveSource extends Pattern{
 
         // create the wave and activate it.
         let newWave = new WavePattern(this.drawLayer, this.playerReference, 
-            this.waveDuration, this.waveSpeed, this.waveAmplitude, 
+            this.waveDuration, this.waveSpeed * this.multiplier, this.waveAmplitude, 
             this.startPoint.add(this.shiftVect.rescale(this.shiftRescale[this.currentShiftRescaleIndex])), 
             this.endPoint.add(this.shiftVect.rescale(this.shiftRescale[this.currentShiftRescaleIndex])), 
             this.fixedPts, initialPhase, phaseDuration,
             this.projectileDamage, this.projectileDimensions,
             this.nonFixedPts);    
         
-        
-        this.currentShiftRescaleIndex += 1;
+        if (!this.safeSpot){
+            this.currentShiftRescaleIndex += 1;
+        }
         
 
         this.patterns.push(newWave);

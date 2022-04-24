@@ -214,7 +214,6 @@ class PauseScreen{
         this.drawLayer.removeChild(this.backgroundGraphics);
         this.drawLayer.removeChild(this.leftCursorGraphics);
         this.drawLayer.removeChild(this.rightCursorGraphics);
-        this.drawLayer.removeChild(this.exitJoke);
         for (let element of this.inputPrompts){
             element.destroy();
         }
@@ -239,7 +238,7 @@ class PauseScreen{
 
     quit(scene){
         // handle the quit command 
-        scene.quit(true); // true here represents the fact that 'Enter' was pressed in the most
+        scene.quit(); // true here represents the fact that 'Enter' was pressed in the most
                           // recent frame. This information is passed down to the MenuScene so that
                           // a new game isn't started immediately after the MenuScene is created. 
     }

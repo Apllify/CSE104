@@ -20,15 +20,28 @@ class TextNpc extends Npc{
     }
 
     setupGraphics(){
-        //creates a sprite and adds it to the scene at coordinates (x, y)
-        this.sprite = PIXI.Sprite.from(this.spritePath);
-        this.drawLayer.addChild(this.sprite);
+        //loads the sprite if needed
+        if (PIXI.Loader.shared.resources[this.spritePath] !== undefined){
+            this.onLoaded();
+        }
+        else{   
+            PIXI.Loader.shared.reset();
+            PIXI.Loader.shared.add(this.spritePath);
+            PIXI.Loader.shared.load(() => this.onLoaded(this));
 
-        this.sprite.x = this.x - this.sprite.width / 2;
-        this.sprite.y = this.y - this.sprite.height / 2;
+        }
+        //this.sprite = PIXI.Sprite.from(this.spritePath);
+        //this.drawLayer.addChild(this.sprite);
 
-        console.log("graphics");
-        console.log(this.sprite.width);
+        //this.sprite.x = this.x - this.sprite.width / 2;
+        //this.sprite.y = this.y - this.sprite.height / 2;
+
+    }
+
+    onLoaded(){
+        this.sprite = PIXI.Loader.shared.resources[this.spritePath];
+
+        console.log(this.sprite);
     }
 
     destroyGraphics(){
@@ -105,11 +118,7 @@ class Rock extends TextNpc{
 
     setupHitbox(){
         
-        console.log("hitbox");
-        console.log(this.sprite.width);
-
-
-        this.hitbox = new Rectangle(this.x, this.y, this.sprite.width, this.sprite.height);
+        this.hitbox = new Rectangle(this.x - 10, this.y - 10, 20, 20);
     }
 }
 
@@ -186,10 +195,8 @@ class BossWarp extends Npc{
 
 
     isInteracted(){
-        console.log("BOSS !");
+        mainGame.changeScene(new SurferBoss());
         return null;
-
-        //mainGame.changeScene(new BossScene(patternsList ));
     }
 }
 

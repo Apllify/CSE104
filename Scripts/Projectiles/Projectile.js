@@ -25,13 +25,15 @@ class Projectile{
     destroying = false;
 
 
-    constructor(drawLayer, player, coordinates, projectileSpeed, directionVector, dimensions = {x:16, y:16}, dps=30){
+    constructor(drawLayer, player, coordinates, projectileSpeed, directionVector, dimensions = {x:16, y:16}, dps=30,
+        color=0xFFFFFF){
         //set the main projectile caracteristics
         this.playerReference = player;
 
         this.x = coordinates.x;
         this.y = coordinates.y;
 
+        this.color = color;
 
         this.speed = projectileSpeed;
         this.dps = dps;
@@ -50,7 +52,7 @@ class Projectile{
 
         //create and add display graphics 
         this.displayGraphic = new PIXI.Graphics();
-        this.displayGraphic.beginFill(0xFFFFFF);
+        this.displayGraphic.beginFill(this.color);
         this.displayGraphic.drawRect(this.x + this.hitbox.x, this.y + this.hitbox.y, this.hitbox.width, this.hitbox.height);
         this.displayGraphic.endFill();
 
@@ -124,7 +126,6 @@ class Projectile{
     destroy(){
         this.destroying = true;
         this.displayGraphic.destroy();
-        console.log('here')
         delete this;
     }
 
