@@ -182,7 +182,7 @@ class OutsideScene{
             return;
         }
 
-        //check if the player went into a collision this frame to readjust him
+        //check if the player went into a collision with a border rectangle this frame to readjust him
         let playerHitbox = this.playerReference.getHitboxRectangle();
 
         for(let rectangle of this.borderRectangles){
@@ -194,11 +194,23 @@ class OutsideScene{
             }
         }
 
+        //check if the player went into a collision with an npc to readjust him
+        for (let npc of this.npcList){
+            if (npc.hitbox !== null){
+                if (playerHitbox.isColliding(npc.hitbox)){
+                    const oldPlayerHitbox = this.playerReference.getOldHitboxRectangle();
+                    const newPlayerHitbox = npc.hitbox.simulateCollision(oldPlayerHitbox, playerHitbox);
+
+                    playerHitbox = newPlayerHitbox;
+                }
+            }    
+        }
+
+        //update the player's position after collisions
         this.playerReference.setHitboxRectangle(playerHitbox);
 
-        if (this.destroying){
-            return;
-        }
+
+        
 
         //update the camera with the correct position to account for player movements
         this.container.x = 400 - this.playerReference.x;

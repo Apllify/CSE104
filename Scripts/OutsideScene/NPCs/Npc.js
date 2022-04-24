@@ -16,6 +16,9 @@ class Npc{
     destroyed = false;
     debugGraphics = null;
 
+    //the hitbox rectangle which is not necessarily present for every single entity
+    hitbox = null;
+
 
     //universal properties
     playerReference = null;
@@ -41,8 +44,11 @@ class Npc{
 
         //setup the graphics if this is the first call to the update method
         if (this.isFirstUpdate){
+            
             this.isFirstUpdate = false;
             this.setupGraphics();
+            this.setupHitbox();
+
         }
 
         //update depending on the state 
@@ -107,6 +113,11 @@ class Npc{
 
     destroyGraphics(){ //called when the entity is destroyed
         this.debugGraphics.destroy();
+    }
+
+
+    setupHitbox(){ // to be overridden
+        return;
     }
 
     idleUpdate(delta, inputs){

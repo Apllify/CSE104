@@ -26,6 +26,9 @@ class TextNpc extends Npc{
 
         this.sprite.x = this.x - this.sprite.width / 2;
         this.sprite.y = this.y - this.sprite.height / 2;
+
+        console.log("graphics");
+        console.log(this.sprite.width);
     }
 
     destroyGraphics(){
@@ -95,8 +98,18 @@ class Rock extends TextNpc{
             stroke : "#ffffff",
         });
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, "Rock",  "Sprites/Shield.png");
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "Rock",  "Sprites/Rock.png");
  
+    }
+
+
+    setupHitbox(){
+        
+        console.log("hitbox");
+        console.log(this.sprite.width);
+
+
+        this.hitbox = new Rectangle(this.x, this.y, this.sprite.width, this.sprite.height);
     }
 }
 
