@@ -63,8 +63,16 @@ class SuperBoss{
             }
         }
 
-        this.currentObject.update(delta,inputs);
+        if (this.currentState === 0){
+            this.patternUpdate(delta, inputs);
+        }
+
+        else{
+            this.breakUpdate(delta, inputs);
+        }
+        
     }
+
 
     pauseHandle(){
         if (this.paused){
@@ -109,6 +117,15 @@ class SuperBoss{
         delete this;
     }
     //Methods to be defined by inheriting classes 
+
+    patternUpdate(){
+        return;
+    }
+
+    breakUpdate(){
+        return;
+    }
+
     restart(){
         return;
     }

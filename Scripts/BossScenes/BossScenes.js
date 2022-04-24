@@ -16,7 +16,7 @@ class SurferBoss extends SuperBoss{
 
     initializeObjects(){
         this.patternsList = [
-            new FourCornerWaves(drawLayers.activeLayer, this.playerReference, 'ultraHard'),
+            new FourCornerWaves(drawLayers.activeLayer, this.playerReference, 'easy'),
             new PacmanWithWave(drawLayers.activeLayer, this.playerReference, 'medium'),
             new SquareWithWave(drawLayers.activeLayer, this.playerReference, 'hard')
         ]
@@ -44,22 +44,40 @@ class SurferBoss extends SuperBoss{
         // We alternate between monologue and pattern
         if (this.currentState === 0){
             
-            this.playerReference.pause();
-            let textContent = this.monologues.pop();
-            
-            this.currentObject = new Monologue(drawLayers.foregroundLayer, textContent, this.monologueTextStyle,
-                'Surfer Boss', 1);
-            this.currentState = 1;
+            this.produceBreak();
         }
         
         else{
             
-            this.playerReference.unpause();
-            this.currentObject = this.patternsList.pop();
-            
-            this.currentObject.activate();
-            this.currentState = 0;
+            this.producePattern();
         }
+    }
+
+    produceBreak(){
+        // produce the next non-pattern interaction. In this case it is only monologues.
+        this.playerReference.pause();
+        let textContent = this.monologues.pop();
+            
+        this.currentObject = new Monologue(drawLayers.foregroundLayer, textContent, this.monologueTextStyle,
+                'Surfer Boss', 1);
+        this.currentState = 1;
+    }
+
+    producePattern(){
+        // produce the next pattern 
+        this.playerReference.unpause();
+        this.currentObject = this.patternsList.pop();
+            
+        this.currentObject.activate();
+        this.currentState = 0;
+    }
+
+    breakUpdate(delta, inputs){
+        this.currentObject.update(delta, inputs);
+    }
+
+    patternUpdate(delta, inputs){
+        this.currentObject.update(delta, inputs);
     }
 
     sceneOver(){
