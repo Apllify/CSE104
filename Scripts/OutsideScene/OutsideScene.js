@@ -72,6 +72,19 @@ class OutsideScene{
             ["Hihi"]
         ];
 
+        const godDialogue = [
+            [
+                "Yield, for i am god, \nalmight harbinger of the elements.",
+                "My child, you are hereby chosen \nto fulfill the prophetic duty.",
+                "To the limit of your abilities, \nyou must spring forth and deliver my heavenly messages \nto the rest of the world.",
+                "Thank you for your comprehension,",
+                "Peace,",
+                "GOD" 
+
+            ]
+
+        ];
+
         this.npcList.push(new Rock(this.container, this.playerReference, {x:200, y:250}, dialogueOne));
         this.npcList.push(new Rock(this.container, this.playerReference, {x:100, y:50}, dialogueOne));
         this.npcList.push(new Rock(this.container, this.playerReference, {x:230, y:220}, dialogueOne));
@@ -83,6 +96,9 @@ class OutsideScene{
         this.npcList.push(new Rock(this.container, this.playerReference, {x:1800, y:250}, dialogueFive));
         this.npcList.push(new Rock(this.container, this.playerReference, {x:2200, y:250}, dialogueSix));
         this.npcList.push(new Rock(this.container, this.playerReference, {x:2600, y:250}, dialogueSeven));
+
+
+        this.npcList.push(new God(this.container, this.playerReference, {x:400, y:500}, godDialogue));
 
 
 

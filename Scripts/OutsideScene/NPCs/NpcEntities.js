@@ -28,6 +28,10 @@ class TextNpc extends Npc{
         this.sprite.y = this.y - this.sprite.height / 2;
     }
 
+    destroyGraphics(){
+        this.sprite.destroy();
+    }
+
     //returns an element of type monologue
     isInteracted(){
         //prevent the player from moving 
@@ -53,11 +57,11 @@ class TextNpc extends Npc{
 
 
 
-    destroyGraphics(){
-        if (this.sprite !== null){
-            this.sprite.destroy();
-        }
-    }
+    // destroyGraphics(){
+    //     if (this.sprite !== null){
+    //         this.sprite.destroy();
+    //     }
+    // }
 }
 
 class BrokenDoor extends TextNpc{
@@ -95,6 +99,75 @@ class Rock extends TextNpc{
  
     }
 }
+
+class God extends TextNpc{
+
+    isFading = false;
+
+    constructor(drawLayer, playerReference, position, monologuesList){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "Microcosmos",
+            fontSize : 24,
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "GOD",  "Sprites/WIP/ToCorrupt.png");
+ 
+    }
+
+    setupGraphics(){
+        //asynchronously loads the god spritesheet
+        PIXI.Loader.shared.add("GodSpritesheet", "Sprites/God.json");
+
+        //calls another instance method once the loading is done
+        const a =  PIXI.Loader.shared.load(() => this.setup(this));
+
+    }
+
+    setup(){
+        //get the spritesheet from the loader
+        let sheet = PIXI.Loader.shared.resources["GodSpritesheet"].spritesheet;
+
+
+        //position the sprite correctly and add it to the container
+        this.sprite =  new PIXI.AnimatedSprite(sheet.animations["Idle"]);
+        this.sprite.play();
+        this.drawLayer.addChild(this.sprite);
+        this.sprite.x=  this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+
+
+    }
+
+    isInteracted(){
+        //only return a monologue if the npc hasn't started fading 
+        if (! this.isFading){
+            return super.isInteracted();
+        }
+        else{
+            return null;
+        }
+    }
+
+    idleUpdate(delta, inputs){
+        if (this.isFading){
+            //reduces the alpha until it reaches zero
+            this.sprite.alpha -= delta/2;
+
+            //destroys itself once it reaches zero alpha
+            //this.destroy();
+        }
+
+    }
+
+    isInteractingJustDone(){
+        super.isInteractingJustDone();
+        this.isFading = true;
+    }
+}
+
 
 class BossWarp extends Npc{
 

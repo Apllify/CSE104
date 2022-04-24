@@ -10,3 +10,9 @@ body{
     src: url(Fonts/Broken\ Console\ Bold.ttf);
 
 }
+
+
+@font-face{
+    font-family : Microcosmos;
+    src : url(Fonts/MicrocosmosRegular-03LR.ttf);
+}

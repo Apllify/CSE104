@@ -13,6 +13,7 @@ class Npc{
     currentMonologue = null;
 
     //in the case we use a 20x20 debug rectangle to display this entity
+    destroyed = false;
     debugGraphics = null;
 
 
@@ -83,7 +84,15 @@ class Npc{
 
 
     destroy(){
-        this.destroyGraphics();
+        if (!this.destroyed){
+            this.destroyGraphics();
+
+            if (this.currentMonologue !== null){
+                this.currentMonologue.destroy();
+            }
+            
+            this.destroyed = true;
+        }
     }
 
 

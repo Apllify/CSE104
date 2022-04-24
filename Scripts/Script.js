@@ -65,7 +65,6 @@ function keyboard(value) {
 
 
 
-
 //instantiating the game window
 const app = new PIXI.Application({
     width : 800, height : 600, backgroundColor: 0x8b8c8b
@@ -84,6 +83,43 @@ app.view.style.top =  ((window.innerHeight - 600)*0.5) + "px";
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 PIXI.settings.RENDER_OPTIONS.antialias = false;
 
+//no fucking clue what this does
+// but it is 100000% essential to the project
+//edit : i think it has something to do with converting the aseprite json export format to a usable format by pixi.js
+
+//edit edit : i tweaked a lot of the code to make it work still 
+PIXI.Loader.shared
+.use((resource, next) => {
+if (resource.extension === 'json' && resource.data.meta.app === 'http://www.aseprite.org/') {
+
+    for (const tag of resource.data.meta.frameTags) {
+
+        const frames = [];
+
+        for (let i = tag.from; i < tag.to; i++) {
+          let framesKey = Object.keys(resource.data.frames)[i];
+          let textureKey = Object.keys(resource.textures)[i];
+
+
+          frames.push({ texture: resource.textures[textureKey], time: resource.data.frames[framesKey].duration });
+        }
+
+        if (tag.direction === 'pingpong') {
+            for (let i = tag.to; i >= tag.from; i--) {
+
+              let framesKey = Object.keys(resource.data.frames)[i];
+              let textureKey = Object.keys(resource.textures)[i];
+
+              frames.push({ texture: resource.textures[textureKey], time: resource.data.frames[framesKey].duration });
+            }
+        }
+
+        resource.spritesheet.animations[tag.name] = frames;
+    }
+}
+
+next();
+})
 
 
 
