@@ -10,7 +10,7 @@ class Game{
         // this.currentScene.setMapMatrix([[2, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]);
         // this.currentScene = new OutsideScene(this.drawLayers);
         // this.currentScene.setMapMatrix([[0,0,0,0], [0, 0, 2, 1], [0, 0,0, 0], [0, 0, 0, 0]]);
-
+        let a = [1,2];
         this.currentScene = new MenuScene();
     }
 
@@ -31,8 +31,9 @@ class Game{
 
 
     loadFirstGameScene(){
-        const firstScene = new OutsideScene();
-        firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+        //const firstScene = new OutsideScene();
+        //firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+        const firstScene = new SurferBoss();
         this.changeScene(firstScene);
     }
 }

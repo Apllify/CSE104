@@ -175,8 +175,6 @@ class BossWarp extends Npc{
     isInteracted(){
         console.log("BOSS !");
         return null;
-
-        //mainGame.changeScene(new BossScene(patternsList ));
     }
 }
 

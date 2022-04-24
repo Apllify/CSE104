@@ -300,6 +300,7 @@ class FourCornerWaves extends Pattern{
             projectileDimensions: {x:8, y:8}
         },
 
+
         'ultraHard':{
             waveSpeed: 325,
             waveDuration: 40,
@@ -327,9 +328,10 @@ class FourCornerWaves extends Pattern{
     currentStartPoint = 0;
 
 
-    constructor (drawLayer, player, difficulty){
+    constructor (drawLayer, player, difficulty, safeSpot=false){
         super(drawLayer, player);
         this.chosenDifficulty = difficulty;
+        this.safeSpot = safeSpot;
     }
 
     createNewWaveSource(){
@@ -343,7 +345,7 @@ class FourCornerWaves extends Pattern{
             this.difficulty[this.chosenDifficulty].fixedPts, 
             this.difficulty[this.chosenDifficulty].nonFixedPts, 
             this.difficulty[this.chosenDifficulty].projectileDimensions, 
-            this.difficulty[this.chosenDifficulty].projectileDamage);
+            this.difficulty[this.chosenDifficulty].projectileDamage, this.safeSpot);
         
         this.cornerWaveSources.push(newWaveSource);
         newWaveSource.activate();
@@ -888,5 +890,12 @@ class PacmanSquare extends Pattern{
         }
         delete this;
         
+    }
+}
+
+class FourCornerWithSafeSpot{
+
+    constructor(drawLayer, player, difficulty='medium'){
+
     }
 }
