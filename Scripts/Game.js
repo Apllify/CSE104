@@ -32,7 +32,7 @@ class Game{
 
     loadFirstGameScene(){
         const firstScene = new OutsideScene();
-        firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+        //firstScene.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
         //const firstScene = new SurferBoss();
         this.changeScene(firstScene);
     }

@@ -20,16 +20,14 @@ class TextNpc extends Npc{
     }
 
     setupGraphics(){
-        //loads the sprite if needed
-        if (PIXI.Loader.shared.resources[this.spritePath] !== undefined){
-            this.onLoaded();
-        }
-        else{   
-            PIXI.Loader.shared.reset();
-            PIXI.Loader.shared.add(this.spritePath);
-            PIXI.Loader.shared.load(() => this.onLoaded(this));
+        //assumes the sprite has already been loaded
+        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
+        console.log(this.drawLayer);
+        this.drawLayer.addChild(this.sprite);
 
-        }
+        this.sprite.x = this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+
         //this.sprite = PIXI.Sprite.from(this.spritePath);
         //this.drawLayer.addChild(this.sprite);
 
@@ -38,11 +36,7 @@ class TextNpc extends Npc{
 
     }
 
-    onLoaded(){
-        this.sprite = PIXI.Loader.shared.resources[this.spritePath];
 
-        console.log(this.sprite);
-    }
 
     destroyGraphics(){
         this.sprite.destroy();
@@ -95,7 +89,7 @@ class BrokenDoor extends TextNpc{
             stroke : "#ffffff",
         });
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, "Broken Door",  "Sprites/Shield.png");
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "Broken Door",  "Shield");
 
     }
 }
@@ -111,7 +105,7 @@ class Rock extends TextNpc{
             stroke : "#ffffff",
         });
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, "Rock",  "Sprites/Rock.png");
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "Rock",  "Rock");
  
     }
 
@@ -141,10 +135,21 @@ class God extends TextNpc{
 
     setupGraphics(){
         //asynchronously loads the god spritesheet
-        PIXI.Loader.shared.add("GodSpritesheet", "Sprites/God.json");
+        //PIXI.Loader.shared.add("GodSpritesheet", "Sprites/God.json");
 
         //calls another instance method once the loading is done
-        const a =  PIXI.Loader.shared.load(() => this.setup(this));
+        //const a =  PIXI.Loader.shared.load(() => this.setup(this));
+
+        //get the spritesheet from the loader
+        let sheet = PIXI.Loader.shared.resources["God Spritesheet"].spritesheet;
+
+
+        //position the sprite correctly and add it to the container
+        this.sprite =  new PIXI.AnimatedSprite(sheet.animations["Idle"]);
+        this.sprite.play();
+        this.drawLayer.addChild(this.sprite);
+        this.sprite.x=  this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
 
     }
 

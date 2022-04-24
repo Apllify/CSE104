@@ -19,9 +19,24 @@ class OutsideScene{
 
     npcList = [];
 
+    loaded = false;
+
 
     //takes no arguments and is instead configured with methods
     constructor(){
+        PIXI.Loader.shared.add("God Spritesheet", "Sprites/God.json");
+        PIXI.Loader.shared.add("Rock", "Sprites/Rock.png");
+        PIXI.Loader.shared.add("Shield",  "Sprites/Shield.png");
+        PIXI.Loader.shared.load(() => this.load(this));
+
+        
+
+    }
+
+
+    //called after the ressources are loaded into the pixi loader
+    load(){
+        this.loaded = true;
 
         this.container = new PIXI.Container();
         drawLayers.activeLayer.addChild(this.container);
@@ -101,11 +116,7 @@ class OutsideScene{
         this.npcList.push(new God(this.container, this.playerReference, {x:400, y:500}, godDialogue));
 
 
-
-
-
-
-        
+        this.setMapMatrix([[2, 1, 1, 1, 1, 1]])
 
     }
 
@@ -168,6 +179,13 @@ class OutsideScene{
     }
 
     update(delta, inputs){
+
+        //only update if the entities have been loaded already
+        if (!this.loaded){
+            return;
+        }
+
+
         //update the player's position
         this.playerReference.update(delta, inputs);
 
