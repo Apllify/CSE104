@@ -205,3 +205,13 @@ class BossWarp extends Npc{
 
 
 
+class TutorialNpc extends Npc{
+
+    isInteracted(){
+        mainGame.changeScene(new TutorialBoss());
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
+    }
+}

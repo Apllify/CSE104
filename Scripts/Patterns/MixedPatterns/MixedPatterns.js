@@ -4,10 +4,10 @@ class SquareCirclePattern extends Pattern{
   // parameters based on difficulty chosen  
   difficulty = {
       'easy': {
-          projectileSpeed: {min:70, max:100},
+          projectileSpeed: {min:90, max:200},
           minScale: 0.5,
           maxScale: 0.8,
-          projectileCount: 4,
+          projectileCount: 5,
           projectileDamage: 20,
           targetPoints:8,
           projectileDimensions: {x:10, y:10},
@@ -60,6 +60,11 @@ class SquareCirclePattern extends Pattern{
       super(drawLayer, player);
       this.chosenDifficulty = difficulty;
   }
+
+  clone(){
+    // method that enables us to restart the pattern if needed
+    return new SquareCirclePattern(this.drawLayer, this.playerReference, this.chosenDifficulty);
+}
 
   load(){
       this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, 70, 
@@ -148,7 +153,7 @@ class RainPattern extends Pattern{
             projectileCount: 6,
             projectileSpeed: {min:100, max:400},
             coolDown: 2.5,
-            duration: 15,
+            duration: 20,
             damage: 150,
             projectileDimensions: {x:12, y:12}
         },
@@ -188,6 +193,11 @@ class RainPattern extends Pattern{
       
       this.duration = this.difficulty[difficulty].duration;
   }
+
+  clone(){
+    // method that enables us to restart the pattern if needed
+    return new RainPattern(this.drawLayer, this.playerReference, this.chosenDifficulty);
+}
 
   load(){
       this.circlePatterns[0] = new CirclePattern(this.drawLayer, this.playerReference, 
@@ -332,6 +342,11 @@ class FourCornerWaves extends Pattern{
         super(drawLayer, player);
         this.chosenDifficulty = difficulty;
         this.safeSpot = safeSpot;
+    }
+
+    clone(){
+        // method that enables us to restart the pattern if needed
+        return new FourCornerWaves(this.drawLayer, this.playerReference, this.chosenDifficulty, this.safeSpot);
     }
 
     createNewWaveSource(){
@@ -487,6 +502,11 @@ class SquareWithWave extends Pattern{
         this.chosenDifficulty = difficulty;
     }
 
+    clone(){
+        // method that enables us to restart the pattern if needed
+        return new SquareWithWave(this.drawLayer, this.playerReference, this.chosenDifficulty);
+    }
+
     load(){
         // initialize the SquarePattern and a WaveSource and activeate them
         this.square = new SquarePattern(this.drawLayer, this.playerReference,
@@ -596,8 +616,8 @@ class PacmanWithWave extends Pattern{
         'medium':{
             duration: 50,
             pacmanCooldown: 1.5,
-            shotSpeed: 250,
-            waveSpeed: 290,
+            shotSpeed: 150,
+            waveSpeed: 175,
             fixedPts: 1,
             nonFixedPts: 1,
             projectileDimensions: {x: 8, y: 8},
@@ -650,6 +670,11 @@ class PacmanWithWave extends Pattern{
     constructor(drawLayer, player, difficulty){
         super(drawLayer, player);
         this.chosenDifficulty = difficulty;
+    }
+
+    clone(){
+        // method that enables us to restart the pattern if needed
+        return new PacmanWithWave(this.drawLayer, this.playerReference, this.chosenDifficulty);
     }
 
     load(){
@@ -820,6 +845,10 @@ class PacmanSquare extends Pattern{
         this.minimumCoolDown = this.difficulty[this.chosenDifficulty].minimumCoolDown
     }
 
+    clone(){
+        // method that enables us to restart the pattern if needed
+        return new PacmanSquare(this.drawLayer, this.playerReference, this.chosenDifficulty);
+    }
 
     update(delta, inputs){
         if (this.destroying){
@@ -830,7 +859,6 @@ class PacmanSquare extends Pattern{
         this.coolDown -= delta;
         this.currentCoolDown -= (this.coolDownDeceleration * delta);
         this.currentCoolDown = Math.max(this.currentCoolDown, this.minimumCoolDown);
-        console.log(this.currentCoolDown);
 
         if (this.coolDown <= 0){
             this.generatePacman();
@@ -893,9 +921,3 @@ class PacmanSquare extends Pattern{
     }
 }
 
-class FourCornerWithSafeSpot{
-
-    constructor(drawLayer, player, difficulty='medium'){
-
-    }
-}
