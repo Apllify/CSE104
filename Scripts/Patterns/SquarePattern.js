@@ -175,6 +175,12 @@ class SquarePattern extends Pattern{
 
     }
 
+
+    //returns a copy of this pattern
+    clone(){
+        return new SquarePattern(this.drawLayer, this.playerReference, this.movementSpeed, this.minScale, this.maxScale, this.targetPoints.length, this.borderDamage)
+    }
+
     isDone(){
         // return false;
         //return this.elapsedTime > this.duration;

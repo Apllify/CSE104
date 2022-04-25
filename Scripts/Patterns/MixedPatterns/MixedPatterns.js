@@ -921,6 +921,134 @@ class PacmanSquare extends Pattern{
     }
 }
 
+class SquareCirclePacman extends Pattern{
+    difficuly = {
+        "medium" :{
+            duration : 10,
+
+            circleRadius : 200,
+            circleProjectileCount = 5,
+            circleProjectileSpeed = 200,
+            circleProjectileDps = 50,
+
+            borderDps = 50,
+            borderTargetPoints = 10,
+            borderMinScale = 0.3,
+            borderMaxScale = 0.5,
+            borderSpeed = 100,
+
+            pacmanShotSpeed : 400,
+            pacmanCooldown : 1,
+            pacmanDps = 50,
+        }
+    }
+
+    destroying = false;
+    
+    squarePattern = null;
+    circlePattern = null;
+    pacmanPattern = null;
+
+    chosenDifficulty = "medium";
+
+    elapsedTime = 0;
+    remainingRainCooldown = 0;
+
+
+    constructor(drawLayer, player, difficulty){
+        super(drawLayer, player);
+
+        this.chosenDifficulty = difficulty;
+
+        this.remainingRainCooldown = this.difficulty[this.chosenDifficulty].rainCooldown;
+    }
+
+    load(){
+        const duration = this.difficulty[this.chosen]
+
+        //create the box pattern
+        const borderDps = this.difficulty[this.chosenDifficulty].borderDps;
+        const borderTargetPoints = this.difficulty[this.chosenDifficulty].targetPoints;
+        const borderMinScale = this.difficulty[this.chosenDifficulty].borderMinScale;
+        const borderMaxScale =this.difficulty[this.chosenDifficulty].borderMaxScale;
+        const borderSpeed = this.difficulty[this.chosenDifficulty].borderSpeed;
+
+        this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, borderSpeed, borderMinScale,
+             borderMaxScale, borderTargetPoints, borderDps );
+
+
+        //create the pacman pattern
+        const pacmanCooldown = this.difficulty[this.chosenDifficulty].pacmanCooldown;
+        const pacmanShotSpeed = this.difficulty[this.chosenDifficulty].pacmanShotSpeed;
+        const pacmanDps = this.difficulty[this.chosenDifficulty].pacmanDps;
+
+        this.pacmanPattern = new PacmanPattern(this.drawLayer, this.playerReference, duration, 
+            pacmanCooldown, pacmanShotSpeed, undefined, pacmanDps);
+
+
+    }
+
+    update(delta, inputs){
+        //don't update if destroying 
+        if (this.destroying){
+            return;
+        }
+
+        
+        //update the two timers
+        this.elapsedTime += delta;
+        this.remainingRainCooldown -= delta;
+
+
+        //update the three main patterns if possible
+        this.squarePattern.update(delta, inputs);
+        this.pacmanPattern.update(delta, inputs);$
+
+        if (this.rainPattern !== null){
+            this.rainPattern.update(delta, inputs);
+        }
+
+        //check if it is time to create a new circle pattern
+        if (this.remainingRainCooldown <= 0){
+            if (this.rainPattern !== null){
+                this.rainPattern.destroy();
+            }
+
+            const circleRadius = this.difficulty[this.chosenDifficulty].circleRadius;
+            const circleProjectileCount = this.difficulty[this.chosenDifficulty].circleProjectileCount;
+            const circleProjectileSpeed = this.difficulty[this.chosenDifficulty].circleProjectileSpeed;
+            const circleProjectileDps = this.difficulty[this.chosenDifficulty].circleProjectileDps;
+
+            this.circlePattern = new CirclePattern(this.drawLayer, this.playerReference, circleProjectileCount, 
+                circleProjectileSpeed - 100, circleProjectileSpeed + 100, circleRadius, circleProjectileDps  );
+                
+                
+        }
+
+    }
+
+    clone(){
+        return new SquareCirclePacman(this.drawLayer, this.playerReference, this.chosenDifficulty);
+    }
+
+    isDone(){
+        return (this.elapsedTime > this.difficulty[this.chosenDifficulty].duration);
+    }
+
+    destroy(){
+        //destroy all three of the patterns if possible 
+        this.squarePattern.destroy();
+        this.pacmanPattern.destroy();
+
+        if (this.circlePattern !== null){
+            this.circlePattern.destroy();
+        }
+
+        this.destroying = true;
+    }
+
+
+}
 
 class Seeker extends Pattern{
     difficulty = {
