@@ -207,7 +207,7 @@ class RainPattern extends Pattern{
         300, 
         this.difficulty[this.chosenDifficulty].damage,
         this.difficulty[this.chosenDifficulty].projectileDimensions);
-      this.circlePatterns[0].activate();
+      this.circlePatterns[0].load();
   }
 
   update(delta, inputs){
@@ -250,7 +250,7 @@ class RainPattern extends Pattern{
             300, 
             this.difficulty[this.chosenDifficulty].damage,
             this.difficulty[this.chosenDifficulty].projectileDimensions);
-          this.circlePatterns[0].activate();
+          this.circlePatterns[0].load();
       }
 
 
@@ -922,24 +922,25 @@ class PacmanSquare extends Pattern{
 }
 
 class SquareCirclePacman extends Pattern{
-    difficuly = {
+    difficulty = {
         "medium" :{
-            duration : 10,
+            duration : 20,
 
-            circleRadius : 200,
-            circleProjectileCount = 5,
-            circleProjectileSpeed = 200,
-            circleProjectileDps = 50,
+            circleCooldown : 3,
+            circleRadius : 350,
+            circleProjectileCount : 5,
+            circleProjectileSpeed : 200,
+            circleProjectileDps : 50,
 
-            borderDps = 50,
-            borderTargetPoints = 10,
-            borderMinScale = 0.3,
-            borderMaxScale = 0.5,
-            borderSpeed = 100,
+            borderDps : 50,
+            borderTargetPoints : 10,
+            borderMinScale : 0.4,
+            borderMaxScale : 0.6,
+            borderSpeed : 100,
 
-            pacmanShotSpeed : 400,
+            pacmanShotSpeed : 200,
             pacmanCooldown : 1,
-            pacmanDps = 50,
+            pacmanDps : 50,
         }
     }
 
@@ -952,15 +953,16 @@ class SquareCirclePacman extends Pattern{
     chosenDifficulty = "medium";
 
     elapsedTime = 0;
-    remainingRainCooldown = 0;
+    remainingCircleCooldown = 0;
 
 
     constructor(drawLayer, player, difficulty){
         super(drawLayer, player);
 
+
         this.chosenDifficulty = difficulty;
 
-        this.remainingRainCooldown = this.difficulty[this.chosenDifficulty].rainCooldown;
+        this.remainingCircleCooldown = this.difficulty[this.chosenDifficulty].circleCooldown;
     }
 
     load(){
@@ -968,13 +970,16 @@ class SquareCirclePacman extends Pattern{
 
         //create the box pattern
         const borderDps = this.difficulty[this.chosenDifficulty].borderDps;
-        const borderTargetPoints = this.difficulty[this.chosenDifficulty].targetPoints;
+        const borderTargetPoints = this.difficulty[this.chosenDifficulty].borderTargetPoints;
         const borderMinScale = this.difficulty[this.chosenDifficulty].borderMinScale;
         const borderMaxScale =this.difficulty[this.chosenDifficulty].borderMaxScale;
         const borderSpeed = this.difficulty[this.chosenDifficulty].borderSpeed;
 
+
+
         this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, borderSpeed, borderMinScale,
              borderMaxScale, borderTargetPoints, borderDps );
+        this.squarePattern.load();
 
 
         //create the pacman pattern
@@ -984,6 +989,7 @@ class SquareCirclePacman extends Pattern{
 
         this.pacmanPattern = new PacmanPattern(this.drawLayer, this.playerReference, duration, 
             pacmanCooldown, pacmanShotSpeed, undefined, pacmanDps);
+        this.pacmanPattern.load();
 
 
     }
@@ -994,24 +1000,26 @@ class SquareCirclePacman extends Pattern{
             return;
         }
 
-        
+
         //update the two timers
         this.elapsedTime += delta;
-        this.remainingRainCooldown -= delta;
+        this.remainingCircleCooldown -= delta;
 
 
         //update the three main patterns if possible
         this.squarePattern.update(delta, inputs);
-        this.pacmanPattern.update(delta, inputs);$
+        this.pacmanPattern.update(delta, inputs);
 
-        if (this.rainPattern !== null){
-            this.rainPattern.update(delta, inputs);
+        if (this.circlePattern !== null){
+            this.circlePattern.update(delta, inputs);
         }
 
         //check if it is time to create a new circle pattern
-        if (this.remainingRainCooldown <= 0){
-            if (this.rainPattern !== null){
-                this.rainPattern.destroy();
+        if (this.remainingCircleCooldown <= 0){
+            this.remainingCircleCooldown = this.difficulty[this.chosenDifficulty].circleCooldown;
+
+            if (this.circlePattern !== null){
+                this.circlePattern.destroy();
             }
 
             const circleRadius = this.difficulty[this.chosenDifficulty].circleRadius;
@@ -1019,8 +1027,10 @@ class SquareCirclePacman extends Pattern{
             const circleProjectileSpeed = this.difficulty[this.chosenDifficulty].circleProjectileSpeed;
             const circleProjectileDps = this.difficulty[this.chosenDifficulty].circleProjectileDps;
 
+
             this.circlePattern = new CirclePattern(this.drawLayer, this.playerReference, circleProjectileCount, 
                 circleProjectileSpeed - 100, circleProjectileSpeed + 100, circleRadius, circleProjectileDps  );
+            this.circlePattern.load();
                 
                 
         }

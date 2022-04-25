@@ -63,6 +63,9 @@ class CirclePattern extends Pattern{
                 speed, relativeCoords.rescale(-1), this.projectileDimensions, this.dps));
 
         }
+
+        //finally activates itself
+        this.active = true;
     }
 
 
