@@ -298,3 +298,51 @@ class TutorialBoss extends SuperBoss{
         mainGame.changeScene(new MenuScene());
     }
 }
+
+
+class PatternDebug extends SuperBoss{
+    currentState = 1;
+
+    patternsList = [];
+    
+    monologues = [];
+
+    constructor(){
+        super();
+    }
+
+    initialize(){
+        this.patternsList = [
+            new SeekerPattern(drawLayers.activeLayer, this.playerReference, {x:400, y:300}, 5, 20)
+        ]
+    }
+
+    load(){
+        // creates the player and the first object
+        this.playerReference = new Character({x:400, y:300}, drawLayers.activeLayer);
+        this.initialize();
+
+        this.currentObject = this.producePattern(this.patternCount);
+        this.patternCount ++;
+        this.currentState = 0;
+
+    }
+
+    producePattern(patternCount){
+        let newPattern = this.patternsList.pop();
+        newPattern.activate();
+        return newPattern;
+    }
+
+    sceneOver(){
+        return (this.monologues.length === 0 && this.patternsList.length === 0);
+    }
+
+    restart(){
+        mainGame.changeScene(new PatternDebug());
+    }
+
+    quit(){
+        mainGame.changeScene(new MenuScene());
+    }
+}

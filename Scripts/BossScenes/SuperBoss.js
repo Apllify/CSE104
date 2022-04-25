@@ -70,6 +70,11 @@ class SuperBoss{
                 this.currentObject.destroy();
             }
 
+            //checks whether the entire fight is over
+            if (this.sceneOver()){
+                console.log('over')
+                this.sceneOverHandle();
+            }
 
             // request a pattern or a break depending on the current state
             if (this.currentState=== 0){
@@ -85,10 +90,7 @@ class SuperBoss{
 
 
 
-            //checks whether the entire fight is over
-            if (this.sceneOver()){
-                this.sceneOverHandle();
-            }
+            
 
         }
 
@@ -125,7 +127,7 @@ class SuperBoss{
 
     sceneOverHandle(){
         // called when the player beats the boss
-        this.pauseScreen = new this.pauseScreen(drawLayers.foregroundLayer, this, ['Proceed', 'Redo Battle'], {0:'quit', 1:'restart'}, 'Battle Won!');
+        this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, ['Proceed', 'Redo Battle'], {0:'quit', 1:'restart'}, 'Battle Won!');
         this.gameOver = true;
         this.paused = true;
     }
