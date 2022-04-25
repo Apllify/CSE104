@@ -67,7 +67,6 @@ class SquarePattern extends Pattern{
         this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(-440, 340), 0, new Vector(0, 0), {x:80,y:80}, this.borderDamage));
         this.projectiles.push(new Projectile(this.projectileContainer, this.playerReference, new Vector(440, 340), 0, new Vector(0, 0), {x:80,y:80}, this.borderDamage));
 
-        let currentProjectile = null;
 
         //create top line of projectiles
         for(let x = 320 / 9 + 30; x< 800; x+= 320/9 + 60){

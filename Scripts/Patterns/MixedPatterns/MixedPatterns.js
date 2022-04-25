@@ -616,13 +616,8 @@ class PacmanWithWave extends Pattern{
         'medium':{
             duration: 30,
             pacmanCooldown: 1.5,
-<<<<<<< HEAD
-            shotSpeed: 250,
-            waveSpeed: 200,
-=======
             shotSpeed: 150,
             waveSpeed: 175,
->>>>>>> 9199b8b00a52e9142fb322761198b1469e8afed3
             fixedPts: 1,
             nonFixedPts: 1,
             projectileDimensions: {x: 8, y: 8},
@@ -894,7 +889,7 @@ class PacmanSquare extends Pattern{
             this.difficulty[this.chosenDifficulty].targetPoints,
             this.difficulty[this.chosenDifficulty].borderDamage);
         
-        this.squarePattern.activate();    
+        this.squarePattern.load();    
         this.generatePacman();
     }
 
@@ -926,3 +921,115 @@ class PacmanSquare extends Pattern{
     }
 }
 
+
+class Seeker extends Pattern{
+    difficulty = {
+        "easy":{
+            numProjectiles : 2,
+            acceleration : 10, 
+            lifespan : 15,
+            dps: 30,
+            maxSpeed : 560,
+            friction : 400,
+            color : 0xf5426f
+
+        },
+        "medium":{
+            numProjectiles : 2,
+            acceleration : 20, 
+            lifespan : 15,
+            dps: 50,
+            maxSpeed : 550,
+            friction : 200,
+            color: 0xb016f7
+        },
+        "hard":{
+            numProjectiles : 3,
+            acceleration : 20, 
+            lifespan : 15,
+            dps: 50,
+            maxSpeed : 550,
+            friction : 200,
+            color : 0x6250a1
+        }
+    }
+
+    destroying = false;
+    seekerPatterns = [];
+
+    chosenDifficulty = "medium";
+
+
+    constructor(drawLayer, player, difficulty = "medium"){
+        super(drawLayer, player);
+
+        this.chosenDifficulty = difficulty;
+    }
+
+    clone(){
+        return new Seeker(this.drawLayer, this.playerReference, this.chosenDifficulty);
+    }
+
+    load(){
+        const numProjectiles = this.difficulty[this.chosenDifficulty].numProjectiles;
+
+        const acceleration = this.difficulty[this.chosenDifficulty].acceleration;
+        const lifespan = this.difficulty[this.chosenDifficulty].lifespan;
+        const dps = this.difficulty[this.chosenDifficulty].dps;
+        const maxSpeed = this.difficulty[this.chosenDifficulty].maxSpeed;
+        const friction = this.difficulty[this.chosenDifficulty].friction;
+
+        const color = this.difficulty[this.chosenDifficulty].color;
+
+
+        for (let i = 0; i < numProjectiles; i++ ){
+            this.seekerPatterns.push(new SeekerPattern(this.drawLayer, this.playerReference, {x:i * 600, y:0},
+                acceleration / Math.pow(2,i) , lifespan, dps + i*20, maxSpeed + i*400, friction + i*200, i * 1/numProjectiles,
+                color    ));
+        }
+
+
+
+        for (let seekerPattern of this.seekerPatterns){
+            seekerPattern.load();
+
+        }
+    }
+
+    update(delta, inputs){
+        if (this.destroying){
+            return;
+        }
+
+
+        for (let seekerPattern of this.seekerPatterns){
+            seekerPattern.update(delta, inputs);
+        }
+
+    }
+
+
+    isDone(){
+        let flag = true;
+
+        for (let seekerPattern of this.seekerPatterns){
+            if (!seekerPattern.isDone()){
+                flag = false;
+            }
+        }
+
+        return flag;
+    }
+
+    destroy(){
+        if (!this.destroying){
+            this.destroying = true;
+
+            for (let seekerPattern of this.seekerPatterns){
+                seekerPattern.destroy();
+            }
+
+        }
+    }
+
+}

@@ -27,7 +27,7 @@ class ProjectileBombPattern extends Pattern{
         this.dps = dps;
     }
 
-    load(){
+    activate(){
         //instantiate all of the projectiles
         for (let angle = 0; angle <= 2 * Math.PI; angle += 2 * Math.PI / this.projectileCount ){
             let x_direction = Math.cos(angle);

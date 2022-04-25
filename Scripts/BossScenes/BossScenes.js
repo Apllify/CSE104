@@ -92,6 +92,9 @@ class SurferBoss extends SuperBoss{
 }
 
 
+
+
+
 class TutorialBoss extends SuperBoss{
     // Tentative tutorial scene: to be adjusted once we figure out the attack mechanic\
     // So for now it's a simple rundown of some patterns with some dialogue.
@@ -99,7 +102,10 @@ class TutorialBoss extends SuperBoss{
     patternsList = [];
     
     monologues = [];
-    monologueTextStyle = {};
+
+    yellingTextStyle = undefined;
+    crypticTextStyle = undefined;
+    defaultTextStyle = undefined;
     
     // store a copy of the most recent pattern in case we need to restart it 
     mostRecentPattern = null;
@@ -110,48 +116,136 @@ class TutorialBoss extends SuperBoss{
 
     initialize(){
         this.patternsList = [
-            new RainPattern(drawLayers.activeLayer, this.playerReference, 'medium'),
-            new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, 'easy'),
-            new FourCornerWaves(drawLayers.activeLayer, this.playerReference, 'easy'),
+            new RainPattern(drawLayers.activeLayer, this.playerReference, 'easy'),
+
+            new Seeker(drawLayers.activeLayer, this.playerReference, "easy"),
+            
+            new Seeker(drawLayers.activeLayer, this.playerReference, "medium"),
+
+            new Seeker(drawLayers.activeLayer, this.playerReference, "hard"),
+
             new PacmanSquare(drawLayers.activeLayer, this.playerReference, 'easy')
+
         ]
 
         this.monologues = [
-            [`Welcome ${this.playerReference.name}!`, "That's right, I know your name", 
-            "You're gonna have to be a little bit more conspicous in this town", 'Consider that your first lesson',
-        "You took a big risk coming here", "But lucky for you, you came to the right place.",
-    "Apply yourself well and this might just prepare you for what's coming", "So let's get straight into it, shall we?",
-"Think Fast!"],
-            ['Not bad, kid! Bit sloppy with the movement but we can work on that', "Let's try again with another one"],
-            ["Remember: they won't go this easily on you", 'The key is always more practice'],
-            ["Hope I didn't just ruin beaches for ya with dem waves", 'This next one involes pacman patterns',
-        'The reasons for their name might not be apparent immediately', "But don't you worry...",
-    'It is only the wisest of minds that could possibly comprehend them'], 
-    ['Well there you have it!', 'My job here is done', 'Hope this was helpfull', 'Good Luck out there']
+            ["Hey !!!",
+            this.playerReference.name,
+            "I think that's your name, right ?", 
+            "You're gonna have to be a little more \nsecretive around these parts", 
+            "Consider this your first lesson.",
+            "Speaking of, I should probably run you \nthrough the basics. ",
+            "Let's do this !!!!",
+            "Alright, see that little green bar at the top ? \nThat's : ",
+            "MOONESSENCE",
+            "It's the unspeakable, unbreakable compound \nthat makes up the living.",
+            "Well",
+            "Unbreakable is a strong word actually, \nbecause modern technology kind of ? Throws the entire premise of it \nout the window ?",
+            "The industrial revolution and its consequences have been devastating for mankind AMIRITE ???",
+            "...",
+            "....",
+            ".....",
+            "You should really look out for that bar because \nif it runs out you",
+            "die an agonizing death.",
+            "Anyways, let's get straight into it, \nthink fast !"],
+
+
+            ["Hint : use W,A,S,D to dodge the projectiles",
+            "Maybe I should've told you that before actually",
+            "Also, why is my name tutorial? ",
+            "Do they realize I'm not \njust a one-time character lol?",
+            "You'd think that they'd spend a little more time \nstoryboarding, you know, their main character?",
+            "Ugh, I guess it's not that important ... \nHere's my signature pattern ! "],
+
+
+            ["Did I just say signature pattern ?",
+            "Sorry, I meant one of the many colorful \nand flashy attacks of my main character toolkit",
+            "Yup",
+            "It's kinda hard to choose when you have that \nmany options really",
+            "Look at this for example :"],
+
+
+            ["Heh, impressive right ? ",
+            "Took me 8 years to master",
+            "Maybe I can teach you once I'm done with my \nmain character(tm) storyline",
+            "Anyways",
+            "NEXT"
+        ], 
+
+
+            ["Phew, you're kind of resilient for an npc, \nyou sure you haven't done this before ? ",
+            "That's not a compliment by the way, \njust an observation",
+            "Obviously",
+            "Sorry if you got your ego up",
+            "This should help you simmer down",
+            "Ladies and Gentlemen",
+            "Make noise for",
+            "My ULTIMATE PATTERN"
+        ]
         ]
 
         // Reverse Lists to always pop the last element
         this.patternsList.reverse();
         this.monologues.reverse();
 
-        this.monologueTextStyle = new PIXI.TextStyle({
+        this.defaultTextStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
-            fontSize : 16,
+            fontSize : 25,
             fontWeight : "bold",
-            fill : "#ff00ff",
-            stroke : "#ff00ff",
+            fill : "#ff0505",
+        });
+
+        this.explanationTextStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 15,
+            fontWeight : "bold",
+            fill : "#ff0505",
+        });
+
+        this.yellingTextStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 40,
+            fontWeight : "bold",
+            fill : "#ff0505",
+        });
+
+        this.crypticTextStyle = new PIXI.TextStyle({
+            fontFamily : "Microcosmos",
+            fontSize : 60,
+            fontWeight : "bold",
+            fill : "#ff0505",
         });
     }
 
     produceBreak(breakCount){
         this.playerReference.pause();
-        return new Monologue(drawLayers.foregroundLayer, this.monologues.pop(), this.monologueTextStyle, 'Tutorial', 1);
+
+        //choose the adequate font depending on the message
+        let monologue = new Monologue(drawLayers.foregroundLayer, this.monologues.pop(), this.defaultTextStyle, 'Tutorial', 1);
+
+
+        //add some styling for the first dialogue
+        if (breakCount === 0){
+            monologue.setTextStyleException(0, this.yellingTextStyle);
+            monologue.setTextStyleException(1, this.yellingTextStyle);
+
+            monologue.setTextStyleException(6, this.yellingTextStyle);
+            monologue.setTextStyleException(8, this.crypticTextStyle);
+            monologue.setTextStyleException(11, this.explanationTextStyle);
+            monologue.setTextStyleException(12, this.explanationTextStyle);
+    
+        }
+
+
+
+        return monologue;
     }
 
     producePattern(breakCount){
         // produce the next pattern 
         this.playerReference.unpause();
-        // we refill the player's health in each new pattern in this tutorial
+
+        // we refill the player's health in each new pattern in this tutorial 
         this.playerReference.refillHealth();
         let newPattern = this.patternsList.pop();
         

@@ -8,7 +8,13 @@ class Monologue{
     speakerName = "";
     currentLineIndex = 0;
 
+    textStyleExceptions = { //if you want some specific lines to have a different font
+
+    };
+
     destroyed = false;
+
+    isFirstUpdate = true;
 
 
     isVerticalOffset = 1; // whether the text box is at top or bottom of screen
@@ -63,7 +69,8 @@ class Monologue{
 
         //create and add the main text content
         this.textDisplay = new TextDisplay(this.drawLayer, this.textContent[this.currentLineIndex], 
-            {x:50, y:this.isVerticalOffset * 500 + 20}, this.textStyle);
+            {x:30, y:this.isVerticalOffset * 500 + 20}, this.textStyle);
+
 
 
         //create the name tag box and the name tag text
@@ -104,10 +111,15 @@ class Monologue{
         }
         //new TextDisplay(this.drawLayer, this.speakerName, {})
 
+
         //create a small flashing cursor
         this.cursor = new Rectangle(760, this.isVerticalOffset * 500 + 40, 20, 20).getGraphics(0xFFFFFF);
         this.drawLayer.addChild(this.cursor);
 
+    }
+
+    setTextStyleException(lineIndex, textStyle){
+        this.textStyleExceptions[lineIndex] = textStyle;
     }
 
     update(delta, inputs){
@@ -119,6 +131,12 @@ class Monologue{
 
         //update the internal timer
         this.timeElapsed += delta;
+
+        //update the first dialogue to use the correct exception rules if necessary
+        if (this.isFirstUpdate){
+            this.isFirstUpdate = false;
+            this.updateTextLine();
+        }
 
         //check for confirm input to advance monologue
         if (inputs.enter.isJustDown){
@@ -140,7 +158,16 @@ class Monologue{
     }
 
     updateTextLine(){
-        this.textDisplay.setText(this.textContent[this.currentLineIndex]);
+        //check if the current line is an exception
+        if (this.textStyleExceptions[this.currentLineIndex] !== undefined){
+            this.textDisplay.setTextStyle(this.textStyleExceptions[this.currentLineIndex]);
+            this.textDisplay.setText(this.textContent[this.currentLineIndex]);
+        }
+        else{
+            this.textDisplay.setTextStyle(this.textStyle);
+            this.textDisplay.setText(this.textContent[this.currentLineIndex]);
+
+        }
     }
 
     isDone(){

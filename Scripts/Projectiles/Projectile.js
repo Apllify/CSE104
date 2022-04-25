@@ -68,6 +68,9 @@ class Projectile{
         PIXI.sound.add('hit','././Sound/projectile_hit.wav');
         PIXI.sound.volume("hit" ,0.01);
 
+        //update the graphics position too lol 
+        this.updateGraphics();
+
     }
 
 
@@ -89,6 +92,12 @@ class Projectile{
         this.speed = newSpeed;
     }
 
+    updateGraphics(){
+        this.displayGraphic.x = this.x - this.width / 2;
+        this.displayGraphic.y = this.y - this.height / 2;
+    }
+
+
     update(delta){
         if (this.destroying){   // don't try to update if destroy is called.
             return ;
@@ -98,11 +107,8 @@ class Projectile{
         this.x += this.direction.x * this.speed * delta;
         this.y += this.direction.y * this.speed * delta;
 
-        this.displayGraphic.x = this.x;
-        this.displayGraphic.y = this.y;
-
-
-
+        //update the graphics to reflect this change
+        this.updateGraphics(); 
 
 
         //use bounds rectangle with absolute coordinates to generate a rectangle hitbox
