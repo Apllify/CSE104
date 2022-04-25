@@ -19,7 +19,8 @@ class IntroOutsideScene extends OutsideScene{
         //create a door npc
         this.npcList.push( new BrokenDoor(this.container,  this.playerReference, {x:0, y:300}));
         this.npcList.push(new BossWarp(this.container,  this.playerReference, {x:600, y:300}));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:500, y:320}))
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:500, y:320}));
+        this.npcList.push(new PatternDebugNpc(this.container, this.playerReference, {x:400, y:100}));
 
                 
         //create a few rock npcs for decoration

@@ -218,3 +218,14 @@ class TutorialNpc extends Npc{
         this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
     }
 }
+
+class PatternDebugNpc extends Npc{
+
+    isInteracted(){
+        mainGame.changeScene(new PatternDebug());
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
+    }
+}

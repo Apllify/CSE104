@@ -53,6 +53,9 @@ class SeekerPattern extends Pattern{
 
     update(delta, inputs){
 
+        if (this.destroying){
+            return;
+        }
         //update the internal timer
         this.elapsedTime += delta;
 
@@ -144,5 +147,6 @@ class SeekerPattern extends Pattern{
         this.destroying = true;
 
         this.projectileEntity.destroy();
+        delete this;
     }
 }
