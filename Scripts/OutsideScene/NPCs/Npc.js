@@ -12,7 +12,7 @@ class Npc{
 
     currentMonologue = null;
 
-    //in the case we use a 20x20 debug rectangle to display this entity
+    //in the case we use a 40x40 debug rectangle to display this entity
     destroyed = false;
     debugGraphics = null;
 

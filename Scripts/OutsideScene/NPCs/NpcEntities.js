@@ -91,6 +91,10 @@ class BrokenDoor extends TextNpc{
         super(drawLayer, playerReference, position, textStyle, monologuesList, "Broken Door",  "Shield");
 
     }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - 16, this.y - 16, 32, 32);
+    }
 }
 
 class Rock extends TextNpc{
@@ -152,6 +156,10 @@ class God extends TextNpc{
 
     }
 
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - 20, this.y - 30, 40, 60);
+    }
+
 
 
     isInteracted(){
@@ -188,6 +196,10 @@ class BossWarp extends Npc{
     isInteracted(){
         mainGame.changeScene(new SurferBoss());
         return null;
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
     }
 }
 
