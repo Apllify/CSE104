@@ -10,6 +10,7 @@ class PauseScreen{
         'restart': this.restart,
         'quit': this.quit,
         'nextPattern': this.nextPattern,
+        'restartPattern':this.restartPattern,
     }
 
 
@@ -225,6 +226,12 @@ class PauseScreen{
         scene.nextPattern();
 
     }
+
+    restartPattern(scene){
+        scene.pauseHandle();
+        scene.restartPattern();
+    }
+
     resume(scene){
         // handle the resume command
         scene.pauseHandle();

@@ -134,6 +134,10 @@ class Character{
         this.updateSpritePosition();
     }
 
+    refillHealth(){
+        this.health = this.maxHealth;
+    }
+    
     updateSpritePosition(){
         this.sprite.x = this.x - this.spriteWidth /2;
         this.sprite.y = this.y - this.spriteHeight/2;

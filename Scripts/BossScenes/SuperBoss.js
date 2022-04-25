@@ -28,6 +28,7 @@ class SuperBoss{
 
         this.currentObject = this.produceBreak(this.breakCount);
         this.breakCount ++;
+        this.currentState = 1;
 
     }
 
