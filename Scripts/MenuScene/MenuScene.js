@@ -30,24 +30,7 @@ class MenuScene{
     destroying = false;
 
     constructor(){
-        //create a background graphics
-        this.backgroundGraphics= new PIXI.Graphics();
-
-        this.backgroundGraphics.beginFill(0x000000);
-        this.backgroundGraphics.drawRect(0, 0, 800, 600);
-
-        drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
-        
-        PIXI.sound.add('flip', '././Sound/flip_menu.wav');
-        PIXI.sound.add('exit', '././Sound/exit_joke.wav');
-        PIXI.sound.add('play', '././Sound/hit_play.wav');
-
-        PIXI.sound.volume("flip", 0.03);
-        PIXI.sound.volume("exit", 0.03);
-        PIXI.sound.volume("play", 0.03);
-
-
-        //setup the menu font style
+        //setup the fonts that we're gonna be using
         this.startFontStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 100,
@@ -75,7 +58,26 @@ class MenuScene{
             stroke : "#ff0000",
         });
 
+    }
+
+
+    
+    load(){
+        //create a background graphics
+        this.backgroundGraphics= new PIXI.Graphics();
+
+        this.backgroundGraphics.beginFill(0x000000);
+        this.backgroundGraphics.drawRect(0, 0, 800, 600);
+
+        drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
         
+        PIXI.sound.add('flip', '././Sound/flip_menu.wav');
+        PIXI.sound.add('exit', '././Sound/exit_joke.wav');
+        PIXI.sound.add('play', '././Sound/hit_play.wav');
+
+        PIXI.sound.volume("flip", 0.03);
+        PIXI.sound.volume("exit", 0.03);
+        PIXI.sound.volume("play", 0.03);
 
         //instantiate the text boxes
         this.exitJoke = new FadeText(drawLayers.foregroundLayer, "There Is No Escape...", {x:380, y:500}, this.exitFontStyle, 2);
@@ -132,9 +134,6 @@ class MenuScene{
         //add the two cursors to the scene
         drawLayers.foregroundLayer.addChild(this.leftCursorGraphics);
         drawLayers.foregroundLayer.addChild(this.rightCursorGraphics);
-
-        
-        
 
     }
 
@@ -211,7 +210,7 @@ class MenuScene{
                     mainGame.changeScene(new NameInputScene());
                 }
                 else{
-                    mainGame.loadFirstGameScene();
+                    mainGame.changeScene(new IntroOutsideScene());
                 }
             }
             else if (this.currentInputPrompt === 1){

@@ -33,28 +33,6 @@ class NameInputScene{
 
     constructor(){
 
-        //create a background graphics
-        this.backgroundGraphics= new PIXI.Graphics();
-
-        this.backgroundGraphics.beginFill(0x000000);
-        this.backgroundGraphics.drawRect(0, 0, 800, 600);
-
-        drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
-
-        //add a few sound effects for this scene
-        PIXI.sound.add('flipKeyboard', '././Sound/flip_keyboard.wav');
-        PIXI.sound.add("startGame", "././Sound/start_game.wav");
-
-        PIXI.sound.volume("flipKeyboard" ,0.03);
-        PIXI.sound.volume("startGame", 0.5);
-
-
-
-
-        //instantiate the cursor 
-        this.cursor = new PIXI.Graphics();
-
-        drawLayers.foregroundLayer.addChild(this.cursor);
 
 
 
@@ -86,6 +64,35 @@ class NameInputScene{
 
 
 
+
+
+    }
+    
+
+    load(){
+        //create a background graphics
+        this.backgroundGraphics= new PIXI.Graphics();
+
+        this.backgroundGraphics.beginFill(0x000000);
+        this.backgroundGraphics.drawRect(0, 0, 800, 600);
+
+        drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
+
+        //add a few sound effects for this scene
+        PIXI.sound.add('flipKeyboard', '././Sound/flip_keyboard.wav');
+        PIXI.sound.add("startGame", "././Sound/start_game.wav");
+
+        PIXI.sound.volume("flipKeyboard" ,0.03);
+        PIXI.sound.volume("startGame", 0.5);
+
+
+
+
+        //instantiate the cursor 
+        this.cursor = new PIXI.Graphics();
+
+        drawLayers.foregroundLayer.addChild(this.cursor);
+
         //create a text box to display the currently chosen name 
         this.nameTextBox = new TextDisplay(drawLayers.activeLayer, this.currentName, {x:0,y:0}, this.nameFont);
         this.nameTextBox.centerHorizontallyAt(400);
@@ -113,10 +120,10 @@ class NameInputScene{
 
         //initiliaze the cursor at its position
         this.updateCursorPosition();
-
-
     }
-    
+
+
+
     setupKeyboard(){
 
         //clear the keyboard if necessary first
@@ -288,7 +295,7 @@ class NameInputScene{
                     PIXI.sound.play("startGame");
 
                     //load the first scene of the game  
-                    mainGame.loadFirstGameScene();
+                    mainGame.changeScene(new IntroOutsideScene());
                 }
             }
         }

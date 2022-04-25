@@ -9,12 +9,16 @@ class SurferBoss extends SuperBoss{
     monologues = [];
     monologueTextStyle = {};
 
-
     constructor(){
         super();
+
+        
     }
 
-    initializeObjects(){
+
+    //called once the sprites are loaded
+
+    initialize(){
         this.patternsList = [
             new FourCornerWaves(drawLayers.activeLayer, this.playerReference, 'easy'),
             new PacmanWithWave(drawLayers.activeLayer, this.playerReference, 'medium'),
@@ -40,44 +44,38 @@ class SurferBoss extends SuperBoss{
             stroke : "#0000ff",
         });
     }
-    produceNextObject(){
-        // We alternate between monologue and pattern
-        if (this.currentState === 0){
-            
-            this.produceBreak();
-        }
-        
-        else{
-            
-            this.producePattern();
-        }
+
+
+
+    load(){
+        super.load();
+
     }
 
-    produceBreak(){
+
+
+    produceBreak(breakCount){
         // produce the next non-pattern interaction. In this case it is only monologues.
         this.playerReference.pause();
-        let textContent = this.monologues.pop();
-            
-        this.currentObject = new Monologue(drawLayers.foregroundLayer, textContent, this.monologueTextStyle,
-                'Surfer Boss', 1);
-        this.currentState = 1;
+        return new Monologue(drawLayers.foregroundLayer, this.monologues.pop(), this.monologueTextStyle,
+        "Surfer Boss", 1);
+
     }
 
-    producePattern(){
+    producePattern(patternCount){
         // produce the next pattern 
         this.playerReference.unpause();
-        this.currentObject = this.patternsList.pop();
-            
-        this.currentObject.activate();
-        this.currentState = 0;
+        let newPattern = this.patternsList.pop();
+        newPattern.activate();
+        return newPattern;
+
     }
 
     breakUpdate(delta, inputs){
-        this.currentObject.update(delta, inputs);
+
     }
 
     patternUpdate(delta, inputs){
-        this.currentObject.update(delta, inputs);
     }
 
     sceneOver(){

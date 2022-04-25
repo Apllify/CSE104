@@ -10,20 +10,28 @@ class SuperBoss{
     
     gameOver = false;
 
+    currentState = 1; // start off as a break (for tensions purposes)
+
+    patternCount = 0;
+    breakCount = 0;
+
     constructor(){
         PIXI.sound.add('pause', '././Sound/pause_button.wav');
     }
 
-    startScene(){
+
+    //called once the required assets have been loaded
+    load(){
         // creates the player and the first object
         this.playerReference = new Character({x:400, y:300}, drawLayers.activeLayer);
-        this.initializeObjects();
-        this.produceNextObject();
+        this.initialize();
+
+        this.currentObject = this.produceBreak(this.breakCount);
+        this.breakCount ++;
+
     }
 
-    produceNextObject(){
-        return;
-    }
+
 
 
     update(delta, inputs){
@@ -41,33 +49,53 @@ class SuperBoss{
             return;
         }
 
-        
+        //update the player 
         this.playerReference.update(delta, inputs);
 
+        //check whether the player is dead
         if (this.playerReference.health <= 0){
             // when health reaches zero we stop the game
             this.gameOverHandle();
         }
-        if (this.currentObject.isDone()){
-            // objects are destroyed as soon as they are done 
+
+        //update the current object 
+        this.currentObject.update(delta, inputs);
+
+        //create a new pattern or break if needed
+        if (this.currentObject.isDone() || this.currentObject === null){
+
+            //destroy the current object if necessary
             if (!this.currentObject.destroyed){
                 this.currentObject.destroy();
             }
 
+
+            // request a pattern or a break depending on the current state
+            if (this.currentState=== 0){
+                this.currentObject = this.produceBreak(this.breakCount);
+                this.breakCount ++;
+                this.currentState = 1;
+            }
+            else if (this.currentState === 1){
+                this.currentObject = this.producePattern(this.patternCount);
+                this.patternCount ++;
+                this.currentState = 0;
+            }
+
+
+
+            //checks whether the entire fight is over
             if (this.sceneOver()){
                 this.sceneOverHandle();
             }
 
-            else{
-                this.produceNextObject();
-            }
         }
 
         if (this.currentState === 0){
             this.patternUpdate(delta, inputs);
         }
 
-        else{
+        else if (this.currentState === 1){
             this.breakUpdate(delta, inputs);
         }
         
@@ -119,24 +147,37 @@ class SuperBoss{
 
     
     //Methods to be defined by inheriting classes 
-
-    patternUpdate(){
+    
+    produceBreak(){ //returns a break object that can be updated
         return;
     }
 
-    breakUpdate(){
+    producePattern(){//returns an object of type pattern that can be updated
         return;
     }
 
-    restart(){
+
+    patternUpdate(){ //called while any pattern is running 
         return;
     }
 
-    quit(){
+    breakUpdate(){ //called while any break is running 
         return;
     }
 
-    sceneOver(){
+    initialize(){ //used to set instance properties that are dependent on load() entities such as the player reference
+
+    }
+
+    restart(){ //restarts the boss fight 
+        return;
+    }
+
+    quit(){ //leaves the boss fight 
+        return;
+    }
+
+    sceneOver(){ //returns whether the fight is over or not 
         return false;
     }
 

@@ -22,7 +22,6 @@ class TextNpc extends Npc{
     setupGraphics(){
         //assumes the sprite has already been loaded
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
-        console.log(this.drawLayer);
         this.drawLayer.addChild(this.sprite);
 
         this.sprite.x = this.x - this.sprite.width / 2;
@@ -153,20 +152,7 @@ class God extends TextNpc{
 
     }
 
-    setup(){
-        //get the spritesheet from the loader
-        let sheet = PIXI.Loader.shared.resources["GodSpritesheet"].spritesheet;
 
-
-        //position the sprite correctly and add it to the container
-        this.sprite =  new PIXI.AnimatedSprite(sheet.animations["Idle"]);
-        this.sprite.play();
-        this.drawLayer.addChild(this.sprite);
-        this.sprite.x=  this.x - this.sprite.width / 2;
-        this.sprite.y = this.y - this.sprite.height / 2;
-
-
-    }
 
     isInteracted(){
         //only return a monologue if the npc hasn't started fading 
