@@ -148,22 +148,25 @@ class Monologue{
     }
 
     destroy(){
-        //remove the main components of the text box
-        this.textDisplay.destroy();
-        this.backgroundBox.destroy();
-        this.cursor.destroy();
+        if (!this.destroyed){
+            //remove the main components of the text box
+            this.textDisplay.destroy();
+            this.backgroundBox.destroy();
+            this.cursor.destroy();
 
-        //remove the borders of the text box
-        this.topBorder.destroy();
-        this.leftBorder.destroy();
-        this.rightBorder.destroy();
-        this.bottomBorder.destroy();
+            //remove the borders of the text box
+            this.topBorder.destroy();
+            this.leftBorder.destroy();
+            this.rightBorder.destroy();
+            this.bottomBorder.destroy();
 
-        //destroy the speaker name tag
-        this.nameTagBox.destroy();
-        this.nameTagText.destroy();
+            //destroy the speaker name tag
+            this.nameTagBox.destroy();
+            this.nameTagText.destroy();
 
-        this.destroyed = true;
+            this.destroyed = true;
+        }
+
     }
 
 

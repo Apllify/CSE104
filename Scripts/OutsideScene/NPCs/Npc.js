@@ -51,6 +51,11 @@ class Npc{
 
         }
 
+        //don't update if entity is destroyed
+        if (this.destroyed){
+            return; 
+        }
+
         //update depending on the state 
         if (this.currentState === 0){
             this.idleUpdate(delta, inputs);

@@ -175,10 +175,13 @@ class God extends TextNpc{
     idleUpdate(delta, inputs){
         if (this.isFading){
             //reduces the alpha until it reaches zero
-            this.sprite.alpha -= delta/2;
+            this.sprite.alpha = Math.max(this.sprite.alpha - delta/2, 0);
 
             //destroys itself once it reaches zero alpha
-            //this.destroy();
+            if (this.sprite.alpha === 0){
+                this.destroy();
+            }
+            
         }
 
     }

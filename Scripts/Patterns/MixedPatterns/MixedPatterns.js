@@ -272,7 +272,7 @@ class FourCornerWaves extends Pattern{
     difficulty = {
         'easy':{
             waveSpeed: 200, 
-            waveDuration: 30,
+            waveDuration: 20,
             projectileDamage: 60, 
             waveCount:[2, 2, 2, 2],
             fixedPts:1,
@@ -580,7 +580,7 @@ class PacmanWithWave extends Pattern{
      // parameters based on difficulty chosen
     difficulty = {
         'easy':{
-            duration: 40,
+            duration: 20,
             pacmanCooldown: 2,
             shotSpeed: 100,
             waveSpeed: 150,
@@ -594,10 +594,10 @@ class PacmanWithWave extends Pattern{
         },
 
         'medium':{
-            duration: 50,
+            duration: 30,
             pacmanCooldown: 1.5,
             shotSpeed: 250,
-            waveSpeed: 290,
+            waveSpeed: 200,
             fixedPts: 1,
             nonFixedPts: 1,
             projectileDimensions: {x: 8, y: 8},
@@ -607,10 +607,10 @@ class PacmanWithWave extends Pattern{
         },
 
         'hard':{
-            duration: 50,
+            duration: 30,
             pacmanCooldown: 1.5,
             shotSpeed: 250,
-            waveSpeed: 275,
+            waveSpeed: 225,
             fixedPts: 1,
             nonFixedPts: 1,
             projectileDimensions: {x: 8, y: 8},
@@ -620,7 +620,7 @@ class PacmanWithWave extends Pattern{
         },
 
         'ultraHard':{
-            duration: 55,
+            duration: 40,
             pacmanCooldown: 1.5,
             shotSpeed: 275,
             waveSpeed: 290,

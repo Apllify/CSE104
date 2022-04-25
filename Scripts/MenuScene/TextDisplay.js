@@ -2,7 +2,7 @@
 class TextDisplay{
 
     textEntity = null;
-    destroying = false;
+    destroyed = false;
 
     constructor( drawLayer, textContent, position, textStyle = undefined, alpha=1){
         // alpha value is 1 by default.
@@ -66,7 +66,10 @@ class TextDisplay{
     }
 
     destroy(){
-        this.textEntity.destroy();
+        if (!this.destroyed){
+            this.textEntity.destroy();
+            this.destroyed = true;
+        }
     }
 
 
