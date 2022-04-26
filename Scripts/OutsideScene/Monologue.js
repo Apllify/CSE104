@@ -11,6 +11,8 @@ class Monologue{
     textStyleExceptions = { //if you want some specific lines to have a different font
 
     };
+    
+    shakingExceptions = [] //the index of the lines where shaking is enabled
 
     destroyed = false;
 
@@ -122,6 +124,10 @@ class Monologue{
         this.textStyleExceptions[lineIndex] = textStyle;
     }
 
+    setShakingException(lineIndex){
+        this.shakingExceptions.push(lineIndex);
+    }
+
     update(delta, inputs){
 
         //don't do anything if the entity is already destroyed
@@ -155,6 +161,20 @@ class Monologue{
         this.cursor.alpha = Math.abs(Math.cos(2 * this.timeElapsed));
 
 
+        //shaking the text if necessary
+        let xRandom = 0;
+        let yRandom = 0;
+
+        if (this.shakingExceptions.includes(this.currentLineIndex)){
+            xRandom = Math.random() * 8 - 4;
+            yRandom = Math.random() * 8 - 4;
+        }
+
+        if (this.destroyed){
+            return;
+        }
+        this.textDisplay.textEntity.x = 30 + xRandom;
+        this.textDisplay.textEntity.y = this.isVerticalOffset * 500 + 20 + yRandom;
     }
 
     updateTextLine(){

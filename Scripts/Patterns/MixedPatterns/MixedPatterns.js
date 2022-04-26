@@ -207,7 +207,7 @@ class RainPattern extends Pattern{
         300, 
         this.difficulty[this.chosenDifficulty].damage,
         this.difficulty[this.chosenDifficulty].projectileDimensions);
-      this.circlePatterns[0].activate();
+      this.circlePatterns[0].load();
   }
 
   update(delta, inputs){
@@ -250,7 +250,7 @@ class RainPattern extends Pattern{
             300, 
             this.difficulty[this.chosenDifficulty].damage,
             this.difficulty[this.chosenDifficulty].projectileDimensions);
-          this.circlePatterns[0].activate();
+          this.circlePatterns[0].load();
       }
 
 
@@ -921,6 +921,144 @@ class PacmanSquare extends Pattern{
     }
 }
 
+class SquareCirclePacman extends Pattern{
+    difficulty = {
+        "medium" :{
+            duration : 20,
+
+            circleCooldown : 3,
+            circleRadius : 350,
+            circleProjectileCount : 5,
+            circleProjectileSpeed : 200,
+            circleProjectileDps : 50,
+
+            borderDps : 50,
+            borderTargetPoints : 10,
+            borderMinScale : 0.4,
+            borderMaxScale : 0.6,
+            borderSpeed : 100,
+
+            pacmanShotSpeed : 200,
+            pacmanCooldown : 1,
+            pacmanDps : 50,
+        }
+    }
+
+    destroying = false;
+    
+    squarePattern = null;
+    circlePattern = null;
+    pacmanPattern = null;
+
+    chosenDifficulty = "medium";
+
+    elapsedTime = 0;
+    remainingCircleCooldown = 0;
+
+
+    constructor(drawLayer, player, difficulty){
+        super(drawLayer, player);
+
+
+        this.chosenDifficulty = difficulty;
+
+        this.remainingCircleCooldown = this.difficulty[this.chosenDifficulty].circleCooldown;
+    }
+
+    load(){
+        const duration = this.difficulty[this.chosen]
+
+        //create the box pattern
+        const borderDps = this.difficulty[this.chosenDifficulty].borderDps;
+        const borderTargetPoints = this.difficulty[this.chosenDifficulty].borderTargetPoints;
+        const borderMinScale = this.difficulty[this.chosenDifficulty].borderMinScale;
+        const borderMaxScale =this.difficulty[this.chosenDifficulty].borderMaxScale;
+        const borderSpeed = this.difficulty[this.chosenDifficulty].borderSpeed;
+
+
+
+        this.squarePattern = new SquarePattern(this.drawLayer, this.playerReference, borderSpeed, borderMinScale,
+             borderMaxScale, borderTargetPoints, borderDps );
+        this.squarePattern.load();
+
+
+        //create the pacman pattern
+        const pacmanCooldown = this.difficulty[this.chosenDifficulty].pacmanCooldown;
+        const pacmanShotSpeed = this.difficulty[this.chosenDifficulty].pacmanShotSpeed;
+        const pacmanDps = this.difficulty[this.chosenDifficulty].pacmanDps;
+
+        this.pacmanPattern = new PacmanPattern(this.drawLayer, this.playerReference, duration, 
+            pacmanCooldown, pacmanShotSpeed, undefined, pacmanDps);
+        this.pacmanPattern.load();
+
+
+    }
+
+    update(delta, inputs){
+        //don't update if destroying 
+        if (this.destroying){
+            return;
+        }
+
+
+        //update the two timers
+        this.elapsedTime += delta;
+        this.remainingCircleCooldown -= delta;
+
+
+        //update the three main patterns if possible
+        this.squarePattern.update(delta, inputs);
+        this.pacmanPattern.update(delta, inputs);
+
+        if (this.circlePattern !== null){
+            this.circlePattern.update(delta, inputs);
+        }
+
+        //check if it is time to create a new circle pattern
+        if (this.remainingCircleCooldown <= 0){
+            this.remainingCircleCooldown = this.difficulty[this.chosenDifficulty].circleCooldown;
+
+            if (this.circlePattern !== null){
+                this.circlePattern.destroy();
+            }
+
+            const circleRadius = this.difficulty[this.chosenDifficulty].circleRadius;
+            const circleProjectileCount = this.difficulty[this.chosenDifficulty].circleProjectileCount;
+            const circleProjectileSpeed = this.difficulty[this.chosenDifficulty].circleProjectileSpeed;
+            const circleProjectileDps = this.difficulty[this.chosenDifficulty].circleProjectileDps;
+
+
+            this.circlePattern = new CirclePattern(this.drawLayer, this.playerReference, circleProjectileCount, 
+                circleProjectileSpeed - 100, circleProjectileSpeed + 100, circleRadius, circleProjectileDps  );
+            this.circlePattern.load();
+                
+                
+        }
+
+    }
+
+    clone(){
+        return new SquareCirclePacman(this.drawLayer, this.playerReference, this.chosenDifficulty);
+    }
+
+    isDone(){
+        return (this.elapsedTime > this.difficulty[this.chosenDifficulty].duration);
+    }
+
+    destroy(){
+        //destroy all three of the patterns if possible 
+        this.squarePattern.destroy();
+        this.pacmanPattern.destroy();
+
+        if (this.circlePattern !== null){
+            this.circlePattern.destroy();
+        }
+
+        this.destroying = true;
+    }
+
+
+}
 
 class Seeker extends Pattern{
     difficulty = {

@@ -106,7 +106,7 @@ class SeekerPattern extends Pattern{
 
         //apply friction to the velocity vector
         if (velocityVector.getNorm() !== 0){
-            velocityVector.rescale( velocityVector.getNorm() - delta * this.friction / velocityVector.getNorm());
+            velocityVector.rescale( (velocityVector.getNorm() - delta * this.friction) / velocityVector.getNorm());
         }
 
         //increment the speed on both axis by the acceleration

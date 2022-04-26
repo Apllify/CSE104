@@ -116,26 +116,26 @@ class TutorialBoss extends SuperBoss{
 
     initialize(){
         this.patternsList = [
-            new RainPattern(drawLayers.activeLayer, this.playerReference, 'easy'),
+            new RainPattern(drawLayers.activeLayer, this.playerReference, 'medium'),
 
-            new Seeker(drawLayers.activeLayer, this.playerReference, "easy"),
+            new SquarePattern(drawLayers.activeLayer, this.playerReference, 150),
             
-            new Seeker(drawLayers.activeLayer, this.playerReference, "medium"),
+            new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, "medium"),
 
-            new Seeker(drawLayers.activeLayer, this.playerReference, "hard"),
+            new PacmanSquare(drawLayers.activeLayer, this.playerReference, "easy"),
 
-            new PacmanSquare(drawLayers.activeLayer, this.playerReference, 'easy')
+            new SquareCirclePacman(drawLayers.activeLayer, this.playerReference, "medium")
 
-        ]
+        ];
 
         this.monologues = [
-            ["Hey !!!",
+            ["Hey !",
             this.playerReference.name,
             "I think that's your name, right ?", 
-            "You're gonna have to be a little more \nsecretive around these parts", 
+            "You're gonna have to be a little more \nsecretive around these parts.", 
             "Consider this your first lesson.",
             "Speaking of, I should probably run you \nthrough the basics. ",
-            "Let's do this !!!!",
+            "Let's do this",
             "Alright, see that little green bar at the top ? \nThat's : ",
             "MOONESSENCE",
             "It's the unspeakable, unbreakable compound \nthat makes up the living.",
@@ -182,7 +182,7 @@ class TutorialBoss extends SuperBoss{
             "Make noise for",
             "My ULTIMATE PATTERN"
         ]
-        ]
+        ];
 
         // Reverse Lists to always pop the last element
         this.patternsList.reverse();
@@ -228,6 +228,11 @@ class TutorialBoss extends SuperBoss{
         if (breakCount === 0){
             monologue.setTextStyleException(0, this.yellingTextStyle);
             monologue.setTextStyleException(1, this.yellingTextStyle);
+
+            //monologue.setShakingException(0);
+            //monologue.setShakingException(1);
+
+            monologue.setShakingException(8);
 
             monologue.setTextStyleException(6, this.yellingTextStyle);
             monologue.setTextStyleException(8, this.crypticTextStyle);
@@ -313,7 +318,7 @@ class PatternDebug extends SuperBoss{
 
     initialize(){
         this.patternsList = [
-            new SeekerPattern(drawLayers.activeLayer, this.playerReference, {x:400, y:300}, 5, 20)
+            new SquareCirclePacman(drawLayers.activeLayer, this.playerReference, "medium")
         ]
     }
 
