@@ -79,7 +79,7 @@ class SurferBoss extends SuperBoss{
     }
 
     sceneOver(){
-        return (this.monologues === [] && this.patternsList === []);
+        return (this.monologues.length === 0 && this.patternsList.length === 0);
     }
 
     restart(){
@@ -321,7 +321,6 @@ class TutorialBoss extends SuperBoss{
     }
 
     sceneOver(){
-
         return (this.monologues.length === 0 && this.patternsList.length === 0);
     }
 

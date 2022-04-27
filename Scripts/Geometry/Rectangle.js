@@ -1,3 +1,4 @@
+'use strict';
 class Rectangle{
 
     //the position of the top left corner of the rectangle
