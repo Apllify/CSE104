@@ -15,6 +15,9 @@ class Game{
 
         //this.changeScene(new PatternDebug())
         this.changeScene(new MenuScene());
+        //  this.changeScene(new PixelTransition(5, 5));
+        //  this.currentScene.startFadeIn();
+        
     }
 
 
@@ -22,6 +25,11 @@ class Game{
         if (this.isCurrentSceneLoaded){
             this.currentScene.update(delta, inputs);
         }
+    }
+
+    startTransition(transition){
+        this.changeScene(transition);
+        this.currentScene.startFadeIn();
     }
 
     changeScene(newScene){

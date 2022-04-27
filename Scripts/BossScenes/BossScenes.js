@@ -118,13 +118,13 @@ class TutorialBoss extends SuperBoss{
         this.patternsList = [
             new RainPattern(drawLayers.activeLayer, this.playerReference, 'medium'),
 
-            new SquarePattern(drawLayers.activeLayer, this.playerReference, 150),
+            // new SquarePattern(drawLayers.activeLayer, this.playerReference, 150),
             
-            new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, "medium"),
+            // new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, "medium"),
 
-            new PacmanSquare(drawLayers.activeLayer, this.playerReference, "easy"),
+            // new PacmanSquare(drawLayers.activeLayer, this.playerReference, "easy"),
 
-            new SquareCirclePacman(drawLayers.activeLayer, this.playerReference, "medium")
+            // new SquareCirclePacman(drawLayers.activeLayer, this.playerReference, "medium")
 
         ];
 
@@ -150,38 +150,43 @@ class TutorialBoss extends SuperBoss{
             "Anyways, let's get straight into it, \nthink fast !"],
 
 
-            ["Hint : use W,A,S,D to dodge the projectiles",
-            "Maybe I should've told you that before actually",
-            "Also, why is my name tutorial? ",
-            "Do they realize I'm not \njust a one-time character lol?",
-            "You'd think that they'd spend a little more time \nstoryboarding, you know, their main character?",
-            "Ugh, I guess it's not that important ... \nHere's my signature pattern ! "],
+        //     ["Hint : use W,A,S,D to dodge the projectiles",
+        //     "Maybe I should've told you that before actually",
+        //     "Also, why is my name tutorial? ",
+        //     "Do they realize I'm not \njust a one-time character lol?",
+        //     "You'd think that they'd spend a little more time \nstoryboarding, you know, their main character?",
+        //     "Ugh, I guess it's not that important ... \nHere's my signature pattern ! "],
 
 
-            ["Did I just say signature pattern ?",
-            "Sorry, I meant one of the many colorful \nand flashy attacks of my main character toolkit",
-            "Yup",
-            "It's kinda hard to choose when you have that \nmany options really",
-            "Look at this for example :"],
+        //     ["Did I just say signature pattern ?",
+        //     "Sorry, I meant one of the many colorful \nand flashy attacks of my main character toolkit",
+        //     "Yup",
+        //     "It's kinda hard to choose when you have that \nmany options really",
+        //     "Look at this for example :"],
 
 
-            ["Heh, impressive right ? ",
-            "Took me 8 years to master",
-            "Maybe I can teach you once I'm done with my \nmain character(tm) storyline",
-            "Anyways",
-            "NEXT"
-        ], 
+        //     ["Heh, impressive right ? ",
+        //     "Took me 8 years to master",
+        //     "Maybe I can teach you once I'm done with my \nmain character(tm) storyline",
+        //     "Anyways",
+        //     "NEXT"
+        // ], 
 
 
-            ["Phew, you're kind of resilient for an npc, \nyou sure you haven't done this before ? ",
-            "That's not a compliment by the way, \njust an observation",
-            "Obviously",
-            "Sorry if you got your ego up",
-            "This should help you simmer down",
-            "Ladies and Gentlemen",
-            "Make noise for",
-            "My ULTIMATE PATTERN"
-        ]
+        //     ["Phew, you're kind of resilient for an npc, \nyou sure you haven't done this before ? ",
+        //     "That's not a compliment by the way, \njust an observation",
+        //     "Obviously",
+        //     "Sorry if you got your ego up",
+        //     "This should help you simmer down",
+        //     "Ladies and Gentlemen",
+        //     "Make noise for",
+        //     "My ULTIMATE PATTERN"
+        // ],
+
+        // ["I- ",
+        // "That-",
+        // "Uh-",
+        // ]
         ];
 
         // Reverse Lists to always pop the last element
@@ -239,6 +244,16 @@ class TutorialBoss extends SuperBoss{
             monologue.setTextStyleException(11, this.explanationTextStyle);
             monologue.setTextStyleException(12, this.explanationTextStyle);
     
+        }
+        else if (breakCount === 4){
+            monologue.setTextStyleException(7, this.yellingTextStyle);
+            monologue.setShakingException(7);
+        }
+        else if (breakCount == 5){
+            monologue.setTextStyleException(0, this.explanationTextStyle);
+            monologue.setTextStyleException(1, this.explanationTextStyle);
+            monologue.setTextStyleException(2, this.explanationTextStyle);
+
         }
 
 

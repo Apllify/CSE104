@@ -12,6 +12,9 @@ class Npc{
 
     currentMonologue = null;
 
+    //number of times we've been interacted with
+    interactionCount = 0;
+
     //in the case we use a 40x40 debug rectangle to display this entity
     destroyed = false;
     debugGraphics = null;
@@ -70,7 +73,9 @@ class Npc{
                 if (totalDistance <= this.detectionRadius){
                     //change the state
                     this.currentState = 1;
-                    this.currentMonologue = this.isInteracted();
+                    this.currentMonologue = this.isInteracted(this.interactionCount);
+                    this.interactionCount++;
+
                 }
             }
         }
@@ -133,7 +138,7 @@ class Npc{
         return;
     }
 
-    isInteracted(){ //must return a monologue type object (or null)
+    isInteracted(index){ //must return a monologue type object (or null)
         return null;
     }
 
