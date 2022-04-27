@@ -211,6 +211,7 @@ class MenuScene{
                 }
                 else{
                     mainGame.changeScene(new IntroOutsideScene());
+                    //mainGame.startTransition(new PixelTransition(5, 5));
                 }
             }
             else if (this.currentInputPrompt === 1){

@@ -60,6 +60,7 @@ class IntroOutsideScene extends OutsideScene{
             ["Hihi"]
         ];
 
+
         const godDialogue = [
             [
                 "Yield, for i am god, \nalmight harbinger of the elements.",
@@ -84,6 +85,10 @@ class IntroOutsideScene extends OutsideScene{
         this.npcList.push(new Rock(this.container, this.playerReference, {x:1800, y:250}, dialogueFive));
         this.npcList.push(new Rock(this.container, this.playerReference, {x:2200, y:250}, dialogueSix));
         this.npcList.push(new Rock(this.container, this.playerReference, {x:2600, y:250}, dialogueSeven));
+
+
+        this.npcList.push(new SecretRock(this.container, this.playerReference, {x:100, y:500}));
+
 
 
         this.npcList.push(new God(this.container, this.playerReference, {x:400, y:500}, godDialogue));
