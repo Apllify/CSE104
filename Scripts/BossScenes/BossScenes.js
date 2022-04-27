@@ -129,25 +129,40 @@ class TutorialBoss extends SuperBoss{
         ];
 
         this.monologues = [
-            ["Hey !",
-            this.playerReference.name,
-            "I think that's your name, right ?", 
-            "You're gonna have to be a little more \nsecretive around these parts.", 
-            "Consider this your first lesson.",
-            "Speaking of, I should probably run you \nthrough the basics. ",
-            "Let's do this",
-            "Alright, see that little green bar at the top ? \nThat's : ",
-            "MOONESSENCE",
-            "It's the unspeakable, unbreakable compound \nthat makes up the living.",
-            "Well",
-            "Unbreakable is a strong word actually, \nbecause modern technology kind of ? Throws the entire premise of it \nout the window ?",
-            "The industrial revolution and its consequences have been devastating for mankind AMIRITE ???",
-            "...",
-            "....",
-            ".....",
-            "You should really look out for that bar because \nif it runs out you",
-            "die an agonizing death.",
-            "Anyways, let's get straight into it, \nthink fast !"],
+            ["Uh- Uhmmm... Let me clear m-my throat..",
+            "Hey !!!!",
+            "Your name's ${this.playerReference.name}, \nright ?",
+            "Oh god, oh no, I'm so sorry let me redo this....",
+            "(They're gonna be so pissed at me)",
+            "(Why did it have to be me)",
+            "(Why did it have to be right now)",
+            `You're ${this.playerReference.name}`,
+            "I-i think that's your name, right ?", 
+            "Whatever you do, NEVER NEVER introduce yourself as : ",
+            '"Player"', 
+            "For your own confort and well-being :)",
+            "Consider this your first tutorial.",
+            "Speaking of, I should probably run you \nthrough the basics !",
+            "Let's do this !",
+            "Alright, see that little green bar at the top ? \nThat's your level of energy :)",
+            "If it runs out, you'll get tired and we'll have \nto take a break from fighting",
+            "The fighting itself is pretty simple : Just \nmove around so the projectiles can't hit you.",
+            "Let's try a pattern for starters"]
+
+            ["Look at you go !",
+            "Honestly if I was an enemy I'd be afraid to go against you",
+            ""
+            ]
+            // "It's the unspeakable, unbreakable compound \nthat makes up the living.",
+            // "Well",
+            // "Unbreakable is a strong word actually, \nbecause modern technology kind of ? Throws the entire premise of it \nout the window ?",
+            // "The industrial revolution and its consequences have been devastating for mankind AMIRITE ???",
+            // "...",
+            // "....",
+            // ".....",
+            // "You should really look out for that bar because \nif it runs out you",
+            // "die an agonizing death.",
+            // "Anyways, let's get straight into it, \nthink fast !"],
 
 
         //     ["Hint : use W,A,S,D to dodge the projectiles",
@@ -231,18 +246,17 @@ class TutorialBoss extends SuperBoss{
 
         //add some styling for the first dialogue
         if (breakCount === 0){
-            monologue.setTextStyleException(0, this.yellingTextStyle);
             monologue.setTextStyleException(1, this.yellingTextStyle);
 
             //monologue.setShakingException(0);
             //monologue.setShakingException(1);
 
-            monologue.setShakingException(8);
+            //monologue.setShakingException(8);
 
-            monologue.setTextStyleException(6, this.yellingTextStyle);
-            monologue.setTextStyleException(8, this.crypticTextStyle);
-            monologue.setTextStyleException(11, this.explanationTextStyle);
-            monologue.setTextStyleException(12, this.explanationTextStyle);
+            //monologue.setTextStyleException(6, this.yellingTextStyle);
+            //monologue.setTextStyleException(8, this.crypticTextStyle);
+            //monologue.setTextStyleException(11, this.explanationTextStyle);
+            //monologue.setTextStyleException(12, this.explanationTextStyle);
     
         }
         else if (breakCount === 4){
