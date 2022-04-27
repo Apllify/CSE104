@@ -72,8 +72,8 @@ class SuperBoss{
 
             //checks whether the entire fight is over
             if (this.sceneOver()){
-                console.log('over')
                 this.sceneOverHandle();
+                return;
             }
 
             // request a pattern or a break depending on the current state
