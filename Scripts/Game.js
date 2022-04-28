@@ -5,13 +5,15 @@ class Game{
     // meet conditions for their destruction. 
 
     currentScene = null;
+    currentTransition = null;
+    futureScene = null;
+
     isCurrentSceneLoaded = false;
 
+    currentState = 1; //1 is in a scene, 2 is in a transition fadein state, 3 is in a transition fadeout state 
+
     constructor(){
-        // this.currentScene = new OutsideParam(drawLayers);
-        // this.currentScene.setMapMatrix([[2, 1, 0, 0], [1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]);
-        // this.currentScene = new OutsideScene(this.drawLayers);
-        // this.currentScene.setMapMatrix([[0,0,0,0], [0, 0, 2, 1], [0, 0,0, 0], [0, 0, 0, 0]]);
+
 
         //this.changeScene(new PatternDebug())
         
@@ -23,22 +25,42 @@ class Game{
 
 
     update(delta, inputs){
-        if (this.isCurrentSceneLoaded){
+        if (this.isCurrentSceneLoaded && this.currentState === 1){
             this.currentScene.update(delta, inputs);
+        }
+        else if (this.currentState === 2){
+            this.currentTransition.update(delta, inputs);
+            
+            if (this.currentTransition.isFadeInDone()){
+                //if the fadein is over, first clear everything except foreground
+                this.wipeLayers();
+
+                //then switch state and get our new scnee
+                this.currentState = 3;
+                this.currentScene.destroy();
+                this.currentScene =  this.futureScene;
+                this.startLoadingCurrentScene();
+
+                //also start the transition fade out 
+                this.currentTransition.startFadeOut();
+            }
+
+        }
+        else if (this.currentState === 3){
+            this.currentTransition.update(delta, inputs);
+
+            //once the transition is over we can destroy it and go back to regular scene state
+            if (this.currentTransition.isFadeOutDone()){
+                this.currentTransition.destroy();
+
+                this.currentState = 1;
+            }
         }
     }
 
-    startTransition(transition){
-        this.changeScene(transition);
-        this.currentScene.startFadeIn();
-    }
 
-    changeScene(newScene){
-        //completely clean all of the layers first
-        this.wipeLayers();
 
-        //assign the new scene
-        this.currentScene = newScene;
+    startLoadingCurrentScene(){
         this.isCurrentSceneLoaded = false;
 
         //load the assets required by the scene
@@ -69,21 +91,50 @@ class Game{
                 }
             })
         }
+    }
+
+    changeScene(newScene, transition = null){
+        if (transition === null){
+            //completely clean all of the layers first
+            this.wipeLayers();
+
+            //assign the new scene and load it 
+            this.currentScene = newScene;
+            this.startLoadingCurrentScene();
+
+
+        }
+        else{
+            //start the fadeout state
+            this.currentState = 2;
+            this.currentTransition = transition;
+            this.currentTransition.startFadeIn();
+
+            //store the next scene for later
+            this.futureScene = newScene;
+        }
+
 
 
         
     }
 
+
+    //wipes every layer except for the super transition foreground layer 
     wipeLayers(){
         //removes every single entity from every single layer 
-        for (let i =0; i< Object.keys(drawLayers).length ; i++ ){
-            let currentLayer = drawLayers[Object.keys(drawLayers)[i]];
 
+        const layers = [drawLayers.backgroundLayer, drawLayers.activeLayer, drawLayers.foregroundLayer];
+
+        for (let currentLayer of layers){
             while (currentLayer.children[0]){
                 currentLayer.removeChild(currentLayer.children[0]);
             }
         }
+
     }
+
+
 
 
 
