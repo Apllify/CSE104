@@ -364,7 +364,7 @@ class TutorialNpc extends Npc{
 class PatternDebugNpc extends Npc{
 
     isInteracted(){
-        mainGame.changeScene(new PatternDebug());
+        mainGame.changeScene(new DexterityTest(50));
     }
 
     setupHitbox(){
