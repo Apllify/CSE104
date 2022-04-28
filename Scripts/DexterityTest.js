@@ -125,7 +125,8 @@ class DexterityTest{
 
         this.currentFadeText.initiate();
 
-
+        PIXI.sound.add('hit', './Sound/dexterity_hit.wav');
+        PIXI.sound.add('miss', './Sound/dexterity_miss.wav')
     }
 
     update(delta, inputs){
@@ -157,6 +158,7 @@ class DexterityTest{
             // the key associated to this sprite is pressed so we destroy the sprite and shift all sprites
             // to the left 
             this.currentSprite.destroy();
+            PIXI.sound.play('hit');
             this.shiftSprites(-33);
             
             this.takeNew = true;
@@ -171,6 +173,7 @@ class DexterityTest{
             
             if (direction !== this.currentChar && this.stringToKey[direction].isJustDown){
                 this.timer -= this.penalty;
+                PIXI.sound.play('miss');
                 this.penaltyText.initiate();
             } 
         }
