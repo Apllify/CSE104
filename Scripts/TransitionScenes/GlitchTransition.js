@@ -19,24 +19,26 @@ class GlitchTransition{
     //for every command : [0] is the text content, [1] is the duration on screen
     commands = [
         [
-        ['starting "CSE104" ', 0.5], 
-        ["attempting to load ressources", 0.5],
-        ["attempting to load ressources (1)", 0.5],
+        ['starting "CSE104" ', 2], 
+        ["attempting to load ressources", 1],
+        ["accessing cached ressources", 1],
         ['loading "Sprites/Rock.png"', 0.5],
         ['loading "Sprites/Shield.png"', 0.5],
         ['loading "Sprites/God.json"', 0.5],
-        ['spritesheet loading succesful', 0.5],
-        ['loading "Sprites/GrubyZajonc.png"', 0.5],
-        ['loading failed | asset skipped', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
+        ['spritesheet loading succesful', 2],
+        ['loading "Scripts/Character.js"', 0.5],
+        ['loading "Scripts/Game.js"', 0.5],
+        ['loading "Scripts/HealthBar.js"', 0.5],
+        ['loading "Scripts/PauseScreen.js"', 0.5],
+        ['loading "Scripts/Script.js', 0.5],
+        ['loading "Scripts/MenuScene/FadeText.js"', 0.5],
+        ['loading "Scripts/MenuScene/NameInputScene.js"', 0.5],
+        ['loading "Scripts/MenuScene/TextDisplay.js"', 0.5],
+        ['script loading succesful', 2],
+        ['accessing game constants', 0.5],
+        ['loading succesful', 2],
+        ['initializing background entities (...)', 0.5],
+        ['initializing player entity (...)', 3],
         ['loading (...)', 0.5],
         ['loading (...)', 0.5],
         ['loading (...)', 0.5],
@@ -45,8 +47,13 @@ class GlitchTransition{
         ],
 
         [
-            ["error : variable startLocation could not be found", 3],
-            ["warning : spawn location will be randomized", 1]
+            ["error : player attributes could not be set", 2],
+            ["warning : deleting player instance", 1],
+            ["error : Character.js file corrupted", 1],
+            ["error : Game.js file corrupted", 1],
+            ["error : Unrecognized token at line 13 in file 'Scripts/Patterns/", 0.5],
+
+
         ]
     ]
 
