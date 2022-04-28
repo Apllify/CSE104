@@ -44,9 +44,9 @@ class DexterityTest{
 
     difficulty = {
         'easy': [(length) => length, 2],
-        'medium': [(length) => 2 * length, 4],
-        'hard': [(length) => 3 * length, 6],
-        'ultraHard': [(length) => 4 * length, 8]
+        'medium': [(length) => length / 2, 4],
+        'hard': [(length) => length/ 3, 6],
+        'ultraHard': [(length) => length / 4, 8]
     }
     
     constructor(length, difficulty='easy'){
