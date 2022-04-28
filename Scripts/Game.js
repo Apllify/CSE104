@@ -50,6 +50,7 @@ class Game{
             this.currentTransition.update(delta, inputs);
 
             //once the transition is over we can destroy it and go back to regular scene state
+            console.log("in fade out ");
             if (this.currentTransition.isFadeOutDone()){
                 this.currentTransition.destroy();
 
