@@ -27,6 +27,10 @@ class TextDisplay{
         this.textEntity.text = newText;
     }
 
+    getText(){
+        return this.textEntity.text;
+    }
+
     setTextStyle(textStyle){
         this.textEntity.style = textStyle;
     }

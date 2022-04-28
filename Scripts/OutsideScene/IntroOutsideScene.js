@@ -6,8 +6,13 @@ class IntroOutsideScene extends OutsideScene{
         "Shield":  "Sprites/Shield.png"
     };
 
+
+    shade = null;
+
     constructor(){
         super();
+
+
 
     }
 
@@ -15,6 +20,8 @@ class IntroOutsideScene extends OutsideScene{
     //called after all of the required assets have been loaded
     load(){
         super.load();
+
+        
 
         //create a door npc
         this.npcList.push( new BrokenDoor(this.container,  this.playerReference, {x:0, y:300}));
@@ -94,7 +101,19 @@ class IntroOutsideScene extends OutsideScene{
         this.npcList.push(new God(this.container, this.playerReference, {x:400, y:500}, godDialogue));
 
 
-        this.setMapMatrix([[2, 1, 1, 1, 1, 1]])
+        //set the map to have a specific shape
+        this.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+
+        //instantiate a shade cloak over the entire scene at all times
+        this.shade = new PIXI.Graphics();
+
+        this.shade.beginFill(0x000000);
+        this.shade.drawRect(0, 0, 800, 600);
+        this.shade.endFill();
+
+        this.shade.alpha = 0.5;
+
+        drawLayers.foregroundLayer.addChild(this.shade);
     }
 
 

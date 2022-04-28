@@ -210,7 +210,7 @@ class MenuScene{
                     mainGame.changeScene(new NameInputScene());
                 }
                 else{
-                    mainGame.changeScene(new IntroOutsideScene());
+                    mainGame.changeScene(new IntroOutsideScene(), new GlitchTransition());
                     //mainGame.startTransition(new PixelTransition(1, 5));
                 }
             }
