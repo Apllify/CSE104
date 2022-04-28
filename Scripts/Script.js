@@ -127,15 +127,18 @@ next();
 const backgroundLayer = new PIXI.Container();
 const activeLayer = new PIXI.Container();
 const foregroundLayer = new PIXI.Container();
+const transitionForegroundLayer = new PIXI.Container();
 
 app.stage.addChild(backgroundLayer);
 app.stage.addChild(activeLayer);
 app.stage.addChild(foregroundLayer);
+app.stage.addChild(transitionForegroundLayer);
 
 const drawLayers = {
   backgroundLayer : backgroundLayer,
   activeLayer : activeLayer,
-  foregroundLayer : foregroundLayer
+  foregroundLayer : foregroundLayer,
+  transitionForegroundLayer: transitionForegroundLayer
 }
 
 

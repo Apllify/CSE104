@@ -339,7 +339,7 @@ class BossWarp extends Npc{
 
 
     isInteracted(){
-        mainGame.changeScene(new SurferBoss());
+        mainGame.changeScene(new SurferBoss(),  new PixelTransition(0.2, 0.2, 0x000000));
         return null;
     }
 
@@ -353,7 +353,7 @@ class BossWarp extends Npc{
 class TutorialNpc extends Npc{
 
     isInteracted(){
-        mainGame.changeScene(new TutorialBoss());
+        mainGame.changeScene(new TutorialBoss(), new PixelTransition(1, 1, 0x000000));
     }
 
     setupHitbox(){

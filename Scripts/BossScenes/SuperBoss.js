@@ -15,6 +15,10 @@ class SuperBoss{
     patternCount = 0;
     breakCount = 0;
 
+
+    walls = []; //the boundaries of the arena
+    wallsDisplays = [];
+
     constructor(){
         PIXI.sound.add('pause', '././Sound/pause_button.wav');
     }
@@ -29,6 +33,22 @@ class SuperBoss{
         this.currentObject = this.produceBreak(this.breakCount);
         this.breakCount ++;
         this.currentState = 1;
+
+
+        //initializes the walls of the arena
+        this.walls.push(new Rectangle(0, 0, 1, 600));
+        this.walls.push(new Rectangle(0, 0, 800, 1));
+        this.walls.push(new Rectangle(0, 599, 800, 1));
+        this.walls.push(new Rectangle(799, 0, 1, 600));
+
+        //displays the walls of the arena
+
+        for (let wall of this.walls){
+            let graphics = wall.getGraphics(0xff0000);
+            drawLayers.activeLayer.addChild(graphics);
+            this.wallsDisplays.push(graphics);
+
+        }
 
     }
 
@@ -52,6 +72,18 @@ class SuperBoss{
 
         //update the player 
         this.playerReference.update(delta, inputs);
+
+        //prevent the player from going outside of the arena
+        const oldPlayerHitbox = this.playerReference.getOldHitboxRectangle();
+        let playerHitbox = this.playerReference.getHitboxRectangle();
+
+        for (let wall of this.walls){
+            if (wall.isColliding(playerHitbox)){
+                playerHitbox = wall.simulateCollision(oldPlayerHitbox,playerHitbox);
+            }
+        }
+
+        this.playerReference.setHitboxRectangle(playerHitbox);
 
         //check whether the player is dead
         if (this.playerReference.health <= 0){
@@ -143,6 +175,11 @@ class SuperBoss{
 
         if (this.currentObject != null && !this.currentObject.destroyed){
             this.currentObject.destroy();
+        }
+
+        //destroy all of the walls
+        for (let wallsDisplay of this.wallsDisplays){
+            wallsDisplay.destroy();
         }
         
         delete this;
