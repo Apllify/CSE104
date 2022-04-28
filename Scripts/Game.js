@@ -14,6 +14,7 @@ class Game{
         // this.currentScene.setMapMatrix([[0,0,0,0], [0, 0, 2, 1], [0, 0,0, 0], [0, 0, 0, 0]]);
 
         //this.changeScene(new PatternDebug())
+        
         this.changeScene(new MenuScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();

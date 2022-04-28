@@ -158,7 +158,11 @@ const inputs = {
 
   space : keyboard(" "),
   enter : keyboard("Enter"),
-  escape : keyboard("Escape")
+  escape : keyboard("Escape"),
+  upArrow: keyboard('ArrowUp'),
+  downArrow: keyboard('ArrowDown'),
+  leftArrow: keyboard('ArrowLeft'),
+  rightArrow: keyboard('ArrowRight')
 }
 
 
