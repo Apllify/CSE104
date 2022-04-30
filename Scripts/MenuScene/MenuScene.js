@@ -21,6 +21,20 @@ class MenuScene{
     //the overall internal timer
     elapsedTime = 0;
 
+    exitJokeLines = [
+        "There is no escape...", 
+        "Face your fears...",
+        "Know what you must do...", 
+        "Victory comes at a cost...", 
+        "Don't trust The Game...",
+        "Don't trust The King...",
+        "Your heart is your compass...",
+        "The Boulder has answers...",
+        "Deadweight...",
+        "Don't buy into their lies..."]
+
+    currentExitJokeIndex = -1;
+
     
 
     // these variables allow us to make sure that a button press that spans multiple frames isn't
@@ -80,7 +94,7 @@ class MenuScene{
         PIXI.sound.volume("play", 0.03);
 
         //instantiate the text boxes
-        this.exitJoke = new FadeText(drawLayers.foregroundLayer, "There Is No Escape...", {x:380, y:500}, this.exitFontStyle, 2);
+        this.exitJoke = new FadeText(drawLayers.foregroundLayer, "", {x:380, y:500}, this.exitFontStyle, 2);
         this.exitJoke.centerHorizontallyAt(400);
         this.exitJoke.centerVerticallyAt(550);
 
@@ -207,10 +221,10 @@ class MenuScene{
 
                 //either load the game or the name input scene depending on whether the player has already chosen
                 if (window.localStorage.getItem("username") === null){
-                    mainGame.changeScene(new NameInputScene());
+                    mainGame.changeScene(new NameInputScene(), new GlitchTransition());
                 }
                 else{
-                    mainGame.changeScene(new IntroOutsideScene(), new GlitchTransition());
+                    mainGame.changeScene(new IntroOutsideScene());
                     //mainGame.startTransition(new PixelTransition(1, 5));
                 }
             }
@@ -229,6 +243,14 @@ class MenuScene{
             }
             else if (this.currentInputPrompt === 2){
                 PIXI.sound.play('exit');
+
+                //move on to the next exit joke
+                this.currentExitJokeIndex = Math.min(this.currentExitJokeIndex +1, this.exitJokeLines.length - 1);
+
+                //set the new text
+                this.exitJoke.setText(this.exitJokeLines[this.currentExitJokeIndex]);
+                this.exitJoke.centerHorizontallyAt(400);
+
                 this.exitJoke.initiate();
             }
             

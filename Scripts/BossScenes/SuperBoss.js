@@ -1,6 +1,11 @@
 'use strict';
 class SuperBoss{
     // Super-class for all boss scenes that handles basic functionality such as updating and destroying etc.
+
+    //the default required assets for every boss
+    requiredAssets=  {
+        "Shield": "Sprites/Shield.png"
+    };
     
     destroying = false;
     currentObject = null;
