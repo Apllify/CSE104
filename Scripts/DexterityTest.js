@@ -126,7 +126,10 @@ class DexterityTest{
         this.currentFadeText.initiate();
 
         PIXI.sound.add('hit', './Sound/dexterity_hit.wav');
-        PIXI.sound.add('miss', './Sound/dexterity_miss.wav')
+        PIXI.sound.add('miss', './Sound/dexterity_miss.wav');
+
+        PIXI.sound.volume("hit", 0.03);
+        PIXI.sound.volume("miss", 0.03);
     }
 
     update(delta, inputs){

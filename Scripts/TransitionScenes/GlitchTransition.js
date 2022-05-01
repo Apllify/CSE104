@@ -22,26 +22,26 @@ class GlitchTransition{
         ['starting "CSE104" ', 2], 
         ["attempting to load ressources", 1],
         ["accessing cached ressources", 1],
-        ['loading "Sprites/Rock.png"', 0.5],
-        ['loading "Sprites/Shield.png"', 0.5],
-        ['loading "Sprites/God.json"', 0.5],
+        ['loading "Sprites/Rock.png"', 0.4],
+        ['loading "Sprites/Shield.png"', 0.6],
+        ['loading "Sprites/God.json"', 0.7],
         ['spritesheet loading succesful', 2],
-        ['loading "Scripts/Character.js"', 0.5],
-        ['loading "Scripts/Game.js"', 0.5],
-        ['loading "Scripts/HealthBar.js"', 0.5],
-        ['loading "Scripts/PauseScreen.js"', 0.5],
-        ['loading "Scripts/Script.js', 0.5],
-        ['loading "Scripts/MenuScene/FadeText.js"', 0.5],
-        ['loading "Scripts/MenuScene/NameInputScene.js"', 0.5],
-        ['loading "Scripts/MenuScene/TextDisplay.js"', 0.5],
+        ['loading "Scripts/Character.js"', 0.6],
+        ['loading "Scripts/Game.js"', 0.4],
+        ['loading "Scripts/HealthBar.js"', 0.7],
+        ['loading "Scripts/PauseScreen.js"', 0.4],
+        ['loading "Scripts/Script.js', 0.3],
+        ['loading "Scripts/MenuScene/FadeText.js"', 0.6],
+        ['loading "Scripts/MenuScene/NameInputScene.js"', 0.8],
+        ['loading "Scripts/MenuScene/TextDisplay.js"', 0.3],
         ['script loading succesful', 2],
         ['accessing game constants', 0.5],
         ['loading succesful', 2],
-        ['initializing background entities (...)', 0.5],
-        ['initializing player entity (...)', 3],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
-        ['loading (...)', 0.5],
+        ['initializing background entities ', 0.5],
+        ['initializing player entity ', 3],
+        ['loading... ', 0.5],
+        ['loading...', 0.5],
+        ['loading...', 0.5],
 
 
         ],
@@ -125,6 +125,9 @@ class GlitchTransition{
                     this.cursorTextDisplays.push(new TextDisplay(drawLayers.transitionForegroundLayer, ">", {x : 50, y: 50 + this.lineHeight * numCursors},
                     textStyle));
 
+                    //play the error sound effect
+                    PIXI.sound.play("error");
+
 
                 }
 
@@ -148,6 +151,13 @@ class GlitchTransition{
                 if (this.currentCommandTimer >= (this.commands[phaseIndex][this.currentCommandIndex][1]) ){
 
 
+                    //play neat new line sound effect
+                    if (this.state === 1){
+                        PIXI.sound.play("command");
+                    }
+                    else if (this.state === 2){
+                        PIXI.sound.play("error");
+                    }
 
                     //reset the timer first things first
                     this.currentCommandTimer = 0;
@@ -253,6 +263,8 @@ class GlitchTransition{
             this.waitingTimer += delta;
 
             if (this.waitingTimer >= this.waitingDuration){
+                //play an exit sound effect
+                PIXI.sound.play("play");    
                 this.state = 4;
             }
         }
@@ -266,6 +278,15 @@ class GlitchTransition{
     startFadeIn(){
         //start the animation
         this.state = 1;
+
+        //setup all the sound effects
+        PIXI.sound.add("command", "././Sound/new_cmd.wav");
+        PIXI.sound.volume("command", 0.3);
+
+        PIXI.sound.add("error", "././Sound/new_error.wav");
+        PIXI.sound.volume("error", 0.6);
+
+
 
 
         //setup all of the graphics
@@ -282,6 +303,10 @@ class GlitchTransition{
 
         //setup the line height with this temporary value for now 
         this.lineHeight = this.cursorTextDisplays[0].getDimensions().height;
+
+        //play an initial new command sound effect
+        PIXI.sound.play("command");
+
 
     }
 

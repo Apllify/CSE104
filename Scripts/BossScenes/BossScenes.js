@@ -147,7 +147,7 @@ class TutorialBoss extends SuperBoss{
             "Alright, see that little green bar at the top ? \nThat's your level of energy :)",
             "If it runs out, you'll get tired and we'll have \nto take a break from fighting",
             "The fighting itself is pretty simple : Just \nmove around so the projectiles can't hit you.",
-            "Let's try a pattern for starters"]
+            "Let's try a pattern for starters"],
 
             ["Look at you go !",
             "Honestly if I was an enemy I'd be afraid to go against you",
