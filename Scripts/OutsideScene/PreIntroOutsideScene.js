@@ -3,7 +3,19 @@ class PreIntroOutsideScene extends OutsideScene{
         "God Spritesheet": "Sprites/God.json",
         "Rock": "Sprites/Rock.png",
         "Shield":  "Sprites/Shield.png",
-        "Static" : "Sprites/Static.png"
+        "Static" : "Sprites/Static.png",
+        "MiniStatic1" :"Sprites/MiniStatics/MiniStatic.png",
+        "MiniStatic2" :"Sprites/MiniStatics/MiniStatic2.png",
+        "MiniStatic3" :"Sprites/MiniStatics/MiniStatic3.png",
+        "MiniStatic4" :"Sprites/MiniStatics/MiniStatic4.png",
+        "MiniStatic5" :"Sprites/MiniStatics/MiniStatic5.png",
+        "MiniStatic6" :"Sprites/MiniStatics/MiniStatic6.png",
+        "MiniStatic7" :"Sprites/MiniStatics/MiniStatic7.png",
+        "MiniStatic8" :"Sprites/MiniStatics/MiniStatic8.png",
+        "MiniStatic9" :"Sprites/MiniStatics/MiniStatic9.png",
+        "MiniStatic10" :"Sprites/MiniStatics/MiniStatic10.png"
+
+
     };
 
     elapsedTime = 0;
@@ -22,7 +34,7 @@ class PreIntroOutsideScene extends OutsideScene{
     yShakeSpeed = 14;
 
     //for the name replacement meme
-    specialCharacters = ["$", "&", "!", "{", "}", "[", "]",  "%", ";"];
+    specialCharacters = ["$", "&", "!",  "%",  ">", "=", "6", "7", "9"];
     characterCooldown = 0.05;
     currentCharacterTimer = 0;
 
@@ -32,7 +44,7 @@ class PreIntroOutsideScene extends OutsideScene{
 
 
     constructor(){
-        super();
+        super("0x014d02");
 
     }
 
@@ -50,7 +62,7 @@ class PreIntroOutsideScene extends OutsideScene{
         this.background.scale.y = 8;
 
         this.background.alpha = 0.5;
-        this.background.tint = "0x00FF00";
+        this.background.tint = "0x014d02";
 
         drawLayers.backgroundLayer.addChild(this.background);
 
@@ -59,7 +71,7 @@ class PreIntroOutsideScene extends OutsideScene{
         for (let i =0; i < this.rockCount; i++){
             let randomX = Math.random() * 4000;
             let randomY = Math.random() * 600;
-            this.npcList.push(new CrypticRock(this.container, this.playerReference, {x:randomX, y:randomY}));
+            this.npcList.push(new MiniStatic(this.container, this.playerReference, {x:randomX, y:randomY}));
         }
     }
 

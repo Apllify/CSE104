@@ -18,13 +18,18 @@ class TextNpc extends Npc{
         this.spritePath = spritePath;
     }
 
-    setupGraphics(){
+    setupGraphics(scaleX, scaleY){
         //assumes the sprite has already been loaded
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
         this.drawLayer.addChild(this.sprite);
 
-        this.sprite.x = this.x - this.sprite.width / 2;
-        this.sprite.y = this.y - this.sprite.height / 2;
+        this.sprite.scale.x = scaleX;
+        this.sprite.scale.y = scaleY;
+
+        this.sprite.x = this.x - this.sprite.width / 2 ;
+        this.sprite.y = this.y - this.sprite.height / 2 ;
+
+
 
         //this.sprite = PIXI.Sprite.from(this.spritePath);
         //this.drawLayer.addChild(this.sprite);
@@ -121,11 +126,12 @@ class Rock extends TextNpc{
 
 }
 
-class CrypticRock extends TextNpc{
+class MiniStatic extends TextNpc{
 
     flickedPhase = 0;
     flickerSpeed = 1;
 
+    backgroundGraphics = null;
 
     elapsedTime = 0;
 
@@ -142,7 +148,10 @@ class CrypticRock extends TextNpc{
             "The road ahead is long but the kingdom requires it, do what you must\nNo cost is too great for freedom", 
             "We believe in you, DO IT DO IT DO IT DO IT DO IT DO IT \n DO IT DO IT DO IT DO IT DO IT DO IT DO IT DO IT \n DO IT DO IT DO IT DO IT DO IT "]];
 
-        super(drawLayer, playerReference, position, textStyle, textContent, "ROCK", "Rock");
+
+        const randomSpriteIndex = Math.ceil(Math.random() * 10);
+        super(drawLayer, playerReference, position, textStyle, textContent, "???", "MiniStatic" + randomSpriteIndex);
+
 
 
         //get a random phase and speed for the flickering animation
@@ -151,13 +160,23 @@ class CrypticRock extends TextNpc{
 
     }
 
+    setupGraphics(){
+        //make a pitch black background to this entity
+        this.backgroundGraphics = new PIXI.Graphics();
+        this.backgroundGraphics.beginFill("0x014d02");
+        this.backgroundGraphics.drawRect(this.x - 16, this.y - 16, 32, 32);
+        this.backgroundGraphics.endFill();
+        this.drawLayer.addChild(this.backgroundGraphics);
+
+        super.setupGraphics(2, 2);
+        //this.sprite.tint = "0x00FF00";  
+
+    }
+
     setupHitbox(){
-        if (this.sprite.alpha >= 0.3){
-            this.hitbox = new Rectangle(this.x - 10 * this.sprite.scale.x, this.y - 10 * this.sprite.scale.y, 20 * this.sprite.scale.x, 20 * this.sprite.scale.y);
-        }
-        else {
-            this.hitbox = new Rectangle(0, 0, 0, 0);
-        }
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2 ,
+                this.y - this.sprite.height/2 , this.sprite.width , this.sprite.height );
+
     }
 
     isInteracted(index){
@@ -176,8 +195,6 @@ class CrypticRock extends TextNpc{
 
         this.sprite.alpha = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime));
 
-        //this.sprite.scale.x = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime)) * this.maxXScale;
-        //this.sprite.scale.y = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime)) * this.maxXScale;
 
         this.setupHitbox();
 
