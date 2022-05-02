@@ -221,10 +221,10 @@ class MenuScene{
 
                 //either load the game or the name input scene depending on whether the player has already chosen
                 if (window.localStorage.getItem("username") === null){
-                    mainGame.changeScene(new NameInputScene(), new GlitchTransition());
+                    mainGame.changeScene(new NameInputScene(), new PixelTransition(0.5, 0.5));
                 }
                 else{
-                    mainGame.changeScene(new IntroOutsideScene());
+                    mainGame.changeScene(new PreIntroOutsideScene());
                     //mainGame.startTransition(new PixelTransition(1, 5));
                 }
             }

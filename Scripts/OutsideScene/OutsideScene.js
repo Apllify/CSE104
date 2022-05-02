@@ -6,6 +6,7 @@ class OutsideScene{
     startingRoomPosition = {x:0, y:0};
     currentRoomPosition = {x:0, y:0};
     borderRectangles = [];
+    borderHue = "";
 
     //container for camera behavior
     //initially center at the middle of the starting room "2"
@@ -28,13 +29,13 @@ class OutsideScene{
 
 
     //takes no arguments and is instead configured with methods
-    constructor(){
+    constructor(borderHue = "0xFF0000"){
         // PIXI.Loader.shared.add("God Spritesheet", "Sprites/God.json");
         // PIXI.Loader.shared.add("Rock", "Sprites/Rock.png");
         // PIXI.Loader.shared.add("Shield",  "Sprites/Shield.png");
         // PIXI.Loader.shared.load(() => this.load(this));
 
-        
+        this.borderHue = borderHue;
 
     }
 
