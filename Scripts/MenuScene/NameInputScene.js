@@ -296,7 +296,7 @@ class NameInputScene{
                     PIXI.sound.play("startGame");
 
                     //load the first scene of the game  
-                    mainGame.changeScene(new IntroOutsideScene());
+                    mainGame.changeScene(new PreIntroOutsideScene(), new GlitchTransition());
                 }
             }
         }

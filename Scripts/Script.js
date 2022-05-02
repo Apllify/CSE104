@@ -74,8 +74,16 @@ document.body.appendChild(app.view);
 
 app.view.style.position = "absolute";
 app.view.style.display = "inline-block";
-app.view.style.left =  ((window.innerWidth - 800)*0.5)  + "px";
-app.view.style.top =  ((window.innerHeight - 600)*0.5) + "px";
+positionGame();
+
+
+//allow the window to reposition itself whenever the tab is resized
+window.addEventListener("resize", positionGame);
+
+function positionGame(){
+  app.view.style.left =  ((window.innerWidth - 800)*0.5)  + "px";
+  app.view.style.top =  ((window.innerHeight - 600)*0.5) + "px";
+}
 
 
 

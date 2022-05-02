@@ -15,6 +15,7 @@ class Character{
     maxHealth = 100; 
     health = 100;
     name = "BX";
+    healthBar = null;
 
     spriteWidth = 32;
     spriteHeight = 32;

@@ -30,7 +30,8 @@ class HealthBar{    // Health Bar class whose instance can be attached to a char
         this.right = right;
         this.drawLayer = drawLayer;
         this.playerReference = player;
-        this.nameTag = new TextDisplay(drawLayer, player.name, {x:10, y:10}, this.healthBarTextStyle);
+        this.playerName = this.playerReference.name;
+        this.nameTag = new TextDisplay(drawLayer, this.playerName, {x:10, y:10}, this.healthBarTextStyle);
         this.graphics = new PIXI.Graphics();
         this.graphics.beginFill(this.hex);
 

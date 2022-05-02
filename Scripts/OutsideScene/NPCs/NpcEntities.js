@@ -117,6 +117,71 @@ class Rock extends TextNpc{
         
         this.hitbox = new Rectangle(this.x - 10, this.y - 10, 20, 20);
     }
+
+
+}
+
+class CrypticRock extends TextNpc{
+
+    flickedPhase = 0;
+    flickerSpeed = 1;
+
+
+    elapsedTime = 0;
+
+    constructor (drawLayer, playerReference, position){
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "MicroCosmos",
+            fontSize : 24,
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        const textContent = [
+            ["The pit of hell needs no fuel for it burns for eternity\nYou are sinner, you must repent",
+            "The road ahead is long but the kingdom requires it, do what you must\nNo cost is too great for freedom", 
+            "We believe in you, DO IT DO IT DO IT DO IT DO IT DO IT \n DO IT DO IT DO IT DO IT DO IT DO IT DO IT DO IT \n DO IT DO IT DO IT DO IT DO IT "]];
+
+        super(drawLayer, playerReference, position, textStyle, textContent, "ROCK", "Rock");
+
+
+        //get a random phase and speed for the flickering animation
+        this.flickerPhase= Math.random() * 3;
+        this.flickerSpeed = Math.max(0.3, Math.random() * 3);
+
+    }
+
+    setupHitbox(){
+        if (this.sprite.alpha >= 0.3){
+            this.hitbox = new Rectangle(this.x - 10 * this.sprite.scale.x, this.y - 10 * this.sprite.scale.y, 20 * this.sprite.scale.x, 20 * this.sprite.scale.y);
+        }
+        else {
+            this.hitbox = new Rectangle(0, 0, 0, 0);
+        }
+    }
+
+    isInteracted(index){
+        let monologue = super.isInteracted(index);
+
+        monologue.setShakingException(0);
+        monologue.setShakingException(1);
+        monologue.setShakingException(2);
+
+
+        return monologue;
+    }
+
+    idleUpdate(delta, inputs){
+        this.elapsedTime += delta;
+
+        this.sprite.alpha = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime));
+
+        //this.sprite.scale.x = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime)) * this.maxXScale;
+        //this.sprite.scale.y = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime)) * this.maxXScale;
+
+        this.setupHitbox();
+
+    }
 }
 
 class SecretRock extends TextNpc{
