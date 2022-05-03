@@ -4,18 +4,17 @@ class PreIntroOutsideScene extends OutsideScene{
         "Rock": "Sprites/Rock.png",
         "Shield":  "Sprites/Shield.png",
         "Static" : "Sprites/Static.png",
-        "MiniStatic1" :"Sprites/MiniStatics/MiniStatic.png",
-        "MiniStatic2" :"Sprites/MiniStatics/MiniStatic2.png",
-        "MiniStatic3" :"Sprites/MiniStatics/MiniStatic3.png",
-        "MiniStatic4" :"Sprites/MiniStatics/MiniStatic4.png",
-        "MiniStatic5" :"Sprites/MiniStatics/MiniStatic5.png",
-        "MiniStatic6" :"Sprites/MiniStatics/MiniStatic6.png",
-        "MiniStatic7" :"Sprites/MiniStatics/MiniStatic7.png",
-        "MiniStatic8" :"Sprites/MiniStatics/MiniStatic8.png",
-        "MiniStatic9" :"Sprites/MiniStatics/MiniStatic9.png",
-        "MiniStatic10" :"Sprites/MiniStatics/MiniStatic10.png"
-
-
+        "Cross" : "Sprites/Cross.png",
+        "MiniStatic1" : "Sprites/MiniStatics/MiniStatic.png",
+        "MiniStatic2" : "Sprites/MiniStatics/MiniStatic2.png",
+        "MiniStatic3" : "Sprites/MiniStatics/MiniStatic3.png",
+        "MiniStatic4" : "Sprites/MiniStatics/MiniStatic4.png",
+        "MiniStatic5" : "Sprites/MiniStatics/MiniStatic5.png",
+        "MiniStatic6" : "Sprites/MiniStatics/MiniStatic6.png",
+        "MiniStatic7" : "Sprites/MiniStatics/MiniStatic7.png",
+        "MiniStatic8" : "Sprites/MiniStatics/MiniStatic8.png",
+        "MiniStatic9" : "Sprites/MiniStatics/MiniStatic9.png",
+        "MiniStatic10" : "Sprites/MiniStatics/MiniStatic10.png",
     };
 
     elapsedTime = 0;
@@ -38,8 +37,11 @@ class PreIntroOutsideScene extends OutsideScene{
     characterCooldown = 0.05;
     currentCharacterTimer = 0;
 
-    //for the rock npcs
-    rockCount = 300;
+    //for the decoration npcs
+    bitCount = 200; //upper bound btw not accurate number
+    staticCount = 50; //upper bound too
+
+    usedPositions = [[384, 284], [416, 284], [400, 300], [384, 316], [416, 316]]; // contains only a few player points at first (to prevent anything from spawing ON the player)
 
 
 
@@ -53,7 +55,7 @@ class PreIntroOutsideScene extends OutsideScene{
         super.load();
 
         //set the map shape
-        this.setMapMatrix([[2, 1, 1, 1, 1]]);
+        this.setMapMatrix([[2, 1, 1, 1, 1, 1, 1]]);
 
 
         //create a trippy background for the entire scene
@@ -67,12 +69,66 @@ class PreIntroOutsideScene extends OutsideScene{
         drawLayers.backgroundLayer.addChild(this.background);
 
 
-        //create a few random rocks in the scene
-        for (let i =0; i < this.rockCount; i++){
-            let randomX = Math.random() * 4000;
+        // //create a few random crosses in the scene using the same logic 
+        // for (let i =0; i < this.staticCount; i++){
+        //     let randomX = Math.random() * 5000;
+        //     let randomY = Math.random() * 600;
+
+        //     //go through every single previous position to not be too close to it
+        //     let flag = false; 
+        //     for (let usedPosition of this.usedPositions){
+        //         let distance = Math.sqrt(Math.pow(usedPosition[0] - randomX, 2) + Math.pow(usedPosition[1] - randomY, 2));
+        //         if (distance <= 40){
+        //             flag = true;
+        //         }
+        //     }
+
+        //     if (flag){
+        //         continue;
+        //     }
+
+
+
+        //     this.npcList.push(new BlackHole(this.container, this.playerReference, {x:randomX, y:randomY}));
+            
+        //     //keep track of this used position
+        //     this.usedPositions.push([randomX, randomY]);
+        // }
+
+        //create a few random bits in the scene
+        for (let i =0; i < this.bitCount; i++){
+            let randomX = Math.random() * 5000;
             let randomY = Math.random() * 600;
-            this.npcList.push(new MiniStatic(this.container, this.playerReference, {x:randomX, y:randomY}));
+
+            let randomScale= Math.max(0.5, Math.random() * 2)
+
+
+            //go through every single previous position to not be too close to it
+            let flag = false; 
+            for (let usedPosition of this.usedPositions){
+                let distance = Math.sqrt(Math.pow(usedPosition[0] - randomX, 2) + Math.pow(usedPosition[1] - randomY, 2));
+                if (distance <= 40 * randomScale){
+                    flag = true;
+                }
+            }
+
+            if (flag){
+                continue;
+            }
+
+
+
+            this.npcList.push(new FlickeringBit(this.container, this.playerReference, [["AAA"]], {x:randomX, y:randomY}, randomScale));
+            
+            //keep track of this used position
+            this.usedPositions.push([randomX, randomY]);
         }
+
+
+
+
+        //create some missing texture entities
+        this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:100, y:100}));
     }
 
 

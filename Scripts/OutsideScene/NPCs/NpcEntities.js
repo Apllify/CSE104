@@ -18,7 +18,7 @@ class TextNpc extends Npc{
         this.spritePath = spritePath;
     }
 
-    setupGraphics(scaleX, scaleY){
+    setupGraphics(scaleX = 1, scaleY = 1){
         //assumes the sprite has already been loaded
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
         this.drawLayer.addChild(this.sprite);
@@ -48,6 +48,11 @@ class TextNpc extends Npc{
 
     //returns an element of type monologue
     isInteracted(index){
+        //if there are no monologues, just return null
+        if (this.monologuesList.length === 0){
+            return null;
+        }
+
         //prevent the player from moving 
         this.playerReference.pause();
 
@@ -163,19 +168,21 @@ class MiniStatic extends TextNpc{
     setupGraphics(){
         //make a pitch black background to this entity
         this.backgroundGraphics = new PIXI.Graphics();
-        this.backgroundGraphics.beginFill("0x014d02");
+        this.backgroundGraphics.beginFill("0x000000");
         this.backgroundGraphics.drawRect(this.x - 16, this.y - 16, 32, 32);
         this.backgroundGraphics.endFill();
         this.drawLayer.addChild(this.backgroundGraphics);
 
         super.setupGraphics(2, 2);
-        //this.sprite.tint = "0x00FF00";  
+        this.sprite.tint = "0x55FF55";  
+
+        this.sprite.alpha = 0;
 
     }
 
     setupHitbox(){
-        this.hitbox = new Rectangle(this.x - this.sprite.width/2 ,
-                this.y - this.sprite.height/2 , this.sprite.width , this.sprite.height );
+        // this.hitbox = new Rectangle(this.x - this.sprite.width/2 ,
+        //         this.y - this.sprite.height/2 , this.sprite.width , this.sprite.height );
 
     }
 
@@ -191,14 +198,159 @@ class MiniStatic extends TextNpc{
     }
 
     idleUpdate(delta, inputs){
-        this.elapsedTime += delta;
+        // this.elapsedTime += delta;
 
-        this.sprite.alpha = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime));
+        // this.sprite.alpha = Math.abs(Math.cos(this.flickerPhase + this.flickerSpeed * this.elapsedTime));
 
 
-        this.setupHitbox();
+        // this.setupHitbox();
 
     }
+}
+
+class BlackHole extends TextNpc{
+
+    scale = 1; //default size
+
+    constructor(drawLayer, playerReference, position){
+        //call the constructor just to set up basic position stuff
+        super(drawLayer, playerReference, position, undefined, [], "???", "Cross");
+
+        //randomize the size of the hole 
+        this.scale = Math.random() * 2;
+    }
+
+
+    setupGraphics(){
+        //just display the sprite pwease
+        super.setupGraphics(this.scale, this.scale);
+
+    }
+}
+
+class FlickeringBit extends TextNpc{
+
+    textDisplay = null;
+
+    currentNumber = 1;
+    flickerCooldown = 2;
+    currentFlickerTimer = 0;
+
+    graphicsTextStyle = null;
+
+    constructor(drawLayer, playerReference, monologuesList, position, scale){
+
+
+        const dialogueTextStyle =  new PIXI.TextStyle(
+            {
+                fontFamily : "BrokenConsole",
+                fontSize : 50,
+                fontWeight : "bold",
+                fill : "#2DEC1F",
+            }
+        );
+
+
+        super(drawLayer, playerReference, position, dialogueTextStyle, monologuesList, "???", "");
+
+        //generate the level of green at random between 150 and 255
+        const greenLevel = Math.floor(Math.random() * 100) + 150;
+        const hexGreenLevel = greenLevel.toString(16);
+
+        //font solely for displaying the actual bit 
+        this.graphicsTextStyle = new PIXI.TextStyle(
+            {
+                fontFamily : "BrokenConsole",
+                fontSize : 50 * scale,
+                fontWeight : "bold",
+                fill : "0x00" + hexGreenLevel + "00",
+            }
+        );
+
+        //find a random flicker cooldown and starting phase
+        this.flickerCooldown = Math.max(0.2, Math.random() * 2);
+        this.currentFlickerTimer = Math.random() * this.flickerCooldown;
+    }
+
+    //override setup graphics to make this entity represented by a text box
+    setupGraphics(){
+        //draw a text box centered around the given position
+        this.textDisplay = new TextDisplay(this.drawLayer, this.currentNumber + "", {x:0,y:0}, this.graphicsTextStyle);
+        this.textDisplay.centerHorizontallyAt(this.x);
+        this.textDisplay.centerVerticallyAt(this.y);
+
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.textDisplay.getPosition().x, this.textDisplay.getPosition().y, 
+            this.textDisplay.getDimensions().width, this.textDisplay.getDimensions().height);
+    }
+
+
+    idleUpdate(delta, inputs){
+        this.currentFlickerTimer += delta;
+
+        if (this.currentFlickerTimer >= this.flickerCooldown){
+            this.currentFlickerTimer = 0;
+
+            //change the current number
+            this.currentNumber = (this.currentNumber + 1) % 2;
+
+            //change the displayed text
+            this.textDisplay.setText(this.currentNumber + "");
+            this.textDisplay.centerHorizontallyAt(this.x);
+            this.textDisplay.centerVerticallyAt(this.y);
+        }
+    }
+}
+
+class MissingTexture extends TextNpc{
+
+    displayTextStyle = null;
+    textDisplay = null;
+
+    borderGraphics = null;
+
+    constructor(drawLayer, playerReference, position){
+        
+        //call the constructor just to set up basic position stuff
+        super(drawLayer, playerReference, position, undefined, [], "???", "");
+
+        this.displayTextStyle = new PIXI.TextStyle(
+            {
+                fontFamily : "Calibri",
+                fontSize : 20,
+                fontStyle: "italic",
+                fontWeight : "bold",
+                fill : "0xf445f7",
+            }
+        );
+    }
+
+
+    setupGraphics(){
+        this.textDisplay = new TextDisplay(this.drawLayer, "Missing\nTexture", {x:0, y:0}, this.displayTextStyle);
+
+        //center it at the proper coordinates
+        this.textDisplay.centerHorizontallyAt(this.x);
+        this.textDisplay.centerVerticallyAt(this.y);
+
+        //create a little magenta border around it too
+        this.borderGraphics = new PIXI.Graphics();
+        this.borderGraphics.lineStyle(2, "0xf445f7", 1);
+        this.borderGraphics.drawRect(this.textDisplay.getPosition().x, this.textDisplay.getPosition().y,
+            this.textDisplay.getDimensions().width, this.textDisplay.getDimensions().height);
+        this.drawLayer.addChild(this.borderGraphics);
+    }
+
+    setupHitbox(){
+
+        this.hitbox = new Rectangle(this.textDisplay.getPosition().x, this.textDisplay.getPosition().y,
+            this.textDisplay.getDimensions().width, this.textDisplay.getDimensions().height);
+    }
+
+
+
 }
 
 class SecretRock extends TextNpc{
