@@ -31,6 +31,14 @@ class TextDisplay{
         return this.textEntity.text;
     }
 
+    getAlpha(){
+        return this.textEntity.alpha;
+    }
+
+    setAlpha(newVal){
+        this.textEntity.alpha = newVal;
+    }
+
     setTextStyle(textStyle){
         this.textEntity.style = textStyle;
     }

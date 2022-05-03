@@ -57,6 +57,9 @@ class PreIntroOutsideScene extends OutsideScene{
         //set the map shape
         this.setMapMatrix([[2, 1, 1, 1, 1, 1, 1]]);
 
+        //add an interaction prompt mayhaps ?
+        //this.playerReference.enableInteractionPrompt();
+
 
         //create a trippy background for the entire scene
         this.background = new PIXI.Sprite(PIXI.Loader.shared.resources["Static"].texture)
@@ -69,31 +72,6 @@ class PreIntroOutsideScene extends OutsideScene{
         drawLayers.backgroundLayer.addChild(this.background);
 
 
-        // //create a few random crosses in the scene using the same logic 
-        // for (let i =0; i < this.staticCount; i++){
-        //     let randomX = Math.random() * 5000;
-        //     let randomY = Math.random() * 600;
-
-        //     //go through every single previous position to not be too close to it
-        //     let flag = false; 
-        //     for (let usedPosition of this.usedPositions){
-        //         let distance = Math.sqrt(Math.pow(usedPosition[0] - randomX, 2) + Math.pow(usedPosition[1] - randomY, 2));
-        //         if (distance <= 40){
-        //             flag = true;
-        //         }
-        //     }
-
-        //     if (flag){
-        //         continue;
-        //     }
-
-
-
-        //     this.npcList.push(new BlackHole(this.container, this.playerReference, {x:randomX, y:randomY}));
-            
-        //     //keep track of this used position
-        //     this.usedPositions.push([randomX, randomY]);
-        // }
 
         //create a few random bits in the scene
         for (let i =0; i < this.bitCount; i++){
@@ -125,10 +103,20 @@ class PreIntroOutsideScene extends OutsideScene{
         }
 
 
+        //at the very far back of the scene create a ring of missing textures
+        const radius= 200;
+        for (let theta = 0; theta < 2 * Math.PI; theta += 2 * Math.PI / 17){
+            let x = Math.cos(theta) * radius;
+            let y = Math.sin(theta) * radius;
+
+            this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:6 * 800 + 520 + x, y:300 + y}));
+        }
+
+
 
 
         //create some missing texture entities
-        this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:100, y:100}));
+        //this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:100, y:100}));
     }
 
 
