@@ -7,8 +7,8 @@ class TextNpc extends Npc{
     spritePath = "";
     sprite = null;
 
-    constructor(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath){
-        super(drawLayer, playerReference, position);
+    constructor(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath, detectionRadius=70){
+        super(drawLayer, playerReference, position, detectionRadius);
 
         this.monologuesList = monologuesList;
 
@@ -435,4 +435,70 @@ class PatternDebugNpc extends Npc{
     setupHitbox(){
         this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
     }
+}
+
+class SignPost extends TextNpc{
+
+    constructor(drawLayer, playerReference, position, monologuesList){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'TIP', 'Sign', 85);
+ 
+    }
+
+
+    setupHitbox(){
+        
+        this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
+    }
+};
+
+
+class Tree extends TextNpc{
+    constructor(drawLayer, playerReference, position, monologuesList){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#00ff00",
+            stroke : "#00ff00",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Tree', 'Tree', 85);
+ 
+    }
+
+
+    setupHitbox(){
+        
+        this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
+    }
+}
+
+class LightSource extends Npc{
+
+
+    constructor(shadeObject, container, playerReference, position, spritePath){
+        super(container, playerReference, position, 10);
+        this.spritePath = spritePath;
+        this.shadeObject = shadeObject;
+    };
+
+    setupGraphics(){
+        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
+        this.drawLayer.addChild(this.sprite);
+        
+        this.sprite.x = this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+    }
+
+    
 }

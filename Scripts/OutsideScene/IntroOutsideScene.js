@@ -3,34 +3,53 @@ class IntroOutsideScene extends OutsideScene{
     requiredAssets = {
         "God Spritesheet": "Sprites/God.json",
         "Rock": "Sprites/Rock.png",
-        "Shield":  "Sprites/Shield.png"
+        "Shield":  "Sprites/Shield.png",
+        "Sign": "Sprites/Sign.png",
+        "Village":"Sprites/VillageRoad.png",
+        "Tree":"Sprites/Tree.png",
+        'Mask':"Sprites/mask.png"
     };
 
 
     shade = null;
 
     constructor(){
-        super();
-
-
+        
+        super(0xeec39a);
+        this.borderAlpha = 0;
 
     }
 
 
     //called after all of the required assets have been loaded
     load(){
-        super.load();
+        let background = new PIXI.Sprite(PIXI.Loader.shared.resources["Village"].texture)
+        background.scale.x = 3
+        super.load(background);
 
-        
+              
 
         //create a door npc
-        this.npcList.push( new BrokenDoor(this.container,  this.playerReference, {x:0, y:300}));
-        this.npcList.push(new BossWarp(this.container,  this.playerReference, {x:600, y:300}));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:500, y:320}));
-        this.npcList.push(new PatternDebugNpc(this.container, this.playerReference, {x:400, y:100}));
-
+        const roadUpperEdge = 100;
+        const roadLowerEdge = 480;
+        const totalWidth = 9600;
+        
+        for(let i = 0; i < 30; i ++){
+            let yposChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
+            let ypos = yposChoice[Math.floor(Math.random() * 2)];
+            let rocky = yposChoice[Math.floor(Math.random() * 2)];
+            if (i % 2 === 1){
                 
-        //create a few rock npcs for decoration
+                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:ypos},[]))
+            }
+
+            else{
+                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
+            }
+
+            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}))
+
+        }
         const dialogueOne = [
             ["This is just a rock.",
         "What did you expect ?"]
@@ -81,39 +100,24 @@ class IntroOutsideScene extends OutsideScene{
 
         ];
 
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:200, y:250}, dialogueOne));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:100, y:50}, dialogueOne));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:230, y:220}, dialogueOne));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:50, y:80}, dialogueOne));
-
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:600, y:100}, dialogueTwo));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:1000, y:250}, dialogueThree));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:1400, y:250}, dialogueFour));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:1800, y:250}, dialogueFive));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:2200, y:250}, dialogueSix));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:2600, y:250}, dialogueSeven));
-
-
-        this.npcList.push(new SecretRock(this.container, this.playerReference, {x:100, y:500}));
-
-
-
-        this.npcList.push(new God(this.container, this.playerReference, {x:400, y:500}, godDialogue));
+        
 
 
         //set the map to have a specific shape
-        this.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+        this.setMapMatrix([[2,1,1,1,1,1,1,1,1,1,1,1]]);
 
         //instantiate a shade cloak over the entire scene at all times
+
+        
         this.shade = new PIXI.Graphics();
 
         this.shade.beginFill(0x000000);
-        this.shade.drawRect(0, 0, 800, 600);
+        this.shade.drawPolygon([0, 0, 800, 0, 800, 600, 0,600]);
         this.shade.endFill();
-
         this.shade.alpha = 0.5;
-
         drawLayers.foregroundLayer.addChild(this.shade);
+    
+        
     }
 
 

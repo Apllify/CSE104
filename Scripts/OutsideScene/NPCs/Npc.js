@@ -31,12 +31,13 @@ class Npc{
     isFirstUpdate = true;
 
 
-    constructor(drawLayer, playerReference, position){
+    constructor(drawLayer, playerReference, position, detectionRadius=70){
         this.playerReference=  playerReference;
         this.drawLayer = drawLayer;
 
         this.x = position.x;
         this.y = position.y;
+        this.detectionRadius = detectionRadius;
 
     }
 
