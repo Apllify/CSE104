@@ -17,6 +17,13 @@ class Character{
     name = "BX";
     healthBar = null;
 
+    elapsedTime = 0;
+
+
+    interactionPromptEnabled = false;
+    interactionPromptTextStyle = null;
+    interactionPrompt = null;
+
     spriteWidth = 32;
     spriteHeight = 32;
 
@@ -63,6 +70,15 @@ class Character{
         }
 
         this.healthBar = new HealthBar(drawLayers.foregroundLayer, this);
+
+
+        //set up the interaction prompt text style
+        this.interactionPromptTextStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 10,
+            fill : "#FFFFFF",
+            stroke : "#ffffff",
+        });
     }
 
     pause(){
@@ -89,10 +105,28 @@ class Character{
         this.updateSpritePosition();
     }
 
+
+    enableInteractionPrompt(){
+        this.interactionPromptEnabled = true;
+        this.interactionPrompt = new TextDisplay(this.drawLayer, "Press Enter to intearct", {x: 0, y:0}, this.interactionPromptTextStyle );
+        this.interactionPrompt.centerHorizontallyAt(this.x);
+        this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
+
+
+    }
+
+    disableInteractionPrompt(){
+        this.interactionPromptEnabled = false;
+        this.interactionPrompt.destroy();
+    }
+
     update(delta, inputs){
         if (this.destroying){
             return;
         }
+
+        //keep internal timer 
+        this.elapsedTime += delta;
 
         //keep track of the old player position
         this.previousX = this.x;
@@ -130,6 +164,15 @@ class Character{
 
         this.x += velocityVect.x * delta;
         this.y += velocityVect.y * delta;
+
+        //update interaction prompt if needed
+        if (this.interactionPromptEnabled){
+            this.interactionPrompt.centerHorizontallyAt(this.x);
+            this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height/2 - 5);
+
+            //also make it flicker cause why not lol
+            this.interactionPrompt.setAlpha(Math.abs(Math.cos(2 * this.elapsedTime)));
+        }
 
         //update the sprite's position on screen
         this.updateSpritePosition();

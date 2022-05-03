@@ -44,13 +44,21 @@ class OutsideScene{
     //called after the ressources are loaded into the pixi loader
     load(background=null){
 
-        //create the main container for camera purposes
+        //create a few entity containers for camera purposes
+        this.backgroundContainer = new PIXI.Container();
+        drawLayers.activeLayer.addChild(this.backgroundContainer);
+
         this.container = new PIXI.Container();
         if (background != null){
             this.container.addChild(background);
             this.background = background;
         }
         drawLayers.activeLayer.addChild(this.container);
+
+        this.foregroundContainer = new PIXI.Container();
+        drawLayers.activeLayer.addChild(this.foregroundContainer);
+
+
 
         //start the player off at the middle of the room
         this.playerReference = new Character({x:400, y:300}, this.container);
@@ -169,10 +177,11 @@ class OutsideScene{
 
         
 
-        //update the camera with the correct position to account for player movements
+        //update the camera with the correct position for the main container
         this.container.x = 400 - this.playerReference.x;
         this.container.y = 300 - this.playerReference.y;
 
+        
 
 
         //DO NOT allow the camera to go outside of the borders
@@ -207,6 +216,15 @@ class OutsideScene{
                 this.container.y = relativeRoomY * -600;
             }
         }
+
+        //constrain the other two containers to copy the main container
+        this.backgroundContainer.x = this.container.x;
+        this.backgroundContainer.y = this.container.y;
+
+        this.foregroundContainer.x = this.container.x;
+        this.foregroundContainer.y = this.container.y;
+
+        
 
         // //get the displacements of the player from the center of the room
         // const xDisplacement = Math.abs(this.playerReference.x - (relativeRoomX * 800 + 400)) ; 
@@ -348,7 +366,7 @@ class OutsideScene{
 
         //display the bounding rectangles for debug purposes
         for(let rectangle of this.borderRectangles){
-            this.container.addChild(rectangle.getGraphics(this.borderHue, this.borderAlpha));
+            this.container.addChild(rectangle.getGraphics(this.borderHue));
         }
 
 

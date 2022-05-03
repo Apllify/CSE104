@@ -3,7 +3,18 @@ class PreIntroOutsideScene extends OutsideScene{
         "God Spritesheet": "Sprites/God.json",
         "Rock": "Sprites/Rock.png",
         "Shield":  "Sprites/Shield.png",
-        "Static" : "Sprites/Static.png"
+        "Static" : "Sprites/Static.png",
+        "Cross" : "Sprites/Cross.png",
+        "MiniStatic1" : "Sprites/MiniStatics/MiniStatic.png",
+        "MiniStatic2" : "Sprites/MiniStatics/MiniStatic2.png",
+        "MiniStatic3" : "Sprites/MiniStatics/MiniStatic3.png",
+        "MiniStatic4" : "Sprites/MiniStatics/MiniStatic4.png",
+        "MiniStatic5" : "Sprites/MiniStatics/MiniStatic5.png",
+        "MiniStatic6" : "Sprites/MiniStatics/MiniStatic6.png",
+        "MiniStatic7" : "Sprites/MiniStatics/MiniStatic7.png",
+        "MiniStatic8" : "Sprites/MiniStatics/MiniStatic8.png",
+        "MiniStatic9" : "Sprites/MiniStatics/MiniStatic9.png",
+        "MiniStatic10" : "Sprites/MiniStatics/MiniStatic10.png",
     };
 
     elapsedTime = 0;
@@ -22,17 +33,20 @@ class PreIntroOutsideScene extends OutsideScene{
     yShakeSpeed = 14;
 
     //for the name replacement meme
-    specialCharacters = ["$", "&", "!", "{", "}", "[", "]",  "%", ";"];
+    specialCharacters = ["$", "&", "!",  "%",  ">", "=", "6", "7", "9"];
     characterCooldown = 0.05;
     currentCharacterTimer = 0;
 
-    //for the rock npcs
-    rockCount = 300;
+    //for the decoration npcs
+    bitCount = 200; //upper bound btw not accurate number
+    staticCount = 50; //upper bound too
+
+    usedPositions = [[384, 284], [416, 284], [400, 300], [384, 316], [416, 316]]; // contains only a few player points at first (to prevent anything from spawing ON the player)
 
 
 
     constructor(){
-        super();
+        super("0x014d02");
 
     }
 
@@ -41,7 +55,10 @@ class PreIntroOutsideScene extends OutsideScene{
         super.load();
 
         //set the map shape
-        this.setMapMatrix([[2, 1, 1, 1, 1]]);
+        this.setMapMatrix([[2, 1, 1, 1, 1, 1, 1]]);
+
+        //add an interaction prompt mayhaps ?
+        //this.playerReference.enableInteractionPrompt();
 
 
         //create a trippy background for the entire scene
@@ -50,17 +67,56 @@ class PreIntroOutsideScene extends OutsideScene{
         this.background.scale.y = 8;
 
         this.background.alpha = 0.5;
-        this.background.tint = "0x00FF00";
+        this.background.tint = "0x014d02";
 
         drawLayers.backgroundLayer.addChild(this.background);
 
 
-        //create a few random rocks in the scene
-        for (let i =0; i < this.rockCount; i++){
-            let randomX = Math.random() * 4000;
+
+        //create a few random bits in the scene
+        for (let i =0; i < this.bitCount; i++){
+            let randomX = Math.random() * 5000;
             let randomY = Math.random() * 600;
-            this.npcList.push(new CrypticRock(this.container, this.playerReference, {x:randomX, y:randomY}));
+
+            let randomScale= Math.max(0.5, Math.random() * 2)
+
+
+            //go through every single previous position to not be too close to it
+            let flag = false; 
+            for (let usedPosition of this.usedPositions){
+                let distance = Math.sqrt(Math.pow(usedPosition[0] - randomX, 2) + Math.pow(usedPosition[1] - randomY, 2));
+                if (distance <= 40 * randomScale){
+                    flag = true;
+                }
+            }
+
+            if (flag){
+                continue;
+            }
+
+
+
+            this.npcList.push(new FlickeringBit(this.container, this.playerReference, [["AAA"]], {x:randomX, y:randomY}, randomScale));
+            
+            //keep track of this used position
+            this.usedPositions.push([randomX, randomY]);
         }
+
+
+        //at the very far back of the scene create a ring of missing textures
+        const radius= 200;
+        for (let theta = 0; theta < 2 * Math.PI; theta += 2 * Math.PI / 17){
+            let x = Math.cos(theta) * radius;
+            let y = Math.sin(theta) * radius;
+
+            this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:6 * 800 + 520 + x, y:300 + y}));
+        }
+
+
+
+
+        //create some missing texture entities
+        //this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:100, y:100}));
     }
 
 

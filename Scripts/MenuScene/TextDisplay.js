@@ -31,6 +31,14 @@ class TextDisplay{
         return this.textEntity.text;
     }
 
+    getAlpha(){
+        return this.textEntity.alpha;
+    }
+
+    setAlpha(newVal){
+        this.textEntity.alpha = newVal;
+    }
+
     setTextStyle(textStyle){
         this.textEntity.style = textStyle;
     }
@@ -60,6 +68,10 @@ class TextDisplay{
         //get half of the height 
         const halfHeight = dimensionRect.height / 2;
         this.textEntity.y = yPosition - halfHeight;
+    }
+
+    getPosition(){
+        return new Vector(this.textEntity.x, this.textEntity.y);
     }
 
     getCenterPosition(){
