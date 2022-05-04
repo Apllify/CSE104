@@ -12,6 +12,7 @@ class IntroOutsideScene extends OutsideScene{
     };
 
 
+    // we want this scene to be a bit dark 
     shade = null;
 
     constructor(){
@@ -95,6 +96,7 @@ class IntroOutsideScene extends OutsideScene{
         //instantiate a shade cloak over the entire scene at all times
 
         
+        //set up the shade and add it to the foreground 
         this.shade = new PIXI.Graphics();
 
         this.shade.beginFill(0x000000);
@@ -105,6 +107,7 @@ class IntroOutsideScene extends OutsideScene{
 
         this.foregroundContainer.addChild(this.shade);
         
+        // add some npcs to decorate 
         for(let i = 0; i < 30; i ++){
             let yposTreeChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
             let yposTree = yposTreeChoice[Math.floor(Math.random() * 2)];

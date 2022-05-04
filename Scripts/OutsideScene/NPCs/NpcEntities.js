@@ -653,7 +653,7 @@ class Tree extends TextNpc{
 }
 
 class LightSource extends TextNpc{
-
+    
     currentMax = null;
     
     elapsedTime = 0;
@@ -674,7 +674,7 @@ class LightSource extends TextNpc{
         });
 
         super(drawLayer, playerReference, position, textStyle, monologueList, 'Light', spritePath);
-        
+        // set up necessary variables 
         this.spritePath = spritePath;
         this.shadeObject = shadeObject;
         
@@ -694,11 +694,12 @@ class LightSource extends TextNpc{
 
 
     generateShades(){
-
+        // We cut a hole in the shade object and establish a fixedshade occupying the hole. We do this 
+        // not to affect the shade object in other areas by only working with the fixedshade
         this.cutHoleAndShade(this.shadeObject, this.fixedShade, this.maxRadius, this.maxShadeAlpha);
         this.shadeContainer.addChild(this.fixedShade);
         this.shades.push(this.fixedShade);
-        
+        // create the inner shade elements 
         for(let i = 0; i<this.shadeCount; i++){
             this.shades.push(new PIXI.Graphics()); 
             this.shadeContainer.addChild(this.shades[i + 1]);
@@ -710,6 +711,7 @@ class LightSource extends TextNpc{
     
 
     setupGraphics(){
+        // set up the sprite 
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
         this.drawLayer.addChild(this.sprite);
         
@@ -718,13 +720,14 @@ class LightSource extends TextNpc{
     };
 
     setupHitbox(){
+        // set up hitbox 
         const width = this.sprite.width;
         const height = this.sprite.height;
         this.hitbox = new Rectangle(this.x - width / 2, this.y - height /2, width, height)
     }
 
     cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha){
-
+        // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
         outerShade.beginHole();
         outerShade.drawCircle(this.x, this.y, shadeRadius);
         outerShade.endHole();
@@ -745,6 +748,8 @@ class LightSource extends TextNpc{
         
         for (let i = 0; i < this.shades.length; i++){
 
+            // clear all graphics objects and redraw using the new radii
+
             this.shades[i].clear();
             if (i > 0){
                 this.cutHoleAndShade(this.shades[i - 1], this.shades[i], 
@@ -753,6 +758,7 @@ class LightSource extends TextNpc{
             }
 
             else{
+                // we have to redraw the fixed shade since it has been cleared 
                 this.fixedShade.beginFill(0x000000);
                 this.fixedShade.drawCircle(this.x, this.y, this.maxRadius);
                 this.fixedShade.endFill();
