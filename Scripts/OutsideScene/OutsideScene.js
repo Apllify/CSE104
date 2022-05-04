@@ -366,7 +366,7 @@ class OutsideScene{
 
         //display the bounding rectangles for debug purposes
         for(let rectangle of this.borderRectangles){
-            this.container.addChild(rectangle.getGraphics(this.borderHue));
+            this.container.addChild(rectangle.getGraphics(this.borderHue, this.borderAlpha));
         }
 
 

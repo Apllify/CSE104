@@ -652,14 +652,62 @@ class Tree extends TextNpc{
     }
 }
 
-class LightSource extends Npc{
+class LightSource extends TextNpc{
 
+    currentMax = null;
+    
+    elapsedTime = 0;
+    
+    maxShadeAlpha = null;
+    
+    fixedShade = new PIXI.Graphics();
+    shades = [];
 
-    constructor(shadeObject, container, playerReference, position, spritePath){
-        super(container, playerReference, position, 10);
+    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, period=10){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffff00",
+            stroke : "#ffff00",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologueList, 'Light', spritePath);
+        
         this.spritePath = spritePath;
         this.shadeObject = shadeObject;
+        
+        this.maxShadeAlpha = this.shadeObject.alpha;
+        
+        this.shadeContainer = shadeContainer;
+        this.shadeCount = shadeCount;
+
+        this.maxRadius = maxRadius;
+        this.minRadius = minRadius;
+
+        this.period = Math.max(period, 0.001);
+        this.w = Math.PI * 2 / this.period;
+
+        this.generateShades();
     };
+
+
+    generateShades(){
+
+        this.cutHoleAndShade(this.shadeObject, this.fixedShade, this.maxRadius, this.maxShadeAlpha);
+        this.shadeContainer.addChild(this.fixedShade);
+        this.shades.push(this.fixedShade);
+        
+        for(let i = 0; i<this.shadeCount; i++){
+            this.shades.push(new PIXI.Graphics()); 
+            this.shadeContainer.addChild(this.shades[i + 1]);
+        }
+
+        
+    }
+
+    
 
     setupGraphics(){
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
@@ -667,7 +715,52 @@ class LightSource extends Npc{
         
         this.sprite.x = this.x - this.sprite.width / 2;
         this.sprite.y = this.y - this.sprite.height / 2;
+    };
+
+    setupHitbox(){
+        const width = this.sprite.width;
+        const height = this.sprite.height;
+        this.hitbox = new Rectangle(this.x - width / 2, this.y - height /2, width, height)
     }
 
-    
+    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha){
+
+        outerShade.beginHole();
+        outerShade.drawCircle(this.x, this.y, shadeRadius);
+        outerShade.endHole();
+
+        innerShade.beginFill(0x000000);
+        innerShade.drawCircle(this.x, this.y, shadeRadius);
+        innerShade.endFill();
+        innerShade.alpha = shadeAlpha;
+
+    }
+
+
+    update(delta, inputs){
+       
+        super.update(delta, inputs);
+        this.currentMax = this.minRadius + Math.abs((this.maxRadius - this.minRadius) * Math.cos(this.elapsedTime * this.w));
+        this.elapsedTime += delta;
+        
+        for (let i = 0; i < this.shades.length; i++){
+
+            this.shades[i].clear();
+            if (i > 0){
+                this.cutHoleAndShade(this.shades[i - 1], this.shades[i], 
+                    this.currentMax * (this.shadeCount - i + 1)/ this.shadeCount, 
+                    this.maxShadeAlpha * (1 - i / this.shadeCount));
+            }
+
+            else{
+                this.fixedShade.beginFill(0x000000);
+                this.fixedShade.drawCircle(this.x, this.y, this.maxRadius);
+                this.fixedShade.endFill();
+            }
+        }
+        
+        
+
+    }
+
 }

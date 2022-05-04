@@ -7,7 +7,8 @@ class IntroOutsideScene extends OutsideScene{
         "Sign": "Sprites/Sign.png",
         "Village":"Sprites/VillageRoad.png",
         "Tree":"Sprites/Tree.png",
-        'Mask':"Sprites/mask.png"
+        "LeftPointing":"Sprites/LeftPointing.png",
+        "RightPointing":"Sprites/RightPointing.png"        
     };
 
 
@@ -34,22 +35,7 @@ class IntroOutsideScene extends OutsideScene{
         const roadLowerEdge = 480;
         const totalWidth = 9600;
         
-        for(let i = 0; i < 30; i ++){
-            let yposChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
-            let ypos = yposChoice[Math.floor(Math.random() * 2)];
-            let rocky = yposChoice[Math.floor(Math.random() * 2)];
-            if (i % 2 === 1){
-                
-                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:ypos},[]))
-            }
-
-            else{
-                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
-            }
-
-            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}))
-
-        }
+        
         const dialogueOne = [
             ["This is just a rock.",
         "What did you expect ?"]
@@ -112,11 +98,34 @@ class IntroOutsideScene extends OutsideScene{
         this.shade = new PIXI.Graphics();
 
         this.shade.beginFill(0x000000);
-        this.shade.drawPolygon([0, 0, 800, 0, 800, 600, 0,600]);
+        this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
-        this.shade.alpha = 0.5;
-        drawLayers.foregroundLayer.addChild(this.shade);
-    
+        
+        this.shade.alpha = 0.8;
+
+        this.foregroundContainer.addChild(this.shade);
+        
+        for(let i = 0; i < 30; i ++){
+            let yposTreeChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
+            let yposTree = yposTreeChoice[Math.floor(Math.random() * 2)];
+            let rocky = yposTreeChoice[Math.floor(Math.random() * 2)];
+            if (i % 2 === 1){
+                
+                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
+            }
+
+            else{
+                let t = Math.random();
+                let ypos = 110*t + 470*(1-t);
+                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
+            }
+
+            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}))
+
+        }
+
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 50, 2, 20));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 50, 2, 20));
         
     }
 
