@@ -685,13 +685,15 @@ class LightSource extends TextNpc{
     currentMax = null;
     
     elapsedTime = 0;
+    staticTimer = 0;
+    flickerTimer = 0;
     
     maxShadeAlpha = null;
     
     fixedShade = new PIXI.Graphics();
     shades = [];
 
-    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, period=10){
+    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, flickerPeriod=1, staticPeriod=5){
 
         const textStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
@@ -714,8 +716,9 @@ class LightSource extends TextNpc{
         this.maxRadius = maxRadius;
         this.minRadius = minRadius;
 
-        this.period = Math.max(period, 0.001);
-        this.w = Math.PI * 2 / this.period;
+        this.flickerPeriod = Math.max(flickerPeriod, 0.001);
+        this.staticPeriod = staticPeriod;
+        this.w = Math.PI * 2 / this.flickerPeriod;
 
         this.generateShades();
     };
@@ -771,9 +774,31 @@ class LightSource extends TextNpc{
     update(delta, inputs){
        
         super.update(delta, inputs);
-        this.currentMax = this.minRadius + Math.abs((this.maxRadius - this.minRadius) * Math.cos(this.elapsedTime * this.w));
-        this.elapsedTime += delta;
         
+        if (this.staticTimer <= this.staticPeriod){
+            this.staticTimer += delta;
+            this.currentMax = this.maxRadius;
+        }
+
+        else{
+            this.flickerTimer += delta;
+            this.currentMax = this.minRadius + Math.abs((this.maxRadius - this.minRadius) * Math.cos(this.flickerTimer * this.w / 2));
+            if (this.flickerTimer >= this.flickerPeriod){
+                
+                this.flickerTimer = 0;
+                this.staticTimer = 0;
+            }
+        }
+        
+        this.elapsedTime += delta;
+        let ratio = this.currentMax / this.maxRadius;
+        let num = Math.floor(ratio * 15);
+        let tint = 0;
+        for (let i = 0; i < 6; i++){
+            tint += num * (16 ** i)
+        }
+
+        this.sprite.tint = tint;
         for (let i = 0; i < this.shades.length; i++){
 
             // clear all graphics objects and redraw using the new radii
