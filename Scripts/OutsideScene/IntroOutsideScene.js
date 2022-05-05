@@ -74,7 +74,7 @@ class IntroOutsideScene extends OutsideScene{
             ["Hihi"]
         ];
 
-
+        const RockDialogues = [dialogueOne, dialogueTwo, dialogueThree, dialogueFour, dialogueFive, dialogueSix, dialogueSeven]
         const godDialogue = [
             [
                 "Yield, for i am god, \nalmight harbinger of the elements.",
@@ -124,7 +124,7 @@ class IntroOutsideScene extends OutsideScene{
                 this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
             }
 
-            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}))
+            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[Math.floor(Math.random() * RockDialogues.length)]))
 
         }
 
