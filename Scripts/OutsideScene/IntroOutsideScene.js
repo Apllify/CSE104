@@ -8,7 +8,8 @@ class IntroOutsideScene extends OutsideScene{
         "Village":"Sprites/VillageRoad.png",
         "Tree":"Sprites/Tree.png",
         "LeftPointing":"Sprites/LeftPointing.png",
-        "RightPointing":"Sprites/RightPointing.png"        
+        "RightPointing":"Sprites/RightPointing.png",
+        "Bar":"Sprites/Bar.png"        
     };
 
 
@@ -35,7 +36,7 @@ class IntroOutsideScene extends OutsideScene{
         const roadUpperEdge = 100;
         const roadLowerEdge = 480;
         const totalWidth = 9600;
-        
+        this.playerReference.x = 9200;
         
         const dialogueOne = [
             ["This is just a rock.",
@@ -129,6 +130,7 @@ class IntroOutsideScene extends OutsideScene{
 
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 50, 2, 20));
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 50, 2, 20));
+        this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
         
     }
 

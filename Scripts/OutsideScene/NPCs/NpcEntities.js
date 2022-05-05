@@ -606,6 +606,32 @@ class PatternDebugNpc extends Npc{
     }
 }
 
+class Bar extends Npc{
+
+    constructor(drawLayer, playerReference, position, detectionRadius=110){
+        
+        super(drawLayer, playerReference, position, detectionRadius);
+        this.spritePath = 'Bar';
+    }
+    isInteracted(){
+        mainGame.changeScene(new TutorialBoss());
+    }
+
+    setupGraphics(){
+        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
+        this.drawLayer.addChild(this.sprite);
+
+        this.sprite.x = this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+    }
+    
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - this.sprite.width/ 2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+
+    }
+    
+}
+
 class SignPost extends TextNpc{
 
     constructor(drawLayer, playerReference, position, monologuesList){
@@ -651,6 +677,8 @@ class Tree extends TextNpc{
         this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
     }
 }
+
+
 
 class LightSource extends TextNpc{
     
