@@ -3,34 +3,41 @@ class IntroOutsideScene extends OutsideScene{
     requiredAssets = {
         "God Spritesheet": "Sprites/God.json",
         "Rock": "Sprites/Rock.png",
-        "Shield":  "Sprites/Shield.png"
+        "Shield":  "Sprites/Shield.png",
+        "Sign": "Sprites/Sign.png",
+        "Village":"Sprites/VillageRoad.png",
+        "Tree":"Sprites/Tree.png",
+        "LeftPointing":"Sprites/LeftPointing.png",
+        "RightPointing":"Sprites/RightPointing.png",
+        "Bar":"Sprites/Bar.png"        
     };
 
 
+    // we want this scene to be a bit dark 
     shade = null;
 
     constructor(){
-        super();
-
-
+        
+        super(0xeec39a);
+        this.borderAlpha = 0;
 
     }
 
 
     //called after all of the required assets have been loaded
     load(){
-        super.load();
+        let background = new PIXI.Sprite(PIXI.Loader.shared.resources["Village"].texture)
+        background.scale.x = 3
+        super.load(background);
 
-        
+              
 
         //create a door npc
-        this.npcList.push( new BrokenDoor(this.container,  this.playerReference, {x:0, y:300}));
-        this.npcList.push(new BossWarp(this.container,  this.playerReference, {x:600, y:300}));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:500, y:320}));
-        this.npcList.push(new PatternDebugNpc(this.container, this.playerReference, {x:400, y:100}));
-
-                
-        //create a few rock npcs for decoration
+        const roadUpperEdge = 100;
+        const roadLowerEdge = 480;
+        const totalWidth = 9600;
+        this.playerReference.x = 9200;
+        
         const dialogueOne = [
             ["This is just a rock.",
         "What did you expect ?"]
@@ -67,7 +74,7 @@ class IntroOutsideScene extends OutsideScene{
             ["Hihi"]
         ];
 
-
+        const RockDialogues = [dialogueOne, dialogueTwo, dialogueThree, dialogueFour, dialogueFive, dialogueSix, dialogueSeven]
         const godDialogue = [
             [
                 "Yield, for i am god, \nalmight harbinger of the elements.",
@@ -81,39 +88,50 @@ class IntroOutsideScene extends OutsideScene{
 
         ];
 
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:200, y:250}, dialogueOne));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:100, y:50}, dialogueOne));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:230, y:220}, dialogueOne));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:50, y:80}, dialogueOne));
-
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:600, y:100}, dialogueTwo));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:1000, y:250}, dialogueThree));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:1400, y:250}, dialogueFour));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:1800, y:250}, dialogueFive));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:2200, y:250}, dialogueSix));
-        this.npcList.push(new Rock(this.container, this.playerReference, {x:2600, y:250}, dialogueSeven));
-
-
-        this.npcList.push(new SecretRock(this.container, this.playerReference, {x:100, y:500}));
-
-
-
-        this.npcList.push(new God(this.container, this.playerReference, {x:400, y:500}, godDialogue));
+        
 
 
         //set the map to have a specific shape
-        this.setMapMatrix([[2, 1, 1, 1, 1, 1]]);
+        this.setMapMatrix([[2,1,1,1,1,1,1,1,1,1,1,1]]);
 
         //instantiate a shade cloak over the entire scene at all times
+
+        
+        //set up the shade and add it to the foreground 
         this.shade = new PIXI.Graphics();
 
         this.shade.beginFill(0x000000);
-        this.shade.drawRect(0, 0, 800, 600);
+        this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
+        
+        this.shade.alpha = 0.8;
 
-        this.shade.alpha = 0.5;
+        this.foregroundContainer.addChild(this.shade);
+        
+        // add some npcs to decorate 
+        for(let i = 0; i < 30; i ++){
+            let yposTreeChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
+            let yposTree = yposTreeChoice[Math.floor(Math.random() * 2)];
+            let rocky = yposTreeChoice[Math.floor(Math.random() * 2)];
+            if (i % 2 === 1){
+                
+                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
+            }
 
-        drawLayers.foregroundLayer.addChild(this.shade);
+            else{
+                let t = Math.random();
+                let ypos = 110*t + 470*(1-t);
+                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
+            }
+
+            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[Math.floor(Math.random() * RockDialogues.length)]))
+
+        }
+
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 50, 2, 20));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 50, 2, 20));
+        this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
+        
     }
 
 

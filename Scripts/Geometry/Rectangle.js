@@ -94,13 +94,13 @@ class Rectangle{
     }
 
     //generate a graphics object for displaying this shape
-    getGraphics(hue){
+    getGraphics(hue, alpha=1){
         const graphics = new PIXI.Graphics();
 
         graphics.beginFill(hue);
         graphics.drawRect(this.x, this.y, this.width, this.height);
         graphics.endFill();
-
+        graphics.alpha = alpha;
         return graphics;
     }
 

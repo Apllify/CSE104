@@ -7,8 +7,8 @@ class TextNpc extends Npc{
     spritePath = "";
     sprite = null;
 
-    constructor(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath){
-        super(drawLayer, playerReference, position);
+    constructor(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath, detectionRadius=70){
+        super(drawLayer, playerReference, position, detectionRadius);
 
         this.monologuesList = monologuesList;
 
@@ -640,4 +640,197 @@ class PatternDebugNpc extends Npc{
     setupHitbox(){
         this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
     }
+}
+
+class Bar extends Npc{
+
+    constructor(drawLayer, playerReference, position, detectionRadius=110){
+        
+        super(drawLayer, playerReference, position, detectionRadius);
+        this.spritePath = 'Bar';
+    }
+    isInteracted(){
+        mainGame.changeScene(new TutorialBoss());
+    }
+
+    setupGraphics(){
+        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
+        this.drawLayer.addChild(this.sprite);
+
+        this.sprite.x = this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+    }
+    
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - this.sprite.width/ 2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+
+    }
+    
+}
+
+class SignPost extends TextNpc{
+
+    constructor(drawLayer, playerReference, position, monologuesList){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'TIP', 'Sign', 85);
+ 
+    }
+
+
+    setupHitbox(){
+        
+        this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
+    }
+};
+
+
+class Tree extends TextNpc{
+    constructor(drawLayer, playerReference, position, monologuesList){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#00ff00",
+            stroke : "#00ff00",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Tree', 'Tree', 85);
+ 
+    }
+
+
+    setupHitbox(){
+        
+        this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
+    }
+}
+
+
+
+class LightSource extends TextNpc{
+    
+    currentMax = null;
+    
+    elapsedTime = 0;
+    
+    maxShadeAlpha = null;
+    
+    fixedShade = new PIXI.Graphics();
+    shades = [];
+
+    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, period=10){
+
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffff00",
+            stroke : "#ffff00",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologueList, 'Light', spritePath);
+        // set up necessary variables 
+        this.spritePath = spritePath;
+        this.shadeObject = shadeObject;
+        
+        this.maxShadeAlpha = this.shadeObject.alpha;
+        
+        this.shadeContainer = shadeContainer;
+        this.shadeCount = shadeCount;
+
+        this.maxRadius = maxRadius;
+        this.minRadius = minRadius;
+
+        this.period = Math.max(period, 0.001);
+        this.w = Math.PI * 2 / this.period;
+
+        this.generateShades();
+    };
+
+
+    generateShades(){
+        // We cut a hole in the shade object and establish a fixedshade occupying the hole. We do this 
+        // not to affect the shade object in other areas by only working with the fixedshade
+        this.cutHoleAndShade(this.shadeObject, this.fixedShade, this.maxRadius, this.maxShadeAlpha);
+        this.shadeContainer.addChild(this.fixedShade);
+        this.shades.push(this.fixedShade);
+        // create the inner shade elements 
+        for(let i = 0; i<this.shadeCount; i++){
+            this.shades.push(new PIXI.Graphics()); 
+            this.shadeContainer.addChild(this.shades[i + 1]);
+        }
+
+        
+    }
+
+    
+
+    setupGraphics(){
+        // set up the sprite 
+        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
+        this.drawLayer.addChild(this.sprite);
+        
+        this.sprite.x = this.x - this.sprite.width / 2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+    };
+
+    setupHitbox(){
+        // set up hitbox 
+        const width = this.sprite.width;
+        const height = this.sprite.height;
+        this.hitbox = new Rectangle(this.x - width / 2, this.y - height /2, width, height)
+    }
+
+    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha){
+        // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
+        outerShade.beginHole();
+        outerShade.drawCircle(this.x, this.y, shadeRadius);
+        outerShade.endHole();
+
+        innerShade.beginFill(0x000000);
+        innerShade.drawCircle(this.x, this.y, shadeRadius);
+        innerShade.endFill();
+        innerShade.alpha = shadeAlpha;
+
+    }
+
+
+    update(delta, inputs){
+       
+        super.update(delta, inputs);
+        this.currentMax = this.minRadius + Math.abs((this.maxRadius - this.minRadius) * Math.cos(this.elapsedTime * this.w));
+        this.elapsedTime += delta;
+        
+        for (let i = 0; i < this.shades.length; i++){
+
+            // clear all graphics objects and redraw using the new radii
+
+            this.shades[i].clear();
+            if (i > 0){
+                this.cutHoleAndShade(this.shades[i - 1], this.shades[i], 
+                    this.currentMax * (this.shadeCount - i + 1)/ this.shadeCount, 
+                    this.maxShadeAlpha * (1 - i / this.shadeCount));
+            }
+
+            else{
+                // we have to redraw the fixed shade since it has been cleared 
+                this.fixedShade.beginFill(0x000000);
+                this.fixedShade.drawCircle(this.x, this.y, this.maxRadius);
+                this.fixedShade.endFill();
+            }
+        }
+        
+        
+
+    }
+
 }

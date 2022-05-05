@@ -230,7 +230,7 @@ class GlitchTransition{
             }
             else{
 
-                //chech whether we can display another character
+                //check whether we can display another character
                 if (this.currentCharacterTimer >= this.characterDelay){
                     //reset the timer 
                     this.currentCharacterTimer = 0;

@@ -21,7 +21,7 @@ class OutsideScene{
     npcList = [];
 
 
-
+    borderAlpha = 1;
     //no required assets since this is a virtual class
     requiredAssets = {
 
@@ -36,18 +36,23 @@ class OutsideScene{
         // PIXI.Loader.shared.load(() => this.load(this));
 
         this.borderHue = borderHue;
+        
 
     }
 
 
     //called after the ressources are loaded into the pixi loader
-    load(){
+    load(background=null){
 
         //create a few entity containers for camera purposes
         this.backgroundContainer = new PIXI.Container();
         drawLayers.activeLayer.addChild(this.backgroundContainer);
 
         this.container = new PIXI.Container();
+        if (background != null){
+            this.container.addChild(background);
+            this.background = background;
+        }
         drawLayers.activeLayer.addChild(this.container);
 
         this.foregroundContainer = new PIXI.Container();
@@ -361,7 +366,7 @@ class OutsideScene{
 
         //display the bounding rectangles for debug purposes
         for(let rectangle of this.borderRectangles){
-            this.container.addChild(rectangle.getGraphics(this.borderHue));
+            this.container.addChild(rectangle.getGraphics(this.borderHue, this.borderAlpha));
         }
 
 
