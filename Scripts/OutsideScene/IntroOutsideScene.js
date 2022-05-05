@@ -108,7 +108,7 @@ class IntroOutsideScene extends OutsideScene{
         this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
         
-        this.shade.alpha = 0.4;
+        this.shade.alpha = 0.8;
 
         this.foregroundContainer.addChild(this.shade);
         
@@ -132,8 +132,8 @@ class IntroOutsideScene extends OutsideScene{
 
         }
 
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 30, 50, 1.5, 3, 1000));
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 30, 50, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 20, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 20, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
 
 
