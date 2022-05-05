@@ -128,8 +128,8 @@ class IntroOutsideScene extends OutsideScene{
 
         }
 
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 30, 2, 2, 3));
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 30, 2, 2, 3));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 30, 30, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 30, 30, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
         
     }

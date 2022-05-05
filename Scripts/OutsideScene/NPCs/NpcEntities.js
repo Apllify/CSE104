@@ -693,7 +693,8 @@ class LightSource extends TextNpc{
     fixedShade = new PIXI.Graphics();
     shades = [];
 
-    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, flickerPeriod=1, staticPeriod=5){
+    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, flickerPeriod=1, staticPeriod=5,
+        soundIntensity=100){
 
         const textStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
@@ -720,6 +721,8 @@ class LightSource extends TextNpc{
         this.staticPeriod = staticPeriod;
         this.w = Math.PI * 2 / this.flickerPeriod;
 
+        this.soundIntensity = soundIntensity * 10;
+        PIXI.sound.add('BrokenLight', './././Sound/brokenlight.wav')
         this.generateShades();
     };
 
@@ -740,6 +743,14 @@ class LightSource extends TextNpc{
     }
 
     
+    playSound(){
+
+        this.playerToLightVector = new Vector(this.x - this.playerReference.x, this.y - this.playerReference.y);
+        let distance = this.playerToLightVector.getNorm();
+        let volume = this.soundIntensity / ( 4 * Math.PI *(distance) ** 2)
+        PIXI.sound.volume('BrokenLight', volume);
+        PIXI.sound.play('BrokenLight')
+    }
 
     setupGraphics(){
         // set up the sprite 
@@ -781,6 +792,9 @@ class LightSource extends TextNpc{
         }
 
         else{
+            if (this.flickerTimer === 0){
+                this.playSound();
+            }
             this.flickerTimer += delta;
             this.currentMax = this.minRadius + Math.abs((this.maxRadius - this.minRadius) * Math.cos(this.flickerTimer * this.w / 2));
             if (this.flickerTimer >= this.flickerPeriod){
