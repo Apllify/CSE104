@@ -78,20 +78,7 @@ class IntroOutsideScene extends OutsideScene{
             ["Hihi"]
         ];
 
-        const RockDialogues = [dialogueOne, dialogueTwo, dialogueThree, dialogueFour, dialogueFive, dialogueSix, dialogueSeven]
-        const godDialogue = [
-            [
-                "Yield, for i am god, \nalmight harbinger of the elements.",
-                "My child, you are hereby chosen \nto fulfill the prophetic duty.",
-                "To the limit of your abilities, \nyou must spring forth and deliver my heavenly messages \nto the rest of the world.",
-                "Thank you for your comprehension,",
-                "Peace,",
-                "GOD" 
-
-            ]
-
-        ];
-
+        const RockDialogues = [dialogueOne, dialogueTwo, dialogueThree, dialogueFour, dialogueFive, dialogueSix, dialogueSeven];
         
 
 
@@ -118,6 +105,8 @@ class IntroOutsideScene extends OutsideScene{
             let yposTreeChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
             let yposTree = yposTreeChoice[Math.floor(Math.random() * 2)];
             let rocky = yposTreeChoice[Math.floor(Math.random() * 2)];
+
+
             if (i % 2 === 1){
                 
                 this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))

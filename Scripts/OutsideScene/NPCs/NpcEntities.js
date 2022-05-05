@@ -548,7 +548,8 @@ class God extends TextNpc{
     isFading = false;
     automaticDetectionRadius = 300;
 
-    constructor(drawLayer, playerReference, position, monologuesList){
+
+    constructor(drawLayer, playerReference, position){
 
         const textStyle = new PIXI.TextStyle({
             fontFamily : "Microcosmos",
@@ -556,6 +557,19 @@ class God extends TextNpc{
             fill : "#ffffff",
             stroke : "#ffffff",
         });
+
+        const monologuesList = [
+            [
+                "Yield, for i am god, \nalmight harbinger of the elements.",
+                "My child, you are hereby chosen \nto fulfill the prophetic duty.",
+                "To the limit of your abilities, \nyou must spring forth and deliver my heavenly messages \nto the rest of the world.",
+                "Thank you for your comprehension,",
+                "Peace,",
+                "GOD" 
+
+            ]
+
+        ];
 
         super(drawLayer, playerReference, position, textStyle, monologuesList, "GOD",  "Sprites/WIP/ToCorrupt.png");
  
@@ -744,7 +758,7 @@ class Tree extends TextNpc{
     }
 
     setupGraphics(){
-        super.setupGraphics(4, 4);
+        super.setupGraphics(2, 2);
     }
 
 
