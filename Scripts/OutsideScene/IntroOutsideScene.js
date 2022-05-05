@@ -9,7 +9,11 @@ class IntroOutsideScene extends OutsideScene{
         "Tree":"Sprites/Tree.png",
         "LeftPointing":"Sprites/LeftPointing.png",
         "RightPointing":"Sprites/RightPointing.png",
-        "Bar":"Sprites/Bar.png"        
+        "Bar":"Sprites/Bar.png",
+        "Concrete1" :"Sprites/Tiles/Concrete1.png", 
+        "Concrete2" :"Sprites/Tiles/Concrete2.png", 
+        "Concrete3" :"Sprites/Tiles/Concrete3.png", 
+
     };
 
 
@@ -26,9 +30,9 @@ class IntroOutsideScene extends OutsideScene{
 
     //called after all of the required assets have been loaded
     load(){
-        let background = new PIXI.Sprite(PIXI.Loader.shared.resources["Village"].texture)
-        background.scale.x = 3
-        super.load(background);
+        //let background = new PIXI.Sprite(PIXI.Loader.shared.resources["Village"].texture)
+        //background.scale.x = 3
+        super.load();
 
               
 
@@ -104,7 +108,7 @@ class IntroOutsideScene extends OutsideScene{
         this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
         
-        this.shade.alpha = 0.8;
+        this.shade.alpha = 0.4;
 
         this.foregroundContainer.addChild(this.shade);
         
@@ -124,13 +128,24 @@ class IntroOutsideScene extends OutsideScene{
                 this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
             }
 
-            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[Math.floor(Math.random() * RockDialogues.length)]))
+            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[0]))
 
         }
 
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 30, 30, 1.5, 3, 1000));
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 30, 30, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
+
+
+
+        //create some background tiles for the road
+        for(let x = 20; x < totalWidth; x += 40){
+            for (let y = 120; y < 500; y += 40 ){
+                let spriteIndex = Math.floor(Math.random() * 3) + 1;
+
+                this.npcList.push(new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Concrete" + spriteIndex));
+            }
+        }
         
     }
 

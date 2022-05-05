@@ -83,6 +83,35 @@ class TextNpc extends Npc{
     // }
 }
 
+
+// a simple background tile that takes a sprite as an argument
+class Tile extends Npc{
+    spriteName = "";
+    sprite = null;
+
+    scaleX = 1;
+    scaleY = 1;
+
+    constructor(drawLayer, playerReference, position, spriteName, scale = {x:1,y:1}){
+        super(drawLayer, playerReference, position, 0);
+
+        this.spriteName = spriteName;
+        this.scaleX = scale.x;
+        this.scaleY = scale.y;        
+    }
+
+    setupGraphics(){
+        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spriteName].texture);
+        this.drawLayer.addChild(this.sprite);
+
+        this.sprite.scale.x = this.scaleX;
+        this.sprite.scale.y = this.scaleY;
+
+        this.sprite.x = this.x - this.sprite.width /2;
+        this.sprite.y = this.y - this.sprite.height / 2;
+    }
+}
+
 class BrokenDoor extends TextNpc{
     constructor(drawLayer, playerReference, position){
         const monologuesList = [
@@ -122,10 +151,14 @@ class Rock extends TextNpc{
  
     }
 
+    setupGraphics(){
+        super.setupGraphics(1, 1);
+    }
+
 
     setupHitbox(){
         
-        this.hitbox = new Rectangle(this.x - 10, this.y - 10, 20, 20);
+        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
     }
 
 
@@ -685,7 +718,7 @@ class SignPost extends TextNpc{
     }
 
     setupGraphics(){
-        super.setupGraphics(4, 4);
+        super.setupGraphics(3, 3);
     }
 
     setupHitbox(){
@@ -810,7 +843,6 @@ class LightSource extends TextNpc{
     cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha){
         // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
 
-        const filter = new PIXI.Filter(myShaderVert, myShaderFrag, { myUniform: 0.5 });
 
         outerShade.beginHole();
         outerShade.drawCircle(this.x, this.y, shadeRadius);
