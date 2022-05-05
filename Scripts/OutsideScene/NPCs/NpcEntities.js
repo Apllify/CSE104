@@ -727,7 +727,7 @@ class SignPost extends TextNpc{
             stroke : "#ffffff",
         });
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, 'TIP', 'Sign', 85);
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Street Sign', 'Sign', 85);
  
     }
 

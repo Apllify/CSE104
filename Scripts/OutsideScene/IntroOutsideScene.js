@@ -40,7 +40,7 @@ class IntroOutsideScene extends OutsideScene{
         const roadUpperEdge = 100;
         const roadLowerEdge = 480;
         const totalWidth = 9600;
-        this.playerReference.x = 9200;
+        this.playerReference.x = 100;
         
         const dialogueOne = [
             ["This is just a rock.",
@@ -79,6 +79,74 @@ class IntroOutsideScene extends OutsideScene{
         ];
 
         const RockDialogues = [dialogueOne, dialogueTwo, dialogueThree, dialogueFour, dialogueFive, dialogueSix, dialogueSeven];
+
+        const signDialogues = [
+
+            [[
+                "Hi ! Welcome to TownSquare !",
+                "Where dreams come true :)",
+                "Not really actually.",
+                "I haven't seen it happen personally :(",
+                "But hey, I've heard the stories...",
+                "Maybe you could be the next one, who knows. ",
+                "Signed - ",
+                "The Sign Painter"
+            ],
+            [
+                "Hi ! Welcome to TownSquare !",
+                "Where dreams come true :)",
+                "Wait wh- why are you still here ?",
+                "You do realize that I can't just repaint a sign \nafter you've read it ?",
+                "That would be a stupid amount of work for one \npractical joke wouldn't it ?",
+                "Signed - ",
+                "The sign painter"
+            ],
+            [
+                "*The sign is littered with unintelligible \nand hastily painted flops*",
+                "*You can still make out some of the letters*",
+                '"Si..n pa...er"'
+            ]
+        
+        
+        ],
+        
+            [
+            [
+                "TIP : Use ENTER to read signs",
+                "Signed - ",
+                "The sign painter"
+
+            ],
+
+        ],
+
+        [[
+            "Anyways, what brings you here ?",
+            "Not a lot of people end up on this street voluntarily.",
+            "How could I tell that you were new ?",
+            "Well.",
+            "Your eyes are still glowing like a first-timer's. ",
+            'Some call it "glee", we call it inexperience',
+            "Signed - ",
+            "The sign painter"
+
+        ]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]],
+        [[]]
+
+        ];
+
+        
         
 
 
@@ -115,7 +183,7 @@ class IntroOutsideScene extends OutsideScene{
             else{
                 let t = Math.random();
                 let ypos = 110*t + 470*(1-t);
-                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, []))
+                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, signDialogues[i/2]))
             }
 
             this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[0]))
