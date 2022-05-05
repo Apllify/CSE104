@@ -152,7 +152,7 @@ class Rock extends TextNpc{
     }
 
     setupGraphics(){
-        super.setupGraphics(1, 1);
+        super.setupGraphics(2, 2);
     }
 
 
@@ -718,7 +718,7 @@ class SignPost extends TextNpc{
     }
 
     setupGraphics(){
-        super.setupGraphics(3, 3);
+        super.setupGraphics(2, 2);
     }
 
     setupHitbox(){
@@ -840,9 +840,11 @@ class LightSource extends TextNpc{
     playSound(){
         // play sound at a volume calculated from the distance to the player 
         this.playerToLightVector = new Vector(this.x - this.playerReference.x, this.y - this.playerReference.y);
+
         let distance = this.playerToLightVector.getNorm();
-        let volume = this.soundIntensity / ( 4 * Math.PI *(distance) ** 2)
-        PIXI.sound.volume('BrokenLight', volume);
+        let volume = 2 * this.soundIntensity / ( 4 * Math.PI *(distance) ** 2)
+
+        PIXI.sound.volume('BrokenLight', Math.max(volume,0.02 ));
         PIXI.sound.play('BrokenLight')
     }
 

@@ -107,7 +107,8 @@ class IntroOutsideScene extends OutsideScene{
         this.shade.beginFill(0x000000);
         this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
-        
+    
+
         this.shade.alpha = 0.4;
 
         this.foregroundContainer.addChild(this.shade);
