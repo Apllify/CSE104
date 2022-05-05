@@ -850,7 +850,7 @@ class LightSource extends TextNpc{
 
     setupGraphics(){
         // set up the sprite 
-        super.setupGraphics();
+        super.setupGraphics(2, 2);
     };
 
     setupHitbox(){
