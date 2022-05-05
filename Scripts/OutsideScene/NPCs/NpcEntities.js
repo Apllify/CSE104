@@ -727,24 +727,42 @@ class LightSource extends TextNpc{
     };
 
 
+    
+
     generateShades(){
-        // We cut a hole in the shade object and establish a fixedshade occupying the hole. We do this 
-        // not to affect the shade object in other areas by only working with the fixedshade
-        this.cutHoleAndShade(this.shadeObject, this.fixedShade, this.maxRadius, this.maxShadeAlpha);
+        // Generate the shades used to resemble a light source. We cut a hole in the scene's shade and draw
+        // our own shades in that hole. We put the shades in a new container whose scale and position
+        // we later change
+
+        // Container for the inner (non-fixed) shades
+        this.innerShadesContainer = new PIXI.Container();
+        // cut hole and draw the fixed shade
+        this.cutHoleAndShade(this.shadeObject, this.fixedShade, this.maxRadius, this.maxShadeAlpha, {x:this.x, y:this.y});
         this.shadeContainer.addChild(this.fixedShade);
-        this.shades.push(this.fixedShade);
-        // create the inner shade elements 
-        for(let i = 0; i<this.shadeCount; i++){
-            this.shades.push(new PIXI.Graphics()); 
-            this.shadeContainer.addChild(this.shades[i + 1]);
-        }
-
         
-    }
+        // Recursively apply cutHoleAndShade to draw the concentric circles. 
+        let currentOuter = this.fixedShade;
+        
+        for (let i = 0; i < this.shadeCount; i ++){
+            
+            let newInner = new PIXI.Graphics();
+            
+            this.cutHoleAndShade(currentOuter, newInner, 
+                             this.maxRadius * (this.shadeCount - i)/ this.shadeCount, 
+                             this.maxShadeAlpha * (1 - (i + 1) / this.shadeCount), {x:this.maxRadius, y:this.maxRadius});
+            this.innerShadesContainer.addChild(newInner);
+            
+            currentOuter = newInner;
+        };
 
+        // Finally, add the innercontainer to the shadecontainer and set its position
+        this.shadeContainer.addChild(this.innerShadesContainer);
+        this.innerShadesContainer.x = this.x - this.maxRadius;
+        this.innerShadesContainer.y = this.y - this.maxRadius;
+    }
     
     playSound(){
-
+        // play sound at a volume calculated from the distance to the player 
         this.playerToLightVector = new Vector(this.x - this.playerReference.x, this.y - this.playerReference.y);
         let distance = this.playerToLightVector.getNorm();
         let volume = this.soundIntensity / ( 4 * Math.PI *(distance) ** 2)
@@ -768,19 +786,32 @@ class LightSource extends TextNpc{
         this.hitbox = new Rectangle(this.x - width / 2, this.y - height /2, width, height)
     }
 
-    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha){
+    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha, position){
         // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
+        // at the given position. We can't just use the lightSource center since the innershades are in a differentcontainer
         outerShade.beginHole();
-        outerShade.drawCircle(this.x, this.y, shadeRadius);
+        outerShade.drawCircle(position.x, position.y, shadeRadius);
         outerShade.endHole();
 
         innerShade.beginFill(0x000000);
-        innerShade.drawCircle(this.x, this.y, shadeRadius);
+        innerShade.drawCircle(position.x, position.y, shadeRadius);
         innerShade.endFill();
         innerShade.alpha = shadeAlpha;
 
     }
 
+    resetFixedShade(){
+        // called every Update. We need this because we can't put the fixed shade in the inner shade container
+        // If we did, it will shrink with the rest and we are left with an unfilled gap in the outer (the scene's) shade
+        this.fixedShade.clear();
+        this.fixedShade.beginFill(0x000000);
+        this.fixedShade.drawCircle(this.x, this.y, this.maxRadius);
+        this.fixedShade.endFill();
+
+        this.fixedShade.beginHole();
+        this.fixedShade.drawCircle(this.x, this.y, this.currentMax);
+        this.fixedShade.endHole();   
+    }
 
     update(delta, inputs){
        
@@ -805,32 +836,27 @@ class LightSource extends TextNpc{
         }
         
         this.elapsedTime += delta;
+
+        // Tint the Sprite based on the following ratio which also represents the brightness of the light source
         let ratio = this.currentMax / this.maxRadius;
         let num = Math.floor(ratio * 15);
+        
         let tint = 0;
         for (let i = 0; i < 6; i++){
             tint += num * (16 ** i)
         }
 
         this.sprite.tint = tint;
-        for (let i = 0; i < this.shades.length; i++){
+        
+       // redraw the fixed shade
+        this.resetFixedShade();
 
-            // clear all graphics objects and redraw using the new radii
-
-            this.shades[i].clear();
-            if (i > 0){
-                this.cutHoleAndShade(this.shades[i - 1], this.shades[i], 
-                    this.currentMax * (this.shadeCount - i + 1)/ this.shadeCount, 
-                    this.maxShadeAlpha * (1 - i / this.shadeCount));
-            }
-
-            else{
-                // we have to redraw the fixed shade since it has been cleared 
-                this.fixedShade.beginFill(0x000000);
-                this.fixedShade.drawCircle(this.x, this.y, this.maxRadius);
-                this.fixedShade.endFill();
-            }
-        }
+        // Adjust the inner container's scale and position to give the appearance of shrinking 
+        this.innerShadesContainer.scale.x = ratio;
+        this.innerShadesContainer.scale.y = ratio;
+        
+        this.innerShadesContainer.x = this.x - this.currentMax;
+        this.innerShadesContainer.y = this.y - this.currentMax;
         
         
 
