@@ -818,18 +818,21 @@ class LightSource extends TextNpc{
         super.update(delta, inputs);
         
         if (this.staticTimer <= this.staticPeriod){
+            // this is the static phase, no changes to the radii
             this.staticTimer += delta;
             this.currentMax = this.maxRadius;
         }
 
         else{
+            // if static phase is over... 
             if (this.flickerTimer === 0){
+                // if flicker is just starting, play the sound
                 this.playSound();
             }
             this.flickerTimer += delta;
             this.currentMax = this.minRadius + Math.abs((this.maxRadius - this.minRadius) * Math.cos(this.flickerTimer * this.w / 2));
             if (this.flickerTimer >= this.flickerPeriod){
-                
+                // if flicker is finished, go back to the static phase
                 this.flickerTimer = 0;
                 this.staticTimer = 0;
             }
