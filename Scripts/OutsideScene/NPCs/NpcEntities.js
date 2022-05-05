@@ -238,20 +238,19 @@ class FlickeringBit extends TextNpc{
 
     graphicsTextStyle = null;
 
-    constructor(drawLayer, playerReference, monologuesList, position, scale){
+    constructor(drawLayer, playerReference, position, scale){
 
 
         const dialogueTextStyle =  new PIXI.TextStyle(
             {
                 fontFamily : "BrokenConsole",
-                fontSize : 50,
-                fontWeight : "bold",
+                fontSize : 30,
                 fill : "#2DEC1F",
             }
         );
 
 
-        super(drawLayer, playerReference, position, dialogueTextStyle, monologuesList, "???", "");
+        super(drawLayer, playerReference, position, dialogueTextStyle, [[""]], "???", "");
 
         //generate the level of green at random between 150 and 255
         const greenLevel = Math.floor(Math.random() * 100) + 150;
@@ -301,6 +300,30 @@ class FlickeringBit extends TextNpc{
             this.textDisplay.centerHorizontallyAt(this.x);
             this.textDisplay.centerVerticallyAt(this.y);
         }
+    }
+
+    isInteracted(index){
+        let sequences = [];
+        let sequencesCount = Math.ceil(Math.random() * 2);
+        
+
+
+        for (let i = 0; i < sequencesCount; i ++){
+            let length = Math.floor(Math.random() * 40);
+            sequences.push("");
+
+            for (let j = 0; j < length; j ++ ){
+                sequences[i] += Math.floor(Math.random() * 2);
+
+            }
+        }
+
+        console.log(sequences);
+
+        let monologue = super.isInteracted(index);
+        monologue.setTextContent([sequences.join("\n")]);
+
+        return monologue;
     }
 }
 
@@ -490,6 +513,7 @@ class SecretRock extends TextNpc{
 class God extends TextNpc{
 
     isFading = false;
+    automaticDetectionRadius = 300;
 
     constructor(drawLayer, playerReference, position, monologuesList){
 
@@ -559,6 +583,18 @@ class God extends TextNpc{
             }
             
         }
+        else{
+            //automatically detect the player for the first in game interaction
+            const distance =  new Vector(this.playerReference.x - this.x, this.playerReference.y - this.y);
+            
+            if (distance.getNorm() <= this.automaticDetectionRadius){
+                console.log("AAAAH");
+            }
+
+        }
+
+
+        
 
     }
 

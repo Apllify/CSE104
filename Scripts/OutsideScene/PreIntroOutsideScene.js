@@ -5,6 +5,7 @@ class PreIntroOutsideScene extends OutsideScene{
         "Shield":  "Sprites/Shield.png",
         "Static" : "Sprites/Static.png",
         "Cross" : "Sprites/Cross.png",
+        "GodSpritesheet" : "Sprites/God.json",
         "MiniStatic1" : "Sprites/MiniStatics/MiniStatic.png",
         "MiniStatic2" : "Sprites/MiniStatics/MiniStatic2.png",
         "MiniStatic3" : "Sprites/MiniStatics/MiniStatic3.png",
@@ -96,7 +97,7 @@ class PreIntroOutsideScene extends OutsideScene{
 
 
 
-            this.npcList.push(new FlickeringBit(this.container, this.playerReference, [["AAA"]], {x:randomX, y:randomY}, randomScale));
+            this.npcList.push(new FlickeringBit(this.container, this.playerReference, {x:randomX, y:randomY}, randomScale));
             
             //keep track of this used position
             this.usedPositions.push([randomX, randomY]);
@@ -112,6 +113,8 @@ class PreIntroOutsideScene extends OutsideScene{
             this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:6 * 800 + 520 + x, y:300 + y}));
         }
 
+        //then, create the god npc in the middle of that ring
+        this.npcList.push(new God(this.container, this.playerReference, {x:4800 + 520   , y:300}, [["I lov you"], ["I hat you"]]));
 
 
 

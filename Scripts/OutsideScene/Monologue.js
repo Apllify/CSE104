@@ -128,6 +128,15 @@ class Monologue{
         this.shakingExceptions.push(lineIndex);
     }
 
+    setTextContent(newTextContent){
+        this.textContent = newTextContent;
+
+        // //replace the current text display lolllll
+        // this.textDisplay.destroy();
+        // this.textDisplay = new TextDisplay(this.drawLayer, this.textContent[this.currentLineIndex], 
+        //     {x:30, y:this.isVerticalOffset * 500 + 20}, this.textStyle);
+    }
+
     update(delta, inputs){
 
         //don't do anything if the entity is already destroyed
