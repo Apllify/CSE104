@@ -684,10 +684,13 @@ class SignPost extends TextNpc{
  
     }
 
+    setupGraphics(){
+        super.setupGraphics(4, 4);
+    }
 
     setupHitbox(){
         
-        this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
+        this.hitbox = new Rectangle(this.x - this.sprite.width /2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
     }
 };
 
@@ -707,10 +710,14 @@ class Tree extends TextNpc{
  
     }
 
+    setupGraphics(){
+        super.setupGraphics(4, 4);
+    }
+
 
     setupHitbox(){
         
-        this.hitbox = new Rectangle(this.x - 32, this.y - 32, 64, 64);
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
     }
 }
 
@@ -776,11 +783,7 @@ class LightSource extends TextNpc{
 
     setupGraphics(){
         // set up the sprite 
-        this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
-        this.drawLayer.addChild(this.sprite);
-        
-        this.sprite.x = this.x - this.sprite.width / 2;
-        this.sprite.y = this.y - this.sprite.height / 2;
+        super.setupGraphics();
     };
 
     setupHitbox(){
@@ -792,6 +795,9 @@ class LightSource extends TextNpc{
 
     cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha){
         // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
+
+        const filter = new PIXI.Filter(myShaderVert, myShaderFrag, { myUniform: 0.5 });
+
         outerShade.beginHole();
         outerShade.drawCircle(this.x, this.y, shadeRadius);
         outerShade.endHole();
@@ -800,6 +806,11 @@ class LightSource extends TextNpc{
         innerShade.drawCircle(this.x, this.y, shadeRadius);
         innerShade.endFill();
         innerShade.alpha = shadeAlpha;
+
+
+        //set pixelation filters for both objects
+        //this.drawLayer.filters = [filter];
+
 
     }
 
