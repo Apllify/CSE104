@@ -99,7 +99,7 @@ class IntroOutsideScene extends OutsideScene{
                 "You do realize that I can't just repaint a sign \nafter you've read it ?",
                 "That would be a stupid amount of work for one \npractical joke wouldn't it ?",
                 "Signed - ",
-                "The sign painter"
+                "The Sign Painter"
             ],
             [
                 "*The sign is littered with unintelligible \nand hastily painted flops*",
@@ -114,7 +114,7 @@ class IntroOutsideScene extends OutsideScene{
             [
                 "TIP : Use ENTER to read signs",
                 "Signed - ",
-                "The sign painter"
+                "The Sign Painter"
 
             ],
 
@@ -128,13 +128,56 @@ class IntroOutsideScene extends OutsideScene{
             "Your eyes are still glowing like a first-timer's. ",
             'Some call it "glee", we call it inexperience',
             "Signed - ",
-            "The sign painter"
+            "The Sign Painter"
 
         ]],
-        [[]],
-        [[]],
-        [[]],
-        [[]],
+
+
+        [[
+            "By the way, I was thinking.",
+            "Would you like to join me ?",
+            "Come on, don't look at me like that, you know what I meant.",
+            "Just me, you, and the hardwood signs.",
+            "Ok yeah it's a little repetitive.",
+            "But there's not really anything else to do around here, y'know ?",
+            "Signed - ",
+            "The Sign Painter"
+
+        ]],
+
+
+        [[
+            "Wait, now that I think about it.",
+            "You're not like the others are you ?",
+            "You don't really look like anyone else I know ?",
+            "I mean.",
+            "I'm no commoner, I travelled through pretty much the entire kingdom.",
+            "But I've never seen anything like ... you ?",
+            "No offense, but you look closer to animals if anything.",
+            "Signed - ",
+            "The Sign Painter"
+        ]],
+
+
+        [[
+            "Eh, I thought about it.",
+            "Doesn't matter actually.",
+            "As long as you're a good person.",
+            "That's my verdict.",
+            "Are you gonna cruise through all of it ?",
+            "Or are you more of a trial and error person ?",
+            "What am I talking about ?",
+            "I don't really know either...",
+            "Signed - ",
+            "The Sign Painter"
+        ]],
+
+
+        [[
+            
+        ]],
+
+
         [[]],
         [[]],
         [[]],
@@ -176,7 +219,6 @@ class IntroOutsideScene extends OutsideScene{
 
 
             if (i % 2 === 1){
-                
                 this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
             }
 
