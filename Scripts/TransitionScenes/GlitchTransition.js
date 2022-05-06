@@ -19,13 +19,15 @@ class GlitchTransition{
     //for every command : [0] is the text content, [1] is the duration on screen
     commands = [
         [
-        ['starting "CSE104" ', 2], 
+        ['starting "CSE104" ', 3],
+        ["live reload enabled", 0.5],
         ["attempting to load ressources", 1],
         ["accessing cached ressources", 1],
         ['loading "Sprites/Rock.png"', 0.4],
         ['loading "Sprites/Shield.png"', 0.6],
         ['loading "Sprites/God.json"', 0.7],
-        ['spritesheet loading succesful', 2],
+        ['loading "Sprites/Chair.png"', 0.4],
+        ['sprite loading succesful', 2],
         ['loading "Scripts/Character.js"', 0.6],
         ['loading "Scripts/Game.js"', 0.4],
         ['loading "Scripts/HealthBar.js"', 0.7],
@@ -35,9 +37,12 @@ class GlitchTransition{
         ['loading "Scripts/MenuScene/NameInputScene.js"', 0.8],
         ['loading "Scripts/MenuScene/TextDisplay.js"', 0.3],
         ['script loading succesful', 2],
-        ['accessing game constants', 0.5],
-        ['loading succesful', 2],
-        ['initializing background entities ', 0.5],
+        ['attempting to load sound effects', 2],
+        ['loading "Sound/start_game.wav"', 2],
+        ['initializing background ', 0.5],
+        ["loading...", 0.5],
+        ["loading...", 0.3],
+        ["loading...", 0.4],
         ['initializing player entity ', 3],
         ['loading... ', 0.5],
         ['loading...', 0.5],
@@ -47,11 +52,15 @@ class GlitchTransition{
         ],
 
         [
-            ["error : player attributes could not be set", 2],
-            ["warning : deleting player instance", 1],
-            ["error : Character.js file corrupted", 1],
+            ["error : could not set properties of undefined", 2],
+            ["warning : missing argument #1 playerPosition", 1],
             ["error : Game.js file corrupted", 1],
-            ["error : Unrecognized token at line 13 in file 'Scripts/Patterns/", 0.5],
+            ["error : IntroScene.js file corrupted", 1],
+            ["error : Character.js file corrupted", 0.5],
+            ["error : HealthBar.js file corrupted", 0.3],
+            ["error : PauseScreen.js file corrupted", 0.7],
+            ["warning : attempting to recover scripts", 2],
+            ["warning : script recovery failed", 1]
 
 
         ]

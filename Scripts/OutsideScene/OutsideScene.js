@@ -46,14 +46,17 @@ class OutsideScene{
 
         //create a few entity containers for camera purposes
         this.backgroundContainer = new PIXI.Container();
+        if (background != null){
+            this.backgroundContainer.addChild(background);
+            this.background = background;
+        }
         drawLayers.activeLayer.addChild(this.backgroundContainer);
 
         this.container = new PIXI.Container();
-        if (background != null){
-            this.container.addChild(background);
-            this.background = background;
-        }
         drawLayers.activeLayer.addChild(this.container);
+
+        this.characterContainer = new PIXI.Container();
+        drawLayers.activeLayer.addChild(this.characterContainer);
 
         this.foregroundContainer = new PIXI.Container();
         drawLayers.activeLayer.addChild(this.foregroundContainer);
@@ -61,7 +64,7 @@ class OutsideScene{
 
 
         //start the player off at the middle of the room
-        this.playerReference = new Character({x:400, y:300}, this.container);
+        this.playerReference = new Character({x:400, y:300}, this.characterContainer);
 
     }
 
@@ -220,6 +223,9 @@ class OutsideScene{
         //constrain the other two containers to copy the main container
         this.backgroundContainer.x = this.container.x;
         this.backgroundContainer.y = this.container.y;
+
+        this.characterContainer.x = this.container.x;
+        this.characterContainer.y = this.container.y;
 
         this.foregroundContainer.x = this.container.x;
         this.foregroundContainer.y = this.container.y;

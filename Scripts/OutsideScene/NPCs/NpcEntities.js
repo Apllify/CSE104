@@ -813,6 +813,63 @@ class Chair extends TextNpc{
 }
 
 
+class LightAura extends Npc{
+
+    shadeObject = null;
+    shadeContainer = null;
+
+    maxShadeAlpha = 1;
+
+
+    radius = 0;
+
+    shadeCount = 0;
+
+    constructor(playerReference, position, shadeObject, shadeContainer, radius, shadeCount ){
+
+        super(drawLayers.foregroundLayer, playerReference, position);   
+
+
+        this.shadeObject = shadeObject;
+        this.shadeContainer = shadeContainer;
+
+        this.radius = radius;
+        this.shadeCount = shadeCount;
+    }
+
+    //make the required amount of shade circles around the target position
+    setupGraphics(){
+        let currentOuter = this.shadeObject;
+        this.maxShadeAlpha = this.shadeObject.alpha
+        
+        for (let i = 0; i < this.shadeCount; i ++){
+            
+            let newInner = new PIXI.Graphics();
+            
+            this.cutHoleAndShade(currentOuter, newInner, 
+                             this.radius * (this.shadeCount - i)/ this.shadeCount, 
+                             this.maxShadeAlpha * (1 - (i + 1) / this.shadeCount), {x:this.x, y:this.y});
+            this.shadeContainer.addChild(newInner);
+            
+            currentOuter = newInner;
+        };
+    }
+
+    
+    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha, position){
+        // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
+        // at the given position. We can't just use the lightSource center since the innershades are in a differentcontainer
+        outerShade.beginHole();
+        outerShade.drawCircle(position.x, position.y, shadeRadius);
+        outerShade.endHole();
+
+        innerShade.beginFill(0x000000);
+        innerShade.drawCircle(position.x, position.y, shadeRadius);
+        innerShade.endFill();
+        innerShade.alpha = shadeAlpha;
+    }
+}
+
 
 class LightSource extends TextNpc{
     
@@ -827,7 +884,7 @@ class LightSource extends TextNpc{
     fixedShade = new PIXI.Graphics();
     shades = [];
 
-    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position,spritePath, maxRadius=50, minRadius=1, shadeCount=3, flickerPeriod=1, staticPeriod=5,
+    constructor(shadeObject, shadeContainer, drawLayer, monologueList, playerReference, position, spritePath, maxRadius=50, minRadius=1, shadeCount=3, flickerPeriod=1, staticPeriod=5,
         soundIntensity=100){
 
         const textStyle = new PIXI.TextStyle({
@@ -937,12 +994,6 @@ class LightSource extends TextNpc{
         innerShade.drawCircle(position.x, position.y, shadeRadius);
         innerShade.endFill();
         innerShade.alpha = shadeAlpha;
-
-
-        //set pixelation filters for both objects
-        //this.drawLayer.filters = [filter];
-
-
     }
 
     resetFixedShade(){

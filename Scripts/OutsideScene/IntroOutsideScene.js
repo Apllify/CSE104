@@ -21,6 +21,9 @@ class IntroOutsideScene extends OutsideScene{
 
     // we want this scene to be a bit dark 
     shade = null;
+    shadeGradient = [];
+    shadeGradientHeight = 40;
+    shadeGradientQuantity = 100;
 
     constructor(){
         
@@ -36,13 +39,16 @@ class IntroOutsideScene extends OutsideScene{
         //background.scale.x = 3
         super.load();
 
+        //start the player interaction prompt 
+        this.playerReference.enableInteractionPrompt();
+
               
 
         //create a door npc
         const roadUpperEdge = 100;
         const roadLowerEdge = 480;
         const totalWidth = 9600;
-        this.playerReference.x = 9200;
+        this.playerReference.x = 30;
         
         const dialogueOne = [
             ["This is just a rock.",
@@ -186,7 +192,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
         [[
-            "Ok sorry I broke my promise",
+            "Ok sorry I broke my promise.",
             "No more questioning your identity.",
             "You probably have enough questions on your own.",
             "I guess I should probably help you get used to this \nplace, then.",
@@ -208,7 +214,7 @@ class IntroOutsideScene extends OutsideScene{
 
         [[
             "Anyways, for the story.",
-            "You could say that this town was FOUNDED 30 \nyears ago",
+            "You could say that this town was FOUNDED 30 \nyears ago.",
             "But really we've been here much longer.",
             "Mentally.",
             "It's kinda hard to stay neutral in this climate.",
@@ -223,10 +229,10 @@ class IntroOutsideScene extends OutsideScene{
             "But, even then.",
             "We usually just talk about politics.",
             "I know, ugh.",
-            "Sometimes, I just kind of wish I could back to my old life.",
+            "Sometimes, I just kind of wish I could back to my \nold life.",
             "Waking up, eating breakfast, going to work...",
             "But there's really no going back from this.",
-            "At least I have purpose, to keep me company, I guess.",
+            "At least I have purpose, to keep me company, I \nguess.",
             "But is purpose really the goal of life ?",
             "Something to think about...",
             "Signed - ",
@@ -236,7 +242,7 @@ class IntroOutsideScene extends OutsideScene{
         [[
             "Say, do you have a purpose yourself ?",
             "If you don't, that's fine, you're about to.",
-            "Ahead of you lies the greatest technopolis of our time.",
+            "Ahead of you lies the greatest technopolis of our \ntime.",
             "Filled with neon bright lights and all.",
             "A true modern forum of thought and ideals.",
             "Careful not to lose your breath...",
@@ -256,7 +262,7 @@ class IntroOutsideScene extends OutsideScene{
 
         [[
             "Sorry, I just couldn't resist the appeal of brevity.",
-            "People really underestimate the impact of short prose.",
+            "People really underestimate the impact of short \nprose.",
             "Anyways.",
             "I should let you know that the people here aren't.",
             "How can I put this.",
@@ -264,7 +270,7 @@ class IntroOutsideScene extends OutsideScene{
             "..",
             "...",
             "Nice ?",
-            "We're just not very used to seeing new faces is all.",
+            "We're just not very used to seeing new faces is \nall.",
             "But I think you could fit right in.",
             "Whatever you do, you should NEVER EVER EVER - ",
             "Be mean to people :)",
@@ -303,9 +309,32 @@ class IntroOutsideScene extends OutsideScene{
         this.shade.beginFill(0x000000);
         this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
+
+        //setup a gradient of shades all around the screen
+        const miniShadeHeight = this.shadeGradientHeight / this.shadeGradientQuantity;
+
+        for (let i =0; i < this.shadeGradientQuantity; i ++){
+            let miniShade = new PIXI.Graphics();
+
+            miniShade.beginFill(0x000000);
+            miniShade.drawRect(0,  miniShadeHeight * i, 800, miniShadeHeight);
+            miniShade.drawRect(0, 600 - miniShadeHeight * (i+1), 800, miniShadeHeight);
+            miniShade.drawRect(miniShadeHeight * i, 0, miniShadeHeight, 600);
+            miniShade.drawRect(800 -  miniShadeHeight * (i+1), 0, miniShadeHeight, 600);
+
+
+            miniShade.endFill();
+
+            miniShade.alpha = Math.min(0.8, 1 - (i / this.shadeGradientQuantity)); 
+
+            drawLayers.foregroundLayer.addChild(miniShade);
+
+
+            this.shadeGradient.push(miniShade);
+        }
     
 
-        this.shade.alpha = 0.6;
+        this.shade.alpha = 0.7;
 
         this.foregroundContainer.addChild(this.shade);
         
@@ -325,6 +354,9 @@ class IntroOutsideScene extends OutsideScene{
                 let t = Math.random();
                 let ypos = 110*t + 470*(1-t);
                 this.npcList.push(new SignPost(this.container, this.playerReference, {x:(i+1) * 300 + 100, y:ypos}, signDialogues[i/2]))
+
+                //add some light auras around every single sign
+                this.npcList.push(new LightAura(this.playerReference, {x:(i+1) * 300 + 100, y:ypos}, this.shade, this.foregroundContainer, 80, 30 ));
             }
 
             this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[0]))
