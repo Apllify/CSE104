@@ -13,6 +13,7 @@ class IntroOutsideScene extends OutsideScene{
         "Concrete1" :"Sprites/Tiles/Concrete1.png", 
         "Concrete2" :"Sprites/Tiles/Concrete2.png", 
         "Concrete3" :"Sprites/Tiles/Concrete3.png", 
+        
 
     };
 
@@ -219,7 +220,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
             if (i % 2 === 1){
-                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
+                this.npcList.push(new Chair(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
             }
 
             else{
