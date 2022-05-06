@@ -54,10 +54,16 @@ class Game{
         else if (this.currentState === 3){
             this.currentTransition.update(delta, inputs);
 
+            if (this.isCurrentSceneLoaded){
+                this.currentScene.update(delta, inputs);
+            }
+
             //once the transition is over we can destroy it and go back to regular scene state
-            console.log("in fade out ");
             if (this.currentTransition.isFadeOutDone()){
                 this.currentTransition.destroy();
+
+                //wipe the transition layer just to be sure
+                this.wipeTransitionLayer();
 
                 this.currentState = 1;
             }
@@ -94,6 +100,7 @@ class Game{
                 this.isCurrentSceneLoaded = true;
                 if (this.currentScene.load !== undefined){
                     this.currentScene.load();
+                    console.log("new scene loaded ! ");
                 }
             })
         }
@@ -145,6 +152,11 @@ class Game{
     }
 
 
+    wipeTransitionLayer(){
+        while(drawLayers.transitionForegroundLayer.children[0] ){
+            drawLayers.transitionForegroundLayer.removeChild(drawLayers.transitionForegroundLayer.children[0]);
+        }
+    }
 
 
 

@@ -664,8 +664,8 @@ class God extends TextNpc{
 
         const monologuesList = [
             [
-                "Yield, for i am god, \nalmight harbinger of the elements.",
-                "My child, you are hereby chosen \nto fulfill the prophetic duty.",
+                "My child, you are here, at last...",
+                "I trust you can fulfill your duty as a vessel",
                 "To the limit of your abilities, \nyou must spring forth and deliver my heavenly messages \nto the rest of the world.",
                 "Thank you for your comprehension,",
                 "Peace,",
@@ -707,16 +707,8 @@ class God extends TextNpc{
 
     isInteracted(index){
         //only return a monologue if the npc hasn't started fading 
-        if (! this.isFading){
-            let monologue = super.isInteracted(index);
-            let monologueIndex = Math.min(index, this.monologuesList.length - 1);
-
-            //add a shake effect to every single voiceline by this character
-            for (let i = 0; i < this.monologuesList[monologueIndex].length; i++){
-                monologue.setShakingException(i);
-            }
-
-            return monologue;
+        if (!this.isFading){
+            return super.isInteracted(index);
         }
         else{
             return null;
@@ -741,7 +733,6 @@ class God extends TextNpc{
             if (distance.getNorm() <= this.automaticDetectionRadius){
                 this.startNewInteraction();
             }
-
         }
 
 
@@ -754,7 +745,7 @@ class God extends TextNpc{
         this.isFading = true;
 
         //start the fadeout of the entire scene lol 
-        mainGame.changeScene(new IntroOutsideScene(), new FadeTransition(5, 1));
+        mainGame.changeScene(new IntroOutsideScene(), new FadeTransition(3, 2, 4));
 
     }
 }
@@ -805,7 +796,7 @@ class Bar extends Npc{
         this.spritePath = 'Bar';
     }
     isInteracted(){
-        mainGame.changeScene(new SurferBoss());
+        mainGame.changeScene(new BarScene());
     }
 
     setupGraphics(){
@@ -859,9 +850,9 @@ class Tree extends TextNpc{
             fontFamily : "BrokenConsole",
             fontSize : 24,
             fontWeight : "bold",
-            fill : "#00ff00",
-            stroke : "#00ff00",
+            fill : "#ffffff",
         });
+
 
         super(drawLayer, playerReference, position, textStyle, monologuesList, 'Tree', 'Tree', 85);
  
@@ -910,7 +901,7 @@ class LightAura extends Npc{
     shadeObject = null;
     shadeContainer = null;
 
-    maxShadeAlpha = 1;
+    maxShadeAlpha = 0.1;
 
 
     radius = 0;
@@ -927,6 +918,8 @@ class LightAura extends Npc{
 
         this.radius = radius;
         this.shadeCount = shadeCount;
+        
+        
     }
 
     //make the required amount of shade circles around the target position

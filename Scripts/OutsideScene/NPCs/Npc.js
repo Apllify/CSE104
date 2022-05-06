@@ -40,7 +40,6 @@ class Npc{
         this.y = position.y;
         this.detectionRadius = detectionRadius;
 
-        
     }
 
 

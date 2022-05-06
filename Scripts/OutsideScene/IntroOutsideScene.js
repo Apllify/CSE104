@@ -49,14 +49,14 @@ class IntroOutsideScene extends OutsideScene{
         const roadUpperEdge = 100;
         const roadLowerEdge = 480;
         const totalWidth = 9600;
-        this.playerReference.x = 30;
+        this.playerReference.x = 9000;
         
-        const dialogueOne = [
+        const rDialOne = [
             ["This is just a rock.",
         "What did you expect ?"]
         ];
 
-        const dialogueTwo = [
+        const rDialTwo = [
             ["This is just a rock.",
             "Unless ",
             "...",
@@ -66,28 +66,55 @@ class IntroOutsideScene extends OutsideScene{
             "Nah just kidding."]
         ];
 
-        const dialogueThree = [
-            ["Is this a rock ?"]
+        const rDialThree = [
+            ["Is this even a rock ?"]
         ];
 
-        const dialogueFour = [
-            ["rock"]
+
+        const rDialFour = [
+            ["Tag three friends that LOVE rocks ! "]
         ];
 
-        const dialogueFive = [
-            ["Tag three friends that looooove rocks ! "]
-        ];
-
-        const dialogueSix = [
-            ["Upvote, share, and retweet for a chance to win : ",
+        const rDialFive = [
+            ["Subscribe and smash the like button for a chance \nto win : ",
             "Rock."]
         ];
         
-        const dialogueSeven = [
-            ["Hihi"]
+
+
+        const rockDialogues = [rDialOne, rDialTwo, rDialThree, rDialFour, rDialFive];
+
+        const tDialOne = [
+            ["Ahh, the air is full of pollen and-",
+            "Microplastics."]
         ];
 
-        const RockDialogues = [dialogueOne, dialogueTwo, dialogueThree, dialogueFour, dialogueFive, dialogueSix, dialogueSeven];
+        const tDialTwo = [
+            ["A simple tree, with a preference for brevity."]
+        ];
+
+        const tDialThree = [
+            ["Pictured here is the tree in its natural inhabitat.",
+            "Elegant, peaceful, and unbothered.",
+            "In most regions, the tree stands as an untouchable \ntitan of bark.",
+            "Here, however, there exists a vile predator with a \ngrudge against timber.",
+            "The murderer goes by the name of : ",
+            "SIGN PAINTER."]
+        ];
+
+        const tDialFour = [
+            ["The tree has an engraving that reads : ",
+            '"Aba <3 Gunther"',
+            "To its right, is a scribble of phallic nature."]
+        ];
+
+        const tDialFive = [
+            ["The tree fandom is dying.",
+            'For more information, look up "Industrial Society \nand Its Future" by Theodore Kaczynski.']
+        ];
+
+        const treeDialogues = [tDialOne, tDialTwo, tDialThree, tDialFour, tDialFive];
+
 
         const signDialogues = [
 
@@ -99,7 +126,7 @@ class IntroOutsideScene extends OutsideScene{
                 "But hey, I've heard the stories...",
                 "Maybe you could be the next one, who knows. ",
                 "Signed - ",
-                "The Sign Painter"
+                "The Sign Painter."
             ],
             [
                 "Hi ! Welcome to TownSquare !",
@@ -108,7 +135,7 @@ class IntroOutsideScene extends OutsideScene{
                 "You do realize that I can't just repaint a sign \nafter you've read it ?",
                 "That would be a stupid amount of work for one \npractical joke wouldn't it ?",
                 "Signed - ",
-                "The Sign Painter"
+                "The Sign Painter."
             ],
             [
                 "*The sign is littered with unintelligible \nand hastily painted flops*",
@@ -123,7 +150,7 @@ class IntroOutsideScene extends OutsideScene{
             [
                 "TIP : Use ENTER to read signs",
                 "Signed - ",
-                "The Sign Painter"
+                "The Sign Painter."
 
             ],
 
@@ -137,7 +164,7 @@ class IntroOutsideScene extends OutsideScene{
             "Your eyes are still glowing like a first-timer's. ",
             'Some call it "glee", we call it inexperience',
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
 
         ]],
 
@@ -150,7 +177,7 @@ class IntroOutsideScene extends OutsideScene{
             "Ok, yeah, it's a little repetitive.",
             "But there's not really anything else to do around \nhere, y'know ?",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
 
         ]],
 
@@ -164,7 +191,7 @@ class IntroOutsideScene extends OutsideScene{
             "But I've never seen anything like ... you ?",
             "No offense, but you look closer to animals if \nanything.",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -178,7 +205,7 @@ class IntroOutsideScene extends OutsideScene{
             "What am I talking about ?",
             "I don't really know either...",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -188,7 +215,7 @@ class IntroOutsideScene extends OutsideScene{
             "But.",
             "You wouldn't be one of \"those\", would you ?",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -200,7 +227,7 @@ class IntroOutsideScene extends OutsideScene{
             "So it all started 30 years ago when -",
             "Wait do you hear that sound ?",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -210,7 +237,7 @@ class IntroOutsideScene extends OutsideScene{
             "All I want is a little bit of peace.",
             "Is that too much to ask for ?",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
         [[
@@ -222,7 +249,7 @@ class IntroOutsideScene extends OutsideScene{
             "Don't worry, though, that's not the ONLY thing \nwe talk about.",
             "We have AT LEAST 2 other topics.",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -237,7 +264,7 @@ class IntroOutsideScene extends OutsideScene{
             "But is purpose really the goal of life ?",
             "Something to think about...",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
         [[
@@ -248,7 +275,7 @@ class IntroOutsideScene extends OutsideScene{
             "A true modern forum of thought and ideals.",
             "Careful not to lose your breath...",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -257,7 +284,7 @@ class IntroOutsideScene extends OutsideScene{
             "Don't look back !",
             "That's it.",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -276,7 +303,7 @@ class IntroOutsideScene extends OutsideScene{
             "Whatever you do, you should NEVER EVER EVER - ",
             "Be mean to people :)",
             "Signed - ",
-            "The Sign Painter"
+            "The Sign Painter."
         ]],
 
 
@@ -289,7 +316,7 @@ class IntroOutsideScene extends OutsideScene{
             "But the least I can do is wish you good luck.",
             "Your new life starts here...",
             "Signed - ",
-            "A Friend"
+            "A Friend."
         ]]
 
         ];
@@ -348,7 +375,9 @@ class IntroOutsideScene extends OutsideScene{
 
 
             if (i % 2 === 1){
-                this.npcList.push(new Chair(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
+                let treeDialogueIndex = Math.floor(Math.random() * treeDialogues.length);
+
+                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},treeDialogues[treeDialogueIndex]));
             }
 
             else{
@@ -360,12 +389,13 @@ class IntroOutsideScene extends OutsideScene{
                 this.npcList.push(new LightAura(this.playerReference, {x:(i+1) * 300 + 100, y:ypos}, this.shade, this.foregroundContainer, 80, 30 ));
             }
 
-            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[0]))
+            let rockDialogueIndex = Math.floor(Math.random() * rockDialogues.length);
+            this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, rockDialogues[rockDialogueIndex]));
 
         }
         this.npcList.push(new Person(this.container, this.playerReference, {x:200, y:200},[['Heck']], 'You Know', 'Person', [{x:400, y:200}], 20))
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Bar entrance to the right !!!"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 50, 1.5, 3, 1000));
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["The industrial revolution and its consequences have been a disaster for the organic growth and development of mankin !!!"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Bar entrance to the left !!!"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
 
 

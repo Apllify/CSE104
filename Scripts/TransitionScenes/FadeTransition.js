@@ -1,10 +1,13 @@
 "use strict";
 
 class FadeTransition{
-    state = 0; // 1 is fading in, 2 is fading out, 3 is done with everything 
+    state = 0; // 1 is fading in, 2 is waiting before fading out, 3 is fading out,  4 is done with everything 
 
     fadeInTime = 5;
     fadeOutTime = 1;
+
+    waitTime = 3;
+    currentWaitingTimer = 0;
 
     fadeInSpeed = 1/5;
     fadeOutSpeed = 1/1;
@@ -18,8 +21,9 @@ class FadeTransition{
 
 
     
-    constructor(fadeInTime, fadeOutTime){
+    constructor(fadeInTime, waitTime, fadeOutTime){
         this.fadeInTime = fadeInTime;
+        this.waitTime = waitTime;
         this.fadeOutTime = fadeOutTime;
 
         this.fadeInSpeed = 1/ this.fadeInTime;
@@ -35,12 +39,21 @@ class FadeTransition{
         drawLayers.transitionForegroundLayer.addChild(this.graphics);
     }
 
+
     update(delta, inputs){
         if (this.state === 1){
             //make the screen dimmer and dimmer
             this.graphics.alpha = Math.min(1, this.graphics.alpha + delta * this.fadeInSpeed);
         }
         else if (this.state === 2){
+            this.currentWaitingTimer += delta;
+            
+            if (this.currentWaitingTimer >= this.waitTime){
+                this.state = 3;
+            }
+            
+        }
+        else if (this.state === 3){
             //make the screen clearer and clearer
             this.graphics.alpha = Math.max(0, this.graphics.alpha - delta * this.fadeOutSpeed);
         }
