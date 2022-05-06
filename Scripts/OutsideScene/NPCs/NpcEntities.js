@@ -30,7 +30,6 @@ class TextNpc extends Npc{
         this.sprite.y = this.y - this.sprite.height / 2 ;
 
 
-
         //this.sprite = PIXI.Sprite.from(this.spritePath);
         //this.drawLayer.addChild(this.sprite);
 
@@ -38,6 +37,8 @@ class TextNpc extends Npc{
         //this.sprite.y = this.y - this.sprite.height / 2;
 
     }
+
+
 
 
 
@@ -315,7 +316,7 @@ class FlickeringBit extends TextNpc{
 
     setupHitbox(){
         this.hitbox = new Rectangle(this.textDisplay.getPosition().x, this.textDisplay.getPosition().y, 
-            this.textDisplay.getDimensions().width, this.textDisplay.getDimensions().height);
+            this.textDisplay.getDimensions().width, this.textDisplay.getDimensions().height - this.graphicsTextStyle.fontSize / 5);
     }
 
 
@@ -404,6 +405,17 @@ class MissingTexture extends TextNpc{
         this.hitbox = new Rectangle(this.textDisplay.getPosition().x, this.textDisplay.getPosition().y,
             this.textDisplay.getDimensions().width, this.textDisplay.getDimensions().height);
     }
+
+    moveBy(movementVector){
+        this.textDisplay.textEntity.x += movementVector.x;
+        this.textDisplay.textEntity.y  += movementVector.y;
+
+        this.borderGraphics.x += movementVector.x;
+        this.borderGraphics.y += movementVector.y;
+
+        this.setupHitbox();
+    }
+
 
 
 
@@ -546,13 +558,13 @@ class SecretRock extends TextNpc{
 class God extends TextNpc{
 
     isFading = false;
-    automaticDetectionRadius = 300;
+    automaticDetectionRadius = 50;
 
 
     constructor(drawLayer, playerReference, position){
 
         const textStyle = new PIXI.TextStyle({
-            fontFamily : "Microcosmos",
+            fontFamily : "BrokenConsole",
             fontSize : 24,
             fill : "#ffffff",
             stroke : "#ffffff",
@@ -571,7 +583,7 @@ class God extends TextNpc{
 
         ];
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, "GOD",  "Sprites/WIP/ToCorrupt.png");
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "????",  "");
  
     }
 
@@ -635,7 +647,7 @@ class God extends TextNpc{
             const distance =  new Vector(this.playerReference.x - this.x, this.playerReference.y - this.y);
             
             if (distance.getNorm() <= this.automaticDetectionRadius){
-                console.log("AAAAH");
+                this.startNewInteraction();
             }
 
         }
@@ -648,6 +660,10 @@ class God extends TextNpc{
     isInteractingJustDone(){
         super.isInteractingJustDone();
         this.isFading = true;
+
+        //start the fadeout of the entire scene lol 
+        mainGame.changeScene(new IntroOutsideScene(), new FadeTransition(5, 1));
+
     }
 }
 
@@ -843,6 +859,10 @@ class LightSource extends TextNpc{
         PIXI.sound.add('BrokenLight', './././Sound/brokenlight.wav')
         this.generateShades();
     };
+
+    setupGraphics(){
+        super.setupGraphics(2, 2);
+    }
 
 
     
