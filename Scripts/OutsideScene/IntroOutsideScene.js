@@ -167,7 +167,7 @@ class IntroOutsideScene extends OutsideScene{
             "As long as you're a good person.",
             "That's my 2-cents.",
             "Are you gonna cruise through all of this ?",
-            "Or are you more of a trial and error guy ?",
+            "Or, are you more of a trial and error guy ?",
             "What am I talking about ?",
             "I don't really know either...",
             "Signed - ",
@@ -214,23 +214,19 @@ class IntroOutsideScene extends OutsideScene{
             "It's kinda hard to stay neutral in this climate.",
             "Don't worry, though, that's not the ONLY thing \nwe talk about.",
             "We have AT LEAST 2 other topics.",
-            "Like.",
-            ".",
-            "..",
-            "...",
             "Signed - ",
             "The Sign Painter"
         ]],
 
 
         [[
-            "Ok, you got me.",
+            "But, even then.",
             "We usually just talk about politics.",
             "I know, ugh.",
             "Sometimes, I just kind of wish I could back to my old life.",
             "Waking up, eating breakfast, going to work...",
-            "But there's really no stepping back from this.",
-            "At least I have purpose, I guess.",
+            "But there's really no going back from this.",
+            "At least I have purpose, to keep me company, I guess.",
             "But is purpose really the goal of life ?",
             "Something to think about...",
             "Signed - ",
@@ -238,12 +234,56 @@ class IntroOutsideScene extends OutsideScene{
         ]],
 
         [[
+            "Say, do you have a purpose yourself ?",
+            "If you don't, that's fine, you're about to.",
+            "Ahead of you lies the greatest technopolis of our time.",
+            "Filled with neon bright lights and all.",
+            "A true modern forum of thought and ideals.",
+            "Careful not to lose your breath...",
             "Signed - ",
             "The Sign Painter"
         ]],
-        [[]],
-        [[]],
-        [[]]
+
+
+        [[
+            "A few quick tips before going in : ",
+            "Don't look back !",
+            "That's it.",
+            "Signed - ",
+            "The Sign Painter"
+        ]],
+
+
+        [[
+            "Sorry, I just couldn't resist the appeal of brevity.",
+            "People really underestimate the impact of short prose.",
+            "Anyways.",
+            "I should let you know that the people here aren't.",
+            "How can I put this.",
+            ".",
+            "..",
+            "...",
+            "Nice ?",
+            "We're just not very used to seeing new faces is all.",
+            "But I think you could fit right in.",
+            "Whatever you do, you should NEVER EVER EVER - ",
+            "Be mean to people :)",
+            "Signed - ",
+            "The Sign Painter"
+        ]],
+
+
+        [[
+            "Oh would you look at that.",
+            "This is my last sign.",
+            "Not that I ran out of wood.",
+            "I just thought it would be good to split off here.",
+            "I'm sorry that I couldn't be of more assistance.",
+            "But the least I can do is wish you good luck.",
+            "Your new life starts here...",
+            "Signed - ",
+            "A Friend"
+        ]]
 
         ];
 
@@ -291,8 +331,8 @@ class IntroOutsideScene extends OutsideScene{
 
         }
 
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 50, 1.5, 3, 1000));
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Bar entrance to the right !!!"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 50, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["The industrial revolution and its consequences have been a disaster for the organic growth and development of mankin !!!"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
 
 

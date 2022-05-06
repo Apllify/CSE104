@@ -906,7 +906,11 @@ class LightSource extends TextNpc{
         let distance = this.playerToLightVector.getNorm();
         let volume = 2 * this.soundIntensity / ( 4 * Math.PI *(distance) ** 2)
 
-        PIXI.sound.volume('BrokenLight', Math.max(volume,0.02 ));
+        //clamp the volume so it's never too low or too loud
+        volume = Math.max(volume, 0.02);
+        volume = Math.min(volume, 0.1);
+
+        PIXI.sound.volume('BrokenLight', volume);
         PIXI.sound.play('BrokenLight')
     }
 
