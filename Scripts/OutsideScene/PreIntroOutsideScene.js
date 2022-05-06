@@ -19,6 +19,9 @@ class PreIntroOutsideScene extends OutsideScene{
     };
 
     elapsedTime = 0;
+    state = 0; //state 0 is just normal, state 1 is the little cutscene before interacting with god, state 2 is interacting with god
+    state1Timer = 0; //timer exclusively for state 1
+    state1Duration = 3;
 
 
     //for the weird moving background
@@ -44,6 +47,9 @@ class PreIntroOutsideScene extends OutsideScene{
 
     usedPositions = [[384, 284], [416, 284], [400, 300], [384, 316], [416, 316]]; // contains only a few player points at first (to prevent anything from spawing ON the player)
 
+    missingTextures = [];
+    missingTextureSpeed = 20;
+    hasAnimated = false;
 
 
     constructor(){
@@ -110,11 +116,14 @@ class PreIntroOutsideScene extends OutsideScene{
             let x = Math.cos(theta) * radius;
             let y = Math.sin(theta) * radius;
 
-            this.npcList.push(new MissingTexture(this.container, this.playerReference, {x:6 * 800 + 520 + x, y:300 + y}));
+            
+            //keep track of the added entity
+            this.missingTextures.push(new MissingTexture(this.container, this.playerReference, {x:6 * 800 + 520 + x, y:300 + y}));
+            this.npcList.push(this.missingTextures[this.missingTextures.length - 1]);
         }
 
         //then, create the god npc in the middle of that ring
-        this.npcList.push(new God(this.container, this.playerReference, {x:4800 + 520   , y:300}, [["I lov you"], ["I hat you"]]));
+        this.npcList.push(new God(this.container, this.playerReference, {x:5320   , y:300}));
 
 
 
@@ -125,39 +134,71 @@ class PreIntroOutsideScene extends OutsideScene{
 
 
     update(delta, inputs){
-        //call the super method 
-        super.update(delta, inputs);
+
 
         //increment the important timer 
         this.elapsedTime += delta;
 
 
+        if (this.state === 0){
+            //call the super method 
+            super.update(delta, inputs);
 
-        //shake the entire game window (seizure inducing lol)
-        app.view.style.left = ((window.innerWidth - 800)*0.5 + Math.cos(this.xShakeSpeed * this.elapsedTime) * this.shakeAmplitude)   + "px";
-        app.view.style.top = ((window.innerHeight - 600)*0.5 + Math.sin(this.yShakeSpeed * this.elapsedTime) * this.shakeAmplitude)   + "px";
+            //shake the entire game window (seizure inducing lol)
+            app.view.style.left = ((window.innerWidth - 800)*0.5 + Math.cos(this.xShakeSpeed * this.elapsedTime) * this.shakeAmplitude)   + "px";
+            app.view.style.top = ((window.innerHeight - 600)*0.5 + Math.sin(this.yShakeSpeed * this.elapsedTime) * this.shakeAmplitude)   + "px";
 
 
-        //slightly move the static foreground
-        //this.foreground.alpha =  Math.abs(Math.cos(2.5 * this.elapsedTime)) / 4;
-        this.background.x = -500 + this.backgroundAmplitude * Math.cos(this.xBackgroundSpeed * this.elapsedTime);
-        this.background.y = -200 + this.backgroundAmplitude * Math.cos(this.yBackgroundSpeed * this.elapsedTime);
+            //slightly move the static foreground
+            //this.foreground.alpha =  Math.abs(Math.cos(2.5 * this.elapsedTime)) / 4;
+            this.background.x = -500 + this.backgroundAmplitude * Math.cos(this.xBackgroundSpeed * this.elapsedTime);
+            this.background.y = -200 + this.backgroundAmplitude * Math.cos(this.yBackgroundSpeed * this.elapsedTime);
 
-        //alter random characters from the player name 
-        this.currentCharacterTimer += delta;
+            //alter random characters from the player name 
+            this.currentCharacterTimer += delta;
 
-        if (this.currentCharacterTimer >= this.characterCooldown){
-            this.currentCharacterTimer = 0;
+            if (this.currentCharacterTimer >= this.characterCooldown){
+                this.currentCharacterTimer = 0;
 
-            //get a random character and random index to replace with it 
-            const randomChar = this.specialCharacters[Math.floor(Math.random() * this.specialCharacters.length)];
-            const randomIndex = Math.floor(Math.random() * this.playerReference.healthBar.playerName.length);
-            const currentName = this.playerReference.healthBar.nameTag.getText();
+                //get a random character and random index to replace with it 
+                const randomChar = this.specialCharacters[Math.floor(Math.random() * this.specialCharacters.length)];
+                const randomIndex = Math.floor(Math.random() * this.playerReference.healthBar.playerName.length);
+                const currentName = this.playerReference.healthBar.nameTag.getText();
 
-            let newName = currentName.substring(0, randomIndex) + randomChar + currentName.substring(randomIndex + 1);
+                let newName = currentName.substring(0, randomIndex) + randomChar + currentName.substring(randomIndex + 1);
 
-            this.playerReference.healthBar.nameTag.setText(newName);
+                this.playerReference.healthBar.nameTag.setText(newName);
+            }
+
+
+            //check if the player is close enough to the ring 
+            let playerDistance = new Vector(this.playerReference.x - 5320, this.playerReference.y - 300);
+            if (playerDistance.getNorm() < 250 && !this.hasAnimated){
+                this.state = 1;
+            }
         }
+        else if (this.state === 1){
+            // all you want to do is move the two entrace slabs
+            this.state1Timer += delta;
+
+            //get the moving slab indexes
+            const firstSlabIndex = 8;
+            const secondSlabIndex = 9;
+            
+            //move the slabs
+            this.missingTextures[firstSlabIndex].moveBy(new Vector(0, this.missingTextureSpeed * delta));
+            this.missingTextures[secondSlabIndex].moveBy(new Vector(0, -this.missingTextureSpeed * delta));
+
+
+            //if timer is done stop moving stuff
+            if (this.state1Timer >= this.state1Duration){
+                this.state = 0;
+                this.hasAnimated = true;
+            }
+
+        }
+
+ 
 
 
     }

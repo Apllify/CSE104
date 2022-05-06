@@ -72,11 +72,7 @@ class Npc{
                 const totalDistance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 
                 if (totalDistance <= this.detectionRadius){
-                    //change the state
-                    this.currentState = 1;
-                    this.currentMonologue = this.isInteracted(this.interactionCount);
-                    this.interactionCount++;
-
+                    this.startNewInteraction();
                 }
             }
         }
@@ -97,6 +93,13 @@ class Npc{
         }
 
 
+    }
+
+    startNewInteraction(){
+        //change the state
+        this.currentState = 1;
+        this.currentMonologue = this.isInteracted(this.interactionCount);
+        this.interactionCount++;
     }
 
 
