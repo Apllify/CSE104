@@ -706,6 +706,8 @@ class Bar extends Npc{
 
         this.sprite.x = this.x - this.sprite.width / 2;
         this.sprite.y = this.y - this.sprite.height / 2;
+
+
     }
     
     setupHitbox(){
