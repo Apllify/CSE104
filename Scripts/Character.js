@@ -124,9 +124,12 @@ class Character{
     }
 
     updateInteractionPrompt(){
-        if (this.isInteractionPromptEnabled && !this.interactionPrompt.destroyed ){
-            this.interactionPrompt.centerHorizontallyAt(this.x);
-            this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
+        if (this.interactionPromptEnabled ){
+            if (!this.interactionPrompt.destroyed){
+                this.interactionPrompt.centerHorizontallyAt(this.x);
+                this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
+            }
+
         }
 
     }
@@ -140,6 +143,7 @@ class Character{
         if (this.destroying){
             return;
         }
+
 
         //keep internal timer 
         this.elapsedTime += delta;
