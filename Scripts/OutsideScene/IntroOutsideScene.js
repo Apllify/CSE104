@@ -13,8 +13,12 @@ class IntroOutsideScene extends OutsideScene{
         "Concrete1" :"Sprites/Tiles/Concrete1.png", 
         "Concrete2" :"Sprites/Tiles/Concrete2.png", 
         "Concrete3" :"Sprites/Tiles/Concrete3.png", 
+<<<<<<< HEAD
+        "Chair":"Sprites/Chair.png"
+=======
         "Chair": "Sprites/Chair.png"
         
+>>>>>>> d08bdd9673e405b988bf8f6285308a2177c8ab75
 
     };
 
@@ -42,7 +46,7 @@ class IntroOutsideScene extends OutsideScene{
         const roadUpperEdge = 100;
         const roadLowerEdge = 480;
         const totalWidth = 9600;
-        this.playerReference.x = 100;
+        this.playerReference.x = 9200;
         
         const dialogueOne = [
             ["This is just a rock.",

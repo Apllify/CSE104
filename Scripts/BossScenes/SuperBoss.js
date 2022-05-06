@@ -30,8 +30,13 @@ class SuperBoss{
 
 
     //called once the required assets have been loaded
-    load(){
+    load(background=null){
         // creates the player and the first object
+
+        if (background != null){
+            drawLayers.backgroundLayer.addChild(background);
+            this.background = background;
+        }
         this.playerReference = new Character({x:400, y:300}, drawLayers.activeLayer);
         this.initialize();
 

@@ -3,6 +3,9 @@
 class SurferBoss extends SuperBoss{
     // State 0 corresponds to a pattern. We initialize the current state to 0 because we want a monologue
     // first. 
+
+    
+    
     currentState = 0;
     patternsList = [];
     
@@ -11,6 +14,7 @@ class SurferBoss extends SuperBoss{
 
     constructor(){
         super();
+        this.requiredAssets['SurferBackground'] = 'Sprites/SurferBackground.png';
 
         
     }
@@ -48,7 +52,11 @@ class SurferBoss extends SuperBoss{
 
 
     load(){
-        super.load();
+        let background = new PIXI.Sprite(PIXI.Loader.shared.resources["SurferBackground"].texture);
+        background.scale.x = 2;
+        background.scale.y = 2;
+        background.alpha = 0.5
+        super.load(background);
 
     }
 

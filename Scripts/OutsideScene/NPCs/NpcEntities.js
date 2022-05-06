@@ -713,7 +713,7 @@ class Bar extends Npc{
         this.spritePath = 'Bar';
     }
     isInteracted(){
-        mainGame.changeScene(new TutorialBoss());
+        mainGame.changeScene(new SurferBoss());
     }
 
     setupGraphics(){
