@@ -85,6 +85,98 @@ class TextNpc extends Npc{
 }
 
 
+class Person extends TextNpc{
+
+    currentIndex = 0;
+    targetReached = false;
+    targetPoint = null;
+
+    elapsedTime = 0
+    minScale = null;
+    bobbingPeriod = null;
+    precisionEpsilon = null;
+    constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, speed=20, minScale=1, bobbingPeriod=5, precisionEpsilon=5){
+            const textStyle = new PIXI.TextStyle({
+                fontFamily : "BrokenConsole",
+                fontSize : 24,
+                fontWeight : "bold",
+                fill : "#ffffff",
+                stroke : "#ffffff",
+            });
+            super(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath, 
+                70);
+            this.targetPoints = targetPoints;
+            this.speed = speed;
+            
+            this.targetPoints.push({...position});
+            this.minScale = minScale;
+            this.bobbingPeriod = Math.max(bobbingPeriod, 0.001);
+            this.precisionEpsilon = precisionEpsilon;
+        }
+    
+    setupGraphics(){
+        console.log('here')
+        super.setupGraphics(2, 2);
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+    }
+
+    idleUpdate(delta, inputs){
+        
+        this.elapsedTime += delta;
+
+        this.targetPoint = this.targetPoints[this.currentIndex];
+        this.directionVector = new Vector(this.targetPoint.x - this.x, this.targetPoint.y - this.y);
+        
+        if (this.directionVector.getNorm() <= this.precisionEpsilon){
+            this.currentIndex = (this.currentIndex + 1) % this.targetPoints.length;
+        }
+
+        else{
+            this.directionVector = this.directionVector.normalize();
+            this.sprite.x += this.directionVector.x * delta * this.speed;
+            this.sprite.y += this.directionVector.y * delta * this.speed;
+            this.x += this.directionVector.x * delta * this.speed;
+            this.y += this.directionVector.y * delta * this.speed;
+        }
+
+        // if (this.phaseTimer >= 5){
+        //     this.state = 1 - this.state;
+        //     this.sprite.scale.y = 2 * (-0.5 * this.state + 1);
+        //     this.setupHitbox();
+        //     this.phaseTimer = 0;
+        // }
+
+        this.sprite.scale.y = this.minScale + Math.abs((2 - this.minScale) * Math.cos(this.elapsedTime * Math.PI / this.bobbingPeriod));
+        
+        // We reset the timer purely for performance reasons not to have a large number to evaluate each time
+        if (this.sprite.scale.y >= 1.97 && this.elapsedTime >= 1000){
+            this.elapsedTime = 0;
+        }
+
+        if (this.directionVector.x != 0){
+            this.sprite.scale.x = -2 * Math.sign(this.directionVector.x);
+            if (this.sprite.scale.x > 0){
+                this.sprite.x = this.x - this.sprite.width / 2;
+            }
+
+            else{
+                this.sprite.x = this.x + this.sprite.width / 2;
+            }
+        }
+
+        this.setupHitbox();
+
+        
+        
+
+         
+
+
+    }
+}
 // a simple background tile that takes a sprite as an argument
 class Tile extends Npc{
     spriteName = "";
