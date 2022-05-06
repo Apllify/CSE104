@@ -186,7 +186,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
         [[
-            "Ok sorry I broke my promise",
+            "Ok sorry I broke my promise.",
             "No more questioning your identity.",
             "You probably have enough questions on your own.",
             "I guess I should probably help you get used to this \nplace, then.",
@@ -208,7 +208,7 @@ class IntroOutsideScene extends OutsideScene{
 
         [[
             "Anyways, for the story.",
-            "You could say that this town was FOUNDED 30 \nyears ago",
+            "You could say that this town was FOUNDED 30 \nyears ago.",
             "But really we've been here much longer.",
             "Mentally.",
             "It's kinda hard to stay neutral in this climate.",
@@ -223,10 +223,10 @@ class IntroOutsideScene extends OutsideScene{
             "But, even then.",
             "We usually just talk about politics.",
             "I know, ugh.",
-            "Sometimes, I just kind of wish I could back to my old life.",
+            "Sometimes, I just kind of wish I could back to my \nold life.",
             "Waking up, eating breakfast, going to work...",
             "But there's really no going back from this.",
-            "At least I have purpose, to keep me company, I guess.",
+            "At least I have purpose, to keep me company, I \nguess.",
             "But is purpose really the goal of life ?",
             "Something to think about...",
             "Signed - ",
@@ -236,7 +236,7 @@ class IntroOutsideScene extends OutsideScene{
         [[
             "Say, do you have a purpose yourself ?",
             "If you don't, that's fine, you're about to.",
-            "Ahead of you lies the greatest technopolis of our time.",
+            "Ahead of you lies the greatest technopolis of our \ntime.",
             "Filled with neon bright lights and all.",
             "A true modern forum of thought and ideals.",
             "Careful not to lose your breath...",
@@ -256,7 +256,7 @@ class IntroOutsideScene extends OutsideScene{
 
         [[
             "Sorry, I just couldn't resist the appeal of brevity.",
-            "People really underestimate the impact of short prose.",
+            "People really underestimate the impact of short \nprose.",
             "Anyways.",
             "I should let you know that the people here aren't.",
             "How can I put this.",
@@ -264,7 +264,7 @@ class IntroOutsideScene extends OutsideScene{
             "..",
             "...",
             "Nice ?",
-            "We're just not very used to seeing new faces is all.",
+            "We're just not very used to seeing new faces is \nall.",
             "But I think you could fit right in.",
             "Whatever you do, you should NEVER EVER EVER - ",
             "Be mean to people :)",
