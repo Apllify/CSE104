@@ -816,6 +816,10 @@ class LightSource extends TextNpc{
         this.generateShades();
     };
 
+    setupGraphics(){
+        super.setupGraphics(2, 2);
+    }
+
 
     
 

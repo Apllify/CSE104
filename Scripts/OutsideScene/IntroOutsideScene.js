@@ -207,7 +207,7 @@ class IntroOutsideScene extends OutsideScene{
         this.shade.endFill();
     
 
-        this.shade.alpha = 0.4;
+        this.shade.alpha = 0.6;
 
         this.foregroundContainer.addChild(this.shade);
         
