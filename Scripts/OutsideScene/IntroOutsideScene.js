@@ -225,11 +225,22 @@ class IntroOutsideScene extends OutsideScene{
 
         [[
             "Ok, you got me.",
-            "We usually just talk about the king.",
-            "King announces X. King calls for Y."
+            "We usually just talk about politics.",
+            "I know, ugh.",
+            "Sometimes, I just kind of wish I could back to my old life.",
+            "Waking up, eating breakfast, going to work...",
+            "But there's really no stepping back from this.",
+            "At least I have purpose, I guess.",
+            "But is purpose really the goal of life ?",
+            "Something to think about...",
+            "Signed - ",
+            "The Sign Painter"
         ]],
 
-        [[]],
+        [[
+            "Signed - ",
+            "The Sign Painter"
+        ]],
         [[]],
         [[]],
         [[]]
@@ -258,6 +269,7 @@ class IntroOutsideScene extends OutsideScene{
 
         this.foregroundContainer.addChild(this.shade);
         
+        
         // add some npcs to decorate 
         for(let i = 0; i < 30; i ++){
             let yposTreeChoice = [Math.random() * 100 , 475 + Math.random()*(600-480)];
@@ -272,7 +284,7 @@ class IntroOutsideScene extends OutsideScene{
             else{
                 let t = Math.random();
                 let ypos = 110*t + 470*(1-t);
-                this.npcList.push(new SignPost(this.container, this.playerReference, {x:i * 300 + 100, y:ypos}, signDialogues[i/2]))
+                this.npcList.push(new SignPost(this.container, this.playerReference, {x:(i+1) * 300 + 100, y:ypos}, signDialogues[i/2]))
             }
 
             this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[0]))

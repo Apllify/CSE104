@@ -30,12 +30,17 @@ class Game{
         }
         else if (this.currentState === 2){
             this.currentTransition.update(delta, inputs);
+
+            //if the transition allows it, also update the background scene
+            if (this.currentTransition.allowUpdate){
+                this.currentScene.update(delta, inputs);
+            }
             
             if (this.currentTransition.isFadeInDone()){
                 //if the fadein is over, first clear everything except foreground
                 this.wipeLayers();
 
-                //then switch state and get our new scnee
+                //then switch state and get our new scene
                 this.currentState = 3;
                 this.currentScene.destroy();
                 this.currentScene =  this.futureScene;
@@ -110,6 +115,10 @@ class Game{
             this.currentState = 2;
             this.currentTransition = transition;
             this.currentTransition.startFadeIn();
+            
+            if (this.currentTransition.newSceneState !== undefined){
+                this.currentScene.state = this.currentTransition.newSceneState;
+            }
 
             //store the next scene for later
             this.futureScene = newScene;

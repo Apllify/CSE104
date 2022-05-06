@@ -19,7 +19,7 @@ class PreIntroOutsideScene extends OutsideScene{
     };
 
     elapsedTime = 0;
-    state = 0; //state 0 is just normal, state 1 is the little cutscene before interacting with god, state 2 is interacting with god
+    state = 0; //state 0 is just normal, state 1 is the little cutscene before interacting with god, state 2 is the fadeout lol
     state1Timer = 0; //timer exclusively for state 1
     state1Duration = 3;
 
@@ -196,6 +196,11 @@ class PreIntroOutsideScene extends OutsideScene{
                 this.hasAnimated = true;
             }
 
+        }
+        else if (this.state === 2){
+            //update everything except player 
+            this.playerReference.pause();
+            this.state = 0;
         }
 
  

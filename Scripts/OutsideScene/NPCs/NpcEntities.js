@@ -661,7 +661,9 @@ class God extends TextNpc{
         super.isInteractingJustDone();
         this.isFading = true;
 
-        
+        //start the fadeout of the entire scene lol 
+        mainGame.changeScene(new IntroOutsideScene(), new FadeTransition(5, 1));
+
     }
 }
 

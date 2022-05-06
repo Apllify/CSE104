@@ -10,6 +10,13 @@ class FadeTransition{
     fadeOutSpeed = 1/1;
 
     graphics = null;
+
+
+    //stuff to be used by the game instance that is going to load 
+    allowUpdate= true;
+    newSceneState = 2;
+
+
     
     constructor(fadeInTime, fadeOutTime){
         this.fadeInTime = fadeInTime;
@@ -18,7 +25,7 @@ class FadeTransition{
         this.fadeInSpeed = 1/ this.fadeInTime;
         this.fadeOutSpeed = 1 / this.fadeOutTime;
 
-        this.graphics = new PIXI.Graphcis();
+        this.graphics = new PIXI.Graphics();
         this.graphics.beginFill("0x000000");
         this.graphics.drawRect(0, 0, 800, 600);
         this.graphics.endFill();
@@ -29,13 +36,13 @@ class FadeTransition{
     }
 
     update(delta, inputs){
-        if (state === 1){
+        if (this.state === 1){
             //make the screen dimmer and dimmer
             this.graphics.alpha = Math.min(1, this.graphics.alpha + delta * this.fadeInSpeed);
         }
-        else if (state === 2){
+        else if (this.state === 2){
             //make the screen clearer and clearer
-            this.graphics.alpha = Math.max(0, this.graphics.alpha - delta);
+            this.graphics.alpha = Math.max(0, this.graphics.alpha - delta * this.fadeOutSpeed);
         }
 
     }
@@ -45,7 +52,7 @@ class FadeTransition{
     }
 
     isFadeInDone(){
-        return (this.state >= 2);
+        return (this.graphics.alpha >= 1);
     }
 
     startFadeOut(){
@@ -53,7 +60,7 @@ class FadeTransition{
     }
 
     isFadeOutDone(){
-        return (this.state === 3);
+        return (this.graphics.alpha <= 0 );
     }
 
     destroy(){
