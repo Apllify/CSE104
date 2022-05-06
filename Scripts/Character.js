@@ -102,16 +102,32 @@ class Character{
     setHitboxRectangle(rec){
         this.x = rec.x + this.collisionWidth / 2;
         this.y = rec.y + this.collisionHeight / 2;
+
+        //update the interaction if needed
         this.updateSpritePosition();
+        this.updateInteractionPrompt();
+
+
+    }
+
+    isInteractionPromptEnabled(){
+        return this.interactionPromptEnabled;
     }
 
 
     enableInteractionPrompt(){
         this.interactionPromptEnabled = true;
-        this.interactionPrompt = new TextDisplay(this.drawLayer, "Press Enter to intearct", {x: 0, y:0}, this.interactionPromptTextStyle );
-        this.interactionPrompt.centerHorizontallyAt(this.x);
-        this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
+        this.interactionPrompt = new TextDisplay(this.drawLayer, "Press Enter to interact", {x: 0, y:0}, this.interactionPromptTextStyle );
+        this.updateInteractionPrompt();
 
+
+    }
+
+    updateInteractionPrompt(){
+        if (this.isInteractionPromptEnabled && !this.interactionPrompt.destroyed ){
+            this.interactionPrompt.centerHorizontallyAt(this.x);
+            this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
+        }
 
     }
 
@@ -167,11 +183,10 @@ class Character{
 
         //update interaction prompt if needed
         if (this.interactionPromptEnabled){
-            this.interactionPrompt.centerHorizontallyAt(this.x);
-            this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height/2 - 5);
+            this.updateInteractionPrompt(); 
 
             //also make it flicker cause why not lol
-            this.interactionPrompt.setAlpha(Math.abs(Math.cos(2 * this.elapsedTime)));
+            this.interactionPrompt.setAlpha(Math.min(0.8, Math.abs(Math.cos(1.5* this.elapsedTime))));
         }
 
         //update the sprite's position on screen

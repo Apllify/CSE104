@@ -80,6 +80,7 @@ class MenuScene{
         //create a background graphics
         this.backgroundGraphics= new PIXI.Graphics();
 
+
         this.backgroundGraphics.beginFill(0x000000);
         this.backgroundGraphics.drawRect(0, 0, 800, 600);
 
@@ -224,7 +225,7 @@ class MenuScene{
                     mainGame.changeScene(new NameInputScene(), new PixelTransition(0.5, 0.5));
                 }
                 else{
-                    mainGame.changeScene(new PreIntroOutsideScene());
+                    mainGame.changeScene(new IntroOutsideScene());
                     //mainGame.startTransition(new PixelTransition(1, 5));
                 }
             }

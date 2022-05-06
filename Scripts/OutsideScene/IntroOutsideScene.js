@@ -21,6 +21,9 @@ class IntroOutsideScene extends OutsideScene{
 
     // we want this scene to be a bit dark 
     shade = null;
+    shadeGradient = [];
+    shadeGradientHeight = 40;
+    shadeGradientQuantity = 100;
 
     constructor(){
         
@@ -36,13 +39,16 @@ class IntroOutsideScene extends OutsideScene{
         //background.scale.x = 3
         super.load();
 
+        //start the player interaction prompt 
+        this.playerReference.enableInteractionPrompt();
+
               
 
         //create a door npc
         const roadUpperEdge = 100;
         const roadLowerEdge = 480;
         const totalWidth = 9600;
-        this.playerReference.x = 9200;
+        this.playerReference.x = 30;
         
         const dialogueOne = [
             ["This is just a rock.",
@@ -303,9 +309,32 @@ class IntroOutsideScene extends OutsideScene{
         this.shade.beginFill(0x000000);
         this.shade.drawRect(0, 0, 9600, 600);
         this.shade.endFill();
+
+        //setup a gradient of shades all around the screen
+        const miniShadeHeight = this.shadeGradientHeight / this.shadeGradientQuantity;
+
+        for (let i =0; i < this.shadeGradientQuantity; i ++){
+            let miniShade = new PIXI.Graphics();
+
+            miniShade.beginFill(0x000000);
+            miniShade.drawRect(0,  miniShadeHeight * i, 800, miniShadeHeight);
+            miniShade.drawRect(0, 600 - miniShadeHeight * (i+1), 800, miniShadeHeight);
+            miniShade.drawRect(miniShadeHeight * i, 0, miniShadeHeight, 600);
+            miniShade.drawRect(800 -  miniShadeHeight * (i+1), 0, miniShadeHeight, 600);
+
+
+            miniShade.endFill();
+
+            miniShade.alpha = Math.min(0.8, 1 - (i / this.shadeGradientQuantity)); 
+
+            drawLayers.foregroundLayer.addChild(miniShade);
+
+
+            this.shadeGradient.push(miniShade);
+        }
     
 
-        this.shade.alpha = 0.6;
+        this.shade.alpha = 0.7;
 
         this.foregroundContainer.addChild(this.shade);
         
@@ -325,6 +354,9 @@ class IntroOutsideScene extends OutsideScene{
                 let t = Math.random();
                 let ypos = 110*t + 470*(1-t);
                 this.npcList.push(new SignPost(this.container, this.playerReference, {x:(i+1) * 300 + 100, y:ypos}, signDialogues[i/2]))
+
+                //add some light auras around every single sign
+                this.npcList.push(new LightAura(this.playerReference, {x:(i+1) * 300 + 100, y:ypos}, this.shade, this.foregroundContainer, 80, 30 ));
             }
 
             this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, RockDialogues[0]))

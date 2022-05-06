@@ -35,10 +35,12 @@ class Npc{
         this.playerReference=  playerReference;
         this.drawLayer = drawLayer;
 
+
         this.x = position.x;
         this.y = position.y;
         this.detectionRadius = detectionRadius;
 
+        console.log(this.x);
     }
 
 
@@ -96,6 +98,11 @@ class Npc{
     }
 
     startNewInteraction(){
+        //disable the player intearction prompt if needed ?
+        if (this.playerReference.isInteractionPromptEnabled()){
+            this.playerReference.disableInteractionPrompt();
+        }
+
         //change the state
         this.currentState = 1;
         this.currentMonologue = this.isInteracted(this.interactionCount);

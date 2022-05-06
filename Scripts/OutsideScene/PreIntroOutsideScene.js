@@ -78,6 +78,10 @@ class PreIntroOutsideScene extends OutsideScene{
 
         drawLayers.backgroundLayer.addChild(this.background);
 
+        //load the necessary sound effects
+        PIXI.sound.add("drag","././Sound/PreIntroOutsideScene/brick_drag.mp3" );
+        PIXI.sound.volume("drag", 0.3);
+
 
 
         //create a few random bits in the scene
@@ -174,6 +178,8 @@ class PreIntroOutsideScene extends OutsideScene{
             //check if the player is close enough to the ring 
             let playerDistance = new Vector(this.playerReference.x - 5320, this.playerReference.y - 300);
             if (playerDistance.getNorm() < 250 && !this.hasAnimated){
+                //play the sound effect and switch the state
+                PIXI.sound.play("drag");
                 this.state = 1;
             }
         }
