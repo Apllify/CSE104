@@ -13,6 +13,7 @@ class IntroOutsideScene extends OutsideScene{
         "Concrete1" :"Sprites/Tiles/Concrete1.png", 
         "Concrete2" :"Sprites/Tiles/Concrete2.png", 
         "Concrete3" :"Sprites/Tiles/Concrete3.png", 
+        
 
     };
 
@@ -219,7 +220,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
             if (i % 2 === 1){
-                this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
+                this.npcList.push(new Chair(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},[]))
             }
 
             else{
@@ -232,8 +233,8 @@ class IntroOutsideScene extends OutsideScene{
 
         }
 
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 20, 1.5, 3, 1000));
-        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 20, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Hey"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 50, 1.5, 3, 1000));
+        this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container, [["Hey"]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
 
 

@@ -706,6 +706,8 @@ class Bar extends Npc{
 
         this.sprite.x = this.x - this.sprite.width / 2;
         this.sprite.y = this.y - this.sprite.height / 2;
+
+
     }
     
     setupHitbox(){
@@ -754,6 +756,32 @@ class Tree extends TextNpc{
         });
 
         super(drawLayer, playerReference, position, textStyle, monologuesList, 'Tree', 'Tree', 85);
+ 
+    }
+
+    setupGraphics(){
+        super.setupGraphics(2, 2);
+    }
+
+
+    setupHitbox(){
+        
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
+    }
+}
+
+class Chair extends TextNpc{
+
+    constructor(drawLayer, playerReference, position, monologuesList){
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#00ff00",
+            stroke : "#00ff00",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Chair', 'Chair', 85);
  
     }
 

@@ -131,7 +131,7 @@ class TutorialBoss extends SuperBoss{
         this.monologues = [
             ["Uh- Uhmmm... Let me clear m-my throat..",
             "Hey !!!!",
-            "Your name's ${this.playerReference.name}, \nright ?",
+            `Your name's ${this.playerReference.name}, \nright ?`,
             "Oh god, oh no, I'm so sorry let me redo this....",
             "(They're gonna be so pissed at me)",
             "(Why did it have to be me)",
