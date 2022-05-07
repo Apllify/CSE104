@@ -652,20 +652,23 @@ class God extends TextNpc{
     constructor(drawLayer, playerReference, position){
 
         const textStyle = new PIXI.TextStyle({
-            fontFamily : "BrokenConsole",
+            fontFamily : "Precious",
             fontSize : 24,
+            fontWeight : "bold",
             fill : "#ffffff",
-            stroke : "#ffffff",
         });
 
         const monologuesList = [
             [
-                "My child, you are here, at last...",
-                "I trust you can fulfill your duty as a vessel",
-                "To the limit of your abilities, \nyou must spring forth and deliver my heavenly messages \nto the rest of the world.",
-                "Thank you for your comprehension,",
+                "Be not afraid, my child.",
+                "You must be the heavenly vessel I asked for.",
+                "To the limit of your abilities, you shall spring forth and rescue this world.",
+                "You are our last hope at salvation.",
+                "I trust my words will make sense in due time.",
+                "And if they do not, we will simply try again...",
+                "Be free, and make your own decisions, young one.",
                 "Peace,",
-                "GOD" 
+                "G.O.D" 
 
             ]
 

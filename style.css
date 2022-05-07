@@ -16,3 +16,13 @@ body{
     font-family : Microcosmos;
     src : url(Fonts/MicrocosmosRegular-03LR.ttf);
 }
+
+@font-face{
+    font-family : Precious;
+    src : url(Fonts/Precious.ttf);
+}
+
+@font-face{
+    font-family : BeyondWonderland;
+    src : url(Fonts/Beyond\ Wonderland.ttf);
+}

@@ -225,7 +225,7 @@ class MenuScene{
                     mainGame.changeScene(new NameInputScene(), new PixelTransition(0.5, 0.5));
                 }
                 else{
-                    mainGame.changeScene(new IntroOutsideScene());
+                    mainGame.changeScene(new PreIntroOutsideScene());
                     //mainGame.startTransition(new PixelTransition(1, 5));
                 }
             }
