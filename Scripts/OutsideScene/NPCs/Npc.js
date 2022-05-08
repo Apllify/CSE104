@@ -117,7 +117,6 @@ class Npc{
                 }
                 
                 else { //other wise, push him in our movement direction
-                    console.log("ok ok ok");
                     const playerCoords= this.playerReference.getPosition();
                     let displacementDir = new Vector(playerCoords.x - this.x, playerCoords.y - this.y);
 
@@ -129,7 +128,6 @@ class Npc{
                     imaginaryPlayerHitbox.x += displacementDir.x * 10;
                     imaginaryPlayerHitbox.y += displacementDir.y * 10;
 
-                    console.log(this.hitbox.isColliding(imaginaryPlayerHitbox));
 
 
                     const newPlayerHitbox = this.hitbox.simulateCollision(imaginaryPlayerHitbox, this.playerReference.getHitboxRectangle());
