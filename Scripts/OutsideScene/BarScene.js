@@ -8,7 +8,8 @@ class BarScene extends OutsideScene{
         "Wood3": "Sprites/Tiles/Wood3.png",
         'Tutorial': "Sprites/Npc/Npc10.png",
         'TrapDoorOpen': "Sprites/TrapDoorOpen.png",
-        "TrapDoorClosed": "Sprites/TrapDoorClosed.png"
+        "TrapDoorClosed": "Sprites/TrapDoorClosed.png",
+        "BarExit": 'Sprites/BarExit.png'
 
     }
 
@@ -16,11 +17,7 @@ class BarScene extends OutsideScene{
     shade = null;
 
     backgroundMusic = null;
-<<<<<<< HEAD
-    playerPlaced = false;
-=======
     chatterSounds = null;
->>>>>>> ab6d765cf09c81768419dd685b8268c4cc298641
 
     constructor(){
         super(0x7d4a28);
@@ -35,9 +32,16 @@ class BarScene extends OutsideScene{
 
         this.setMapMatrix([[1, 1],[1, 2]]);
 
-        //set the player position to look like it's at the entrance
-        this.playerReference.setPosition({x:600, y:550});
+        
+        if (window.localStorage.getItem('BarPlayerCoords') != null){
+            // if the barscene was accessed at a previous time, set the player position to the last position
+            this.playerReference.setPosition(JSON.parse(window.localStorage.getItem('BarPlayerCoords')));
+        }
 
+        else{
+            //set the player position to look like it's at the entrance
+            this.playerReference.setPosition({x:750, y:300});
+        }
         //create a teeny tiny bit of shade over the room
         this.shade = new PIXI.Graphics();
         this.shade.beginFill(0x000000);
@@ -94,7 +98,7 @@ class BarScene extends OutsideScene{
 
 
 
-
+        // Set up the tiles of the floor 
         for (let x = -760; x < this.getDimensions().width - 720; x += 80){
             for (let y = -560; y < this.getDimensions().height - 520; y += 80){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
@@ -105,7 +109,12 @@ class BarScene extends OutsideScene{
         }
 
         this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:100}, [["YOooo"]]));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [{x:200, y: 300}, {x:300, y : 300}]));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [{x:200, y: 300}, {x:300, y : 300}], window.localStorage.getItem('TutorialComplete') == null));
+        
+        this.npcList.push(new TrapDoor(this.container, this.playerReference, this.adjustedPosition({x:200, y:100}), [['Admire The Huslte']], 
+        (window.localStorage.getItem('TutorialComplete') != null)));
+        
+        this.npcList.push(new BarExit(this.container, this.playerReference, {x:780, y:300}, [["Leaving so soon?"]], true));
 
 
 
@@ -114,15 +123,16 @@ class BarScene extends OutsideScene{
 
     update(delta, inputs){
         super.update(delta, inputs);
-        
+        // Keep Track of the player position to use it in the next session
+        window.localStorage.setItem('BarPlayerCoords', JSON.stringify(this.playerReference.getPosition()))
     }
 
 
     destroy(){
-        super.destroy();
-
         this.backgroundMusic.pause();
         this.chatterSounds.pause();
+        super.destroy();
+        
     }
 
 }

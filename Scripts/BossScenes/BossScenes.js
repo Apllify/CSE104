@@ -89,6 +89,10 @@ class SurferBoss extends SuperBoss{
     sceneOver(){
         return (this.monologues.length === 0 && this.patternsList.length === 0);
     }
+    
+    sceneOverAction(){
+        window.localStorage.setItem('SurferComplete', 1)
+    }
 
     restart(){
         mainGame.changeScene(new SurferBoss());
@@ -352,6 +356,10 @@ class TutorialBoss extends SuperBoss{
 
     sceneOver(){
         return (this.monologues.length === 0 && this.patternsList.length === 0);
+    }
+
+    sceneOverAction(){
+        window.localStorage.setItem('TutorialComplete', 1)
     }
 
     restart(){

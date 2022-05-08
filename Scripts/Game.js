@@ -16,6 +16,7 @@ class Game{
 
 
         //this.changeScene(new PatternDebug())
+        window.sessionStorage.clear();
         this.changeScene(new IntroOutsideScene());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
@@ -101,7 +102,7 @@ class Game{
                 this.isCurrentSceneLoaded = true;
                 if (this.currentScene.load !== undefined){
                     this.currentScene.load();
-                    console.log("new scene loaded ! ");
+                    
                 }
             })
         }

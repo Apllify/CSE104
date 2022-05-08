@@ -111,6 +111,9 @@ class Npc{
             if (this.hitbox.isColliding(this.playerReference.getHitboxRectangle())){
 
                 //if the player actually moved into us, boot him out
+                if (this.previousHitbox == null){
+                    this.previousHitbox = {x: this.x, y: this.y};
+                }
                 if ((this.previousHitbox.x === this.hitbox.x) && (this.previousHitbox.y === this.hitbox.y)){
                     const newPlayerHitbox = this.hitbox.simulateCollision(this.playerReference.getOldHitboxRectangle(), this.playerReference.getHitboxRectangle());
                     this.playerReference.setHitboxRectangle(newPlayerHitbox);
