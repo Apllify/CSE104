@@ -16,6 +16,10 @@ class Rectangle{
         this.height = height;
     }
 
+    equals(otherRec){
+        return (this.x === otherRec.x) && (this.y === otherRec.y) && (this.width === otherRec.width) && (this.height === otherRec.height);
+    }
+
 
     //assumes otherRec is also a rectangle instance
     isColliding(otherRec){

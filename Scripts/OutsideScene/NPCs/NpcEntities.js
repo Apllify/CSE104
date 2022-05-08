@@ -97,9 +97,17 @@ class Person extends TextNpc{
     minScale = null;
     // Measures how fast the bobbing occurs
     bobbingPeriod = null;
+
+    //the initial dimensions
+    fullWidth = 10;
+    fullHeight = 10;
+
+
     // How close the person gets to the target point before switching directions
     precisionEpsilon = null;
-    constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, speed=20, minScale=1, bobbingPeriod=5, precisionEpsilon=5){
+
+    
+    constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, speed=20, minScale=1.7, bobbingPeriod=1, precisionEpsilon=5){
             const textStyle = new PIXI.TextStyle({
                 fontFamily : "BrokenConsole",
                 fontSize : 24,
@@ -113,19 +121,31 @@ class Person extends TextNpc{
             // set up necessary variables 
             this.targetPoints = targetPoints;
             this.speed = speed;
+
             // We add the initial position to the target points so we can complete the loop
             this.targetPoints.push({...position});
             this.minScale = minScale;
             this.bobbingPeriod = Math.max(bobbingPeriod, 0.001);
             this.precisionEpsilon = precisionEpsilon;
         }
+
+
     
     setupGraphics(){
         super.setupGraphics(2, 2);
+
+        //save the initial dimensions lol 
+        this.fullWidth = this.sprite.width;
+        this.fullHeight = this.sprite.height;
+    }
+
+    refreshGraphics(){
+        this.sprite.x = this.x;
+        this.sprite.y = this.y; 
     }
 
     setupHitbox(){
-        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.sprite.y, this.sprite.width, this.sprite.height);
+        this.hitbox = new Rectangle(this.x - this.fullWidth / 2, this.y - this.fullHeight / 2, this.fullWidth, this.fullHeight);
     }
 
     idleUpdate(delta, inputs){
@@ -134,6 +154,8 @@ class Person extends TextNpc{
 
         this.targetPoint = this.targetPoints[this.currentIndex];
         this.directionVector = new Vector(this.targetPoint.x - this.x, this.targetPoint.y - this.y);
+
+
         // if the person if close enough to the current target, switch targets 
         if (this.directionVector.getNorm() <= this.precisionEpsilon){
             this.currentIndex = (this.currentIndex + 1) % this.targetPoints.length;
@@ -142,12 +164,15 @@ class Person extends TextNpc{
         else{
             // Move the npc toward the target with the given speed 
             this.directionVector = this.directionVector.normalize().rescale(this.speed);
-            this.sprite.x += this.directionVector.x * delta;
-            this.sprite.y += this.directionVector.y * delta;
+
             // Also keep track of the center position to setup the hitbox later 
             this.x += this.directionVector.x * delta;
             this.y += this.directionVector.y * delta;
+
+            this.refreshGraphics();
         }
+
+
         // Make the sprite bob up and down with the specified period and minScale
         this.sprite.scale.y = this.minScale + Math.abs((2 - this.minScale) * Math.cos(this.elapsedTime * Math.PI / this.bobbingPeriod));
         this.sprite.y = this.y + 32 * (1 - this.sprite.scale.y);
@@ -165,16 +190,16 @@ class Person extends TextNpc{
             this.sprite.x = this.x - Math.sign(this.sprite.scale.x) * this.sprite.width / 2
         }
 
+        //
         this.setupHitbox();
-
-        
-        
-
          
 
 
     }
 }
+
+
+
 // a simple background tile that takes a sprite as an argument
 class Tile extends Npc{
     spriteName = "";

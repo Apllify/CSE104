@@ -12,6 +12,19 @@ class BarScene extends OutsideScene{
 
     constructor(){
         super(0x7d4a28);
+
+
+        const v1 = new Vector(1, 1);
+        console.log(v1.snap45());
+
+        const v2 = new Vector(1, -1);
+        console.log(v2.snap45());
+
+        const v3 = new Vector(-1, 1);
+        console.log(v3.snap45());
+
+        const v4 = new Vector(-1, -1);
+        console.log(v4.snap45());
     }
 
 
@@ -20,15 +33,15 @@ class BarScene extends OutsideScene{
 
         this.setMapMatrix([[1, 1],[1, 2]]);
 
-        for (let x = -800; x < this.getDimensions().width - 760; x += 40){
-            for (let y = -600; y < this.getDimensions().height - 560; y += 40){
+        for (let x = -800; x < this.getDimensions().width - 720; x += 80){
+            for (let y = -600; y < this.getDimensions().height - 520; y += 80){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
-                this.npcList.push(new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex));
+                this.npcList.push(new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex, {x:2, y:2}));
             }
         }
 
-        this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:100}, [["YOooo"]]))
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [["I'm T"]], 'T', 'Tutorial', []))
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:100}, [["YOooo"]]));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [["I'm T"]], 'T', 'Tutorial', [{x:200, y: 300}, {x:300, y : 300}]));
 
     }
 

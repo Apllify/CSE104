@@ -160,19 +160,19 @@ class OutsideScene{
         }
 
         //check if the player went into a collision with an npc to readjust him
-        for (let npc of this.npcList){
-            if (npc.hitbox !== null){
-                if (!npc.destroyed){
-                    if (playerHitbox.isColliding(npc.hitbox)){
-                        const oldPlayerHitbox = this.playerReference.getOldHitboxRectangle();
-                        const newPlayerHitbox = npc.hitbox.simulateCollision(oldPlayerHitbox, playerHitbox);
+        // for (let npc of this.npcList){
+        //     if (npc.hitbox !== null){
+        //         if (!npc.destroyed){
+        //             if (playerHitbox.isColliding(npc.hitbox)){
+        //                 const oldPlayerHitbox = this.playerReference.getOldHitboxRectangle();
+        //                 const newPlayerHitbox = npc.hitbox.simulateCollision(oldPlayerHitbox, playerHitbox);
     
-                        playerHitbox = newPlayerHitbox;
-                    }
-                }
+        //                 playerHitbox = newPlayerHitbox;
+        //             }
+        //         }
 
-            }    
-        }
+        //     }    
+        // }
 
         //update the player's position after collisions
         this.playerReference.setHitboxRectangle(playerHitbox);
