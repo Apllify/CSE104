@@ -44,8 +44,8 @@ class SurferBoss extends SuperBoss{
             fontFamily : "BrokenConsole",
             fontSize : 24,
             fontWeight : "bold",
-            fill : "#0000ff",
-            stroke : "#0000ff",
+            fill : "#00ff00",
+            stroke : "#00ff00",
         });
     }
 
@@ -126,7 +126,7 @@ class TutorialBoss extends SuperBoss{
         this.patternsList = [
             new RainPattern(drawLayers.activeLayer, this.playerReference, 'medium'),
 
-            // new SquarePattern(drawLayers.activeLayer, this.playerReference, 150),
+            new SquarePattern(drawLayers.activeLayer, this.playerReference, 150),
             
             // new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, "medium"),
 
@@ -137,30 +137,41 @@ class TutorialBoss extends SuperBoss{
         ];
 
         this.monologues = [
-            ["Uh- Uhmmm... Let me clear m-my throat..",
-            "Hey !!!!",
-            `Your name's ${this.playerReference.name}, \nright ?`,
+            ["Uh- Uhmmm... Allow me to clear m-my throat..",
+            "You are SOOOO not supposed to be here.",
+            "S-so...",
+            "Your name's ${this.playerReference.name}, \nright ?",
             "Oh god, oh no, I'm so sorry let me redo this....",
-            "(They're gonna be so pissed at me)",
-            "(Why did it have to be me)",
-            "(Why did it have to be right now)",
+            "(Nightmare...Nightmare...Nightmare...Nightmare...Nightmare...Nightmare...Nightmare... )",
+            "(Why?)",
+            "(Why did it have to be right now?)",
             `You're ${this.playerReference.name}`,
-            "I-i think that's your name, right ?", 
-            "Whatever you do, NEVER NEVER introduce yourself as : ",
-            '"Player"', 
-            "For your own confort and well-being :)",
-            "Consider this your first tutorial.",
-            "Speaking of, I should probably run you \nthrough the basics !",
-            "Let's do this !",
-            "Alright, see that little green bar at the top ? \nThat's your level of energy :)",
-            "If it runs out, you'll get tired and we'll have \nto take a break from fighting",
-            "The fighting itself is pretty simple : Just \nmove around so the projectiles can't hit you.",
-            "Let's try a pattern for starters"],
+            "I-i'm pretty sure that's your name, right ?", 
+            "Ok.",
+            "Whatever you do.",
+            "NEVER NEVER NEVER introduce yourself as : \nPLAYER ",
+            "...",
+            "For your own confort and safety...",
+            "Speaking of, I should - uhm - run you through \nthe combat basics ?",
+            "Let's.",
+            "(Ok, ok, ok, just, remember the training)",
+            "See that little green bar at the top ? \nThat's your energy level or something.",
+            "If it runs out, you'll get tired (?) And we'll have \nto take a break from fighting (i think).",
+            "The fighting itself is pretty simple (not): Just \nmove around so the projectiles can't hit you.",
+            "(There isn't a single chance that this works holy fuck)",
+            "Let's try this for starters :)"],
 
-            ["Look at you go !",
-            "Honestly if I was an enemy I'd be afraid to go against you",
-            ""
+            ["(Did I go too hard on them ?)",
+            "(No clue, they weren't doing bad though)",
+            "(Maybe.... This could ? work ?)",
+            "Ahem.",
+            "Great job, keep it up.",
+            "That was some smooth movement.",
+            "(Phew)",
+            "Ok this next one is a l-little trickier. \nIt's kind of my speciality move.",
+            "Don't stand still."
             ]
+
             // "It's the unspeakable, unbreakable compound \nthat makes up the living.",
             // "Well",
             // "Unbreakable is a strong word actually, \nbecause modern technology kind of ? Throws the entire premise of it \nout the window ?",
@@ -220,28 +231,36 @@ class TutorialBoss extends SuperBoss{
             fontFamily : "BrokenConsole",
             fontSize : 25,
             fontWeight : "bold",
-            fill : "#ff0505",
+            fill : "#ffffff",
+        });
+
+
+        this.slightlySmallerTextStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffffff",
         });
 
         this.explanationTextStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 15,
             fontWeight : "bold",
-            fill : "#ff0505",
+            fill : "#ffffff",
         });
 
         this.yellingTextStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 40,
             fontWeight : "bold",
-            fill : "#ff0505",
+            fill : "#ffffff",
         });
 
         this.crypticTextStyle = new PIXI.TextStyle({
             fontFamily : "Microcosmos",
             fontSize : 60,
             fontWeight : "bold",
-            fill : "#ff0505",
+            fill : "#ffffff",
         });
     }
 
@@ -251,32 +270,35 @@ class TutorialBoss extends SuperBoss{
         //choose the adequate font depending on the message
         let monologue = new Monologue(drawLayers.foregroundLayer, this.monologues.pop(), this.defaultTextStyle, 'Tutorial', 1);
 
-
-        //add some styling for the first dialogue
         if (breakCount === 0){
-            monologue.setTextStyleException(1, this.yellingTextStyle);
+            monologue.setTextStyleException(21, this.slightlySmallerTextStyle);
+        }
 
-            //monologue.setShakingException(0);
-            //monologue.setShakingException(1);
+        // //add some styling for the first dialogue
+        // if (breakCount === 0){
+        //     monologue.setTextStyleException(1, this.yellingTextStyle);
 
-            //monologue.setShakingException(8);
+        //     //monologue.setShakingException(0);
+        //     //monologue.setShakingException(1);
 
-            //monologue.setTextStyleException(6, this.yellingTextStyle);
-            //monologue.setTextStyleException(8, this.crypticTextStyle);
-            //monologue.setTextStyleException(11, this.explanationTextStyle);
-            //monologue.setTextStyleException(12, this.explanationTextStyle);
+        //     //monologue.setShakingException(8);
+
+        //     //monologue.setTextStyleException(6, this.yellingTextStyle);
+        //     //monologue.setTextStyleException(8, this.crypticTextStyle);
+        //     //monologue.setTextStyleException(11, this.explanationTextStyle);
+        //     //monologue.setTextStyleException(12, this.explanationTextStyle);
     
-        }
-        else if (breakCount === 4){
-            monologue.setTextStyleException(7, this.yellingTextStyle);
-            monologue.setShakingException(7);
-        }
-        else if (breakCount == 5){
-            monologue.setTextStyleException(0, this.explanationTextStyle);
-            monologue.setTextStyleException(1, this.explanationTextStyle);
-            monologue.setTextStyleException(2, this.explanationTextStyle);
+        // }
+        // else if (breakCount === 4){
+        //     monologue.setTextStyleException(7, this.yellingTextStyle);
+        //     monologue.setShakingException(7);
+        // }
+        // else if (breakCount == 5){
+        //     monologue.setTextStyleException(0, this.explanationTextStyle);
+        //     monologue.setTextStyleException(1, this.explanationTextStyle);
+        //     monologue.setTextStyleException(2, this.explanationTextStyle);
 
-        }
+        // }
 
 
 
