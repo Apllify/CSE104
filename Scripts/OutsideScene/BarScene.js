@@ -17,10 +17,10 @@ class BarScene extends OutsideScene{
     load(){
         super.load();
 
-        this.setMapMatrix([[2, 1],[1, 1]]);
+        this.setMapMatrix([[1, 1],[1, 2]]);
 
-        for (let x = 0; x < this.getDimensions().width + 40; x += 40){
-            for (let y = 0; y < this.getDimensions().height + 40; y += 40){
+        for (let x = -800; x < this.getDimensions().width - 760; x += 40){
+            for (let y = -600; y < this.getDimensions().height - 560; y += 40){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
                 this.npcList.push(new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex));
             }

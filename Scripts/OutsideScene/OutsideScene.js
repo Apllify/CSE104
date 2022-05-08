@@ -385,6 +385,7 @@ class OutsideScene{
         }
     }
 
+
     destroy(){
         //destroy everything contained in the container
         this.destroying = true;
