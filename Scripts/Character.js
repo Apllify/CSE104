@@ -110,6 +110,10 @@ class Character{
 
     }
 
+    getPosition(){
+        return {x:  this.x, y:this.y};
+    }
+
     isInteractionPromptEnabled(){
         return this.interactionPromptEnabled;
     }

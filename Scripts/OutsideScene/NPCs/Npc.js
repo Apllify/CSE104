@@ -4,6 +4,11 @@ class Npc{
     x = 0;
     y = 0;
 
+    previousX = 0;
+    previousY = 0;
+
+
+
     //from how far away the player can interact with us 
     detectionRadius = 70;
 
@@ -11,6 +16,7 @@ class Npc{
     currentState = 0;
 
     currentMonologue = null;
+
 
     //number of times we've been interacted with
     interactionCount = 0;
@@ -21,6 +27,7 @@ class Npc{
 
     //the hitbox rectangle which is not necessarily present for every single entity
     hitbox = null;
+    previousHitbox = null;
 
 
     //universal properties
@@ -94,6 +101,49 @@ class Npc{
         }
 
 
+
+
+        //check for collisions with the player 
+        if (this.hitbox !== null){
+            //by default, we never prioritize the player's movement
+            // console.log(this.previousHitbox.x);
+
+            if (this.hitbox.isColliding(this.playerReference.getHitboxRectangle())){
+
+                //if the player actually moved into us, boot him out
+                if ((this.previousHitbox.x === this.hitbox.x) && (this.previousHitbox.y === this.hitbox.y)){
+                    const newPlayerHitbox = this.hitbox.simulateCollision(this.playerReference.getOldHitboxRectangle(), this.playerReference.getHitboxRectangle());
+                    this.playerReference.setHitboxRectangle(newPlayerHitbox);
+                }
+                
+                else { //other wise, push him in our movement direction
+                    const playerCoords= this.playerReference.getPosition();
+                    let displacementDir = new Vector(playerCoords.x - this.x, playerCoords.y - this.y);
+
+                    //snap the displacement direction to one of the 45° directions
+                    displacementDir = displacementDir.snap45();
+
+                    //const imaginaryPlayerPos = this.playerReference.getPosition().add(movementDir);
+                    const imaginaryPlayerHitbox = this.playerReference.getOldHitboxRectangle();
+                    imaginaryPlayerHitbox.x += displacementDir.x * 10;
+                    imaginaryPlayerHitbox.y += displacementDir.y * 10;
+
+
+
+                    const newPlayerHitbox = this.hitbox.simulateCollision(imaginaryPlayerHitbox, this.playerReference.getHitboxRectangle());
+                    this.playerReference.setHitboxRectangle(newPlayerHitbox);
+                }
+            }
+
+        }
+
+        //keep track of the previous positions
+        this.previousX = this.x;
+        this.previousY = this.y;
+
+        this.previousHitbox = this.hitbox;
+
+
     }
 
     startNewInteraction(){
@@ -129,6 +179,10 @@ class Npc{
     setupGraphics(){ //creates the display (be it sprite or rectangle) of this entity
         this.debugGraphics = new Rectangle(this.x - 20, this.y - 20, 40, 40).getGraphics(0x00FF00);
         this.drawLayer.addChild(this.debugGraphics);
+    }
+
+    refreshGraphics(){ //only necessary for moving entities
+
     }
 
     destroyGraphics(){ //called when the entity is destroyed
