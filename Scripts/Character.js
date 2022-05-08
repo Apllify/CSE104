@@ -114,6 +114,15 @@ class Character{
         return {x:  this.x, y:this.y};
     }
 
+    setPosition(position){
+        this.x = position.x;
+        this.y = position.y;
+
+        this.updateSpritePosition();
+        this.updateInteractionPrompt();
+
+    }
+
     isInteractionPromptEnabled(){
         return this.interactionPromptEnabled;
     }

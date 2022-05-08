@@ -13,6 +13,7 @@ class BarScene extends OutsideScene{
     shade = null;
 
     backgroundMusic = null;
+    chatterSounds = null;
 
     constructor(){
         super(0x7d4a28);
@@ -25,6 +26,9 @@ class BarScene extends OutsideScene{
         super.load();
 
         this.setMapMatrix([[1, 1],[1, 2]]);
+
+        //set the player position to look like it's at the entrance
+        this.playerReference.setPosition({x:600, y:550});
 
         //create a teeny tiny bit of shade over the room
         this.shade = new PIXI.Graphics();
@@ -53,20 +57,33 @@ class BarScene extends OutsideScene{
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
                 sound.volume = 0.2;
-                sound.play({
-                    filters: [
-                        new PIXI.sound.filters.StereoFilter(-1),
-                    ],
-                });
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.play();
+
                 setTimeout(function () {
-                    sound.play({
-                        filters: [
-                            new PIXI.sound.filters.StereoFilter(1),
-                        ],
-                    });
+                    sound.play();
                 }, 50);
             }
         });
+
+        this.chatterSounds = PIXI.sound.Sound.from({
+            url: '././Sound/BarScene/chatter.mp3',
+            preload: true,
+            loaded: function(err, sound) {
+                // sound.filters = [
+                //     new PIXI.sound.filters.TelephoneFilter(),
+                // ];
+                sound.volume = 0.3;
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.play();
+
+                setTimeout(function () {
+                    sound.play();
+                }, 50);
+            }
+        });
+
+
 
 
 
@@ -78,7 +95,7 @@ class BarScene extends OutsideScene{
         }
 
         this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:100}, [["YOooo"]]));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [["I'm T"]], 'T', 'Tutorial', [{x:200, y: 300}, {x:300, y : 300}]));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [{x:200, y: 300}, {x:300, y : 300}]));
 
 
 
@@ -91,6 +108,9 @@ class BarScene extends OutsideScene{
 
     destroy(){
         super.destroy();
+
+        this.backgroundMusic.pause();
+        this.chatterSounds.pause();
     }
 
 }

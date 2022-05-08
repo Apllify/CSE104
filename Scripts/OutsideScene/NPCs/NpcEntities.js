@@ -108,6 +108,7 @@ class Person extends TextNpc{
 
     
     constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, speed=20, minScale=1.7, bobbingPeriod=1, precisionEpsilon=5){
+            
             const textStyle = new PIXI.TextStyle({
                 fontFamily : "BrokenConsole",
                 fontSize : 24,
@@ -115,6 +116,8 @@ class Person extends TextNpc{
                 fill : "#ffffff",
                 stroke : "#ffffff",
             });
+
+
             super(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath, 
                 70);
 
@@ -195,6 +198,21 @@ class Person extends TextNpc{
          
 
 
+    }
+
+    interactingUpdate(delta, inputs){
+        //still increment the timer
+        this.elapsedTime += delta;
+
+        // Make the sprite bob up and down with the specified period and minScale
+        this.sprite.scale.y = this.minScale + Math.abs((2 - this.minScale) * Math.cos(this.elapsedTime * Math.PI / this.bobbingPeriod));
+        this.sprite.y = this.y + 32 * (1 - this.sprite.scale.y);
+        
+        
+        // We reset the timer purely for performance reasons not to have a large number to evaluate each time
+        if (this.sprite.scale.y >= 1.97 && this.elapsedTime >= 1000){
+            this.elapsedTime = 0;
+        }
     }
 }
 
@@ -794,8 +812,23 @@ class BossWarp extends Npc{
 
 class TutorialNpc extends Person{
 
+    constructor(drawLayer, playerReference, position, targetPoints){
+        const monologuesList = [
+            ["Wait.",
+            "Y-you're...",
+            "Uhmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+            "Allow me to - "]
+        ];
+
+        super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints );
+    }
+
     isInteractingJustDone(){
-        mainGame.changeScene(new TutorialBoss(), new PixelTransition(1, 1, 0x000000));
+        mainGame.changeScene(new TutorialBoss(), new PixelTransition(0.3, 1, 0x000000));
+    }
+
+    interactingUpdate(delta, inputs){
+        return;
     }
 }
 
