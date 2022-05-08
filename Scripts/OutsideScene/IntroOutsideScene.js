@@ -51,69 +51,83 @@ class IntroOutsideScene extends OutsideScene{
         const totalWidth = 9600;
         this.playerReference.x = 9000;
         
-        const rDialOne = [
-            ["This is just a rock.",
-        "What did you expect ?"]
-        ];
+        const rockDialogues = [
+            [
+                ["This is just a rock.",
+            "What did you expect ?"]
+            ],
+            [
+                ["This is just a rock.",
+                "Unless ",
+                "...",
+                "....",
+                ".....",
+                "......",
+                "Nah just kidding."]
+            ],
+            [
+                ["Is this even a rock ?"]
+            ],
+            [
+                ["Tag three friends that LOVE rocks ! "]
+            ],
+            [
+                ["Subscribe and smash the like button for a chance \nto win : ",
+                "Rock."]
+            ],
 
-        const rDialTwo = [
-            ["This is just a rock.",
-            "Unless ",
-            "...",
-            "....",
-            ".....",
-            "......",
-            "Nah just kidding."]
-        ];
-
-        const rDialThree = [
-            ["Is this even a rock ?"]
-        ];
-
-
-        const rDialFour = [
-            ["Tag three friends that LOVE rocks ! "]
-        ];
-
-        const rDialFive = [
-            ["Subscribe and smash the like button for a chance \nto win : ",
-            "Rock."]
-        ];
+        ]
         
 
 
-        const rockDialogues = [rDialOne, rDialTwo, rDialThree, rDialFour, rDialFive];
-
-        const tDialOne = [
-            ["Ahh, the air is full of pollen and-",
-            "Microplastics."]
+        const treeDialogues = [
+            [
+                ["Ahh, the air is so full of pollen and-",
+                "Microplastics."]
+            ],
+            [
+                ["Bark bark.",
+                "Bark, bark bark ! ",
+                "Bark.",
+                "What could the tree mean by this ?"]
+            ],
+            [
+                ["This tree is littered with a list of faintly legible scribbles : ",
+                '"Catreena, Treeodore, Matreew, Autree, Timberly..."',
+                "The footer reads : ",
+                '"Top 100 Tree names of 2022."']
+            ],
+            [
+                ["A small banner reads : ",
+                '"Shea / Herb"',
+                "The trees have pronounce now ?"]
+            ],
+            [
+                [""]
+            ],
+            [
+                ["A simple tree, with a preference for brevity."]
+            ],
+            [
+                ["Pictured here is the tree in its natural inhabitat.",
+                "Elegant, peaceful, and unbothered.",
+                "In most regions, the tree stands as an untouchable \ntitan of bark.",
+                "Here, however, there exists a vile predator with a \ngrudge against timber.",
+                "The murderer goes by the name of : ",
+                "SIGN PAINTER."]
+            ],
+            [
+                ["The tree has an engraving that reads : ",
+                '"Aba <3 Gunther"',
+                "To its right, is a scribble of phallic nature."]
+            ],
+            [
+                ["Oh no, the tree fandom is dying.",
+                'For more information, look up "Industrial Society \nand Its Future" by Theodore Kaczynski.']
+            ],
         ];
 
-        const tDialTwo = [
-            ["A simple tree, with a preference for brevity."]
-        ];
 
-        const tDialThree = [
-            ["Pictured here is the tree in its natural inhabitat.",
-            "Elegant, peaceful, and unbothered.",
-            "In most regions, the tree stands as an untouchable \ntitan of bark.",
-            "Here, however, there exists a vile predator with a \ngrudge against timber.",
-            "The murderer goes by the name of : ",
-            "SIGN PAINTER."]
-        ];
-
-        const tDialFour = [
-            ["The tree has an engraving that reads : ",
-            '"Aba <3 Gunther"',
-            "To its right, is a scribble of phallic nature."]
-        ];
-
-        const tDialFive = [
-            ["The tree fandom is dying.",
-            'For more information, look up "Industrial Society \nand Its Future" by Theodore Kaczynski.']
-        ];
-
-        const treeDialogues = [tDialOne, tDialTwo, tDialThree, tDialFour, tDialFive];
 
 
         const signDialogues = [
