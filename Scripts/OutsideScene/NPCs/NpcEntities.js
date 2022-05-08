@@ -924,6 +924,37 @@ class Tree extends TextNpc{
     }
 }
 
+class TrapDoor extends TextNpc{
+    constructor(drawLayer, playerReference, position, monologuesList, open=false){
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffffff",
+        });
+        const spritePath = 'TrapDoorClosed'
+        if (opened){
+            spritePath = 'TrapDoorOpen'
+        }
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'TrapDoor', spritePath);
+        this.open = open;
+    }
+
+    isInteracted(){
+        if (!this.open){
+            super.isInteracted(0)
+            return;
+        }
+
+        mainGame.changeScene(new SurferBoss())
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);s
+    }
+    
+}
+
 class Chair extends TextNpc{
 
     constructor(drawLayer, playerReference, position, monologuesList){

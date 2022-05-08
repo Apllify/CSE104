@@ -25,6 +25,7 @@ class IntroOutsideScene extends OutsideScene{
     shadeGradient = [];
     shadeGradientHeight = 40;
     shadeGradientQuantity = 100;
+    tilesList = [];
 
     constructor(){
         
@@ -415,8 +416,9 @@ class IntroOutsideScene extends OutsideScene{
         for(let x = 20; x < this.getDimensions().width; x += 40){
             for (let y = 120; y < 500; y += 40 ){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
-
-                this.npcList.push(new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Concrete" + spriteIndex));
+                let newTile = new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Concrete" + spriteIndex);
+                newTile.update(0, inputs);
+                this.tilesList.push(newTile);
             }
         }
         

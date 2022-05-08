@@ -10,6 +10,7 @@ class BarScene extends OutsideScene{
 
     }
 
+    tilesList = [];
     shade = null;
 
     backgroundMusic = null;
@@ -87,10 +88,12 @@ class BarScene extends OutsideScene{
 
 
 
-        for (let x = -800; x < this.getDimensions().width - 720; x += 80){
-            for (let y = -600; y < this.getDimensions().height - 520; y += 80){
+        for (let x = -800; x < this.getDimensions().width - 760; x += 40){
+            for (let y = -600; y < this.getDimensions().height - 560; y += 40){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
-                this.npcList.push(new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex, {x:2, y:2}));
+                let newTile = new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex);
+                newTile.update(0, inputs);
+                this.tilesList.push(newTile);
             }
         }
 
@@ -104,9 +107,12 @@ class BarScene extends OutsideScene{
 
     update(delta, inputs){
         super.update(delta, inputs);
+        
     }
 
+
     destroy(){
+        window.localStorage.setItem('BarPlayerCoords', {x:this.playerReference.x, y:this.playerReference.y});
         super.destroy();
 
         this.backgroundMusic.pause();

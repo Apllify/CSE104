@@ -16,7 +16,7 @@ class Game{
 
 
         //this.changeScene(new PatternDebug())
-        this.changeScene(new MenuScene());
+        this.changeScene(new IntroOutsideScene());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();
@@ -25,6 +25,7 @@ class Game{
 
 
     update(delta, inputs){
+    
         if (this.isCurrentSceneLoaded && this.currentState === 1){
             this.currentScene.update(delta, inputs);
         }

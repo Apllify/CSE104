@@ -165,7 +165,7 @@ class TutorialBoss extends SuperBoss{
             "(No clue, they weren't doing bad though)",
             "(Maybe.... This could ? work ?)",
             "Ahem.",
-            "Great job, keep it up !",
+            "Great job, keep it up.",
             "That was some smooth movement.",
             "(Phew)",
             "Ok this next one is a l-little trickier. \nIt's kind of my speciality move.",
