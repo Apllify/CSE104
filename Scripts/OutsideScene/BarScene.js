@@ -88,10 +88,10 @@ class BarScene extends OutsideScene{
 
 
 
-        for (let x = -800; x < this.getDimensions().width - 760; x += 40){
-            for (let y = -600; y < this.getDimensions().height - 560; y += 40){
+        for (let x = -760; x < this.getDimensions().width - 720; x += 80){
+            for (let y = -560; y < this.getDimensions().height - 520; y += 80){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
-                let newTile = new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex);
+                let newTile = new Tile(this.backgroundContainer, this.playerReference, {x:x, y:y}, "Wood" + spriteIndex, {x:2, y:2});
                 newTile.update(0, inputs);
                 this.tilesList.push(newTile);
             }
