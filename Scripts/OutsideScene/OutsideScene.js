@@ -385,10 +385,13 @@ class OutsideScene{
         }
     }
 
-    setPlayerPosition(position){
+    setPlayerPosition(position, previousPosition){
         // Directly places the player in the given position 
         this.playerReference.x = position.x;
         this.playerReference.y = position.y;
+        this.playerReference.previousX = previousPosition.x;
+        this.playerReference.previousY = previousPosition.y;
+        
     }
 
     placePlayer(position){

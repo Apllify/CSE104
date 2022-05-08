@@ -899,25 +899,27 @@ class TrapDoor extends TextNpc{
             fontWeight : "bold",
             fill : "#ffffff",
         });
-        const spritePath = 'TrapDoorClosed'
-        if (opened){
+        let spritePath = 'TrapDoorClosed'
+        if (open){
             spritePath = 'TrapDoorOpen'
         }
         super(drawLayer, playerReference, position, textStyle, monologuesList, 'TrapDoor', spritePath);
         this.open = open;
     }
 
-    isInteracted(){
+    isInteracted(index){
         if (!this.open){
-            super.isInteracted(0)
-            return;
+            return super.isInteracted(index);
+        }
+        else{
+            mainGame.changeScene(new SurferBoss())
         }
 
-        mainGame.changeScene(new SurferBoss())
+        
     }
 
     setupHitbox(){
-        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);s
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
     }
     
 }
