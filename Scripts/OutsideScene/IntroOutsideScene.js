@@ -45,10 +45,7 @@ class IntroOutsideScene extends OutsideScene{
 
               
 
-        //create a door npc
-        const roadUpperEdge = 100;
-        const roadLowerEdge = 480;
-        const totalWidth = 9600;
+        
         this.playerReference.x = 9000;
         
         const rockDialogues = [
@@ -415,7 +412,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
         //create some background tiles for the road
-        for(let x = 20; x < totalWidth; x += 40){
+        for(let x = 20; x < this.getDimensions().width; x += 40){
             for (let y = 120; y < 500; y += 40 ){
                 let spriteIndex = Math.floor(Math.random() * 3) + 1;
 

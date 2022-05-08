@@ -86,14 +86,18 @@ class TextNpc extends Npc{
 
 
 class Person extends TextNpc{
-
+    // index of the current target point 
     currentIndex = 0;
-    targetReached = false;
+    
+    // the current target point 
     targetPoint = null;
 
-    elapsedTime = 0
+    elapsedTime = 0;
+    // The minimum y scale
     minScale = null;
+    // Measures how fast the bobbing occurs
     bobbingPeriod = null;
+    // How close the person gets to the target point before switching directions
     precisionEpsilon = null;
     constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, speed=20, minScale=1, bobbingPeriod=5, precisionEpsilon=5){
             const textStyle = new PIXI.TextStyle({
@@ -105,9 +109,11 @@ class Person extends TextNpc{
             });
             super(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath, 
                 70);
+
+            // set up necessary variables 
             this.targetPoints = targetPoints;
             this.speed = speed;
-            
+            // We add the initial position to the target points so we can complete the loop
             this.targetPoints.push({...position});
             this.minScale = minScale;
             this.bobbingPeriod = Math.max(bobbingPeriod, 0.001);
@@ -115,12 +121,11 @@ class Person extends TextNpc{
         }
     
     setupGraphics(){
-        console.log('here')
         super.setupGraphics(2, 2);
     }
 
     setupHitbox(){
-        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.sprite.y, this.sprite.width, this.sprite.height);
     }
 
     idleUpdate(delta, inputs){
@@ -129,27 +134,24 @@ class Person extends TextNpc{
 
         this.targetPoint = this.targetPoints[this.currentIndex];
         this.directionVector = new Vector(this.targetPoint.x - this.x, this.targetPoint.y - this.y);
-        
+        // if the person if close enough to the current target, switch targets 
         if (this.directionVector.getNorm() <= this.precisionEpsilon){
             this.currentIndex = (this.currentIndex + 1) % this.targetPoints.length;
         }
 
         else{
-            this.directionVector = this.directionVector.normalize();
-            this.sprite.x += this.directionVector.x * delta * this.speed;
-            this.sprite.y += this.directionVector.y * delta * this.speed;
-            this.x += this.directionVector.x * delta * this.speed;
-            this.y += this.directionVector.y * delta * this.speed;
+            // Move the npc toward the target with the given speed 
+            this.directionVector = this.directionVector.normalize().rescale(this.speed);
+            this.sprite.x += this.directionVector.x * delta;
+            this.sprite.y += this.directionVector.y * delta;
+            // Also keep track of the center position to setup the hitbox later 
+            this.x += this.directionVector.x * delta;
+            this.y += this.directionVector.y * delta;
         }
-
-        // if (this.phaseTimer >= 5){
-        //     this.state = 1 - this.state;
-        //     this.sprite.scale.y = 2 * (-0.5 * this.state + 1);
-        //     this.setupHitbox();
-        //     this.phaseTimer = 0;
-        // }
-
+        // Make the sprite bob up and down with the specified period and minScale
         this.sprite.scale.y = this.minScale + Math.abs((2 - this.minScale) * Math.cos(this.elapsedTime * Math.PI / this.bobbingPeriod));
+        this.sprite.y = this.y + 32 * (1 - this.sprite.scale.y);
+        
         
         // We reset the timer purely for performance reasons not to have a large number to evaluate each time
         if (this.sprite.scale.y >= 1.97 && this.elapsedTime >= 1000){
@@ -157,14 +159,10 @@ class Person extends TextNpc{
         }
 
         if (this.directionVector.x != 0){
+            // change the orientation of the sprite depending on the xDirection 
             this.sprite.scale.x = -2 * Math.sign(this.directionVector.x);
-            if (this.sprite.scale.x > 0){
-                this.sprite.x = this.x - this.sprite.width / 2;
-            }
-
-            else{
-                this.sprite.x = this.x + this.sprite.width / 2;
-            }
+            // Adjust the x of the sprite since the way it is drawn depends on the scale
+            this.sprite.x = this.x - Math.sign(this.sprite.scale.x) * this.sprite.width / 2
         }
 
         this.setupHitbox();
@@ -769,14 +767,10 @@ class BossWarp extends Npc{
 
 
 
-class TutorialNpc extends Npc{
+class TutorialNpc extends Person{
 
-    isInteracted(){
+    isInteractingJustDone(){
         mainGame.changeScene(new TutorialBoss(), new PixelTransition(1, 1, 0x000000));
-    }
-
-    setupHitbox(){
-        this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
     }
 }
 

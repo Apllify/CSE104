@@ -379,6 +379,13 @@ class OutsideScene{
 
     }
 
+    getDimensions(){
+        if (this.mapMatrix != null){
+            return {width:800 * this.mapMatrix[0].length, height:600 * this.mapMatrix.length}
+        }
+    }
+
+
     destroy(){
         //destroy everything contained in the container
         this.destroying = true;
