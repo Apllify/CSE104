@@ -125,7 +125,7 @@ class Person extends TextNpc{
     }
 
     setupHitbox(){
-        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+        this.hitbox = new Rectangle(this.x - this.sprite.width / 2, this.sprite.y, this.sprite.width, this.sprite.height);
     }
 
     idleUpdate(delta, inputs){
@@ -150,6 +150,8 @@ class Person extends TextNpc{
         }
         // Make the sprite bob up and down with the specified period and minScale
         this.sprite.scale.y = this.minScale + Math.abs((2 - this.minScale) * Math.cos(this.elapsedTime * Math.PI / this.bobbingPeriod));
+        this.sprite.y = this.y + 32 * (1 - this.sprite.scale.y);
+        
         
         // We reset the timer purely for performance reasons not to have a large number to evaluate each time
         if (this.sprite.scale.y >= 1.97 && this.elapsedTime >= 1000){
@@ -765,14 +767,10 @@ class BossWarp extends Npc{
 
 
 
-class TutorialNpc extends Npc{
+class TutorialNpc extends Person{
 
-    isInteracted(){
+    isInteractingJustDone(){
         mainGame.changeScene(new TutorialBoss(), new PixelTransition(1, 1, 0x000000));
-    }
-
-    setupHitbox(){
-        this.hitbox = new Rectangle(this.x - 20, this.y - 20, 40, 40);
     }
 }
 

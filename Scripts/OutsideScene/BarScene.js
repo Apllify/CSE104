@@ -5,7 +5,8 @@ class BarScene extends OutsideScene{
         "Table": "Sprites/Table.png",
         "Wood1": "Sprites/Tiles/Wood1.png",
         "Wood2": "Sprites/Tiles/Wood2.png",
-        "Wood3": "Sprites/Tiles/Wood3.png"
+        "Wood3": "Sprites/Tiles/Wood3.png",
+        'Tutorial': "Sprites/Npc/Npc10.png"
 
     }
 
@@ -27,7 +28,7 @@ class BarScene extends OutsideScene{
         }
 
         this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:100}, [["YOooo"]]))
-        
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [["I'm T"]], 'T', 'Tutorial', []))
 
     }
 
