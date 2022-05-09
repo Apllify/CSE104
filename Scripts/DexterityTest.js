@@ -53,7 +53,7 @@ class DexterityTest{
         'ultraHard': [(length) => length / 4, 8]
     }
     
-    constructor(length=50, difficulty='easy'){
+    constructor(boss, length=50, difficulty='easy'){
         // set up the length and difficulty 
         this.length = length;
         this.chosenDifficulty = difficulty;
@@ -61,6 +61,7 @@ class DexterityTest{
         this.penalty = this.difficulty[this.chosenDifficulty][1];
         this.timer = Math.floor(this.difficulty[this.chosenDifficulty][0](length));
         
+        this.boss = boss;
 
         this.fadeTextStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
@@ -183,7 +184,7 @@ class DexterityTest{
         for (let direction of this.directions){
             
             if (direction !== this.currentChar && (this.stringToKey[direction].isJustDown || this.stringToKey[direction + 'Alt'].isJustDown)){
-                if (!window.localStorage.getItem('ProfMode')){
+                if (window.localStorage.getItem('ProfMode') == 0){
                     this.timer -= this.penalty;
                 }
                 
@@ -193,7 +194,7 @@ class DexterityTest{
         }
 
         // update the timer
-        if (!window.localStorage.getItem('ProfMode')){
+        if (window.localStorage.getItem('ProfMode') == 0){
             this.timer = Math.max(this.timer - delta, 0);
             this.timerText.setText(`${Math.round(this.timer * 10) / 10}`);
         }
@@ -224,7 +225,16 @@ class DexterityTest{
 
     isDone(){
         // ends when the attack is won or the timer runs out 
-        return this.attackWon || this.timer <= 0;
+        if (this.attackWon || this.timer <= 0){
+            if (!this.attackWon){
+                this.boss.gameOverHandle();
+            }   
+            return true
+        }
+        else {
+            return false;
+        }
+        
     }
 
     destroy(){
@@ -247,6 +257,8 @@ class DexterityTest{
             
             sprite.destroy();
         }
+
+        this.penaltyText.destroy();
         this.destroyed = true;
     }
 

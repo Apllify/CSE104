@@ -17,6 +17,8 @@ class Game{
 
         //this.changeScene(new PatternDebug()
         window.sessionStorage.clear();
+        
+        window.localStorage.setItem('ProfMode', 0)
         this.changeScene(new SurferBoss());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
@@ -26,7 +28,7 @@ class Game{
 
 
     update(delta, inputs){
-    
+        console.log(window.localStorage.getItem('ProfMode'))
         if (this.isCurrentSceneLoaded && this.currentState === 1){
             this.currentScene.update(delta, inputs);
         }
@@ -75,6 +77,11 @@ class Game{
                 this.currentState = 1;
             }
         }
+
+        if (window.localStorage.getItem('username') && window.localStorage.getItem('username').toLowerCase() === 'grader' && inputs.toggleGrader.isJustDown){
+            
+            window.localStorage.setItem('ProfMode', 1 - window.localStorage.getItem('ProfMode'));
+        };
     }
 
 

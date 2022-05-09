@@ -286,7 +286,7 @@ class NameInputScene{
                     if (this.currentName !== ""){
                         window.localStorage.setItem("username", this.currentName);
                         if (this.currentName.toLowerCase() === 'grader'){
-                            window.localStorage.setItem('ProfMode', true);
+                            window.localStorage.setItem('ProfMode', 1);
                         }
 
                     }

@@ -108,7 +108,9 @@ class SuperBoss{
 
         //create a new pattern or break if needed
         if (this.currentObject.isDone() || this.currentObject === null){
-
+            if(this.gameOver){
+                return
+            }
             //destroy the current object if necessary
             if (!this.currentObject.destroyed){
                 this.currentObject.destroy();

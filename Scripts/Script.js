@@ -173,7 +173,9 @@ const inputs = {
   upArrow: keyboard('ArrowUp'),
   downArrow: keyboard('ArrowDown'),
   leftArrow: keyboard('ArrowLeft'),
-  rightArrow: keyboard('ArrowRight')
+  rightArrow: keyboard('ArrowRight'),
+
+  toggleGrader: keyboard('g')
 }
 
 
