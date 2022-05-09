@@ -409,7 +409,6 @@ class IntroOutsideScene extends OutsideScene{
             this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, rockDialogues[rockDialogueIndex]));
 
         }
-        this.npcList.push(new Person(this.container, this.playerReference, {x:200, y:200},[['Heck']], 'You Know', 'Person', [{x:400, y:200}], 20))
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Bar entrance to the right !!!"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["49 Buried, 0 Found."]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));

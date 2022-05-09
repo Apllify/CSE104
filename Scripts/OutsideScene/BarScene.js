@@ -9,7 +9,16 @@ class BarScene extends OutsideScene{
         'Tutorial': "Sprites/Npc/Npc10.png",
         'TrapDoorOpen': "Sprites/TrapDoorOpen.png",
         "TrapDoorClosed": "Sprites/TrapDoorClosed.png",
-        "BarExit": 'Sprites/BarExit.png'
+        "BarExit": 'Sprites/BarExit.png',
+        "Npc1" : "Sprites/Npc/Npc1.png",
+        "Npc2" : "Sprites/Npc/Npc2.png",
+        "Npc3" : "Sprites/Npc/Npc3.png",
+        "Npc4" : "Sprites/Npc/Npc4.png",
+        "Npc5" : "Sprites/Npc/Npc5.png",
+        "Npc6" : "Sprites/Npc/Npc6.png",
+        "Npc7" : "Sprites/Npc/Npc7.png",
+        "Npc8" : "Sprites/Npc/Npc8.png",
+        "Npc9" : "Sprites/Npc/Npc9.png",
 
     }
 
@@ -45,7 +54,7 @@ class BarScene extends OutsideScene{
         //create a teeny tiny bit of shade over the room
         this.shade = new PIXI.Graphics();
         this.shade.beginFill(0x000000);
-        this.shade.drawRect(-1000, -800, 2000, 1600);
+        this.shade.drawRect(-1200, -1000, 2400, 2000);
         this.shade.endFill();
 
         this.shade.alpha = 0.5
@@ -108,13 +117,71 @@ class BarScene extends OutsideScene{
             }
         }
 
-        this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:100}, [["YOooo"]]));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [{x:200, y: 300}, {x:300, y : 300}], window.localStorage.getItem('TutorialComplete') == null));
+        //this.npcList.push(new Chair(this.container, this.playerReference, {x:700, y:500}, [["YOooo"]], true, 0));
+        //this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [{x:200, y: 300}, {x:300, y : 300}], window.localStorage.getItem('TutorialComplete') == null));
         
-        this.npcList.push(new TrapDoor(this.container, this.playerReference, this.adjustedPosition({x:200, y:100}), [['Admire The Huslte']], 
+
+        const trapdoorDialogue = [
+            ["Sowwy I can't wet you pass UwU",
+            "Come back later maybe ,?,?"],
+            ["I- I- am closed >-<"]
+        ]
+
+        this.npcList.push(new TrapDoor(this.container, this.playerReference, this.adjustedPosition({x:1400, y:70}), trapdoorDialogue, 
         (window.localStorage.getItem('TutorialComplete') != null)));
         
         this.npcList.push(new BarExit(this.container, this.playerReference, {x:780, y:300}, [["Leaving so soon?"]], true));
+
+
+        //setup the first table (one person seated alone)
+        const impDialogue = [
+            [
+                "Hehe, you think I'm so mysterious don't you ?",
+                "Pain changes people...",
+            ],
+            [
+                "Watch your back.",
+                "The people closest to you cut the deepest... ",
+            ],
+            [
+                "Which is why is have no friends."
+            ],
+            [
+                "Hehe >:)"
+            ]
+        ];
+
+        const impChairDialogue = [
+            [
+                "I'm so fed up with this guy.",
+                "He's just been rambling about society for the \npast 3 hours.",
+                "I'm gonna break the fabric of reality and \nmove to another table if he goes again."
+            ]
+        ]
+
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:200, y:450}, [], true));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:0, y:450}, impChairDialogue ,false));
+        this.npcList.push(new Table(this.container, this.playerReference, {x:100, y:450}, []));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:200, y:430}, impDialogue, "Em", "Npc4", []));
+
+
+        //setup the second table (group of three)
+        const shockedDialogue = [[]];
+
+        const winkyDialogue = [[]];
+
+        const frownDialogue = [[]];
+
+        
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-700, y:370}, [], false));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-550, y:235}, [], true));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-510, y:415}, [], true));  
+
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-700, y:350}, shockedDialogue, "Shaux", "Npc2", [], true));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-550, y: 220}, winkyDialogue, "Shaux", "Npc6", []));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-510, y:400}, frownDialogue, "Shaux", "Npc3", []));
+
+
 
 
 
