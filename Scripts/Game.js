@@ -16,7 +16,7 @@ class Game{
 
 
         //this.changeScene(new PatternDebug())
-        
+        window.localStorage.clear();
         this.changeScene(new IntroOutsideScene());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
