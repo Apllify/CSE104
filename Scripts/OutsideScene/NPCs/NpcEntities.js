@@ -831,7 +831,7 @@ class BossWarp extends Npc{
 
 class TutorialNpc extends Person{
 
-    constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true){
+    constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true, flipped = false){
         const monologuesList = [
             ["Wait.",
             "Y-you're...",
@@ -839,7 +839,7 @@ class TutorialNpc extends Person{
             "Allow me to - "]
         ];
 
-        super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints );
+        super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints, flipped, 0, 1.3);
         this.firstMeeting = firstMeeting;
     }
 

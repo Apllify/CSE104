@@ -159,7 +159,7 @@ class BarScene extends OutsideScene{
             ]
         ]
 
-        this.npcList.push(new Chair(this.container, this.playerReference, {x:200, y:450}, [], true));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:200, y:445}, [], true));
         this.npcList.push(new Chair(this.container, this.playerReference, {x:0, y:450}, impChairDialogue ,false));
         this.npcList.push(new Table(this.container, this.playerReference, {x:100, y:450}, []));
         this.npcList.push(new Person(this.container, this.playerReference, {x:200, y:430}, impDialogue, "Em", "Npc4", []));
@@ -173,13 +173,79 @@ class BarScene extends OutsideScene{
         const frownDialogue = [[]];
 
         
-        this.npcList.push(new Chair(this.container, this.playerReference, {x:-700, y:370}, [], false));
-        this.npcList.push(new Chair(this.container, this.playerReference, {x:-550, y:235}, [], true));
-        this.npcList.push(new Chair(this.container, this.playerReference, {x:-510, y:415}, [], true));  
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-700, y:365}, [], false));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-480, y:235}, [], true));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-450, y:415}, [], true));  
+
+        this.npcList.push(new Table(this.container, this.playerReference, {x:-580, y:350}, []));
 
         this.npcList.push(new Person(this.container, this.playerReference, {x:-700, y:350}, shockedDialogue, "Shaux", "Npc2", [], true));
-        this.npcList.push(new Person(this.container, this.playerReference, {x:-550, y: 220}, winkyDialogue, "Shaux", "Npc6", []));
-        this.npcList.push(new Person(this.container, this.playerReference, {x:-510, y:400}, frownDialogue, "Shaux", "Npc3", []));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-480, y: 220}, winkyDialogue, "Wick", "Npc6", []));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-450, y:400}, frownDialogue, "Frown", "Npc3", []));
+
+
+        //setup the third table (center of room, only one person)
+        const nerdDialogue = [
+            [
+                "Hey ! ",
+                "We just played poker, it was a blast.",
+                "I think the others didn't like it as much, though ?"
+        ]
+        ];
+
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-100, y:-185}, [], false));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-80, y:-40}, [], false, 9));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-90, y:-20}, [], false, 6));
+
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:100, y:-185}, [], true, 7));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:150, y:-60}, [], true, 9));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:110, y:-0}, [], true, 4));
+
+
+        this.npcList.push(new Table(this.container, this.playerReference, {x:25, y:-100}, []));
+
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-100, y:-200}, nerdDialogue, "Ned", "Npc1", [], true));
+
+
+        //setup the fourth "table", really just a guy pacing back and fourth on the left
+        const madDialogue = [
+            [
+                "I'm not mad",
+                "I'm not mad.",
+                "I am not mad.",
+                "I - ",
+                "Not mad.",
+                "Yep.",
+                "I'm perfectly fine thanks for asking."
+            ]
+        ];
+
+        this.npcList.push(new Person(this.container, this.playerReference, {x:-700, y:0}, madDialogue, "Mad", "Npc5", [{x:-750, y:0}, {x:-650, y:0}], false, 200));
+
+        //setup the fifth table (two people in top right)
+        const fedupDialogue = [
+            ["You barely wagered anything.",
+            "Try losing your mortgage, see how that feels."]
+        ]; 
+        
+        const cryingDialogue = [
+            ["I just.",
+            "I can't do this anymore",
+            "How does he keep getting away with it.",
+            "I don't.",
+            "Wanna play anymore..."]
+        ];
+
+        this.npcList.push(new Person(this.container, this.playerReference, {x:480, y:-430}, fedupDialogue, "Man", "Npc7", [], true));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:610, y:-400}, cryingDialogue, "I can't", "Npc9", [], false));
+
+
+        //setup the sixth table (tutorial vomitting)
+        this.npcList.push(new Table(this.container, this.playerReference, {x:-650, y:-520}, []));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], false));
+
+
+
 
 
 
