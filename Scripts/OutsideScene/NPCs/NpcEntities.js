@@ -861,7 +861,7 @@ class Bar extends Npc{
         this.spritePath = 'Bar';
     }
     isInteracted(){
-        mainGame.changeScene(new BarScene());
+        mainGame.changeScene(new DexterityTest());
     }
 
     setupGraphics(){
