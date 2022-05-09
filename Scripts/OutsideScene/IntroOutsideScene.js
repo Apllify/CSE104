@@ -1,3 +1,4 @@
+'use strict';
 class IntroOutsideScene extends OutsideScene{
 
     requiredAssets = {
@@ -451,6 +452,7 @@ class IntroOutsideScene extends OutsideScene{
 
     unload(){
         // store position of player for future sessions 
+        
         window.localStorage.setItem('IntroScenePlayerCoords', JSON.stringify(this.playerReference.getPosition()));
         this.backgroundMusic.pause();
     }

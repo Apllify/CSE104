@@ -1,3 +1,4 @@
+'use strict';
 class ContinuumProjectile extends Projectile{
 
     lifespan = 5;

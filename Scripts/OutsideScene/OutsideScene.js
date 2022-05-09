@@ -1,3 +1,4 @@
+'use strict';
 class OutsideScene{
 
     //the matrix that represents the outside map

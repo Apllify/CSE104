@@ -1,3 +1,4 @@
+'use strict';
 class SeekerPattern extends Pattern{
 
     x = 0;

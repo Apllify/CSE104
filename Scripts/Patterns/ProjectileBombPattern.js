@@ -1,3 +1,4 @@
+'use strict';
 class ProjectileBombPattern extends Pattern{
 
     x = 0;

@@ -1,3 +1,4 @@
+'use strict';
 class TextNpc extends Npc{
     monologuesList =[]; //list of lists
 
@@ -877,7 +878,7 @@ class Bar extends Npc{
         this.spritePath = 'Bar';
     }
     isInteracted(){
-        mainGame.changeScene(new DexterityTest());
+        mainGame.changeScene(new BarScene());
     }
 
     setupGraphics(){

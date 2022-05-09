@@ -49,7 +49,7 @@ class DexterityTest{
         'ultraHard': [(length) => length / 4, 8]
     }
     
-    constructor(length, difficulty='easy'){
+    constructor(length=50, difficulty='easy'){
         // set up the length and difficulty 
         this.length = length;
         this.chosenDifficulty = difficulty;
@@ -175,7 +175,7 @@ class DexterityTest{
         for (let direction of this.directions){
             
             if (direction !== this.currentChar && this.stringToKey[direction].isJustDown){
-                if (!window.localStorage('ProfMode')){
+                if (!window.localStorage.getItem('ProfMode')){
                     this.timer -= this.penalty;
                 }
                 
@@ -185,7 +185,7 @@ class DexterityTest{
         }
 
         // update the timer
-        if (!window.localStorage('ProfMode')){
+        if (!window.localStorage.getItem('ProfMode')){
             this.timer = Math.max(this.timer - delta, 0);
             this.timerText.setText(`${Math.round(this.timer * 10) / 10}`);
         }

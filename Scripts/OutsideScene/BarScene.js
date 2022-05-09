@@ -1,25 +1,26 @@
+'use strict';
 class BarScene extends OutsideScene{
     requiredAssets = {
-        "Shield":  "Sprites/Shield.png",
+        'Shield':  'Sprites/Shield.png',
         "Chair": "Sprites/Chair.png",
         "Table": "Sprites/Table.png",
         "Wood1": "Sprites/Tiles/Wood1.png",
         "Wood2": "Sprites/Tiles/Wood2.png",
         "Wood3": "Sprites/Tiles/Wood3.png",
         'Tutorial': "Sprites/Npc/Npc10.png",
-        'TrapDoorOpen': "Sprites/TrapDoorOpen.png",
-        "TrapDoorClosed": "Sprites/TrapDoorClosed.png",
-        "BarExit": 'Sprites/BarExit.png',
-        "Npc1" : "Sprites/Npc/Npc1.png",
-        "Npc2" : "Sprites/Npc/Npc2.png",
-        "Npc3" : "Sprites/Npc/Npc3.png",
-        "Npc4" : "Sprites/Npc/Npc4.png",
-        "Npc5" : "Sprites/Npc/Npc5.png",
-        "Npc6" : "Sprites/Npc/Npc6.png",
-        "Npc7" : "Sprites/Npc/Npc7.png",
-        "Npc8" : "Sprites/Npc/Npc8.png",
-        "Npc9" : "Sprites/Npc/Npc9.png",
-        "Vomit": 'Sprites/Npc/Vomit.png'
+        'TrapDoorOpen': 'Sprites/TrapDoorOpen.png',
+        'TrapDoorClosed': 'Sprites/TrapDoorClosed.png',
+        'BarExit': 'Sprites/BarExit.png',
+        'Npc1' : 'Sprites/Npc/Npc1.png',
+        'Npc2' : 'Sprites/Npc/Npc2.png',
+        'Npc3' : 'Sprites/Npc/Npc3.png',
+        'Npc4' : 'Sprites/Npc/Npc4.png',
+        'Npc5' : 'Sprites/Npc/Npc5.png',
+        'Npc6' : 'Sprites/Npc/Npc6.png',
+        'Npc7' : 'Sprites/Npc/Npc7.png',
+        'Npc8' : 'Sprites/Npc/Npc8.png',
+        'Npc9' : 'Sprites/Npc/Npc9.png',
+        'Vomit': 'Sprites/Npc/Vomit.png'
 
     }
 
@@ -243,7 +244,7 @@ class BarScene extends OutsideScene{
 
         //setup the sixth table (tutorial vomitting)
         this.npcList.push(new Table(this.container, this.playerReference, {x:-650, y:-520}, []));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], false));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], ));
 
 
 
