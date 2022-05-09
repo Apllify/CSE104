@@ -1,3 +1,4 @@
+'use strict';
 class PreIntroOutsideScene extends OutsideScene{
     requiredAssets = {
         "God Spritesheet": "Sprites/God.json",

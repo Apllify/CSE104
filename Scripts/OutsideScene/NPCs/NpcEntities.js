@@ -1,3 +1,4 @@
+'use strict';
 class TextNpc extends Npc{
     monologuesList =[]; //list of lists
 

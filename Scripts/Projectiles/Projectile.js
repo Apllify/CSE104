@@ -32,8 +32,8 @@ class Projectile{
 
         this.x = coordinates.x;
         this.y = coordinates.y;
-
-        this.color = color;
+        // color is set by boss scenes in the session storage
+        this.color = window.sessionStorage.getItem('ProjectileColor') != null? window.sessionStorage.getItem('ProjectileColor'): color
 
         this.speed = projectileSpeed;
         this.dps = dps;
@@ -123,7 +123,7 @@ class Projectile{
 
         //for now, lower the player health by a little bit when colliding
         if (isCollision){
-            if (!window.localStorage.getItem('ProfMode')){
+            if (window.localStorage.getItem('ProfMode') === 0){
                 this.playerReference.health -= this.dps * delta;
             }
             PIXI.sound.play('hit');

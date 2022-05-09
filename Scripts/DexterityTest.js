@@ -12,10 +12,14 @@ class DexterityTest{
     directions = ['u', 'd', 'l', 'r']
     // associate each direction with an arrow key 
     stringToKey = {
-        'u': inputs.upArrow,
-        'd': inputs.downArrow,
-        'l': inputs.leftArrow,
-        'r': inputs.rightArrow
+        'u': inputs.up,
+        'd': inputs.down,
+        'l': inputs.left,
+        'r': inputs.right,
+        'uAlt': inputs.upAlt,
+        'dAlt': inputs.down,
+        'lAlt': inputs.leftAlt,
+        'rAlt': inputs.right
     };
     // this shall hold the sprites associated with the directions 
     sprites = [];
@@ -49,7 +53,7 @@ class DexterityTest{
         'ultraHard': [(length) => length / 4, 8]
     }
     
-    constructor(length, difficulty='easy'){
+    constructor(boss, length=50, difficulty='easy'){
         // set up the length and difficulty 
         this.length = length;
         this.chosenDifficulty = difficulty;
@@ -57,6 +61,7 @@ class DexterityTest{
         this.penalty = this.difficulty[this.chosenDifficulty][1];
         this.timer = Math.floor(this.difficulty[this.chosenDifficulty][0](length));
         
+        this.boss = boss;
 
         this.fadeTextStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
@@ -132,6 +137,10 @@ class DexterityTest{
         PIXI.sound.volume("miss", 0.03);
     }
 
+    activate(){
+        this.load()
+    }
+
     update(delta, inputs){
         if (this.destroying || this.isDone()){
             this.penaltyText.textEntity.alpha = 0;
@@ -157,7 +166,7 @@ class DexterityTest{
             this.takeNew = false;
         }
 
-        if (this.stringToKey[this.currentChar].isJustDown){
+        if (this.stringToKey[this.currentChar].isJustDown || this.stringToKey[this.currentChar + 'Alt'].isJustDown){
             // the key associated to this sprite is pressed so we destroy the sprite and shift all sprites
             // to the left 
             this.currentSprite.destroy();
@@ -174,8 +183,8 @@ class DexterityTest{
 
         for (let direction of this.directions){
             
-            if (direction !== this.currentChar && this.stringToKey[direction].isJustDown){
-                if (!window.localStorage('ProfMode')){
+            if (direction !== this.currentChar && (this.stringToKey[direction].isJustDown || this.stringToKey[direction + 'Alt'].isJustDown)){
+                if (window.localStorage.getItem('ProfMode') == 0){
                     this.timer -= this.penalty;
                 }
                 
@@ -185,7 +194,7 @@ class DexterityTest{
         }
 
         // update the timer
-        if (!window.localStorage('ProfMode')){
+        if (window.localStorage.getItem('ProfMode') == 0){
             this.timer = Math.max(this.timer - delta, 0);
             this.timerText.setText(`${Math.round(this.timer * 10) / 10}`);
         }
@@ -216,7 +225,16 @@ class DexterityTest{
 
     isDone(){
         // ends when the attack is won or the timer runs out 
-        return this.attackWon || this.timer <= 0;
+        if (this.attackWon || this.timer <= 0){
+            if (!this.attackWon){
+                this.boss.gameOverHandle();
+            }   
+            return true
+        }
+        else {
+            return false;
+        }
+        
     }
 
     destroy(){
@@ -224,7 +242,7 @@ class DexterityTest{
         // destroy the timer
         this.timerText.destroy();
         // destroy the current sprite and fadetext (if they are still undestroyed)
-        if (this.currentSprite.destroy != undefined){
+        if (!this.attackWon){
             this.currentSprite.destroy();
         }
 
@@ -239,6 +257,9 @@ class DexterityTest{
             
             sprite.destroy();
         }
+
+        this.penaltyText.destroy();
+        this.destroyed = true;
     }
 
     shiftSprites(shift){

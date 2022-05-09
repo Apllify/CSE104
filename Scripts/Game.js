@@ -15,9 +15,11 @@ class Game{
     constructor(){
 
 
-        //this.changeScene(new PatternDebug())
-        window.localStorage.clear();
-        this.changeScene(new IntroOutsideScene());
+        //this.changeScene(new PatternDebug()
+        window.sessionStorage.clear();
+        
+        window.localStorage.setItem('ProfMode', 0)
+        this.changeScene(new RollCreditsScene());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();
@@ -75,6 +77,11 @@ class Game{
                 this.currentState = 1;
             }
         }
+
+        if (window.localStorage.getItem('username') && window.localStorage.getItem('username').toLowerCase() === 'grader' && inputs.toggleGrader.isJustDown){
+            
+            window.localStorage.setItem('ProfMode', 1 - window.localStorage.getItem('ProfMode'));
+        };
     }
 
 
