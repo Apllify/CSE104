@@ -81,7 +81,7 @@ class BarScene extends OutsideScene{
                 setTimeout(function () {
                     sound.play();
                 }, 50);
-            }
+            }   
         });
 
 
