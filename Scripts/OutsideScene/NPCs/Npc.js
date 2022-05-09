@@ -133,6 +133,8 @@ class Npc{
 
 
 
+
+
                     const newPlayerHitbox = this.hitbox.simulateCollision(imaginaryPlayerHitbox, this.playerReference.getHitboxRectangle());
                     this.playerReference.setHitboxRectangle(newPlayerHitbox);
                 }
@@ -156,9 +158,13 @@ class Npc{
         }
 
         //change the state
-        this.currentState = 1;
         this.currentMonologue = this.isInteracted(this.interactionCount);
-        this.interactionCount++;
+
+        if (this.currentMonologue !== null){
+            this.currentState = 1;
+            this.interactionCount++;
+        }
+
     }
 
 

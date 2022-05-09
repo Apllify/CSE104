@@ -104,13 +104,14 @@ class Person extends TextNpc{
     //the initial dimensions
     fullWidth = 10;
     fullHeight = 10;
+    flipped = false;
 
 
     // How close the person gets to the target point before switching directions
     precisionEpsilon = null;
 
     
-    constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, speed=20, minScale=1.7, bobbingPeriod=1, precisionEpsilon=5){
+    constructor(drawLayer, playerReference, position, monologuesList, name, spritePath, targetPoints, flipped = false,speed=20, minScale=1.7, bobbingPeriod=1, precisionEpsilon=5){
             
             const textStyle = new PIXI.TextStyle({
                 fontFamily : "BrokenConsole",
@@ -122,7 +123,9 @@ class Person extends TextNpc{
 
 
             super(drawLayer, playerReference, position, textStyle, monologuesList, name, spritePath, 
-                70);
+                100);
+
+            this.flipped = flipped;
 
             // set up necessary variables 
             this.targetPoints = targetPoints;
@@ -143,6 +146,13 @@ class Person extends TextNpc{
         //save the initial dimensions lol 
         this.fullWidth = this.sprite.width;
         this.fullHeight = this.sprite.height;
+
+        //flip if necessary
+        if (this.flipped){
+            this.sprite.scale.x = -2;
+
+            this.sprite.x += this.fullWidth;
+        }
     }
 
     refreshGraphics(){
@@ -192,6 +202,12 @@ class Person extends TextNpc{
         if (this.directionVector.x != 0){
             // change the orientation of the sprite depending on the xDirection 
             this.sprite.scale.x = -2 * Math.sign(this.directionVector.x);
+
+            //flip if necessary
+            if (this.flipped){
+                this.sprite.scale.x *= -1;
+            }
+
             // Adjust the x of the sprite since the way it is drawn depends on the scale
             this.sprite.x = this.x - Math.sign(this.sprite.scale.x) * this.sprite.width / 2
         }
@@ -815,7 +831,7 @@ class BossWarp extends Npc{
 
 class TutorialNpc extends Person{
 
-    constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true){
+    constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true, flipped = false){
         const monologuesList = [
             ["Wait.",
             "Y-you're...",
@@ -823,7 +839,7 @@ class TutorialNpc extends Person{
             "Allow me to - "]
         ];
 
-        super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints );
+        super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints, flipped, 0, 1.3);
         this.firstMeeting = firstMeeting;
     }
 
@@ -1003,30 +1019,68 @@ class BarExit extends TextNpc{
 
 class Chair extends TextNpc{
 
+    flipped = false;
+    rotation = 0;
+
+    constructor(drawLayer, playerReference, position, monologuesList, flipped = false, rotation = 0){
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fill : "#ffffff",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Chair', 'Chair', 85);
+
+        this.flipped = flipped;
+        this.rotation = rotation;
+ 
+    }
+
+    setupGraphics(){
+        super.setupGraphics(2, 2);
+
+
+        if (this.flipped){
+            const width = this.sprite.width;
+
+            this.sprite.scale.x = -2;
+
+            this.sprite.x =this.x + width/2; 
+        }
+
+
+        this.sprite.rotation = this.rotation;
+    }
+
+
+    setupHitbox(){
+        //only implement hitbox collision if rotation is 0
+        if (this.rotation === 0){
+            this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
+        }
+    }
+}
+
+
+class Table extends TextNpc{
     constructor(drawLayer, playerReference, position, monologuesList){
         const textStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 24,
-            fontWeight : "bold",
-            fill : "#00ff00",
-            stroke : "#00ff00",
+            fill : "#ffffff",
         });
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Chair', 'Chair', 85);
- 
+        super(drawLayer, playerReference, position, textStyle, monologuesList, "Table", "Table");
     }
 
     setupGraphics(){
         super.setupGraphics(2, 2);
     }
 
-
     setupHitbox(){
-        
-        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
     }
 }
-
 
 class LightAura extends Npc{
 
