@@ -47,7 +47,7 @@ class IntroOutsideScene extends OutsideScene{
               
 
         
-        this.playerReference.x = 9000;
+        // this.playerReference.x = 9000;
         
         const rockDialogues = [
             [
@@ -431,10 +431,13 @@ class IntroOutsideScene extends OutsideScene{
 
     update(delta, inputs){
         super.update(delta, inputs);
+        
+    }
+
+    unload(){
         // store position of player for future sessions 
         window.localStorage.setItem('IntroScenePlayerCoords', JSON.stringify(this.playerReference.getPosition()))
     }
-
     destroy(){
         super.destroy();
     }
