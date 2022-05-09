@@ -123,7 +123,9 @@ class Projectile{
 
         //for now, lower the player health by a little bit when colliding
         if (isCollision){
-            this.playerReference.health -= this.dps * delta;
+            if (!window.localStorage.getItem('ProfMode')){
+                this.playerReference.health -= this.dps * delta;
+            }
             PIXI.sound.play('hit');
         }
 

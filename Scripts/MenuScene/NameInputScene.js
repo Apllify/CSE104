@@ -285,6 +285,9 @@ class NameInputScene{
                     //backup the player name while the website is running 
                     if (this.currentName !== ""){
                         window.localStorage.setItem("username", this.currentName);
+                        if (this.currentName.toLowerCase() === 'grader'){
+                            window.localStorage.setItem('ProfMode', true);
+                        }
 
                     }
                     else{

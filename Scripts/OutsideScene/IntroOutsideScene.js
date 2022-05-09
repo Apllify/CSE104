@@ -40,14 +40,29 @@ class IntroOutsideScene extends OutsideScene{
         //let background = new PIXI.Sprite(PIXI.Loader.shared.resources["Village"].texture)
         //background.scale.x = 3
         super.load();
+        this.backgroundMusic = PIXI.sound.Sound.from({
+            url: '././Music/IntroOutsideSceneMusic.wav',
+            preload: true,
+            loaded: function(err, sound) {
+                // sound.filters = [
+                //     new PIXI.sound.filters.TelephoneFilter(),
+                // ];
+                sound.volume = 1;
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.play();
 
+                setTimeout(function () {
+                    sound.play();
+                }, 50);
+            }
+        });
         //start the player interaction prompt 
         this.playerReference.enableInteractionPrompt();
 
               
 
         
-        this.playerReference.x = 9000;
+        // this.playerReference.x = 9000;
         
         const rockDialogues = [
             [
@@ -90,7 +105,7 @@ class IntroOutsideScene extends OutsideScene{
                 "What could the tree mean by this ?"]
             ],
             [
-                ["This tree is littered with a list of faintly legible scribbles : ",
+                ["This tree is littered with a list of \nfaintly legible scribbles : ",
                 '"Catreena, Treeodore, Matreew, Autree, Timberly..."',
                 "The footer reads : ",
                 '"Top 100 Tree names of 2022."']
@@ -409,6 +424,7 @@ class IntroOutsideScene extends OutsideScene{
             this.npcList.push(new Rock(this.container, this.playerReference, {x: i * 300 + 200, y:rocky}, rockDialogues[rockDialogueIndex]));
 
         }
+       
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["Bar entrance to the right !!!"]] ,this.playerReference, {x:9200, y:100}, 'RightPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new LightSource(this.shade, this.foregroundContainer, this.container,[["49 Buried, 0 Found."]], this.playerReference, {x:9400, y:100}, 'LeftPointing', 100, 20, 50, 1.5, 3, 1000));
         this.npcList.push(new Bar(this.container, this.playerReference, {x:9300, y:50}));
@@ -430,10 +446,14 @@ class IntroOutsideScene extends OutsideScene{
 
     update(delta, inputs){
         super.update(delta, inputs);
-        // store position of player for future sessions 
-        window.localStorage.setItem('IntroScenePlayerCoords', JSON.stringify(this.playerReference.getPosition()))
+        
     }
 
+    unload(){
+        // store position of player for future sessions 
+        window.localStorage.setItem('IntroScenePlayerCoords', JSON.stringify(this.playerReference.getPosition()));
+        this.backgroundMusic.pause();
+    }
     destroy(){
         super.destroy();
     }

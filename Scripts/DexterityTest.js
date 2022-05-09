@@ -175,15 +175,22 @@ class DexterityTest{
         for (let direction of this.directions){
             
             if (direction !== this.currentChar && this.stringToKey[direction].isJustDown){
-                this.timer -= this.penalty;
+                if (!window.localStorage('ProfMode')){
+                    this.timer -= this.penalty;
+                }
+                
                 PIXI.sound.play('miss');
                 this.penaltyText.initiate();
             } 
         }
 
         // update the timer
-        this.timer = Math.max(this.timer - delta, 0);
-        this.timerText.setText(`${Math.round(this.timer * 10) / 10}`);
+        if (!window.localStorage('ProfMode')){
+            this.timer = Math.max(this.timer - delta, 0);
+            this.timerText.setText(`${Math.round(this.timer * 10) / 10}`);
+        }
+        
+        
 
 
     }

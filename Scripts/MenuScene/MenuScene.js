@@ -86,6 +86,22 @@ class MenuScene{
 
         drawLayers.backgroundLayer.addChild(this.backgroundGraphics);
         
+        this.backgroundMusic = PIXI.sound.Sound.from({
+            url: '././Music/MenuMusic.wav',
+            preload: true,
+            loaded: function(err, sound) {
+                // sound.filters = [
+                //     new PIXI.sound.filters.TelephoneFilter(),
+                // ];
+                sound.volume = 1;
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.play();
+
+                setTimeout(function () {
+                    sound.play();
+                }, 50);
+            }
+        });
         PIXI.sound.add('flip', '././Sound/flip_menu.wav');
         PIXI.sound.add('exit', '././Sound/exit_joke.wav');
         PIXI.sound.add('play', '././Sound/hit_play.wav');
@@ -288,7 +304,9 @@ class MenuScene{
 
     }
 
-    
+    unload(){
+        this.backgroundMusic.pause()
+    }
 
     destroy(){          
         // destroy method for menuScene 

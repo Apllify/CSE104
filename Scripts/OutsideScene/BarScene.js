@@ -19,6 +19,7 @@ class BarScene extends OutsideScene{
         "Npc7" : "Sprites/Npc/Npc7.png",
         "Npc8" : "Sprites/Npc/Npc8.png",
         "Npc9" : "Sprites/Npc/Npc9.png",
+        "Vomit": 'Sprites/Npc/Vomit.png'
 
     }
 
@@ -256,8 +257,7 @@ class BarScene extends OutsideScene{
 
     update(delta, inputs){
         super.update(delta, inputs);
-        // Keep Track of the player position to use it in the next session
-        window.localStorage.setItem('BarPlayerCoords', JSON.stringify(this.playerReference.getPosition()))
+       
     }
 
 
@@ -265,6 +265,8 @@ class BarScene extends OutsideScene{
     unload(){
         this.backgroundMusic.pause();
         this.chatterSounds.pause();
+        // Keep Track of the player position to use it in the next session
+        window.localStorage.setItem('BarPlayerCoords', JSON.stringify(this.playerReference.getPosition()))
         
     }
 
