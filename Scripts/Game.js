@@ -44,7 +44,12 @@ class Game{
 
                 //then switch state and get our new scene
                 this.currentState = 3;
-                this.currentScene.destroy();
+
+                //unload the scene if necessary
+                if (this.currentScene.unload){
+                    this.currentScene.unload();
+                }
+
                 this.currentScene =  this.futureScene;
                 this.startLoadingCurrentScene();
 
@@ -111,6 +116,10 @@ class Game{
     changeScene(newScene, transition = null){
         if (transition === null){
             //completely clean all of the layers first
+            if (this.currentScene && this.currentScene.unload){
+                this.currentScene.unload();
+
+            }
             this.wipeLayers();
 
             //assign the new scene and load it 

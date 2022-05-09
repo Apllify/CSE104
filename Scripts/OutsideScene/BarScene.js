@@ -128,11 +128,14 @@ class BarScene extends OutsideScene{
     }
 
 
-    destroy(){
+    //called right before this scene is destroyed
+    unload(){
         this.backgroundMusic.pause();
         this.chatterSounds.pause();
-        super.destroy();
         
     }
+
+
+
 
 }
