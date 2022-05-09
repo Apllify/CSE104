@@ -47,8 +47,8 @@ class IntroOutsideScene extends OutsideScene{
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
-                sound.volume = 1;
-                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.volume = 0.1;
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(0, 5)];
                 sound.play();
 
                 setTimeout(function () {
@@ -56,8 +56,11 @@ class IntroOutsideScene extends OutsideScene{
                 }, 50);
             }
         });
+
+
         //start the player interaction prompt 
         this.playerReference.enableInteractionPrompt();
+        this.playerReference.x = 9000;
 
               
 
