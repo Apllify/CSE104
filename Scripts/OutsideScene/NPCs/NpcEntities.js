@@ -18,6 +18,8 @@ class TextNpc extends Npc{
         this.spritePath = spritePath;
     }
 
+   
+
     setupGraphics(scaleX = 1, scaleY = 1){
         //assumes the sprite has already been loaded
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
@@ -83,6 +85,7 @@ class TextNpc extends Npc{
     //     }
     // }
 }
+
 
 
 class Person extends TextNpc{
@@ -812,7 +815,7 @@ class BossWarp extends Npc{
 
 class TutorialNpc extends Person{
 
-    constructor(drawLayer, playerReference, position, targetPoints){
+    constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true){
         const monologuesList = [
             ["Wait.",
             "Y-you're...",
@@ -821,16 +824,23 @@ class TutorialNpc extends Person{
         ];
 
         super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints );
+        this.firstMeeting = firstMeeting;
     }
 
     isInteractingJustDone(){
-        mainGame.changeScene(new TutorialBoss(), new PixelTransition(0.3, 1, 0x000000));
+
+        super.isInteractingJustDone();
+        if (this.firstMeeting){
+            mainGame.changeScene(new TutorialBoss(), new PixelTransition(0.3, 1, 0x000000));
+        }
+
     }
 
     interactingUpdate(delta, inputs){
         return;
     }
 }
+
 
 class PatternDebugNpc extends Npc{
 
@@ -925,6 +935,7 @@ class Tree extends TextNpc{
 }
 
 class TrapDoor extends TextNpc{
+    // TrapDoor in BarScene
     constructor(drawLayer, playerReference, position, monologuesList, open=false){
         const textStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
@@ -932,27 +943,62 @@ class TrapDoor extends TextNpc{
             fontWeight : "bold",
             fill : "#ffffff",
         });
-        const spritePath = 'TrapDoorClosed'
-        if (opened){
+        let spritePath = 'TrapDoorClosed'
+        if (open){
             spritePath = 'TrapDoorOpen'
         }
         super(drawLayer, playerReference, position, textStyle, monologuesList, 'TrapDoor', spritePath);
         this.open = open;
     }
 
-    isInteracted(){
+    isInteracted(index){
+        // If the trapDoor is Open we change scenes; otherwise, we monologue
         if (!this.open){
-            super.isInteracted(0)
-            return;
+            return super.isInteracted(index);
+        }
+        else{
+            mainGame.changeScene(new SurferBoss())
         }
 
-        mainGame.changeScene(new SurferBoss())
+        
     }
 
     setupHitbox(){
-        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);s
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
     }
     
+}
+
+class BarExit extends TextNpc{
+
+    constructor(drawLayer, playerReference, position, monologuesList, letOut=true){
+        const textStyle = new PIXI.TextStyle({
+            fontFamily : "BrokenConsole",
+            fontSize : 24,
+            fontWeight : "bold",
+            fill : "#ffffff",
+            stroke : "#ffffff",
+        });
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Door', 'BarExit', 50);
+        this.letOut = letOut;
+    }
+
+    setupGraphics(){
+        super.setupGraphics(2, 2)
+    }
+    isInteracted(index){
+        if (this.letOut){
+            mainGame.changeScene(new IntroOutsideScene());
+        }
+        else{
+            return super.isInteracted(index);
+        }
+    }
+
+    setupHitbox(){
+        this.hitbox = new Rectangle(this.x - this.sprite.width/2, this.y - this.sprite.height/2, this.sprite.width, this.sprite.height);
+    }
 }
 
 class Chair extends TextNpc{

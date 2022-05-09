@@ -339,6 +339,10 @@ class IntroOutsideScene extends OutsideScene{
 
         //set the map to have a specific shape
         this.setMapMatrix([[2,1,1,1,1,1,1,1,1,1,1,1]]);
+        if (window.localStorage.getItem('IntroScenePlayerCoords') != null){
+            // if the barscene was accessed at a previous time, set the player position to the last position
+            this.playerReference.setPosition(JSON.parse(window.localStorage.getItem('IntroScenePlayerCoords')));
+        }
 
         //instantiate a shade cloak over the entire scene at all times
 
@@ -427,6 +431,8 @@ class IntroOutsideScene extends OutsideScene{
 
     update(delta, inputs){
         super.update(delta, inputs);
+        // store position of player for future sessions 
+        window.localStorage.setItem('IntroScenePlayerCoords', JSON.stringify(this.playerReference.getPosition()))
     }
 
     destroy(){

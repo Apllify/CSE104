@@ -385,17 +385,10 @@ class OutsideScene{
         }
     }
 
-    setPlayerPosition(position){
-        // Directly places the player in the given position 
-        this.playerReference.x = position.x;
-        this.playerReference.y = position.y;
-    }
-
-    placePlayer(position){
+    adjustedPosition(position){
         // When we need to adjust for the starting room position
         const topLeft = {x:-this.startingRoomPosition.x * 800, y:-this.startingRoomPosition.y * 600};
-        this.playerReference.x = topLeft.x + position.x;
-        this.playerReference.y = topLeft.y + position.y;
+        return {x: topLeft.x + position.x, y: topLeft.y + position.y}
     }
 
     destroy(){
