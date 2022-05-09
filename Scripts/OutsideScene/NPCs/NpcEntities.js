@@ -834,8 +834,11 @@ class TutorialNpc extends Person{
 
     constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true, flipped = false){
         const monologuesList = [
-            ["Wait.",
-            "Y-you're...",
+            ["Ugh, thanks for checking, everyone else is busy \nbeing a sore loser...",
+            "I knew that last cup was a mistake.",
+            "Who puts vanilla in alcohol ?",
+            "Wait.",
+            "Y-you're... you're...",
             "Uhmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
             "Allow me to - "]
         ];

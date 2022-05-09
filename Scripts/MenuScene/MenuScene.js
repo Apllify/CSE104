@@ -93,7 +93,7 @@ class MenuScene{
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
-                sound.volume = 1;
+                sound.volume = 0.1;
                 sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
                 sound.play();
 

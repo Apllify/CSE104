@@ -189,10 +189,45 @@ class BarScene extends OutsideScene{
         //setup the third table (center of room, only one person)
         const nerdDialogue = [
             [
-                "Hey ! ",
-                "We just played poker, it was a blast.",
-                "I think the others didn't like it as much, though ?"
-        ]
+                "Hey !",
+                "We just played a game of poker, it was a blast.",
+                "I.. don't know where the others went though.",
+                "Eh, they probably went home."
+            ],
+            [
+                "Why am I still here ?",
+                "I'm celebrating !",
+                "I just won on a pair of aces."
+            ],
+            [
+                "Now that I think about it.",
+                "Tutorial looked pretty unwell after that last \ngame.",
+                "You should probably go check on him in the bar \ncorner..."
+            ],
+            [
+                "Why am I not doing it myself ?",
+                'Well, I was always labeled a "nerd" growing up.',
+                'And so, in response, I made my personallity \nrevolve around intelligence and academic prowess. ',
+                "It was really just an attempt at feeling wanted \nfor once.",
+                "Over time, this led to me having very few friends \ngrowing up.",
+                "And being out of touch with the social norms of \nmy time.",
+                "Even my introspections are these long bland \nblocs of text",
+                "Nowadays, I just don't have it in me to connect \nemotionally with other people.",
+                "Or, whenever I do, it comes off as insincere or \npretentious.",
+                "I just wish I could pull it off.",
+                "You have no idea how much it pains me to stay \nwatching from the sidelines.",
+                'But any attempt at empathizing is brushed off as \n"pretending to be nice"',
+                'So now I\'m the "emotionless" "1-dimensional" \nnerd.',
+                "Woops sorry I monologued, I don't really have \nanyone that listens like you, usually.",
+                "I'm sorry to burden you like this, allow me to go \nback to my feigned self."
+            ],
+            [
+                "Greetings human.",
+                "I am - ",
+                "The Nerd.",
+                "E = mc2.",
+                "The speed of light is 300 000m/s.",
+            ]
         ];
 
         this.npcList.push(new Chair(this.container, this.playerReference, {x:-100, y:-185}, [], false));
@@ -244,7 +279,7 @@ class BarScene extends OutsideScene{
 
         //setup the sixth table (tutorial vomitting)
         this.npcList.push(new Table(this.container, this.playerReference, {x:-650, y:-520}, []));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], ));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], true));
 
 
 
