@@ -28,7 +28,7 @@ class Game{
 
 
     update(delta, inputs){
-        console.log(window.localStorage.getItem('ProfMode'))
+    
         if (this.isCurrentSceneLoaded && this.currentState === 1){
             this.currentScene.update(delta, inputs);
         }
