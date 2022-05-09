@@ -12,21 +12,67 @@ class SurferBoss extends SuperBoss{
     monologues = [];
     monologueTextStyle = {};
 
+    elapsedPatternTime = 0;
+    projectileColor = 0x11ee10;
+    // period of background oscillation
+    period = 8;
+
     constructor(){
         super();
-        this.requiredAssets['SurferBackground'] = 'Sprites/SurferBackground.png';
+        this.requiredAssets['SurferBackgroundBottom'] = 'Sprites/SurferBackgroundBottom.png';
+        this.requiredAssets['SurferBackgroundTop'] = 'Sprites/SurferBackgroundTop.png';
+
+        const dexterityAssets = {
+            'u': 'Sprites/up.png',
+            'd':'Sprites/down.png',
+            'r':'Sprites/right.png',
+            'l':'Sprites/left.png'
+        };
+
+        this.requiredAssets = {...this.requiredAssets, ...dexterityAssets};
 
         
     }
 
+    load(){
+        this.backgroundTop = new PIXI.Sprite(PIXI.Loader.shared.resources["SurferBackgroundTop"].texture);
+        this.backgroundBottom = new PIXI.Sprite(PIXI.Loader.shared.resources["SurferBackgroundBottom"].texture);
+        this.background = [this.backgroundTop, this.backgroundBottom]
+        for (let background of this.background){
+            background.scale.x = 2;
+            background.scale.y = 2;
+            background.alpha = 0.2;
+            background.x = -100
+            drawLayers.backgroundLayer.addChild(background);
+        }
+        // this.shade = new PIXI.Graphics();
+        // //create a teeny tiny bit of shade over the scene
+        // this.shade = new PIXI.Graphics();
+        // this.shade.beginFill(0x000000);
+        // this.shade.drawRect(0, 0, 800, 600);
+        // this.shade.endFill();
+
+        // this.shade.alpha = 0.6
+
+        // drawLayers.foregroundLayer.addChild(this.shade);
+        this.backgroundTop.y = -90;
+        this.backgroundBottom.y = 300;
+        this.period = 8
+
+       
+        super.load();
+        
+
+    }
 
     //called once the sprites are loaded
 
     initialize(){
         this.patternsList = [
+            new DexterityTest(50),
             new FourCornerWaves(drawLayers.activeLayer, this.playerReference, 'easy'),
             new PacmanWithWave(drawLayers.activeLayer, this.playerReference, 'medium'),
-            new SquareWithWave(drawLayers.activeLayer, this.playerReference, 'hard')
+            //new SquareWithWave(drawLayers.activeLayer, this.playerReference, 'hard')
         ]
         
         this.monologues = [
@@ -51,13 +97,10 @@ class SurferBoss extends SuperBoss{
 
 
 
-    load(){
-        let background = new PIXI.Sprite(PIXI.Loader.shared.resources["SurferBackground"].texture);
-        background.scale.x = 2;
-        background.scale.y = 2;
-        background.alpha = 0.5
-        super.load(background);
-
+    update(delta, inputs){
+        super.update(delta, inputs);
+        
+        
     }
 
 
@@ -79,11 +122,16 @@ class SurferBoss extends SuperBoss{
 
     }
 
-    breakUpdate(delta, inputs){
-
-    }
-
+    
     patternUpdate(delta, inputs){
+        // oscillating background
+        for (let i = 0; i < this.background.length; i++){
+            this.background[i].x = -100 + ((-1) ** i) * 100 * Math.sin(2 * Math.PI * this.elapsedPatternTime / this.period)
+        }
+        if (this.elapsedPatternTime >= 1000 && Math.cos(2 * Math.PI * this.elapsedPatternTime / this.period) >= 0.97){
+            this.elapsedPatternTime = 0;
+        }
+        this.elapsedPatternTime += delta;
     }
 
     sceneOver(){
@@ -121,6 +169,7 @@ class TutorialBoss extends SuperBoss{
     
     // store a copy of the most recent pattern in case we need to restart it 
     mostRecentPattern = null;
+    projectileColor = 0xdd2189;
 
     constructor(){
         super();

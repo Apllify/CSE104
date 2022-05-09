@@ -59,8 +59,10 @@ class SuperBoss{
             this.wallsDisplays.push(graphics);
 
         }
-
+        // store the scene's projectile color 
+        window.sessionStorage.setItem('ProjectileColor', this.projectileColor)
     }
+    
 
 
 

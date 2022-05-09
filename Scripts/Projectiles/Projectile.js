@@ -32,8 +32,8 @@ class Projectile{
 
         this.x = coordinates.x;
         this.y = coordinates.y;
-
-        this.color = color;
+        // color is set by boss scenes in the session storage
+        this.color = window.sessionStorage.getItem('ProjectileColor') != null? window.sessionStorage.getItem('ProjectileColor'): color
 
         this.speed = projectileSpeed;
         this.dps = dps;

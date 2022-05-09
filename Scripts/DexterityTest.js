@@ -12,10 +12,14 @@ class DexterityTest{
     directions = ['u', 'd', 'l', 'r']
     // associate each direction with an arrow key 
     stringToKey = {
-        'u': inputs.upArrow,
-        'd': inputs.downArrow,
-        'l': inputs.leftArrow,
-        'r': inputs.rightArrow
+        'u': inputs.up,
+        'd': inputs.down,
+        'l': inputs.left,
+        'r': inputs.right,
+        'uAlt': inputs.upAlt,
+        'dAlt': inputs.down,
+        'lAlt': inputs.leftAlt,
+        'rAlt': inputs.right
     };
     // this shall hold the sprites associated with the directions 
     sprites = [];
@@ -132,6 +136,10 @@ class DexterityTest{
         PIXI.sound.volume("miss", 0.03);
     }
 
+    activate(){
+        this.load()
+    }
+
     update(delta, inputs){
         if (this.destroying || this.isDone()){
             this.penaltyText.textEntity.alpha = 0;
@@ -157,7 +165,7 @@ class DexterityTest{
             this.takeNew = false;
         }
 
-        if (this.stringToKey[this.currentChar].isJustDown){
+        if (this.stringToKey[this.currentChar].isJustDown || this.stringToKey[this.currentChar + 'Alt'].isJustDown){
             // the key associated to this sprite is pressed so we destroy the sprite and shift all sprites
             // to the left 
             this.currentSprite.destroy();
@@ -174,7 +182,7 @@ class DexterityTest{
 
         for (let direction of this.directions){
             
-            if (direction !== this.currentChar && this.stringToKey[direction].isJustDown){
+            if (direction !== this.currentChar && (this.stringToKey[direction].isJustDown || this.stringToKey[direction + 'Alt'].isJustDown)){
                 if (!window.localStorage.getItem('ProfMode')){
                     this.timer -= this.penalty;
                 }
@@ -224,7 +232,7 @@ class DexterityTest{
         // destroy the timer
         this.timerText.destroy();
         // destroy the current sprite and fadetext (if they are still undestroyed)
-        if (this.currentSprite.destroy != undefined){
+        if (!this.attackWon){
             this.currentSprite.destroy();
         }
 
@@ -239,6 +247,7 @@ class DexterityTest{
             
             sprite.destroy();
         }
+        this.destroyed = true;
     }
 
     shiftSprites(shift){

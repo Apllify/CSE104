@@ -16,7 +16,8 @@ class Game{
 
 
         //this.changeScene(new PatternDebug()
-        this.changeScene(new MenuScene());
+        window.sessionStorage.clear();
+        this.changeScene(new SurferBoss());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();
