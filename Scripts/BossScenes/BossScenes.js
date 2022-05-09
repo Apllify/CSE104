@@ -69,7 +69,7 @@ class SurferBoss extends SuperBoss{
 
     initialize(){
         this.patternsList = [
-            new DexterityTest(this, 50),
+            new DexterityTest(this, 50, 'medium'),
             new FourCornerWaves(drawLayers.activeLayer, this.playerReference, 'easy'),
             new PacmanWithWave(drawLayers.activeLayer, this.playerReference, 'medium'),
             //new SquareWithWave(drawLayers.activeLayer, this.playerReference, 'hard')

@@ -19,7 +19,7 @@ class Game{
         window.sessionStorage.clear();
         
         window.localStorage.setItem('ProfMode', 0)
-        this.changeScene(new SurferBoss());
+        this.changeScene(new RollCreditsScene());
         //this.changeScene(new IntroOutsideScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();
