@@ -122,6 +122,10 @@ class SurferBoss extends SuperBoss{
 
     }
 
+    produceNextScene(){
+        return new MenuScene();
+    }
+
     
     patternUpdate(delta, inputs){
         // oscillating background
@@ -395,6 +399,9 @@ class TutorialBoss extends SuperBoss{
         }
     }
 
+    produceNextScene(){
+        return new BarScene();
+    }
     gameOverHandle(){
         // called when the player dies 
         this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, 
@@ -455,6 +462,9 @@ class PatternDebug extends SuperBoss{
         return newPattern;
     }
 
+    produceNextScene(){
+        return new MenuScene();
+    }
     sceneOver(){
         return (this.monologues.length === 0 && this.patternsList.length === 0);
     }

@@ -98,6 +98,7 @@ class MenuScene{
                 sound.play();
 
                 setTimeout(function () {
+                    console.log('here')
                     sound.play();
                 }, 50);
             }
