@@ -22,7 +22,7 @@ class RollCreditsScene{
         });
     
         this.nameTextStyle = new PIXI.TextStyle({
-            fontFamily : "BrokenConsole",
+            fontFamily : "consolas",
             fontSize : 24,
             fontWeight : "bold",
             fill : "#ffffff",
@@ -36,8 +36,13 @@ class RollCreditsScene{
         // The first element in each credit is considered the title
         this.credits = [
             ['To Be Continued...'],
-            ['Powered By: ', 'PIXI JS'],
-            ['Story By: ', 'Rali Lahlou'],
+            ['Powered By', 'PIXI JS'],
+            ['Created By', 'Rali Lahlou', '&', 'Brook Nigatu'],
+            ['Story By', 'Rali Lahlou'],
+            ['Menu & Intro Scene Music', 'Mixkit.co'],
+            ['Bar Scene Music', 'incomptech.com'],
+            ['Sprites Drawn On', 'Aseprite'],
+            ['Sound Effects Made On', 'Bfxr'],
             ['Thank you for playing!']
         ]
         // Black background

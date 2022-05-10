@@ -77,6 +77,16 @@ class HealthBar{    // Health Bar class whose instance can be attached to a char
         else{
             this.graphics.drawRect(12 + this.nameTag.getDimensions().width, 10, this.width, 30);
         }
+
+        if (window.localStorage.getItem('ProfMode') == 0){
+            console.log('here')
+            this.nameTag.setTint(0xFFFFFF);
+        }
+
+        else{
+            console.log('here2')
+            this.nameTag.setTint(0x0000FF);
+        }
         
     }
 
