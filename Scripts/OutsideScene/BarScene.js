@@ -168,18 +168,61 @@ class BarScene extends OutsideScene{
 
 
         //setup the second table (group of three)
-        const shockedDialogue = [[]];
+        const shockedDialogue = [
+            [
+                "Did you talk to wick ?",
+                "He always does this thing where he -",
+                "Lies.",
+                "But, I swear, they're a really genuine and caring \nperson, most of the time.",
+                "It's just that, whenever new people join in, he \ntries to impress them so badly ?",
+                "And, usually, that just results in him alienating \nand putting us down.",
+                "We're friends, so we go with it, but it kind of \nhurts to see him like this...",
+                "It's like seeing him trapped inside of his own \nbody. ",
+                "We know that he's not that person, and that it's \nall an act.",
+                "And you could almost see his soul pleading to be \nfreed through his facial expression.",
+                "But I can't really confront him on it, can I ?",
+                "It would feel wrong because it's not something \nthey control.",
+                "Behind the scenes, when the makeup is off, they're \na terribly anxious person.",
+                "And I'm guessing that this character they play \nis them compensating for that.",
+                "It's everything they'd like to be...",
+                "Confident, witty, emotionless, and a center of \nattention.",
+                "Why ?",
+                "I just don't understand."
+            ]
+        ];
 
-        const winkyDialogue = [[]];
+        const winkyDialogue = [
+            [
+                "Hey, what's up.",
+                "This is kind of my personnal bar spot.",
+                "And I guess these guys are with me sometimes.",
+                "Unironic most boring people I've met in my entire \nlife.",
+                ";)",
+                "Anyways, what are you here for ?",
+            ],
 
-        const frownDialogue = [[]];
+        ];
+
+        const frownDialogue = [
+            [
+                "Oh god, you a newcomer ?",
+                "It's gonna be one of those nights..."
+            ]
+        ];
+
+
+        const tableDialogue = [
+            [
+                "Just three bros chilling around a table.",
+                "200 pixels apart cause they're not gay."
+            ]];
 
         
         this.npcList.push(new Chair(this.container, this.playerReference, {x:-700, y:365}, [], false));
         this.npcList.push(new Chair(this.container, this.playerReference, {x:-480, y:235}, [], true));
         this.npcList.push(new Chair(this.container, this.playerReference, {x:-450, y:415}, [], true));  
 
-        this.npcList.push(new Table(this.container, this.playerReference, {x:-580, y:350}, []));
+        this.npcList.push(new Table(this.container, this.playerReference, {x:-580, y:350}, tableDialogue));
 
         this.npcList.push(new Person(this.container, this.playerReference, {x:-700, y:350}, shockedDialogue, "Shaux", "Npc2", [], true));
         this.npcList.push(new Person(this.container, this.playerReference, {x:-480, y: 220}, winkyDialogue, "Wick", "Npc6", []));
