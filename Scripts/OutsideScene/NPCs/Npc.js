@@ -35,6 +35,9 @@ class Npc{
     playerReference = null;
     drawLayer = null;
 
+    //in case we want to implement collision with more than just the player (unused)
+    extraColliders = [];
+
     //flag 
     isFirstUpdate = true;
 
@@ -47,6 +50,7 @@ class Npc{
         this.x = position.x;
         this.y = position.y;
         this.detectionRadius = detectionRadius;
+
 
     }
 
@@ -104,7 +108,7 @@ class Npc{
 
 
 
-        //check for collisions with the player 
+        //check for collisions with the player (and the extra colliders (unused)) 
         if (this.hitbox !== null){
             //by default, we never prioritize the player's movement
             // console.log(this.previousHitbox.x);
@@ -140,6 +144,8 @@ class Npc{
                     this.playerReference.setHitboxRectangle(newPlayerHitbox);
                 }
             }
+
+
 
         }
 

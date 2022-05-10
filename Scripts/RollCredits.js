@@ -63,7 +63,7 @@ class RollCreditsScene{
             }
 
             else{
-                mainGame.changeScene(new MenuScene());
+                mainGame.changeScene(new MuseumScene());
             }
             
         }

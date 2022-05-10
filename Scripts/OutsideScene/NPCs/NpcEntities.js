@@ -977,7 +977,7 @@ class TrapDoor extends TextNpc{
             return super.isInteracted(index);
         }
         else{
-            mainGame.changeScene(new SurferBoss())
+            mainGame.changeScene(new RollCreditsScene())
         }
 
         
@@ -1336,4 +1336,29 @@ class LightSource extends TextNpc{
 
     }
 
+}
+
+
+class RectangleNpc extends Npc{
+    rectangle = null;
+    hue = null;
+
+    graphics = null;
+    hitbox = null;
+
+    constructor(drawLayer, playerReference, rectangle, hue){
+        super(drawLayer, playerReference, {x:rectangle.x, y:rectangle.y}, 0);
+
+        this.rectangle = rectangle;
+        this.hue = hue;
+    }
+
+    setupGraphics(){
+        this.graphics = this.rectangle.getGraphics(this.hue);
+        this.drawLayer.addChild(this.graphics);
+    }
+
+    setupHitbox(){
+        this.hitbox = this.rectangle;
+    }
 }
