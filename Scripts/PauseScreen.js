@@ -11,6 +11,7 @@ class PauseScreen{
         'quit': this.quit,
         'nextPattern': this.nextPattern,
         'restartPattern':this.restartPattern,
+        'nextScene': this.nextScene,
     }
 
 
@@ -225,6 +226,10 @@ class PauseScreen{
     nextPattern(scene){
         scene.nextPattern();
 
+    };
+
+    nextScene(scene){
+        mainGame.changeScene(scene.produceNextScene());
     }
 
     restartPattern(scene){

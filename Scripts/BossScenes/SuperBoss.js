@@ -174,11 +174,12 @@ class SuperBoss{
     sceneOverHandle(){
         // called when the player beats the boss
         this.sceneOverAction();
-        this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, ['Proceed', 'Redo Battle'], {0:'quit', 1:'restart'}, 'Battle Won!');
+        this.pauseScreen = new PauseScreen(drawLayers.foregroundLayer, this, ['Proceed', 'Redo Battle'], {0:'nextScene', 1:'restart'}, 'Battle Won!');
         this.gameOver = true;
         this.paused = true;
     }
 
+    
     destroy(){
 
         this.destroying = true;
@@ -203,6 +204,10 @@ class SuperBoss{
     
     //Methods to be defined by inheriting classes 
     sceneOverAction(){
+        return;
+    }
+
+    produceNextScene(){ // Game Progression
         return;
     }
     produceBreak(){ //returns a break object that can be updated
