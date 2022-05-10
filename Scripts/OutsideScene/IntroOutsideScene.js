@@ -15,7 +15,6 @@ class IntroOutsideScene extends OutsideScene{
         "Concrete2" :"Sprites/Tiles/Concrete2.png", 
         "Concrete3" :"Sprites/Tiles/Concrete3.png", 
         "Chair": "Sprites/Chair.png",
-        "Person": "Sprites/Npc/Npc1.png"
         
 
     };

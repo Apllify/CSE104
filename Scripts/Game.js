@@ -19,8 +19,8 @@ class Game{
         window.sessionStorage.clear();
         
         window.localStorage.setItem('ProfMode', 0)
-        this.changeScene(new RollCreditsScene());
-        //this.changeScene(new IntroOutsideScene());
+        //this.changeScene(new RollCreditsScene());
+        this.changeScene(new MuseumScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();
         
