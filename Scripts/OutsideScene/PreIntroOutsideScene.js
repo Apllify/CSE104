@@ -83,6 +83,23 @@ class PreIntroOutsideScene extends OutsideScene{
         PIXI.sound.add("drag","././Sound/PreIntroOutsideScene/brick_drag.mp3" );
         PIXI.sound.volume("drag", 0.3);
 
+        this.backgroundMusic = PIXI.sound.Sound.from({
+            url: '././Sound/PreIntroOutsideScene/PreIntro.mp3',
+            preload: true,
+            loop : true,
+            loaded: function(err, sound) {
+                // sound.filters = [
+                //     new PIXI.sound.filters.TelephoneFilter(),
+                // ];
+                sound.volume = 0.2;
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.play();
+
+                setTimeout(function () {
+                    sound.play();
+                }, 50);
+            }
+        });
 
 
         //create a few random bits in the scene
