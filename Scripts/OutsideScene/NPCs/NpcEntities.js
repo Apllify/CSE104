@@ -977,7 +977,7 @@ class TrapDoor extends TextNpc{
             return super.isInteracted(index);
         }
         else{
-            mainGame.changeScene(new SurferBoss())
+            mainGame.changeScene(new RollCreditsScene())
         }
 
         

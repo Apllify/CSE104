@@ -39,6 +39,10 @@ class TextDisplay{
         this.textEntity.alpha = newVal;
     }
 
+    setTint(tint){
+        this.textEntity.tint = tint;
+    }
+    
     setTextStyle(textStyle){
         this.textEntity.style = textStyle;
     }
