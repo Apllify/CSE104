@@ -59,7 +59,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
         //start the player interaction prompt 
-        this.playerReference.enableInteractionPrompt();
+        this.playerReference.enablePrompt("Press Enter to interact");
         this.playerReference.x = 9000;
 
               
