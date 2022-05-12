@@ -7,7 +7,8 @@ class BarScene extends OutsideScene{
         "Wood1": "Sprites/Tiles/Wood1.png",
         "Wood2": "Sprites/Tiles/Wood2.png",
         "Wood3": "Sprites/Tiles/Wood3.png",
-        'Tutorial': "Sprites/Npc/Npc10.png",
+        'TutorialFirst': "Sprites/Npc/Npc10.png",
+        'TutorialSecond': "Sprites/Npc/Npc11.png",
         'TrapDoorOpen': 'Sprites/TrapDoorOpen.png',
         'TrapDoorClosed': 'Sprites/TrapDoorClosed.png',
         'BarExit': 'Sprites/BarExit.png',
@@ -18,7 +19,6 @@ class BarScene extends OutsideScene{
         'Npc5' : 'Sprites/Npc/Npc5.png',
         'Npc6' : 'Sprites/Npc/Npc6.png',
         'Npc7' : 'Sprites/Npc/Npc7.png',
-        'Npc8' : 'Sprites/Npc/Npc8.png',
         'Npc9' : 'Sprites/Npc/Npc9.png',
         'Vomit': 'Sprites/Npc/Vomit.png'
 
@@ -318,8 +318,8 @@ class BarScene extends OutsideScene{
         //setup the sixth table (tutorial vomitting)
         this.npcList.push(new Vomit(this.backgroundContainer, this.playerReference, {x:-550, y:-480}));
         this.npcList.push(new Table(this.container, this.playerReference, {x:-650, y:-520}, []));
-        console.log(window.localStorage.getItem("TutorialComplete"));
         this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], (window.localStorage.getItem('TutorialComplete') != 1)));
+        
 
 
 
