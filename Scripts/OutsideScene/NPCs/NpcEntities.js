@@ -41,6 +41,12 @@ class TextNpc extends Npc{
 
     }
 
+    setAlpha(newAlpha){
+        if (this.sprite !== null){
+            this.sprite.alpha = newAlpha;
+        }
+    }
+
 
 
 
@@ -244,16 +250,19 @@ class Person extends TextNpc{
 class Tile extends Npc{
     spriteName = "";
     sprite = null;
+    spriteAlpha = 1;
 
     scaleX = 1;
     scaleY = 1;
 
-    constructor(drawLayer, playerReference, position, spriteName, scale = {x:1,y:1}){
+
+    constructor(drawLayer, playerReference, position, spriteName, scale = {x:1,y:1}, alpha = 1){
         super(drawLayer, playerReference, position, 0);
 
         this.spriteName = spriteName;
         this.scaleX = scale.x;
-        this.scaleY = scale.y;        
+        this.scaleY = scale.y;  
+        this.spriteAlpha = alpha;      
     }
 
     setupGraphics(){
@@ -265,7 +274,11 @@ class Tile extends Npc{
 
         this.sprite.x = this.x - this.sprite.width /2;
         this.sprite.y = this.y - this.sprite.height / 2;
+
+        this.sprite.alpha = this.spriteAlpha;
     }
+
+
 }
 
 class BrokenDoor extends TextNpc{
