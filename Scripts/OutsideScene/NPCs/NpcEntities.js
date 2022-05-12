@@ -1004,14 +1004,16 @@ class TrapDoor extends TextNpc{
 
     isInteracted(index){
         // If the trapDoor is Open we change scenes; otherwise, we monologue
-        if (!this.open){
-            return super.isInteracted(index);
-        }
-        else{
-            mainGame.changeScene(new RollCreditsScene())
-        }
+        return super.isInteracted(index);
 
         
+    }
+
+    isInteractingJustDone(){
+        if (this.open){
+            mainGame.changeScene(new RollCreditsScene())
+
+        }
     }
 
     setupHitbox(){

@@ -32,6 +32,7 @@ class MuseumScene extends OutsideScene{
 
     mapLength = 10;
     totalWidth = 0;
+    signWidth = 0;
 
     elapsedTime = 0;
     bgMoveAmplitude = 100;
@@ -46,11 +47,14 @@ class MuseumScene extends OutsideScene{
     backgroundsCoords = [];
 
     cageEntities = [];
-    cageExceptions = [1, 2, 3]; //the index of cages that can be entered through.
+    cageExceptions = [1, 2, 3, 4, 5]; //the index of cages that can be entered through.
     cageOpeningSize = 60; //the size of the openings for cage exceptions
 
     shade = null;
     shadeAlpha = 0.8;
+
+
+    backgroundMusic = null;
 
 
     constructor(){
@@ -64,11 +68,29 @@ class MuseumScene extends OutsideScene{
         this.playerReference.x = 100;
         
 
+        //load the background music 
+        this.backgroundMusic = PIXI.sound.Sound.from({
+            url: '././Music/MuseumAmbiance.mp3',
+            preload: true,
+            loaded: function(err, sound) {
+                // sound.filters = [
+                //     new PIXI.sound.filters.TelephoneFilter(),
+                // ];
+                sound.volume = 1;
+                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.play();
+
+                setTimeout(function () {
+                    sound.play();
+                }, 50);
+            }
+        });
 
 
 
         //get the total screen width and generate the rooms 
         this.totalWidth = this.mapLength * 800;
+        this.signWidth = this.totalWidth - this.signSpacing*9;
         let mapMatrix = [2];
 
         for (let i = 0; i < this.mapLength - 1; i ++){
@@ -176,6 +198,73 @@ class MuseumScene extends OutsideScene{
                 "It is impossible to draw two overlapping light \nsources without - ",
                 "Creating massive visual artifacts that cover the \nentire scene.",
                 "Here is a little pool of shade for you to play \naround with."
+            ]],
+
+            [[
+                "Hey, look, another person.",
+                "Npcs came about around 3 weeks into the \ndevelopemnt of the project.",
+                "We made the general shape as simple as possible,",
+                "In order to easily create a varied cast of \ncharacters.",
+                "They're all based around a universal facial \nexpression or emoji.",
+                "Unfortunetaly, they tend to sometimes ?",
+                "Disappear ? For no reason ?",
+                "They behave very very weirdly while the game is alt-tabbed.",
+                "It's probably related to the way the game runs \nwhen the browser is out of focus.",
+                "But, by far, the biggest challenge was checking \nfor collisions on a moving entity.",
+                "Unlike rocks or trees, this npc can directly move \ninto the player,",
+                "Which is incompatible with the way we'd been \nhandling collisions thus far.",
+                "Our solutions was to seggregate collisiosn \ninto two main cases : ",
+                "1°) The player is the one running into an npc,",
+                "In which case, we use the previously mentionned \nalgorithm.",
+                "2°) The npc and the player collided while the npc \nwas moving,",
+                "In which case, we generate a displacement vector,",
+                "Which connects the center of the npc to the \ncenter of the player,",
+                "And we move the player along that vector until it \nis out of collision.",
+                "Try bumping into the npc to see how it feels.",
+                "(Assuming the cage isn't empty because of the \nnpc bug :) )."
+            ]],
+
+            [[
+                "(TODO : put something here)",
+                "Oh w-wait what you're already here ?",
+                "Uhm, welcome to exhibit 6 ?",
+                "Enclosed here, we have ... ",
+                "...",
+                "How about we just take a moment to talk about \nthe progress of the game.",
+                "We split off our developpment into 3 main phases : ",
+                "Phase 0 was our 'setup everything' phase.",
+                "We were learning to get confortable with the \nframework, with javascript...",
+                "We also implemented the super classes that most \nof the entities are derived from : ",
+                "The Scene class, the Boss Fight Scene class, the \nMenu Scene class,",
+                "The Healthbar, the Player, and a few others.",
+                "Eventually, we rewrote most of them, but it was \nreally helpful for a start.",
+                "The first scene we got working was the menu \nscene.",
+                "It sounds weird to say but implemeting a user \ninterface, ",
+                "In a framework with no graphical editing tools, \ntook a looot of tweaking.",
+                "We had to implement visual feedback like the \noption cursor manually, from scratch.",
+                "After that, we took the time to have a Phase 0.5,",
+                "During which we spent a few days rewriting and \nrefactoring classes.",
+                "The intent was to have a very clean and flexible \nfoundation,",
+                "In order to avoid massive timeloss restructuring \nthe project later on.",
+                "We then had our Phase 1.",
+                "Our main goals were to create basic patterns for \nthe boss scenes,",
+                "And to start working on the 'outside scenes',",
+                "Which emcompasses every single scene where the \nplayer can freely roam around.",
+                "It's also at that point that we thought of and \nimplemented the monologue system.",
+                "All things considered, the game was already \nsomewhat of a working prototype by then.",
+                "Finally, our most substantial phase was Phase 2, \nby far.",
+                "Since we now had all of the game entities at our \ndisposal,",
+                "We could now start working on implementing \nactual content.",
+                "This meant deciding on all of the entity \npositions, dialogues, etc...",
+                "We wrote the full game story somewhere in that \ntime period.",
+                "As it stands, we consider phase 2 fully finished.",
+                "In terms of the full game idea that we dreamed \nof initially : ",
+                "We're probably only 15% or so of the way in.",
+                "With the goal being making a game that lasts - ",
+                "About an hour for a casual playthrough, 2 or 3 \nfor a completionist playthrough.",
+                "Anyways, thank you for playing :)",
+                "We hope you enjoyed this passion project."
+
             ]]
         ]
 
@@ -191,6 +280,22 @@ class MuseumScene extends OutsideScene{
             "There is nothing you can do about it."
         ]];
 
+        const personDialogue = [[
+            "The ringing doesn't stop, oh my god it's so loud.",
+            "Please, please, please, leave me alone you don't \nunderstand.",
+            "I can't.... feel my ears..... "
+        ],
+    
+        [
+            "Why God, Why have you forsaken me."
+        ]];
+
+        const personTargetPoints = [
+            {x:2900 - 80, y:400 + 80},
+            {x:2900-80, y:600-80},
+            {x:2600+80, y:600-80}
+        ]
+
     
 
         console.log(this.shade.width);
@@ -201,6 +306,7 @@ class MuseumScene extends OutsideScene{
             new Rock(this.container, this.playerReference, {x:0, y:0}, rockDialogue),
             new SignPost(this.container, this.playerReference, {x:0,y:0}, signDialogue),
             new LightAura(this.playerReference, {x:2250,y: 100}, this.shade, this.foregroundContainer, 80, 20, 0xFF0000),
+            new Person(this.container, this.playerReference, {x:2600 + 80, y:400 + 80}, personDialogue, "The Wretched", "Npc2", personTargetPoints, false, 300)
             
         ]
 
@@ -209,7 +315,7 @@ class MuseumScene extends OutsideScene{
         //this.npcList.push(new Character({x:100, y:100}, this.container));
 
         //place signs every 500 pixels, followed by a cage
-        for (let x =this.signSpacing;  x< this.totalWidth; x+=this.signSpacing){
+        for (let x =this.signSpacing;  x< this.signWidth; x+=this.signSpacing){
 
             let i= x/500 - 1;
 

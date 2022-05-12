@@ -159,9 +159,9 @@ class Npc{
     }
 
     startNewInteraction(){
-        //disable the player intearction prompt if needed ?
-        if (this.playerReference.isInteractionPromptEnabled()){
-            this.playerReference.disableInteractionPrompt();
+        //disable the player prompt if needed ?
+        if (this.playerReference.isPromptEnabled()){
+            this.playerReference.disablePrompt();
         }
 
         //change the state

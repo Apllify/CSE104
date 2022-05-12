@@ -20,9 +20,11 @@ class Character{
     elapsedTime = 0;
 
 
-    interactionPromptEnabled = false;
-    interactionPromptTextStyle = null;
-    interactionPrompt = null;
+    //option to have a prompt on top of the player
+    promptEnabled = false;
+    promptFlickeringEnabled = true;
+    promptTextStyle = null;
+    prompt = null;
 
     spriteWidth = 32;
     spriteHeight = 32;
@@ -73,7 +75,7 @@ class Character{
 
 
         //set up the interaction prompt text style
-        this.interactionPromptTextStyle = new PIXI.TextStyle({
+        this.promptTextStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 10,
             fill : "#FFFFFF",
@@ -105,7 +107,7 @@ class Character{
 
         //update the interaction if needed
         this.updateSpritePosition();
-        this.updateInteractionPrompt();
+        this.updatePrompt();
 
 
     }
@@ -119,37 +121,37 @@ class Character{
         this.y = position.y;
 
         this.updateSpritePosition();
-        this.updateInteractionPrompt();
+        this.updatePrompt();
 
     }
 
-    isInteractionPromptEnabled(){
-        return this.interactionPromptEnabled;
+    isPromptEnabled(){
+        return this.promptEnabled;
     }
 
 
-    enableInteractionPrompt(){
-        this.interactionPromptEnabled = true;
-        this.interactionPrompt = new TextDisplay(this.drawLayer, "Press Enter to interact", {x: 0, y:0}, this.interactionPromptTextStyle );
-        this.updateInteractionPrompt();
+    enablePrompt(textContent){
+        this.promptEnabled = true;
+        this.prompt = new TextDisplay(this.drawLayer, textContent, {x: 0, y:0}, this.promptTextStyle );
+        this.updatePrompt();
 
 
     }
 
-    updateInteractionPrompt(){
-        if (this.interactionPromptEnabled ){
-            if (!this.interactionPrompt.destroyed){
-                this.interactionPrompt.centerHorizontallyAt(this.x);
-                this.interactionPrompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
+    updatePrompt(){
+        if (this.promptEnabled ){
+            if (!this.prompt.destroyed){
+                this.prompt.centerHorizontallyAt(this.x);
+                this.prompt.centerVerticallyAt(this.y - this.sprite.height / 2 - 5);
             }
 
         }
 
     }
 
-    disableInteractionPrompt(){
-        this.interactionPromptEnabled = false;
-        this.interactionPrompt.destroy();
+    disablePrompt(){
+        this.promptEnabled = false;
+        this.prompt.destroy();
     }
 
     update(delta, inputs){
@@ -199,11 +201,11 @@ class Character{
         this.y += velocityVect.y * delta;
 
         //update interaction prompt if needed
-        if (this.interactionPromptEnabled){
-            this.updateInteractionPrompt(); 
+        if (this.prompt){
+            this.updatePrompt(); 
 
             //also make it flicker cause why not lol
-            this.interactionPrompt.setAlpha(Math.min(0.8, Math.abs(Math.cos(1.5* this.elapsedTime))));
+            this.prompt.setAlpha(Math.min(0.8, Math.abs(Math.cos(1.5* this.elapsedTime))));
         }
 
         //update the sprite's position on screen
