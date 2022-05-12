@@ -27,7 +27,8 @@ class MuseumScene extends OutsideScene{
         "Shield":  "Sprites/Shield.png",
         "Sign": "Sprites/Sign.png",
 
-        "Source": "Sprites/Source.jpg"
+        "Source": "Sprites/Source.jpg",
+        "SpriteAtlas": "Sprites/SpriteAtlas.png"
     }
 
     mapLength = 10;
@@ -72,6 +73,7 @@ class MuseumScene extends OutsideScene{
         this.backgroundMusic = PIXI.sound.Sound.from({
             url: '././Music/MuseumAmbiance.mp3',
             preload: true,
+            loop : true,
             loaded: function(err, sound) {
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
@@ -90,7 +92,7 @@ class MuseumScene extends OutsideScene{
 
         //get the total screen width and generate the rooms 
         this.totalWidth = this.mapLength * 800;
-        this.signWidth = this.totalWidth - this.signSpacing*9;
+        this.signWidth = this.signSpacing * 7;
         let mapMatrix = [2];
 
         for (let i = 0; i < this.mapLength - 1; i ++){
@@ -390,6 +392,25 @@ class MuseumScene extends OutsideScene{
 
 
         } 
+
+
+
+        //create the sprite atlas section of the museum
+        const spriteAtlasDialogue = [
+            [
+                "Hmm.",
+                "I guess that marks the end of the enclosures.",
+                "But there's still so much cool stuff left.",
+                "Ahead lies the sprite atlas for the entire game.",
+                "It's basically a concatenation of every indiviual \ntexture, ",
+                "Into this massive katamari of pixel art.",
+                "All of that for your own walking pleasure.",
+                "Beautiful programmer art."
+            ]
+        ];
+        this.npcList.push(new SignPost(this.container, this.playerReference, {x:3800, y :300}, spriteAtlasDialogue));
+        const spriteAtlas= new Tile(this.backgroundContainer, this.playerReference, {x:5100, y:300}, "SpriteAtlas", {x:2, y:2}, 0.7);
+        this.npcList.push(spriteAtlas);
     }
 
     update(delta, inputs){

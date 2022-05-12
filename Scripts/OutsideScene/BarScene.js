@@ -76,6 +76,7 @@ class BarScene extends OutsideScene{
         this.backgroundMusic = PIXI.sound.Sound.from({
             url: '././Music/BarAmbiance.mp3',
             preload: true,
+            loop : true,
             loaded: function(err, sound) {
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
