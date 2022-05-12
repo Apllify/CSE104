@@ -322,7 +322,7 @@ class BarScene extends OutsideScene{
 
         //setup the sixth table (tutorial vomitting)
         this.npcList.push(new Table(this.container, this.playerReference, {x:-650, y:-520}, []));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], true));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], (window.localStorage.getItem('TutorialComplete') != null)));
 
 
 

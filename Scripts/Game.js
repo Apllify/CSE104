@@ -18,9 +18,9 @@ class Game{
         //this.changeScene(new PatternDebug()
         window.sessionStorage.clear();
         
-        windsow.localStorage.setItem('ProfMode', 0)
+        window.localStorage.setItem('ProfMode', 0)
         //this.changeScene(new RollCreditsScene());
-        this.changeScene(new MuseumScene());
+        this.changeScene(new MenuScene());
         //  this.changeScene(new PixelTransition(5, 5));
         //  this.currentScene.startFadeIn();
         
