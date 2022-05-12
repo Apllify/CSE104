@@ -844,8 +844,15 @@ class TutorialNpc extends Person{
             "Uhmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
             "Allow me to - "]
         ];
+        let spritePath;
+        if (firstMeeting){
+            spritePath = 'TutorialFirst';
+        }
 
-        super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints, flipped, 0, 1.3);
+        else{
+            spritePath = 'TutorialSecond';
+        }
+        super(drawLayer, playerReference, position, monologuesList, "Tutorial", spritePath, targetPoints, flipped, 0, 1.3);
         this.firstMeeting = firstMeeting;
 
 
@@ -871,7 +878,7 @@ class SurferBossNpc extends Person{
     }
 
     isInteracted(index){
-        mainGame.changeScene(new SurferBoss());
+        mainGame.changeScene(new SurferBoss(), new PixelTransition(0.3, 1, 0x000000));
     }
 }
 
