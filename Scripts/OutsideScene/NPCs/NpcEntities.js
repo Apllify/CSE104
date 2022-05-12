@@ -865,6 +865,16 @@ class TutorialNpc extends Person{
     }
 }
 
+class SurferBossNpc extends Person{
+    constructor(drawLayer, playerReference, position, targetPoints, flipped = false){
+        super(drawLayer, playerReference, position, [], 'Surfer', 'Surfer', targetPoints, flipped)
+    }
+
+    isInteracted(index){
+        mainGame.changeScene(new SurferBoss());
+    }
+}
+
 
 class PatternDebugNpc extends Npc{
 
