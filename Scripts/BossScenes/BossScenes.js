@@ -348,49 +348,97 @@ class TutorialBoss extends SuperBoss{
 
             new SquarePattern(drawLayers.activeLayer, this.playerReference, 150),
             
-            // new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, "medium"),
+            new SquareCirclePattern(drawLayers.activeLayer, this.playerReference, "medium"),
 
-            // new PacmanSquare(drawLayers.activeLayer, this.playerReference, "easy"),
+            new PacmanSquare(drawLayers.activeLayer, this.playerReference, "easy"),
 
-            // new SquareCirclePacman(drawLayers.activeLayer, this.playerReference, "medium")
+            new SquareCirclePacman(drawLayers.activeLayer, this.playerReference, "medium")
 
         ];
 
         this.monologues = [
-            ["Uh- Uhmmm... Allow me to clear m-my throat..",
-            "You are SOOOO not supposed to be here.",
-            "S-so...",
-            "Your name's ${this.playerReference.name}, \nright ?",
-            "Oh god, oh no, I'm so sorry let me redo this....",
-            "(Nightmare...Nightmare...Nightmare...Nightmare...Nightmare...Nightmare...Nightmare... )",
-            "(Why?)",
-            "(Why did it have to be right now?)",
-            `You're ${this.playerReference.name}`,
-            "I-i'm pretty sure that's your name, right ?", 
-            "Ok.",
-            "Whatever you do.",
-            "NEVER NEVER NEVER introduce yourself as : \nPLAYER ",
-            "...",
-            "For your own confort and safety...",
-            "Speaking of, I should - uhm - run you through \nthe combat basics ?",
-            "Let's.",
-            "(Ok, ok, ok, just, remember the training)",
-            "See that little green bar at the top ? \nThat's your energy level or something.",
-            "If it runs out, you'll get tired (?) And we'll have \nto take a break from fighting (i think).",
-            "The fighting itself is pretty simple (not): Just \nmove around so the projectiles can't hit you.",
-            "(There isn't a single chance that this works holy fuck)",
-            "Let's try this for starters :)"],
+            [
+                "Uh- Uhmmm... Allow me to clear m-my throat..",
+                "You are SOOOO not supposed to be here.",
+                "S-so...",
+                "Your name's ${this.playerReference.name}, \nright ?",
+                "Oh god, oh no, I'm so sorry let me redo this....",
+                "(Nightmare...Nightmare...Nightmare...Nightmare...Nightmare...Nightmare...Nightmare... )",
+                "(Why?)",
+                "(Why did it have to be right now?)",
+                `You're ${this.playerReference.name}`,
+                "I-i'm pretty sure that's your name, right ?", 
+                "Ok.",
+                "Whatever you do.",
+                "NEVER NEVER NEVER introduce yourself as : \nPLAYER ",
+                "...",
+                "For your own confort and safety...",
+                "Speaking of, I should - uhm - run you through \nthe combat basics ?",
+                "Let's.",
+                "(Ok, ok, ok, just, remember the training)",
+                "See that little green bar at the top ? \nThat's your energy level or something.",
+                "If it runs out, you'll get tired (?) And we'll have \nto take a break from fighting (i think).",
+                "The fighting itself is pretty simple (not): Just \nmove around so the projectiles can't hit you.",
+                "(There isn't a single chance that this works holy fuck)",
+                "Let's try this for starters :)"
+            ],
 
-            ["(Did I go too hard on them ?)",
-            "(No clue, they weren't doing bad though)",
-            "(Maybe.... This could ? work ?)",
-            "Ahem.",
-            "Great job, keep it up.",
-            "That was some smooth movement.",
-            "(Phew)",
-            "Ok this next one is a l-little trickier. \nIt's kind of my speciality move.",
-            "Don't stand still."
+            [
+                "(Did I go too hard on them ?)",
+                "(No clue, they weren't doing bad though)",
+                "(Maybe.... This could ? work ?)",
+                "Ahem.",
+                "Good job, keep it up.",
+                "That was pretty decent.",
+                "(Phew)",
+                "Ok this next one is just a little trickier. \nIt's kind of my signature move.",
+                "Don't stand still."
+            ],
+
+            [
+                "Hint : Use W,A,S,D to dodge the projectiles.",
+                "(What am I even saying, this is the third pattern \n?????????????)",
+                "Anyways, did I just say signature move ?",
+                "Sorry, I meant one of the many colorful \nand flashy attacks of my tutorial toolkit.",
+                "Yup.",
+                "It's kinda hard to choose when you have that \nmany options really.",
+                "Here's another one for example : "
+            ],
+
+            [
+                "I.",
+                "*Tutorial looks physically unwell.*",
+                "Forgot all of my other attacks actually.",
+                "(It's okay.)",
+                "(I can still train them.)",
+                "(Nothing bad's gonna happen, I'm just gonna \nescort them and - )",
+                "(Go to cuba, live out the rest of my life under a \nfake name, it's the only option the only option)",
+                "(Just calm down, and don't pass out on them.)",
+                "Let's try something else."
+            ],
+
+            [
+                "Look at you go.",
+                "You're a fast learner.",
+                "You'll beat me in a day or two of training at \nthis rate, haha.",
+                "(They're gonna die to 5 centimeter rodent \nand it's all gonna be my fault.)",
+                "Hahaha.",
+                "Ha.",
+                "Ready for this next one ?"
+            ],
+
+            [
+                "Nice !",
+                "So let me run you down our training plan.",
+                "We're gonna meet up here everyday for - ",
+                "...",
+                "",
+                "...",
+                "",
+                "...",
+                "",
             ]
+
 
             // "It's the unspeakable, unbreakable compound \nthat makes up the living.",
             // "Well",

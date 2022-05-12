@@ -21,7 +21,7 @@ class TextNpc extends Npc{
 
    
 
-    setupGraphics(scaleX = 1, scaleY = 1){
+    setupGraphics(scaleX = 2, scaleY = 2){
         //assumes the sprite has already been loaded
         this.sprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.spritePath].texture);
         this.drawLayer.addChild(this.sprite);
@@ -86,6 +86,8 @@ class TextNpc extends Npc{
     //     }
     // }
 }
+
+
 
 
 
@@ -845,6 +847,8 @@ class TutorialNpc extends Person{
 
         super(drawLayer, playerReference, position, monologuesList, "Tutorial", "Tutorial", targetPoints, flipped, 0, 1.3);
         this.firstMeeting = firstMeeting;
+
+
     }
 
     isInteractingJustDone(){
@@ -956,19 +960,46 @@ class Tree extends TextNpc{
 
 class TrapDoor extends TextNpc{
     // TrapDoor in BarScene
-    constructor(drawLayer, playerReference, position, monologuesList, open=false){
+    constructor(drawLayer, playerReference, position, open=false){
         const textStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 24,
             fontWeight : "bold",
             fill : "#ffffff",
         });
+
         let spritePath = 'TrapDoorClosed'
         if (open){
             spritePath = 'TrapDoorOpen'
         }
-        super(drawLayer, playerReference, position, textStyle, monologuesList, 'TrapDoor', spritePath);
+
+
+        let monologuesList =[[]];
+
+        if (open){
+            monologuesList = [
+            [
+                "I am ready...",
+                "Come in me, please :3"
+            ]
+        ];
+
+        }
+        else{
+            monologuesList =  [
+                ["Sowwy I can't wet you pass UwU",
+                "Come back later maybe ,?,?"],
+                ["I- I- am closed >-<"]
+            ];
+        }
+
+
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'TrapDoor', spritePath, 100);
         this.open = open;
+    }
+
+    setupGraphics(){
+        super.setupGraphics(2, 2);
     }
 
     isInteracted(index){
@@ -1365,5 +1396,25 @@ class RectangleNpc extends Npc{
 
     setupHitbox(){
         this.hitbox = this.rectangle;
+    }
+}
+
+class Vomit extends TextNpc{
+    elapsedTime = 0;
+
+
+    constructor(drawLayer, playerReference, position){
+        super(drawLayer, playerReference, position, null, [], "Vomit", "Vomit");
+    }
+
+    setupGraphics(){
+        super.setupGraphics(2, 2);
+        this.sprite.alpha = 0.3;
+    }
+
+    idleUpdate(delta, inputs){
+        this.elapsedTime += delta;
+
+
     }
 }

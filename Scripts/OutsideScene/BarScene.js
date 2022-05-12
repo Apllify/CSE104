@@ -123,14 +123,8 @@ class BarScene extends OutsideScene{
         //this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:200, y:300}, [{x:200, y: 300}, {x:300, y : 300}], window.localStorage.getItem('TutorialComplete') == null));
         
 
-        const trapdoorDialogue = [
-            ["Sowwy I can't wet you pass UwU",
-            "Come back later maybe ,?,?"],
-            ["I- I- am closed >-<"]
-        ]
-
-        this.npcList.push(new TrapDoor(this.container, this.playerReference, this.adjustedPosition({x:1400, y:70}), trapdoorDialogue, 
-        (window.localStorage.getItem('TutorialComplete') != null)));
+        this.npcList.push(new TrapDoor(this.container, this.playerReference, this.adjustedPosition({x:1400, y:100}), 
+        (window.localStorage.getItem('TutorialComplete') == 1)));
         
         this.npcList.push(new BarExit(this.container, this.playerReference, {x:780, y:300}, [["Leaving so soon?"]], true));
 
@@ -316,14 +310,15 @@ class BarScene extends OutsideScene{
             "Wanna play anymore..."]
         ];
 
-        this.npcList.push(new Person(this.container, this.playerReference, {x:480, y:-430}, fedupDialogue, "Man", "Npc7", [], true));
-        this.npcList.push(new Person(this.container, this.playerReference, {x:610, y:-400}, cryingDialogue, "I can't", "Npc9", [], false));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:480, y:-330}, fedupDialogue, "Man", "Npc7", [], true));
+        this.npcList.push(new Person(this.container, this.playerReference, {x:610, y:-300}, cryingDialogue, "I can't", "Npc9", [], false));
 
 
         //setup the sixth table (tutorial vomitting)
+        this.npcList.push(new Vomit(this.backgroundContainer, this.playerReference, {x:-550, y:-480}));
         this.npcList.push(new Table(this.container, this.playerReference, {x:-650, y:-520}, []));
-        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], (window.localStorage.getItem('TutorialComplete') == null)));
-
+        console.log(window.localStorage.getItem("TutorialComplete"));
+        this.npcList.push(new TutorialNpc(this.container, this.playerReference, {x:-550, y:-500}, [], (window.localStorage.getItem('TutorialComplete') != 1)));
 
 
 
