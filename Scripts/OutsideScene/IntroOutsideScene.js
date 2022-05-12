@@ -108,18 +108,22 @@ class IntroOutsideScene extends OutsideScene{
                 "What could the tree mean by this ?"]
             ],
             [
-                ["This tree is littered with a list of \nfaintly legible scribbles : ",
+                ["The tree is littered with a list of \nfaintly legible scribbles : ",
                 '"Catreena, Treeodore, Matreew, Autree, Timberly..."',
                 "The footer reads : ",
-                '"Top 100 Tree names of 2022."']
+                '"Top Tree Hundred names of 2022."']
             ],
             [
                 ["A small banner reads : ",
                 '"Shea / Herb"',
-                "The trees have pronounce now ?"]
+                "The trees have pronounce now ???"]
             ],
             [
-                [""]
+                ["The tree is holding an iphone.",
+                "In the dim of the night, you can make out a google \nsearch bar : ",
+                '"How to prevent Receding Leaf-Line."',
+                '"Leaf transplants next to me."',
+                '"Tree transition."']
             ],
             [
                 ["A simple tree, with a preference for brevity."]
@@ -141,6 +145,54 @@ class IntroOutsideScene extends OutsideScene{
                 ["Oh no, the tree fandom is dying.",
                 'For more information, look up "Industrial Society \nand Its Future" by Theodore Kaczynski.']
             ],
+            [
+                ["I fear that my tree comrades are falling prey to \nthe easy allure of irony.",
+                "Nervously scribbling prose, nerving themselves \nin rose pigment, rising to the task.",
+                "In a battle to death for a squibble on the backdrop.",
+                "Alas, they forget about one of the finest blade.",
+                "Melded of the intangible metal of imagery.",
+                "Pacing, through the tall grass like butter.",
+                "Only to deliver a final subversive blow -",
+                "(TODO : complete poem)"]
+            ],
+            [
+                ["Sometimes I fantasize about having a body.",
+                "What I would give just to be able to idly walk around.",
+                "Talking with friends, going places together.",
+                "Perhaps we could even enjoy 'food' around a 'table'.",
+                "The lifestyle seems so distant and yet...",
+                "With every passerby, I get to imagine what it feels like."]
+            ],
+            [
+                ["You know what this world needs, son ?",
+                "More people that can speak truth to power.",
+                "And I'm sick of being herded like cattle.",
+                "We need a real shepherd, one that's gonna lead us to greatness again.",
+                "A manly father figure to inspire the youth.",
+                "With large, veiny muscles, that can be our lighthouse in the dark.",
+                "Perhaps even a big manly man body that exchudes masculine energy.",
+                "God I wish a strong flanneled man would take me with him to -",
+                "",
+                "..",
+                "...",
+                "What was I saying before this ?"]
+            ],
+            [
+                ["Can I interest you in joining my religion ?",
+                "I believe in the existence of a higher spirit.",
+                "A generous god, that created our world from the ashes.",
+                "He knows, and watches all, even as we speak.",
+                "What are we to him ?",
+                "Oh, a first grade university assignment."]
+            ],
+            [
+                ["The tree forgot to write his dialogue..."]
+            ],
+            [
+                ["Ah, you made it through, after all.",
+                "It was a long and arduous road, ",
+                "Paved with weak tree puns, and anticlimactic endings."]
+            ]
         ];
 
 
@@ -409,7 +461,7 @@ class IntroOutsideScene extends OutsideScene{
 
 
             if (i % 2 === 1){
-                let treeDialogueIndex = Math.floor(Math.random() * treeDialogues.length);
+                let treeDialogueIndex = (i-1) / 2;
 
                 this.npcList.push(new Tree(this.container, this.playerReference, {x:i * 300 + 100, y:yposTree},treeDialogues[treeDialogueIndex]));
             }

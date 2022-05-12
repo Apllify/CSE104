@@ -1097,8 +1097,9 @@ class LightAura extends Npc{
     radius = 0;
 
     shadeCount = 0;
+    tint = 0xFFFFFF; //the tint of the light 
 
-    constructor(playerReference, position, shadeObject, shadeContainer, radius, shadeCount ){
+    constructor(playerReference, position, shadeObject, shadeContainer, radius, shadeCount, tint = 0xFFFFFF ){
 
         super(drawLayers.foregroundLayer, playerReference, position);   
 
@@ -1109,6 +1110,7 @@ class LightAura extends Npc{
         this.radius = radius;
         this.shadeCount = shadeCount;
         
+        this.tint = tint;
         
     }
 
@@ -1123,15 +1125,18 @@ class LightAura extends Npc{
             
             this.cutHoleAndShade(currentOuter, newInner, 
                              this.radius * (this.shadeCount - i)/ this.shadeCount, 
-                             this.maxShadeAlpha * (1 - (i + 1) / this.shadeCount), {x:this.x, y:this.y});
+                             this.maxShadeAlpha * (1 - (i + 1) / this.shadeCount), {x:this.x, y:this.y}, this.tint);
+            
             this.shadeContainer.addChild(newInner);
+
+ 
             
             currentOuter = newInner;
         };
     }
 
     
-    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha, position){
+    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha, position, tint = 0xFFFFFF){
         // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
         // at the given position. We can't just use the lightSource center since the innershades are in a differentcontainer
         outerShade.beginHole();
@@ -1258,7 +1263,7 @@ class LightSource extends TextNpc{
         this.hitbox = new Rectangle(this.x - width / 2, this.y - height /2, width, height)
     }
 
-    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha, position){
+    cutHoleAndShade(outerShade, innerShade, shadeRadius, shadeAlpha, position, tint = 0xFFFFFF){
         // cuts a hole in the outerShade with the radius and fills the gap with the innerShade with the specified alpha
         // at the given position. We can't just use the lightSource center since the innershades are in a differentcontainer
         outerShade.beginHole();

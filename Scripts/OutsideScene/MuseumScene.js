@@ -46,7 +46,7 @@ class MuseumScene extends OutsideScene{
     backgroundsCoords = [];
 
     cageEntities = [];
-    cageExceptions = [1, 2]; //the index of cages that can be entered through.
+    cageExceptions = [1, 2, 3]; //the index of cages that can be entered through.
     cageOpeningSize = 60; //the size of the openings for cage exceptions
 
     shade = null;
@@ -103,19 +103,18 @@ class MuseumScene extends OutsideScene{
         //create a shade alpha on top of the light aura cage
         this.shade =  new PIXI.Graphics();
         this.shade.beginFill(0x000000);
-        this.shade.drawRect(0, 0, this.cageWidth, 200);
+        this.shade.drawRect( this.signSpacing * 4 + 100, 0, this.cageWidth, 200);
         this.shade.endFill();
         this.shade.alpha = this.shadeAlpha;
         
-        this.shade.x = this.signSpacing * 4 + 100;
-        this.shade.y = 0;
+
 
         this.foregroundContainer.addChild(this.shade);
         
 
         const signDialogues = [
             [["Enclosed here is our very first creation : ",
-            "The character class.",
+            "You.",
             "Surprinsingly, even though we expected the \ncodebase for it to become very large very fast,",
             "It actually turned out to be rather concise at \na final 229 lines including line breaks.",
             "The main logic for it is pretty intuitive : ",
@@ -125,12 +124,13 @@ class MuseumScene extends OutsideScene{
             "In order to obtain the movement vector of the \nplayer.",
             "As for the rest of the file, it's mainly comrprised \nof auxiliary methods.",
             "An example would be setPosition() which helps \nencapsulate the behavior of warping the player.",
-            "While you're reading this sign, your main character is paused using another such method.",
-            "As a result of that, only the character on the right is controlled by your inputs."]],
+            "While you're reading this sign, your main \ncharacter is paused using another such method.",
+            "As a result of that, only the character on \nthe right is controlled by your inputs.",
+            "Look at him go."]],
 
 
             [[
-                "So this might like a simple rock.",
+                "So this might look like a simple rock.",
                 "And it is.",
                 "But what makes it interesting is that it was the \nsecond sprite we made.",
                 "If you find that interesting ? Maybe ?",
@@ -139,7 +139,7 @@ class MuseumScene extends OutsideScene{
                 "We decided it would be best to keep collisions as \nstripped down as possible,",
                 "As such, most entities have a very simple \nrectangular hitbox,",
                 "Which, in turn, allows us to detect collisions in \nless than 4 lines.",
-                "Now, unfortunetaly, the process of actually \nfixing the collision is much more complex.",
+                "Now, unfortunately, the process of actually \nfixing the collision is much more complex.",
                 "We opted for the following :",
                 "1°)Draw a vector connecting the current player \nposition and last frame's position",
                 "2°)Sliding the player from the previous position to \nthe current one to find the 'tipping point'",
@@ -149,7 +149,7 @@ class MuseumScene extends OutsideScene{
             ]],
 
             [[
-                "It looks kind of weird, but I supposed we should \nalso talk about signs.",
+                "It looks kind of weird, but I suppose we should \nalso talk about signs.",
                 "In reality, making the signs themselves wasn't \ntoo difficult.",
                 "But instead, most of our time was spent working \nout the dialogue system.",
                 "Or, as we call internally, the monologue system. \nPretty cool right ?",
@@ -166,10 +166,16 @@ class MuseumScene extends OutsideScene{
             ]],
             
             [[
-                "So this was supposed to be a circle of light, ",
-                "As can be seen through the street scene where every street sign is surrounded by light.",
-                "But as we were implementing this showcase, we found this to be a more apt display,",
-                "Of the monstrosity that is the PIXI js lighting system.",
+                "This is the PIXI js ((lighting)) ((system)).",
+                "In reality, it's just a lot of circles of increasing \nalpha channel.",
+                "The more circles we use, the smoother the \ntransition looks.",
+                "This trick is pretty straightforward but it is \nalso pretty limiting.",
+                "For example, it would be very complicated to add \na tint to the ligthing, ",
+                "Like how most streetlights appear yellow-ish as \nopposed to fully white.",
+                "More importantly, due to an internal bug within \nthe framework, ",
+                "It is impossible to draw two overlapping light \nsources without - ",
+                "Creating massive visual artifacts that cover the \nentire scene.",
+                "Here is a little pool of shade for you to play \naround with."
             ]]
         ]
 
@@ -181,16 +187,21 @@ class MuseumScene extends OutsideScene{
         ]];
 
         const signDialogue = [[
-            "Thank you for playing :)",
-            "We really appreciate it !"
-        ]]
+            "The fog is coming.",
+            "There is nothing you can do about it."
+        ]];
+
+    
+
+        console.log(this.shade.width);
+        console.log(this.shade.x);
 
         this.cageEntities = [
             new Character({x:700, y:500}, this.container),
             new Rock(this.container, this.playerReference, {x:0, y:0}, rockDialogue),
             new SignPost(this.container, this.playerReference, {x:0,y:0}, signDialogue),
-            new LightAura(this.playerReference, {x:this.shade.x + this.shade.width/2,y:this.shade.y + this.shade.height/2}, this.shade, this.container, 50, 20)
-
+            new LightAura(this.playerReference, {x:2250,y: 100}, this.shade, this.foregroundContainer, 80, 20, 0xFF0000),
+            
         ]
 
 
@@ -258,6 +269,11 @@ class MuseumScene extends OutsideScene{
 
             //put something in the middle of the cage IF possible
             if (i < this.cageEntities.length){
+                //make exception for the light source (can't be moved lol)
+                if (i ===  3){
+                    this.npcList.push(this.cageEntities[i]);
+                    continue;
+                }
                 this.cageEntities[i].x = x+250;
                 this.cageEntities[i].y = (topOfCage + bottomOfCage)/2;
                 this.npcList.push(this.cageEntities[i]);
@@ -285,7 +301,6 @@ class MuseumScene extends OutsideScene{
         //bound the first player entity cuz system not flexing enough to implement collision system for more than one player 
         let pHitbox = this.cageEntities[0].getHitboxRectangle();
 
-        console.log(pHitbox.x + pHitbox.width);
 
         if (pHitbox.x <= 605){
             pHitbox.x = 605;
