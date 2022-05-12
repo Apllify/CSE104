@@ -420,16 +420,17 @@ class MuseumScene extends OutsideScene{
             [
                 "Finally, this is an unimplemented boss.",
                 "He goes by the name of the surfer.",
-                "He's obviously not supposed to be here but we conveniently -",
+                "He's obviously not supposed to be here but we \nconveniently -",
                 "'Transported' him :)",
-                "Don't worry, this is a completely non-cannon interaction,",
-                "And he'll lose all memory of the fight after everything is said and done.",
+                "Don't worry, this is a completely non-cannon \ninteraction,",
+                "And he'll lose all memory of the fight after \neverything is said and done.",
                 "Go ahead and enjoy your bonus boss."
             ]
         ];
 
         //this.npcList.push(new SurferBossNpc(this.container, this.playerReference, {x:6800, y:300}, [], false));
-        this.npcList.push(new SurferBossNpc(this.container, this.playerReference, {x:200, y:300}, [], false));
+        this.npcList.push(new SignPost(this.container, this.playerReference, {x:7000, y:300}, surferSignDialogue));
+        this.npcList.push(new SurferBossNpc(this.container, this.playerReference, {x:7200, y:300}, [], false));
 
 
 

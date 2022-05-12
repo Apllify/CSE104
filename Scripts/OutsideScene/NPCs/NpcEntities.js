@@ -884,6 +884,7 @@ class TutorialNpc extends Person{
 
 
 
+
         let spritePath;
         if (firstMeeting){
             spritePath = 'TutorialFirst';
@@ -897,13 +898,14 @@ class TutorialNpc extends Person{
 
         super(drawLayer, playerReference, position, monologuesList, "Tutorial", spritePath, targetPoints, flipped, 0, 1.3);
         this.firstMeeting = firstMeeting;
-
+    
 
     }
 
     idleUpdate(delta, inputs){
+
         if (this.firstMeeting){
-            super.idleUpdate();
+            super.idleUpdate(delta, inputs);
         }
         else{
             //don't bob if passed out 
