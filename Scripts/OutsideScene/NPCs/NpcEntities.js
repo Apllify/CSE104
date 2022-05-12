@@ -848,15 +848,42 @@ class BossWarp extends Npc{
 class TutorialNpc extends Person{
 
     constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true, flipped = false){
-        const monologuesList = [
-            ["Ugh, thanks for checking, everyone else is busy \nbeing a sore loser...",
-            "I knew that last cup was a mistake.",
-            "Who puts vanilla in alcohol ?",
-            "Wait.",
-            "Y-you're... you're...",
-            "Uhmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
-            "Allow me to - "]
-        ];
+        
+        
+        let monologuesList = [];
+        
+        if (firstMeeting){
+            monologuesList =         
+            [
+                ["Ugh, thanks for checking, everyone else is busy \nbeing a sore loser...",
+                "I knew that last cup was a mistake.",
+                "Who puts vanilla in alcohol ?",
+                "Wait.",
+                "Y-you're... you're...",
+                "Uhmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+                "Allow me to - "]
+            ];
+        }
+        else{
+            monologuesList = [
+                [
+                    "G-g...",
+                    "Sorry...",
+                    "Must've...",
+                    "Taken...",
+                    "Too much...",
+                    "Take the trapdoor...",
+                    "And pray you'll escape...",
+                    "..............................",
+                    "*The room reeks of vanilla as Tutorial's soul \nescapes his body.*"
+                ]
+            ];
+        }
+
+
+
+
+
         let spritePath;
         if (firstMeeting){
             spritePath = 'TutorialFirst';
@@ -865,10 +892,23 @@ class TutorialNpc extends Person{
         else{
             spritePath = 'TutorialSecond';
         }
+
+
+
         super(drawLayer, playerReference, position, monologuesList, "Tutorial", spritePath, targetPoints, flipped, 0, 1.3);
         this.firstMeeting = firstMeeting;
 
 
+    }
+
+    idleUpdate(delta, inputs){
+        if (this.firstMeeting){
+            super.idleUpdate();
+        }
+        else{
+            //don't bob if passed out 
+            return;
+        }
     }
 
     isInteractingJustDone(){
