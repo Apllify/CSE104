@@ -19,7 +19,7 @@ class MuseumScene extends OutsideScene{
         'Npc5' : 'Sprites/Npc/Npc5.png',
         'Npc6' : 'Sprites/Npc/Npc6.png',
         'Npc7' : 'Sprites/Npc/Npc7.png',
-        'Npc8' : 'Sprites/Npc/Npc8.png',
+        'Surfer' : 'Sprites/Npc/Npc8.png',
         'Npc9' : 'Sprites/Npc/Npc9.png',
         'Vomit': 'Sprites/Npc/Vomit.png',
         "God Spritesheet": "Sprites/God.json",
