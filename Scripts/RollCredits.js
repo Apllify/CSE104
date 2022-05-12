@@ -29,6 +29,8 @@ class RollCreditsScene{
             stroke : "#ffffff",
         });
 
+        window.localStorage.clear();
+
         
     }
 

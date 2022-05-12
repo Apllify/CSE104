@@ -3,6 +3,7 @@ class BarScene extends OutsideScene{
     requiredAssets = {
         'Shield':  'Sprites/Shield.png',
         "Chair": "Sprites/Chair.png",
+        "BrokenChair": "Sprites/BrokenChair.png",
         "Table": "Sprites/Table.png",
         "Wood1": "Sprites/Tiles/Wood1.png",
         "Wood2": "Sprites/Tiles/Wood2.png",
@@ -295,6 +296,8 @@ class BarScene extends OutsideScene{
         ];
 
         this.npcList.push(new Person(this.container, this.playerReference, {x:-700, y:0}, madDialogue, "Mad", "Npc5", [{x:-750, y:0}, {x:-650, y:0}], false, 200));
+        this.npcList.push(new Chair(this.container, this.playerReference, {x:-700, y:100}, [], true, 4, true))
+
 
         //setup the fifth table (two people in top right)
         const fedupDialogue = [
