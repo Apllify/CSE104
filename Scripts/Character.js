@@ -131,11 +131,19 @@ class Character{
 
 
     enablePrompt(textContent){
+        if (this.promptEnabled){
+            this.disablePrompt();
+        }
         this.promptEnabled = true;
         this.prompt = new TextDisplay(this.drawLayer, textContent, {x: 0, y:0}, this.promptTextStyle );
         this.updatePrompt();
+    }
 
-
+    enablePromptFlickering(){
+        this.promptFlickeringEnabled = true;
+    }
+    disablePromptFlickering(){
+        this.promptFlickeringEnabled = false;
     }
 
     updatePrompt(){
@@ -150,8 +158,11 @@ class Character{
     }
 
     disablePrompt(){
-        this.promptEnabled = false;
-        this.prompt.destroy();
+        if (this.promptEnabled){
+            this.promptEnabled = false;
+            this.prompt.destroy();
+        }
+
     }
 
     update(delta, inputs){
@@ -200,12 +211,15 @@ class Character{
         this.x += velocityVect.x * delta;
         this.y += velocityVect.y * delta;
 
-        //update interaction prompt if needed
+        //update prompt if needed and flickering
         if (this.prompt){
-            this.updatePrompt(); 
+            if (this.promptFlickeringEnabled){
+                this.updatePrompt(); 
 
-            //also make it flicker cause why not lol
-            this.prompt.setAlpha(Math.min(0.8, Math.abs(Math.cos(1.5* this.elapsedTime))));
+                //also make it flicker cause why not lol
+                this.prompt.setAlpha(Math.min(0.8, Math.abs(Math.cos(1.5* this.elapsedTime))));
+            }
+
         }
 
         //update the sprite's position on screen

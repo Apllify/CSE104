@@ -266,7 +266,9 @@ class MuseumScene extends OutsideScene{
                 "We hope you enjoyed this passion project."
 
             ]]
-        ]
+        ];
+
+
 
         const rockDialogue = [[
             "Hahaha.",
@@ -306,8 +308,8 @@ class MuseumScene extends OutsideScene{
             new Rock(this.container, this.playerReference, {x:0, y:0}, rockDialogue),
             new SignPost(this.container, this.playerReference, {x:0,y:0}, signDialogue),
             new LightAura(this.playerReference, {x:2250,y: 100}, this.shade, this.foregroundContainer, 80, 20, 0xFF0000),
-            new Person(this.container, this.playerReference, {x:2600 + 80, y:400 + 80}, personDialogue, "The Wretched", "Npc2", personTargetPoints, false, 300)
-            
+            new Person(this.container, this.playerReference, {x:2600 + 80, y:400 + 80}, personDialogue, "The Wretched", "Npc2", personTargetPoints, false, 300),
+            new DunceTrigger(this.container, this.playerReference, new Rectangle(3200, 50, 100, 100))
         ]
 
 

@@ -37,6 +37,8 @@ class Npc{
 
     //in case we want to implement collision with more than just the player (unused)
     extraColliders = [];
+    wasCollidingLastFrame = false; 
+    isSolid = true;  //whether the player can go through this npc (detects collision but doesn't act on it)
 
     //flag 
     isFirstUpdate = true;
@@ -115,34 +117,47 @@ class Npc{
 
             if (this.hitbox.isColliding(this.playerReference.getHitboxRectangle())){
 
-                //if the player actually moved into us, boot him out
-                if (this.previousHitbox == null){
-                    this.previousHitbox = {x: this.x, y: this.y};
+                //call our local method when colliding
+                if (!this.wasCollidingLastFrame){
+                    this.wasCollidingLastFrame = true;
+                    this.justCollided();
                 }
-                if ((this.previousHitbox.x === this.hitbox.x) && (this.previousHitbox.y === this.hitbox.y)){
-                    const newPlayerHitbox = this.hitbox.simulateCollision(this.playerReference.getOldHitboxRectangle(), this.playerReference.getHitboxRectangle());
-                    this.playerReference.setHitboxRectangle(newPlayerHitbox);
+
+
+                if (this.isSolid){
+                    //if the player actually moved into us, boot him out
+                    if (this.previousHitbox == null){
+                        this.previousHitbox = {x: this.x, y: this.y};
+                    }
+                    if ((this.previousHitbox.x === this.hitbox.x) && (this.previousHitbox.y === this.hitbox.y)){
+                        const newPlayerHitbox = this.hitbox.simulateCollision(this.playerReference.getOldHitboxRectangle(), this.playerReference.getHitboxRectangle());
+                        this.playerReference.setHitboxRectangle(newPlayerHitbox);
+                    }
+                    
+                    else { //other wise, push him in our movement direction
+                        const playerCoords= this.playerReference.getPosition();
+                        let displacementDir = new Vector(playerCoords.x - this.x, playerCoords.y - this.y);
+
+                        //snap the displacement direction to one of the 45° directions
+                        displacementDir = displacementDir.snap45();
+
+                        //const imaginaryPlayerPos = this.playerReference.getPosition().add(movementDir);
+                        const imaginaryPlayerHitbox = this.playerReference.getOldHitboxRectangle();
+                        imaginaryPlayerHitbox.x += displacementDir.x * 10;
+                        imaginaryPlayerHitbox.y += displacementDir.y * 10;
+
+
+
+
+
+                        const newPlayerHitbox = this.hitbox.simulateCollision(imaginaryPlayerHitbox, this.playerReference.getHitboxRectangle());
+                        this.playerReference.setHitboxRectangle(newPlayerHitbox);
+                    }
                 }
-                
-                else { //other wise, push him in our movement direction
-                    const playerCoords= this.playerReference.getPosition();
-                    let displacementDir = new Vector(playerCoords.x - this.x, playerCoords.y - this.y);
 
-                    //snap the displacement direction to one of the 45° directions
-                    displacementDir = displacementDir.snap45();
-
-                    //const imaginaryPlayerPos = this.playerReference.getPosition().add(movementDir);
-                    const imaginaryPlayerHitbox = this.playerReference.getOldHitboxRectangle();
-                    imaginaryPlayerHitbox.x += displacementDir.x * 10;
-                    imaginaryPlayerHitbox.y += displacementDir.y * 10;
-
-
-
-
-
-                    const newPlayerHitbox = this.hitbox.simulateCollision(imaginaryPlayerHitbox, this.playerReference.getHitboxRectangle());
-                    this.playerReference.setHitboxRectangle(newPlayerHitbox);
-                }
+            }
+            else{
+                this.wasCollidingLastFrame = false;
             }
 
 
@@ -193,16 +208,20 @@ class Npc{
     //this is how we create individuality in subclasses of this program
 
     setupGraphics(){ //creates the display (be it sprite or rectangle) of this entity
-        this.debugGraphics = new Rectangle(this.x - 20, this.y - 20, 40, 40).getGraphics(0x00FF00);
-        this.drawLayer.addChild(this.debugGraphics);
+        return;
     }
 
     refreshGraphics(){ //only necessary for moving entities
-
+        return;
     }
 
     destroyGraphics(){ //called when the entity is destroyed
         this.debugGraphics.destroy();
+    }
+
+
+    setSolid(bool){
+        this.isSolid = bool;
     }
 
 
@@ -223,6 +242,11 @@ class Npc{
     }
 
     isInteractingJustDone(){
+        return;
+    }
+
+    //called once at the start of every collision
+    justCollided(){
         return;
     }
 

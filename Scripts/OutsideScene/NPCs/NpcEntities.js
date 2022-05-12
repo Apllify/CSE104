@@ -1420,3 +1420,37 @@ class Vomit extends TextNpc{
 
     }
 }
+
+class DunceTrigger extends Npc{
+
+    elapsedTime = 0;
+
+
+    constructor(drawLayer, playerReference, hitbox){
+        super(drawLayer, playerReference, {x:0, y:0}, 0);
+
+        //set the hitbox prematurely in the constructor
+        this.hitbox = hitbox;
+        this.setSolid(false);
+    }
+
+    idleUpdate(delta, inputs){
+        this.elapsedTime += delta;
+
+        if (this.elapsedTime > 3 ){
+            this.playerReference.disablePrompt();
+        }
+    }
+
+
+
+    justCollided(){
+        //give the player a dunce hat 
+        this.playerReference.enablePrompt("Dunce Hat");
+        this.playerReference.disablePromptFlickering();
+
+        this.elapsedTime = 0;
+    }
+
+
+}
