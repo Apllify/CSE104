@@ -231,4 +231,8 @@ class PreIntroOutsideScene extends OutsideScene{
 
 
     }
+
+    unload(){
+        this.backgroundMusic.pause();
+    }
 }
