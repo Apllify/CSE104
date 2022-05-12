@@ -1089,14 +1089,24 @@ class Chair extends TextNpc{
     flipped = false;
     rotation = 0;
 
-    constructor(drawLayer, playerReference, position, monologuesList, flipped = false, rotation = 0){
+    constructor(drawLayer, playerReference, position, monologuesList, flipped = false, rotation = 0, broken = false){
         const textStyle = new PIXI.TextStyle({
             fontFamily : "BrokenConsole",
             fontSize : 24,
             fill : "#ffffff",
         });
 
-        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Chair', 'Chair', 85);
+        let spritePath;
+        if (broken){
+            console.log('here')
+            spritePath = 'BrokenChair'
+        }
+
+        else{
+            
+            spritePath = 'Chair'
+        }
+        super(drawLayer, playerReference, position, textStyle, monologuesList, 'Chair', spritePath, 85);
 
         this.flipped = flipped;
         this.rotation = rotation;
