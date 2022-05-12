@@ -411,6 +411,29 @@ class MuseumScene extends OutsideScene{
         this.npcList.push(new SignPost(this.container, this.playerReference, {x:3800, y :300}, spriteAtlasDialogue));
         const spriteAtlas= new Tile(this.backgroundContainer, this.playerReference, {x:5100, y:300}, "SpriteAtlas", {x:2, y:2}, 0.7);
         this.npcList.push(spriteAtlas);
+
+
+
+        //the surfer boss section
+
+        const surferSignDialogue =  [
+            [
+                "Finally, this is an unimplemented boss.",
+                "He goes by the name of the surfer.",
+                "He's obviously not supposed to be here but we conveniently -",
+                "'Transported' him :)",
+                "Don't worry, this is a completely non-cannon interaction,",
+                "And he'll lose all memory of the fight after everything is said and done.",
+                "Go ahead and enjoy your bonus boss."
+            ]
+        ];
+
+        //this.npcList.push(new SurferBossNpc(this.container, this.playerReference, {x:6800, y:300}, [], false));
+        this.npcList.push(new SurferBossNpc(this.container, this.playerReference, {x:200, y:300}, [], false));
+
+
+
+
     }
 
     update(delta, inputs){
@@ -449,5 +472,9 @@ class MuseumScene extends OutsideScene{
 
 
 
+    }
+
+    unload(){
+        this.backgroundMusic.pause();
     }
 }
