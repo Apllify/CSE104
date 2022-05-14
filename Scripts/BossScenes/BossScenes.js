@@ -57,7 +57,7 @@ class SurferBoss extends SuperBoss{
         // drawLayers.foregroundLayer.addChild(this.shade);
         this.backgroundTop.y = -90;
         this.backgroundBottom.y = 300;
-        this.period = 8
+        this.period = 2
 
        
         super.load();
@@ -258,7 +258,7 @@ class SurferBoss extends SuperBoss{
             fontFamily : "BrokenConsole",
             fontSize : 24,
             fontWeight : "bold",
-            fill : "#11ee10",
+            fill : "#ffffff",
             stroke : "#ffffff",
         });
     }

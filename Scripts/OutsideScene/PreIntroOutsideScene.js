@@ -53,6 +53,10 @@ class PreIntroOutsideScene extends OutsideScene{
     hasAnimated = false;
 
 
+    backgroundMusic = null;
+    backgroundEarthquake = null;
+
+
     constructor(){
         super("0x014d02");
 
@@ -91,7 +95,7 @@ class PreIntroOutsideScene extends OutsideScene{
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
-                sound.volume = 0.7;
+                sound.volume = 0.4;
                 sound.play();
 
                 setTimeout(function () {
@@ -99,6 +103,25 @@ class PreIntroOutsideScene extends OutsideScene{
                 }, 50);
             }
         });
+
+
+        this.backgroundEarthquake = PIXI.sound.Sound.from({
+            url: '././Sound/PreIntroOutsideScene/Earthquake.mp3',
+            preload: true,
+            loop : true,
+            loaded: function(err, sound) {
+                // sound.filters = [
+                //     new PIXI.sound.filters.TelephoneFilter(),
+                // ];
+                sound.volume = 0.2;
+                sound.play();
+
+                setTimeout(function () {
+                    sound.play();
+                }, 50);
+            }
+        });
+
 
 
         //create a few random bits in the scene
@@ -233,5 +256,6 @@ class PreIntroOutsideScene extends OutsideScene{
 
     unload(){
         this.backgroundMusic.pause();
+        this.backgroundEarthquake.pause();
     }
 }
