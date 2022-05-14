@@ -204,13 +204,13 @@ class MuseumScene extends OutsideScene{
 
             [[
                 "Hey, look, another person.",
-                "Npcs came about around 3 weeks into the \ndevelopemnt of the project.",
+                "Npcs came about around 3 weeks into the \ndevelopment of the project.",
                 "We made the general shape as simple as possible,",
                 "In order to easily create a varied cast of \ncharacters.",
                 "They're all based around a universal facial \nexpression or emoji.",
                 "Unfortunetaly, they tend to sometimes ?",
                 "Disappear ? For no reason ?",
-                "They behave very very weirdly while the game is alt-tabbed.",
+                "They behave very very weirdly while the game is \nsalt-tabbed.",
                 "It's probably related to the way the game runs \nwhen the browser is out of focus.",
                 "But, by far, the biggest challenge was checking \nfor collisions on a moving entity.",
                 "Unlike rocks or trees, this npc can directly move \ninto the player,",

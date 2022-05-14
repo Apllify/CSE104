@@ -43,6 +43,9 @@ class Npc{
     //flag 
     isFirstUpdate = true;
 
+    //keeps track of the monologue line on the previous frame
+    previousMonologueLine = -1;
+
 
     constructor(drawLayer, playerReference, position, detectionRadius=70){
         this.playerReference=  playerReference;
@@ -97,6 +100,12 @@ class Npc{
             //update the current monologue
             if (this.currentMonologue !== null){
                 this.currentMonologue.update(delta, inputs);
+
+                //check if a new line on the monologue has been started
+                if (this.currentMonologue.getCurrentLineIndex() !== this.previousMonologueLine){
+                    this.newMonologueLine(this.previousMonologueLine + 1)
+                    this.previousMonologueLine ++;
+                }
             }
 
             
@@ -185,6 +194,8 @@ class Npc{
         if (this.currentMonologue !== null){
             this.currentState = 1;
             this.interactionCount++;
+
+            this.previousMonologueLine = -1;
         }
 
     }
@@ -250,7 +261,10 @@ class Npc{
         return;
     }
 
-
+    //called everytime a new monologue line is rendered
+    newMonologueLine(index){
+        return;
+    }   
 
 
 }

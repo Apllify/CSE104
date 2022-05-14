@@ -47,7 +47,7 @@ class IntroOutsideScene extends OutsideScene{
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
-                sound.volume = 0.1;
+                sound.volume = 0.05;
                 sound.filters = [new PIXI.sound.filters.ReverbFilter(0, 5)];
                 sound.play();
 

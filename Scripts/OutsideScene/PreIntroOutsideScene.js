@@ -84,15 +84,14 @@ class PreIntroOutsideScene extends OutsideScene{
         PIXI.sound.volume("drag", 0.3);
 
         this.backgroundMusic = PIXI.sound.Sound.from({
-            url: '././Sound/PreIntroOutsideScene/PreIntro.mp3',
+            url: '././Sound/PreIntroOutsideScene/PreIntroAmbiance.mp3',
             preload: true,
             loop : true,
             loaded: function(err, sound) {
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
-                sound.volume = 0.2;
-                sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
+                sound.volume = 0.7;
                 sound.play();
 
                 setTimeout(function () {

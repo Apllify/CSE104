@@ -847,6 +847,9 @@ class BossWarp extends Npc{
 
 class TutorialNpc extends Person{
 
+    isBobbing = true;
+    firstMeeting = true;
+
     constructor(drawLayer, playerReference, position, targetPoints, firstMeeting = true, flipped = false){
         
         
@@ -876,6 +879,9 @@ class TutorialNpc extends Person{
                     "And pray you'll escape...",
                     "..............................",
                     "*The room reeks of vanilla as Tutorial's soul \nescapes his body.*"
+                ],
+                [
+                    "..."
                 ]
             ];
         }
@@ -902,6 +908,21 @@ class TutorialNpc extends Person{
 
     }
 
+    isInteracted(index){
+
+
+        return super.isInteracted(index);
+    }
+
+    newMonologueLine(index){
+        console.log(index);
+
+        //set bobbing to false on the fourth dialogue line
+        if(index === 3){
+            this.isBobbing = false;
+        }
+    }
+
     idleUpdate(delta, inputs){
 
         if (this.firstMeeting){
@@ -923,7 +944,13 @@ class TutorialNpc extends Person{
     }
 
     interactingUpdate(delta, inputs){
-        return;
+        //only bob AFTER THE realization of the player
+        if (this.firstMeeting){
+            if (this.isBobbing){
+                super.interactingUpdate(delta,inputs);
+            }
+        }
+
     }
 }
 
@@ -1082,6 +1109,9 @@ class TrapDoor extends TextNpc{
     }
 
     isInteractingJustDone(){
+
+        super.isInteractingJustDone();
+
         if (this.open){
             mainGame.changeScene(new RollCreditsScene())
 

@@ -94,11 +94,12 @@ class BarScene extends OutsideScene{
         this.chatterSounds = PIXI.sound.Sound.from({
             url: '././Sound/BarScene/chatter.mp3',
             preload: true,
+            loop : true,
             loaded: function(err, sound) {
                 // sound.filters = [
                 //     new PIXI.sound.filters.TelephoneFilter(),
                 // ];
-                sound.volume = 0.3;
+                sound.volume = 0.1;
                 sound.filters = [new PIXI.sound.filters.ReverbFilter(1, 5)];
                 sound.play();
 
@@ -250,12 +251,12 @@ class BarScene extends OutsideScene{
                 "It was really just an attempt at feeling wanted \nfor once.",
                 "Over time, this led to me having very few friends \ngrowing up.",
                 "And being out of touch with the social norms of \nmy time.",
-                "Even my introspections are these long bland \nblocs of text",
+                "Even my introspections are these long bland \nblocs of text.",
                 "Nowadays, I just don't have it in me to connect \nemotionally with other people.",
                 "Or, whenever I do, it comes off as insincere or \npretentious.",
                 "I just wish I could pull it off.",
                 "You have no idea how much it pains me to stay \nwatching from the sidelines.",
-                'But any attempt at empathizing is brushed off as \n"pretending to be nice"',
+                'But any attempt at empathizing is brushed off as \n"pretending to be nice".',
                 'So now I\'m the "emotionless" "1-dimensional" \nnerd.',
                 "Woops sorry I monologued, I don't really have \nanyone that listens like you, usually.",
                 "I'm sorry to burden you like this, allow me to go \nback to my feigned self."

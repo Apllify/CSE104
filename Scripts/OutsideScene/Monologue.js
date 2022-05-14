@@ -137,6 +137,11 @@ class Monologue{
         //     {x:30, y:this.isVerticalOffset * 500 + 20}, this.textStyle);
     }
 
+
+    getCurrentLineIndex(){
+        return this.currentLineIndex;
+    }
+
     update(delta, inputs){
 
         //don't do anything if the entity is already destroyed

@@ -29,7 +29,8 @@ class RollCreditsScene{
             stroke : "#ffffff",
         });
 
-        window.localStorage.clear();
+        //COMMENTED OUT local storage clear for now
+        //window.localStorage.clear();
 
         
     }

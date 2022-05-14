@@ -242,13 +242,19 @@ class MenuScene{
                     mainGame.changeScene(new NameInputScene(), new PixelTransition(0.5, 0.5));
                 }
                 else{
-                    mainGame.changeScene(new IntroOutsideScene());
+                    mainGame.changeScene(new PreIntroOutsideScene());
                     //mainGame.startTransition(new PixelTransition(1, 5));
                 }
             }
             else if (this.currentInputPrompt === 1){
+
                 //only allow the player to click the button once 
                 if (!this.helpJokeStarted){
+
+                    //play a feedback sound effect
+                    PIXI.sound.play('exit');
+
+
                     this.helpJokeStarted = true;
                     this.inputPrompts[1].destroy();
                     this.inputPrompts[1] = new FadeText(drawLayers.foregroundLayer, "HOW TO PLAY", {x:0, y:0}, this.menuFontStyle, 1);
@@ -283,7 +289,7 @@ class MenuScene{
                 if (this.destroying){
                     return 
                 }
-                const newYPosition = 350 + Math.cos( (this.elapsedTime - this.helpJokeStartTime) /2  )  * 100;
+                const newYPosition = 350 + Math.cos( (this.elapsedTime - this.helpJokeStartTime)   )  * 100;
                 this.inputPrompts[2].centerVerticallyAt(newYPosition);
 
                 if (newYPosition <= 350){
